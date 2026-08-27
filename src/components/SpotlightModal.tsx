@@ -75,18 +75,20 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
         id="spotlight-popup-card"
         className="relative w-full max-w-[380px] sm:max-w-[420px] bg-[#1A1A20] border border-[#2E2E38] rounded-[28px] p-4 sm:p-5 shadow-2xl overflow-hidden z-10 modal-dialog-enter"
       >
-        {/* Capsule Pill Search Input Bar with reflective bubble style */}
-        <div className="w-full flex items-center justify-between px-4 py-2.5 rounded-full spotlight-bubble-box text-sm transition-all focus-within:ring-1 focus-within:ring-white/40 spotlight-input-container">
+        {/* Capsule Pill Search Input Bar with reflective bubble style & increased height */}
+        <div className="w-full h-[46px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box text-sm transition-all focus-within:ring-1 focus-within:ring-white/40 spotlight-input-container">
           <div className="flex items-center gap-3 flex-1 min-w-0">
-            <img
-              src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
-              alt="Search"
-              referrerPolicy="no-referrer"
-              className="w-4 h-4 object-contain brightness-0 invert opacity-80 shrink-0"
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = 'none';
-              }}
-            />
+            <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
+              <img
+                src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
+                alt="Search"
+                referrerPolicy="no-referrer"
+                className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80"
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
+            </div>
             <input
               ref={inputRef}
               type="text"
@@ -100,20 +102,22 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
             {query ? (
               <button 
                 onClick={() => setQuery('')}
-                className="p-0.5 rounded-full text-[#8E8E93] hover:text-white"
+                className="p-1 rounded-full text-[#8E8E93] hover:text-white transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             ) : (
-              <img
-                src="https://github.com/andrewtavis/sf-symbols-online/raw/master/glyphs/mic.png"
-                alt="Mic"
-                referrerPolicy="no-referrer"
-                className="w-4 h-4 object-contain brightness-0 invert opacity-80 shrink-0"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
-              />
+              <div className="w-4 h-4 min-w-[16px] min-h-[16px] max-w-[16px] max-h-[16px] flex items-center justify-center shrink-0">
+                <img
+                  src="https://github.com/andrewtavis/sf-symbols-online/raw/master/glyphs/mic.png"
+                  alt="Mic"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80"
+                  onError={(e) => {
+                    (e.target as HTMLElement).style.display = 'none';
+                  }}
+                />
+              </div>
             )}
           </div>
         </div>

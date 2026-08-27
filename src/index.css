@@ -96,57 +96,49 @@ html.light-mode #btn-sidebar-back:hover {
   color: #111827 !important;
 }
 
-/* Spotlight search on sidebar & modals - Bubble Capsule style with reflective shiny border */
+/* Spotlight search on sidebar & modals - Bubble Capsule style with subtle reflective border */
 .spotlight-bubble-box {
-  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 60%, rgba(0, 0, 0, 0.25) 100%), #26272E;
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
-  border-top-color: rgba(255, 255, 255, 0.48);
-  border-bottom-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%), #27272D;
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  border-top-color: rgba(255, 255, 255, 0.32);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
   box-shadow: 
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6),
-    0 4px 16px -2px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.18),
+    0 2px 8px -1px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s ease-in-out;
 }
 
 .spotlight-bubble-box:hover {
-  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 60%, rgba(0, 0, 0, 0.25) 100%), #2D2E36;
-  border-color: rgba(255, 255, 255, 0.35);
-  border-top-color: rgba(255, 255, 255, 0.7);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%), #2D2D35;
+  border-color: rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(255, 255, 255, 0.45);
   box-shadow: 
-    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.65),
-    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.7),
-    0 6px 20px -2px rgba(0, 0, 0, 0.55),
-    0 0 12px rgba(255, 255, 255, 0.12);
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.25),
+    0 4px 12px -1px rgba(0, 0, 0, 0.4);
 }
 
 .spotlight-bubble-box:focus-within {
-  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 60%, rgba(0, 0, 0, 0.25) 100%), #30313A;
-  border-color: rgba(255, 255, 255, 0.45);
-  border-top-color: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%), #31313A;
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: rgba(255, 255, 255, 0.6);
   box-shadow: 
-    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.75),
-    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.7),
-    0 6px 22px -2px rgba(0, 0, 0, 0.6),
-    0 0 16px rgba(255, 255, 255, 0.18);
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    0 4px 14px -1px rgba(0, 0, 0, 0.45);
 }
 
 html.light-mode .spotlight-bubble-box {
-  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 60%, rgba(0, 0, 0, 0.02) 100%), #EBEDF2 !important;
-  border: 1.5px solid rgba(0, 0, 0, 0.12) !important;
-  border-top-color: rgba(255, 255, 255, 0.95) !important;
-  border-bottom-color: rgba(0, 0, 0, 0.18) !important;
+  background: #F1F3F6 !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.1) !important;
+  border-top-color: rgba(255, 255, 255, 0.9) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.14) !important;
   box-shadow: 
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.08),
-    0 3px 10px rgba(0, 0, 0, 0.06) !important;
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 6px rgba(0, 0, 0, 0.04) !important;
 }
 
 html.light-mode .spotlight-bubble-box:hover {
-  background: #E2E5EB !important;
-  border-color: rgba(0, 0, 0, 0.18) !important;
+  background: #E8EBEF !important;
+  border-color: rgba(0, 0, 0, 0.16) !important;
   border-top-color: #FFFFFF !important;
 }
 
