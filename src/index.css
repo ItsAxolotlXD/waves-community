@@ -1,0 +1,520 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/googlesans/v58/4UaGrENHsxJlGDuGo1OIlL3Kwp5MKg.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/googlesans/v58/4UabrENHsxJlGDuGo1OIlLU94Yt3CwZ-Pw.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Google Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/googlesans/v58/4UabrENHsxJlGDuGo1OIlLV154t3CwZ-Pw.woff2') format('woff2');
+}
+
+@layer base {
+  :root {
+    --primary-purple: #C83DFF;
+    --solid-dark-purple: #381E72;
+    --solid-red: #E50914;
+    --deep-purple: #7B2CBF;
+    --magenta: #F000FF;
+    --accent-red: #FF2020;
+    --dark-bg: #141416;
+    --sidebar-bg: #222227;
+    --card-bg: #222226;
+  }
+
+  *, *::before, *::after {
+    font-family: 'Google Sans', 'Google Sans Flex', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  }
+
+  body {
+    background-color: #141416;
+    color: #F3F4F6;
+    overflow-x: hidden;
+  }
+}
+
+/* Light Mode Global Overrides */
+html.light-mode body {
+  background-color: #E2E4EA !important;
+  color: #111827 !important;
+}
+
+/* Sidebar & Header Brand Logo Monochrome Filter */
+html.light-mode .sidebar-brand-logo,
+html.light-mode .topbar-brand-logo {
+  filter: brightness(0) !important;
+}
+
+html:not(.light-mode) .sidebar-brand-logo,
+html:not(.light-mode) .topbar-brand-logo {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Light Mode Desktop Sidebar */
+html.light-mode #waves-desktop-sidebar {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light-mode #waves-desktop-sidebar .text-white {
+  color: #111827 !important;
+}
+
+html.light-mode #waves-desktop-sidebar .text-\[\#D1D5DB\] {
+  color: #374151 !important;
+}
+
+html.light-mode #waves-desktop-sidebar .text-\[\#A1A1AA\] {
+  color: #6B7280 !important;
+}
+
+html.light-mode #waves-desktop-sidebar hr {
+  border-color: #E5E7EB !important;
+}
+
+/* Back button on sidebar */
+html.light-mode #btn-sidebar-back {
+  background-color: #F1F3F5 !important;
+  border-color: #E5E7EB !important;
+  color: #4B5563 !important;
+}
+html.light-mode #btn-sidebar-back:hover {
+  background-color: #E5E7EB !important;
+  color: #111827 !important;
+}
+
+/* Spotlight search on sidebar & modals - Bubble Capsule style with reflective shiny border */
+.spotlight-bubble-box {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 60%, rgba(0, 0, 0, 0.25) 100%), #26272E;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-top-color: rgba(255, 255, 255, 0.48);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6),
+    0 4px 16px -2px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spotlight-bubble-box:hover {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 60%, rgba(0, 0, 0, 0.25) 100%), #2D2E36;
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.7),
+    0 6px 20px -2px rgba(0, 0, 0, 0.55),
+    0 0 12px rgba(255, 255, 255, 0.12);
+}
+
+.spotlight-bubble-box:focus-within {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.06) 60%, rgba(0, 0, 0, 0.25) 100%), #30313A;
+  border-color: rgba(255, 255, 255, 0.45);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.7),
+    0 6px 22px -2px rgba(0, 0, 0, 0.6),
+    0 0 16px rgba(255, 255, 255, 0.18);
+}
+
+html.light-mode .spotlight-bubble-box {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 60%, rgba(0, 0, 0, 0.02) 100%), #EBEDF2 !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.12) !important;
+  border-top-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.18) !important;
+  box-shadow: 
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.08),
+    0 3px 10px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light-mode .spotlight-bubble-box:hover {
+  background: #E2E5EB !important;
+  border-color: rgba(0, 0, 0, 0.18) !important;
+  border-top-color: #FFFFFF !important;
+}
+
+/* Spotlight search on sidebar */
+html.light-mode .sidebar-search-btn {
+  background-color: #F1F3F5 !important;
+  border-color: #E2E8F0 !important;
+}
+html.light-mode .sidebar-search-btn:hover {
+  background-color: #E5E7EB !important;
+}
+html.light-mode .sidebar-search-btn span,
+html.light-mode .sidebar-search-btn svg {
+  color: #6B7280 !important;
+}
+html.light-mode .sidebar-search-btn:hover span,
+html.light-mode .sidebar-search-btn:hover svg {
+  color: #111827 !important;
+}
+
+/* Sidebar tabs hover and active states */
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#DF37EE\]):not(.bg-\[\#E50914\]):hover {
+  background-color: #F1F3F5 !important;
+  color: #111827 !important;
+}
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#DF37EE\]):not(.bg-\[\#E50914\]):hover span,
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#DF37EE\]):not(.bg-\[\#E50914\]):hover svg {
+  color: #111827 !important;
+}
+
+html.light-mode #waves-desktop-sidebar .bg-\[\#DF37EE\],
+html.light-mode #waves-desktop-sidebar .bg-\[\#E50914\] {
+  background-color: #DF37EE !important;
+  color: #FFFFFF !important;
+}
+html.light-mode #waves-desktop-sidebar .bg-\[\#DF37EE\] span,
+html.light-mode #waves-desktop-sidebar .bg-\[\#DF37EE\] svg,
+html.light-mode #waves-desktop-sidebar .bg-\[\#E50914\] span,
+html.light-mode #waves-desktop-sidebar .bg-\[\#E50914\] svg {
+  color: #FFFFFF !important;
+}
+
+/* Submenu expanded container */
+html.light-mode #waves-desktop-sidebar .border-l {
+  border-color: #E5E7EB !important;
+}
+
+/* Discord link in sidebar */
+html.light-mode #nav-item-discord {
+  color: #374151 !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+html.light-mode #nav-item-discord:hover {
+  background-color: #F1F3F5 !important;
+  color: #111827 !important;
+}
+
+/* TopBar Dropdown in Light Mode */
+html.light-mode .topbar-notification-box {
+  background-color: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+}
+
+html.light-mode .topbar-notification-header {
+  border-color: #F3F4F6 !important;
+}
+
+html.light-mode .topbar-notification-header span:first-child {
+  color: #111827 !important;
+}
+
+html.light-mode .topbar-notification-item {
+  color: #111827 !important;
+}
+
+html.light-mode .topbar-notification-item.bg-\[\#2E2E34\] {
+  background-color: #F3F4F6 !important;
+  border-color: #E5E7EB !important;
+}
+
+html.light-mode .topbar-notification-item p {
+  color: #111827 !important;
+}
+
+/* Light Mode Global Card & Surface Elements */
+html.light-mode .bg-\[\#1C1C1E\],
+html.light-mode .bg-\[\#1E1E22\],
+html.light-mode .bg-\[\#222226\],
+html.light-mode .bg-\[\#24242A\],
+html.light-mode .bg-\[\#25252C\],
+html.light-mode .bg-\[\#26262C\],
+html.light-mode .bg-\[\#26262D\],
+html.light-mode .bg-\[\#28282E\],
+html.light-mode .bg-\[\#2E2E34\],
+html.light-mode .bg-\[\#2E2E35\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Inner row containers */
+html.light-mode .bg-\[\#141416\],
+html.light-mode .bg-\[\#18181B\],
+html.light-mode .bg-\[\#1F1F24\],
+html.light-mode .bg-\[\#2A2A32\] {
+  background-color: #F8F9FA !important;
+  border-color: #E5E7EB !important;
+}
+
+html.light-mode .border-\[\#2B2B32\],
+html.light-mode .border-\[\#2C2C34\],
+html.light-mode .border-\[\#2D2D35\],
+html.light-mode .border-\[\#323238\],
+html.light-mode .border-\[\#34343C\],
+html.light-mode .border-\[\#34343E\],
+html.light-mode .border-\[\#36363E\],
+html.light-mode .border-\[\#383840\],
+html.light-mode .border-\[\#3E3E48\],
+html.light-mode .border-\[\#3A3A40\],
+html.light-mode .border-\[\#40404A\] {
+  border-color: #E5E7EB !important;
+}
+
+html.light-mode main h1,
+html.light-mode main h2,
+html.light-mode main h3,
+html.light-mode main h4,
+html.light-mode main .text-white {
+  color: #111827 !important;
+}
+
+html.light-mode main p,
+html.light-mode main .text-\[\#9CA3AF\],
+html.light-mode main .text-\[\#8E8E93\],
+html.light-mode main .text-\[\#A1A1AA\],
+html.light-mode main .text-\[\#D1D5DB\],
+html.light-mode main .text-\[\#E0E0E6\] {
+  color: #4B5563 !important;
+}
+
+/* Form controls in light mode */
+html.light-mode input[type="text"],
+html.light-mode input[type="search"],
+html.light-mode input[type="url"],
+html.light-mode input[type="password"],
+html.light-mode textarea,
+html.light-mode select {
+  background-color: #FFFFFF !important;
+  border-color: #D1D5DB !important;
+  color: #111827 !important;
+}
+
+html.light-mode select option {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+}
+
+html.light-mode input::placeholder {
+  color: #9CA3AF !important;
+}
+
+/* Light Mode Big Thumbnail Hero Banner (White Overlay & Dark Typography) */
+html.light-mode #hero-carousel-container {
+  background-color: #FFFFFF !important;
+}
+
+html.light-mode .hero-overlay-t {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.75) 45%, transparent 100%) !important;
+}
+
+html.light-mode .hero-overlay-r {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.8) 45%, transparent 100%) !important;
+}
+
+html.light-mode .hero-overlay-radial {
+  background: radial-gradient(circle at center, transparent 30%, rgba(255, 255, 255, 0.2) 60%, rgba(255, 255, 255, 0.85) 100%) !important;
+}
+
+html.light-mode .hero-watermark-text {
+  color: #000000 !important;
+  opacity: 0.08 !important;
+}
+
+html.light-mode #hero-carousel-container h1 {
+  color: #111827 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+html.light-mode #hero-carousel-container p {
+  color: #374151 !important;
+}
+
+html.light-mode #hero-carousel-container .hero-badge-channel {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light-mode #hero-carousel-container .hero-badge-channel span {
+  color: #111827 !important;
+}
+
+html.light-mode #hero-carousel-container #btn-hero-prev,
+html.light-mode #hero-carousel-container #btn-hero-next {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #1F2937 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light-mode #hero-carousel-container #btn-hero-prev:hover,
+html.light-mode #hero-carousel-container #btn-hero-next:hover {
+  background-color: #F3F4F6 !important;
+  color: #111827 !important;
+}
+
+html.light-mode #btn-hero-watch-now {
+  background-color: #CEBEFE !important;
+  color: #2E1065 !important;
+}
+
+html.light-mode #btn-hero-watch-now span,
+html.light-mode #btn-hero-watch-now svg {
+  color: #2E1065 !important;
+  fill: #2E1065 !important;
+}
+
+/* Spotlight Compact Popover in Light Mode */
+html.light-mode #spotlight-popup-card {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.14) !important;
+}
+
+html.light-mode .spotlight-input-container {
+  background-color: #F1F3F5 !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light-mode .spotlight-input-container input {
+  color: #111827 !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+html.light-mode .spotlight-input-container input::placeholder {
+  color: #6B7280 !important;
+}
+
+html.light-mode .spotlight-input-container svg {
+  color: #6B7280 !important;
+}
+
+/* Light mode category filter buttons */
+html.light-mode .bg-\[\#222226\].text-\[\#A1A1AA\],
+html.light-mode .bg-\[\#1E1E22\].text-\[\#A1A1AA\] {
+  background-color: #FFFFFF !important;
+  color: #4B5563 !important;
+  border-color: #E5E7EB !important;
+}
+
+/* Modal Dialog Under Construction Keep Crisp Colors */
+html.light-mode #under-construction-backdrop {
+  background-color: rgba(0, 0, 0, 0.85) !important;
+}
+
+html.light-mode #under-construction-backdrop h3,
+html.light-mode #under-construction-backdrop p,
+html.light-mode #under-construction-backdrop span {
+  color: #FFFFFF;
+}
+
+html.light-mode #btn-enter-password {
+  background-color: #CEBEFE !important;
+  color: #2E1065 !important;
+}
+
+/* Modal Dialog Zoom Ease In / Ease Out Animations */
+@keyframes modalZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalZoomOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.88) translateY(-8px);
+  }
+}
+
+.modal-dialog-enter {
+  animation: modalZoomIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-dialog-exit {
+  animation: modalZoomOut 0.25s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+}
+
+/* Custom Scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(20, 20, 22, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(200, 61, 255, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 61, 255, 0.5);
+}
+
+/* Text Gradients */
+.text-gradient-red-magenta {
+  background: linear-gradient(135deg, #FF2020 0%, #F000FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(135deg, #C83DFF 0%, #F000FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient-purple-active {
+  background: linear-gradient(90deg, #C83DFF 0%, #D846EF 100%);
+}
+
+.bg-gradient-red-magenta {
+  background: linear-gradient(90deg, #FF2020 0%, #F000FF 100%);
+}
+
+.glow-purple {
+  box-shadow: 0 0 25px rgba(200, 61, 255, 0.35);
+}
+
+.glow-purple-sm {
+  box-shadow: 0 0 12px rgba(200, 61, 255, 0.25);
+}
+
+/* Hide scrollbar for clean scrolling across sidebar and components */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.sidebar-scroller {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.sidebar-scroller::-webkit-scrollbar {
+  display: none;
+}
