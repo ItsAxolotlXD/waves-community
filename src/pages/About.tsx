@@ -75,7 +75,7 @@ export const About: React.FC = () => {
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <a
-            href="https://discord.com"
+            href="https://discord.gg/wcdjaDDayK"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold shadow-lg transition-all"

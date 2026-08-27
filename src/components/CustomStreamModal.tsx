@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { X, Play, Upload, Radio, FileText, CheckCircle2, AlertCircle, Copy } from 'lucide-react';
 import { parseM3UPlaylist, SAMPLE_M3U_TEMPLATE } from '../utils/m3uParser';
 import { Channel } from '../types';
@@ -21,8 +22,6 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
   const [channelName, setChannelName] = useState('Luồng Trực Tiếp Tùy Chỉnh');
   const [playlistText, setPlaylistText] = useState('');
   const [parseStatus, setParseStatus] = useState<string | null>(null);
-
-  if (!isOpen) return null;
 
   const handlePlaySingle = (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,177 +96,209 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/80 backdrop-blur-md animate-in fade-in"
-        onClick={onClose}
-      />
-
-      {/* Modal Card */}
-      <div className="relative w-full max-w-xl bg-[#1E1D22] border border-white/10 rounded-[38px] shadow-2xl overflow-hidden z-10 modal-dialog-enter">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 pb-4 border-b border-[#2C2C34]">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-2xl bg-[#CEBEFE]/20 text-[#CEBEFE] flex items-center justify-center border border-[#CEBEFE]/30">
-              <Radio className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="text-base font-bold text-white">
-                Cấu hình Luồng M3U8 & Playlist
-              </h3>
-              <p className="text-xs text-[#9CA3AF]">
-                Dán luồng HLS trực tiếp hoặc nhập playlist .m3u
-              </p>
-            </div>
-          </div>
-          <button
+    <AnimatePresence>
+      {isOpen && (
+        <div
+          id="custom-stream-modal-container"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+        >
+          {/* 1. Backdrop / Lớp nền mờ */}
+          <motion.div 
+            id="custom-stream-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-md"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white"
+          />
+
+          {/* 2. Dialog Modal Box */}
+          <motion.div 
+            id="custom-stream-dialog"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1,
+              transition: {
+                duration: 0.25,
+                ease: "easeIn"
+              }
+            }}
+            exit={{ 
+              opacity: 0, 
+              scale: 1.1,
+              transition: {
+                duration: 0.2,
+                ease: "easeOut"
+              }
+            }}
+            className="relative w-full max-w-xl bg-[#1E1D22] border border-white/10 rounded-[38px] shadow-2xl overflow-hidden z-10"
           >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Tab Toggle */}
-        <div className="flex p-1.5 mx-6 mt-4 rounded-full bg-[#141318] border border-[#2D2D35]">
-          <button
-            type="button"
-            onClick={() => setActiveTab('single')}
-            className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all ${
-              activeTab === 'single'
-                ? 'bg-[#381E72] text-white shadow-md'
-                : 'text-[#9CA3AF] hover:text-white'
-            }`}
-          >
-            1 Luồng Trực Tiếp (.m3u8)
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('playlist')}
-            className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all ${
-              activeTab === 'playlist'
-                ? 'bg-[#381E72] text-white shadow-md'
-                : 'text-[#9CA3AF] hover:text-white'
-            }`}
-          >
-            Nhập Playlist (.m3u)
-          </button>
-        </div>
-
-        {/* Form Body */}
-        <div className="p-6 pt-4">
-          {activeTab === 'single' ? (
-            <form onSubmit={handlePlaySingle} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-[#D1D5DB] mb-1.5">
-                  Tên kênh / Tiêu đề
-                </label>
-                <input
-                  type="text"
-                  value={channelName}
-                  onChange={(e) => setChannelName(e.target.value)}
-                  placeholder="Ví dụ: VTV1 HD Nguồn Phụ"
-                  className="w-full px-4 py-3 rounded-full bg-[#141318] border border-[#2D2D36] text-white text-sm focus:outline-none focus:border-[#CEBEFE]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-[#D1D5DB] mb-1.5">
-                  Đường dẫn HLS Stream URL (.m3u8) <span className="text-[#FF2020]">*</span>
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={streamUrl}
-                  onChange={(e) => setStreamUrl(e.target.value)}
-                  placeholder="https://example.com/live/channel.m3u8"
-                  className="w-full px-4 py-3 rounded-full bg-[#141318] border border-[#2D2D36] text-white text-sm focus:outline-none focus:border-[#CEBEFE]"
-                />
-              </div>
-
-              {/* Sample test streams buttons */}
-              <div>
-                <span className="text-[11px] font-medium text-[#8E8E93] block mb-2">
-                  Luồng thử nghiệm nhanh:
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setStreamUrl('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
-                      setChannelName('Mux HLS Test Multi-Rate');
-                    }}
-                    className="px-3.5 py-1.5 rounded-full bg-[#28282E] text-[11px] text-[#C5C5CE] hover:text-white hover:bg-[#34343E] border border-[#383842]"
-                  >
-                    Mux HLS HD
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setStreamUrl('https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8');
-                      setChannelName('Akamai Live Master HLS');
-                    }}
-                    className="px-3.5 py-1.5 rounded-full bg-[#28282E] text-[11px] text-[#C5C5CE] hover:text-white hover:bg-[#34343E] border border-[#383842]"
-                  >
-                    Akamai Live HD
-                  </button>
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 pb-4 border-b border-[#2C2C34]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-2xl bg-[#CEBEFE]/20 text-[#CEBEFE] flex items-center justify-center border border-[#CEBEFE]/30">
+                  <Radio className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-white">
+                    Cấu hình Luồng M3U8 & Playlist
+                  </h3>
+                  <p className="text-xs text-[#9CA3AF]">
+                    Dán luồng HLS trực tiếp hoặc nhập playlist .m3u
+                  </p>
                 </div>
               </div>
-
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  className="w-full py-4 rounded-full bg-[#CEBEFE] text-[#2E1065] text-base font-bold flex items-center justify-center gap-2 hover:bg-[#DBCFFF] active:scale-[0.98] transition-all shadow-md cursor-pointer"
-                >
-                  <Play className="w-4 h-4 fill-current ml-0.5" />
-                  <span>Phát Ngay Trên Player</span>
-                </button>
-              </div>
-            </form>
-          ) : (
-            <div className="space-y-4">
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs font-semibold text-[#D1D5DB]">
-                    Dán nội dung Playlist định dạng #EXTM3U
-                  </label>
-                  <button
-                    type="button"
-                    onClick={handleLoadSample}
-                    className="text-[11px] text-[#CEBEFE] hover:underline"
-                  >
-                    Nạp playlist mẫu
-                  </button>
-                </div>
-                <textarea
-                  rows={6}
-                  value={playlistText}
-                  onChange={(e) => setPlaylistText(e.target.value)}
-                  placeholder={`#EXTM3U\n#EXTINF:-1 tvg-id="vtv1" tvg-name="VTV1 HD" group-title="VTV", VTV1 HD\nhttps://example.com/vtv1.m3u8`}
-                  className="w-full p-3.5 rounded-2xl bg-[#141318] border border-[#2D2D36] text-white text-xs font-mono focus:outline-none focus:border-[#CEBEFE] resize-none"
-                />
-              </div>
-
-              {parseStatus && (
-                <div className="p-3 rounded-2xl bg-[#141318] border border-[#36363E] text-xs flex items-center gap-2 text-white">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>{parseStatus}</span>
-                </div>
-              )}
-
               <button
-                type="button"
-                onClick={handleImportM3U}
-                className="w-full py-4 rounded-full bg-[#CEBEFE] text-[#2E1065] text-base font-bold flex items-center justify-center gap-2 hover:bg-[#DBCFFF] active:scale-[0.98] transition-all shadow-md cursor-pointer"
+                onClick={onClose}
+                className="w-8 h-8 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
               >
-                <Upload className="w-4 h-4" />
-                <span>Nhập Toàn Bộ Kênh Vào Danh Sách</span>
+                <X className="w-4 h-4" />
               </button>
             </div>
-          )}
+
+            {/* Tab Toggle */}
+            <div className="flex p-1.5 mx-6 mt-4 rounded-full bg-[#141318] border border-[#2D2D35]">
+              <button
+                type="button"
+                onClick={() => setActiveTab('single')}
+                className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === 'single'
+                    ? 'bg-[#381E72] text-white shadow-md'
+                    : 'text-[#9CA3AF] hover:text-white'
+                }`}
+              >
+                1 Luồng Trực Tiếp (.m3u8)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('playlist')}
+                className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  activeTab === 'playlist'
+                    ? 'bg-[#381E72] text-white shadow-md'
+                    : 'text-[#9CA3AF] hover:text-white'
+                }`}
+              >
+                Nhập Playlist (.m3u)
+              </button>
+            </div>
+
+            {/* Form Body */}
+            <div className="p-6 pt-4">
+              {activeTab === 'single' ? (
+                <form onSubmit={handlePlaySingle} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-[#D1D5DB] mb-1.5">
+                      Tên kênh / Tiêu đề
+                    </label>
+                    <input
+                      type="text"
+                      value={channelName}
+                      onChange={(e) => setChannelName(e.target.value)}
+                      placeholder="Ví dụ: VTV1 HD Nguồn Phụ"
+                      className="w-full px-4 py-3 rounded-full bg-[#141318] border border-[#2D2D36] text-white text-sm focus:outline-none focus:border-[#CEBEFE]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-[#D1D5DB] mb-1.5">
+                      Đường dẫn HLS Stream URL (.m3u8) <span className="text-[#FF2020]">*</span>
+                    </label>
+                    <input
+                      type="url"
+                      required
+                      value={streamUrl}
+                      onChange={(e) => setStreamUrl(e.target.value)}
+                      placeholder="https://example.com/live/channel.m3u8"
+                      className="w-full px-4 py-3 rounded-full bg-[#141318] border border-[#2D2D36] text-white text-sm focus:outline-none focus:border-[#CEBEFE]"
+                    />
+                  </div>
+
+                  {/* Sample test streams buttons */}
+                  <div>
+                    <span className="text-[11px] font-medium text-[#8E8E93] block mb-2">
+                      Luồng thử nghiệm nhanh:
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStreamUrl('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
+                          setChannelName('Mux HLS Test Multi-Rate');
+                        }}
+                        className="px-3.5 py-1.5 rounded-full bg-[#28282E] text-[11px] text-[#C5C5CE] hover:text-white hover:bg-[#34343E] border border-[#383842] cursor-pointer"
+                      >
+                        Mux HLS HD
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setStreamUrl('https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8');
+                          setChannelName('Akamai Live Master HLS');
+                        }}
+                        className="px-3.5 py-1.5 rounded-full bg-[#28282E] text-[11px] text-[#C5C5CE] hover:text-white hover:bg-[#34343E] border border-[#383842] cursor-pointer"
+                      >
+                        Akamai Live HD
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="w-full py-4 rounded-full bg-[#CEBEFE] text-[#2E1065] text-base font-bold flex items-center justify-center gap-2 hover:bg-[#DBCFFF] active:scale-[0.98] transition-all shadow-md cursor-pointer"
+                    >
+                      <Play className="w-4 h-4 fill-current ml-0.5" />
+                      <span>Phát Ngay Trên Player</span>
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-xs font-semibold text-[#D1D5DB]">
+                        Dán nội dung Playlist định dạng #EXTM3U
+                      </label>
+                      <button
+                        type="button"
+                        onClick={handleLoadSample}
+                        className="text-[11px] text-[#CEBEFE] hover:underline cursor-pointer"
+                      >
+                        Nạp playlist mẫu
+                      </button>
+                    </div>
+                    <textarea
+                      rows={6}
+                      value={playlistText}
+                      onChange={(e) => setPlaylistText(e.target.value)}
+                      placeholder={`#EXTM3U\n#EXTINF:-1 tvg-id="vtv1" tvg-name="VTV1 HD" group-title="VTV", VTV1 HD\nhttps://example.com/vtv1.m3u8`}
+                      className="w-full p-3.5 rounded-2xl bg-[#141318] border border-[#2D2D36] text-white text-xs font-mono focus:outline-none focus:border-[#CEBEFE] resize-none"
+                    />
+                  </div>
+
+                  {parseStatus && (
+                    <div className="p-3 rounded-2xl bg-[#141318] border border-[#36363E] text-xs flex items-center gap-2 text-white">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <span>{parseStatus}</span>
+                    </div>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={handleImportM3U}
+                    className="w-full py-4 rounded-full bg-[#CEBEFE] text-[#2E1065] text-base font-bold flex items-center justify-center gap-2 hover:bg-[#DBCFFF] active:scale-[0.98] transition-all shadow-md cursor-pointer"
+                  >
+                    <Upload className="w-4 h-4" />
+                    <span>Nhập Toàn Bộ Kênh Vào Danh Sách</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 };

@@ -229,12 +229,11 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#141416] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative">
       {/* Under Construction Modal Gate (if not unlocked) */}
-      {!isUnlocked && (
-        <UnderConstructionModal
-          onUnlock={handleUnlock}
-          onCrash={handleCrash}
-        />
-      )}
+      <UnderConstructionModal
+        isOpen={!isUnlocked}
+        onUnlock={handleUnlock}
+        onCrash={handleCrash}
+      />
 
       {/* Sidebar Navigation */}
       <Sidebar
