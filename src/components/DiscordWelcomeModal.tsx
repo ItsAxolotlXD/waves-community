@@ -36,21 +36,21 @@ export const DiscordWelcomeModal: React.FC<DiscordWelcomeModalProps> = ({
           {/* 2. Dialog Modal Box */}
           <motion.div
             id="discord-welcome-dialog"
-            initial={{ opacity: 0, scale: 1.1 }}
+            initial={{ opacity: 0, scale: 1.08 }}
             animate={{ 
               opacity: 1, 
               scale: 1,
               transition: {
-                duration: 0.25,
-                ease: "easeIn"
+                duration: 0.3,
+                ease: [0.16, 1, 0.3, 1]
               }
             }}
             exit={{ 
               opacity: 0, 
-              scale: 1.1,
+              scale: 1.06,
               transition: {
-                duration: 0.2,
-                ease: "easeOut"
+                duration: 0.22,
+                ease: [0.32, 0, 0.67, 0]
               }
             }}
             className="relative z-10 w-full max-w-[520px] bg-[#1E1D22] rounded-[38px] p-8 sm:p-10 shadow-2xl select-none border border-white/5"

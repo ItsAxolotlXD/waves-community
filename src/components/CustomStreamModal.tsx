@@ -116,21 +116,21 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
           {/* 2. Dialog Modal Box */}
           <motion.div 
             id="custom-stream-dialog"
-            initial={{ opacity: 0, scale: 1.1 }}
+            initial={{ opacity: 0, scale: 1.08 }}
             animate={{ 
               opacity: 1, 
               scale: 1,
               transition: {
-                duration: 0.25,
-                ease: "easeIn"
+                duration: 0.3,
+                ease: [0.16, 1, 0.3, 1]
               }
             }}
             exit={{ 
               opacity: 0, 
-              scale: 1.1,
+              scale: 1.06,
               transition: {
-                duration: 0.2,
-                ease: "easeOut"
+                duration: 0.22,
+                ease: [0.32, 0, 0.67, 0]
               }
             }}
             className="relative w-full max-w-xl bg-[#1E1D22] border border-white/10 rounded-[38px] shadow-2xl overflow-hidden z-10"

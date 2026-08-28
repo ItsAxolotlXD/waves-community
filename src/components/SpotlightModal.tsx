@@ -82,21 +82,21 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
           {/* 2. Dialog Modal Box */}
           <motion.div 
             id="spotlight-popup-card"
-            initial={{ opacity: 0, scale: 1.1 }}
+            initial={{ opacity: 0, scale: 1.08 }}
             animate={{ 
               opacity: 1, 
               scale: 1,
               transition: {
-                duration: 0.25,
-                ease: "easeIn"
+                duration: 0.3,
+                ease: [0.16, 1, 0.3, 1]
               }
             }}
             exit={{ 
               opacity: 0, 
-              scale: 1.1,
+              scale: 1.06,
               transition: {
-                duration: 0.2,
-                ease: "easeOut"
+                duration: 0.22,
+                ease: [0.32, 0, 0.67, 0]
               }
             }}
             className="relative w-full max-w-[380px] sm:max-w-[420px] bg-[#1A1A20] border border-[#2E2E38] rounded-[28px] p-4 sm:p-5 shadow-2xl overflow-hidden z-10"
