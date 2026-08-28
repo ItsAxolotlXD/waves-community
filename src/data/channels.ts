@@ -1,4 +1,5 @@
 import rawChannels from "./channels.json";
+import { Channel as AppChannel, ProgramScheduleItem } from "../types";
 
 export interface Channel {
   id: string;
@@ -6,7 +7,7 @@ export interface Channel {
   url: string;
   group: string;
   logoText: string;
-  logoBg: string; // Tailwind class, e.g. "bg-red-600"
+  logoBg: string;
   userAgent?: string;
   isRadio?: boolean;
   logoImg?: string;
@@ -64,7 +65,7 @@ const getGradient = (group: string, name: string): string => {
   return "bg-gradient-to-br from-teal-500 to-cyan-700";
 };
 
-// Map raw channels list to our required application structure
+// Map raw channels list to legacy channel structure
 export const processedChannels: Channel[] = rawChannels.map((ch: any) => {
   const isRadio = ch.group === "Radio" || !!ch.isRadio;
   return {
@@ -91,78 +92,28 @@ const categoryTemplates = [
   { id: "phat-thanh-radio", name: "Kênh phát thanh", description: "Các đài phát thanh VOV, VOH, FM Giao thông đặc sắc" }
 ];
 
-// Custom helper to provide specific custom sort order for local channels as requested by the user
 function getSortName(name: string, id: string): string {
-  // Group 1: Gia Lai & Dong Thap (GTV đặt trước THĐT1)
-  if (id === "gia_lai") {
-    return "Truyền hình Đồng Tháp - THĐT A_gia_lai";
-  }
-  if (id === "dong_thap_1") {
-    return "Truyền hình Đồng Tháp - THĐT B_dong_thap_1";
-  }
-  if (id === "dong_thap_2") {
-    return "Truyền hình Đồng Tháp - THĐT C_dong_thap_2";
-  }
-
-  // Group 2: Lao Cai & Lang Son (LSTV đặt sau Lào cai)
-  if (id === "lao_cai") {
-    return "Truyền hình Lào Cai - THLC A_lao_cai";
-  }
-  if (id === "lang_son") {
-    return "Truyền hình Lào Cai - THLC B_lang_son";
-  }
-
-  // Group 3: Quang Ninh & Quang Ngai (QTV1 và 3 đặt trc qngtv1 và 2)
-  if (id === "quang_ninh_1") {
-    return "Truyền hình Quảng Ngãi - QNgTV A1_quang_ninh_1";
-  }
-  if (id === "quang_ninh_3") {
-    return "Truyền hình Quảng Ngãi - QNgTV A2_quang_ninh_3";
-  }
-  if (id === "quang_ngai_1") {
-    return "Truyền hình Quảng Ngãi - QNgTV B1_quang_ngai_1";
-  }
-  if (id === "quang_ngai_2") {
-    return "Truyền hình Quảng Ngãi - QNgTV B2_quang_ngai_2";
-  }
-
-  // Group 4: Tay Ninh, Son La, Quang Tri (Tây ninh đặt trc QTTV, Snews đặt giữa tây ninh và QTTV)
-  if (id === "tay_ninh") {
-    return "Truyền hình Quảng Trị - QTTV A_tay_ninh";
-  }
-  if (id === "son_la") {
-    return "Truyền hình Quảng Trị - QTTV B_son_la";
-  }
-  if (id === "quang_tri") {
-    return "Truyền hình Quảng Trị - QTTV C_quang_tri";
-  }
-
-  // Group 5: Tuyen Quang, Thanh Hoa, Thai Nguyen (TTV Tuyên quang đặt trước thanh hóa, thái nguyên đặt sau 2 kênh TTV)
-  if (id === "tuyen_quang") {
-    return "Truyền hình Thái Nguyên - TN A_tuyen_quang";
-  }
-  if (id === "thanh_hoa") {
-    return "Truyền hình Thái Nguyên - TN B_thanh_hoa";
-  }
-  if (id === "thai_nguyen") {
-    return "Truyền hình Thái Nguyên - TN C_thai_nguyen";
-  }
-
-  // Group 6: Ha Noi & HueTV (HueTV đặt cạnh H2)
-  if (id === "ha_noi_1") {
-    return "Truyền hình Hà Nội - H1";
-  }
-  if (id === "ha_noi_2") {
-    return "Truyền hình Hà Nội - H2";
-  }
-  if (id === "hue") {
-    return "Truyền hình Hà Nội - H3_hue";
-  }
-
+  if (id === "gia_lai") return "Truyền hình Đồng Tháp - THĐT A_gia_lai";
+  if (id === "dong_thap_1") return "Truyền hình Đồng Tháp - THĐT B_dong_thap_1";
+  if (id === "dong_thap_2") return "Truyền hình Đồng Tháp - THĐT C_dong_thap_2";
+  if (id === "lao_cai") return "Truyền hình Lào Cai - THLC A_lao_cai";
+  if (id === "lang_son") return "Truyền hình Lào Cai - THLC B_lang_son";
+  if (id === "quang_ninh_1") return "Truyền hình Quảng Ngãi - QNgTV A1_quang_ninh_1";
+  if (id === "quang_ninh_3") return "Truyền hình Quảng Ngãi - QNgTV A2_quang_ninh_3";
+  if (id === "quang_ngai_1") return "Truyền hình Quảng Ngãi - QNgTV B1_quang_ngai_1";
+  if (id === "quang_ngai_2") return "Truyền hình Quảng Ngãi - QNgTV B2_quang_ngai_2";
+  if (id === "tay_ninh") return "Truyền hình Quảng Trị - QTTV A_tay_ninh";
+  if (id === "son_la") return "Truyền hình Quảng Trị - QTTV B_son_la";
+  if (id === "quang_tri") return "Truyền hình Quảng Trị - QTTV C_quang_tri";
+  if (id === "tuyen_quang") return "Truyền hình Thái Nguyên - TN A_tuyen_quang";
+  if (id === "thanh_hoa") return "Truyền hình Thái Nguyên - TN B_thanh_hoa";
+  if (id === "thai_nguyen") return "Truyền hình Thái Nguyên - TN C_thai_nguyen";
+  if (id === "ha_noi_1") return "Truyền hình Hà Nội - H1";
+  if (id === "ha_noi_2") return "Truyền hình Hà Nội - H2";
+  if (id === "hue") return "Truyền hình Hà Nội - H3_hue";
   return name;
 }
 
-// Dynamically construct and populate categories based on channel groups
 export const CATEGORIES: Category[] = categoryTemplates.map(tpl => {
   let matchedChannels: Channel[] = [];
   
@@ -186,7 +137,6 @@ export const CATEGORIES: Category[] = categoryTemplates.map(tpl => {
     matchedChannels = processedChannels.filter(c => c.group === "Thử nghiệm");
   }
 
-  // Auto clean names and append HD appropriately
   const formattedChannels = matchedChannels.map(ch => {
     let cleanName = ch.name;
     const nameUpper = cleanName.toUpperCase();
@@ -196,7 +146,6 @@ export const CATEGORIES: Category[] = categoryTemplates.map(tpl => {
     return { ...ch, name: cleanName };
   });
 
-  // Sort alphabetically from A-Z for local and essential categories
   if (tpl.id === "dia-phuong" || tpl.id === "thiet-yeu") {
     formattedChannels.sort((a, b) => getSortName(a.name, a.id).localeCompare(getSortName(b.name, b.id), "vi"));
   }
@@ -207,7 +156,6 @@ export const CATEGORIES: Category[] = categoryTemplates.map(tpl => {
   };
 });
 
-// Assign channel position numbers in the format xxx
 const SPECIAL_VTV_NUMBERS: Record<string, string> = {
   vtv1: "001",
   vtv2: "002",
@@ -224,8 +172,6 @@ const SPECIAL_VTV_NUMBERS: Record<string, string> = {
 };
 
 let nextNum = 13;
-
-// First pass: assign numbers to all channels inside categories
 CATEGORIES.forEach(category => {
   category.channels.forEach(ch => {
     if (SPECIAL_VTV_NUMBERS[ch.id]) {
@@ -237,12 +183,10 @@ CATEGORIES.forEach(category => {
   });
 });
 
-// Assign numbers to the raw processedChannels for consistency
 processedChannels.forEach(ch => {
   if (SPECIAL_VTV_NUMBERS[ch.id]) {
     ch.channelNumber = SPECIAL_VTV_NUMBERS[ch.id];
   } else {
-    // Match the number already assigned in CATEGORIES
     const matched = CATEGORIES.flatMap(cat => cat.channels).find(c => c.id === ch.id);
     if (matched && matched.channelNumber) {
       ch.channelNumber = matched.channelNumber;
@@ -253,8 +197,72 @@ processedChannels.forEach(ch => {
   }
 });
 
-// Explicitly ensure the VTV5 subchannels are correctly numbered in processedChannels
-const tnbChan = processedChannels.find(c => c.id === "vtv5_tnb");
-if (tnbChan) tnbChan.channelNumber = "011";
-const tnChan = processedChannels.find(c => c.id === "vtv5_tn");
-if (tnChan) tnChan.channelNumber = "012";
+// Full Application Channels Data (Typed as AppChannel)
+export const CHANNELS_DATA: AppChannel[] = rawChannels.map((ch: any, idx: number) => {
+  const isRadio = ch.group === "Radio" || !!ch.isRadio;
+  const isVTV = ch.group === "VTV";
+  const quality = isRadio ? "SD" : isVTV ? "HD" : "HD";
+  const slug = ch.id.replace(/_/g, "-");
+
+  const samplePrograms = [
+    { title: "Thời sự trực tiếp & Điểm tin trong ngày", desc: "Bản tin thời sự cập nhật tin tức kinh tế, chính trị xã hội và quốc tế mới nhất." },
+    { title: "Chuyển động 24h & Nhịp sống số", desc: "Tin tức đa chiều, phóng sự điều tra và đời sống xã hội nóng hổi." },
+    { title: "Phim truyện đặc sắc & Điện ảnh cuối tuần", desc: "Phát sóng các tác phẩm điện ảnh và truyền hình tiêu biểu." },
+    { title: "Khám phá thế giới & Khoa giáo", desc: "Chương trình tài liệu khoa học tự nhiên và công nghệ ứng dụng." },
+    { title: "Giai điệu kết nối & Tạp kỹ", desc: "Không gian âm nhạc nghệ thuật và talkshow văn hóa đặc biệt." }
+  ];
+  const prog = samplePrograms[idx % samplePrograms.length];
+
+  return {
+    id: ch.id,
+    name: ch.name,
+    shortName: ch.name.split(" - ")[0] || ch.name,
+    slug: slug,
+    logo: ch.logo || "https://static.wikia.nocookie.net/ep-deo/images/7/72/Monochrom.png/revision/latest?cb=20260825072411",
+    category: ch.group || "Kênh thiết yếu",
+    quality: quality as any,
+    streamUrl: ch.url,
+    backupStreamUrl: ch.url,
+    isLive: true,
+    viewers: Math.floor(1200 + (idx * 317) % 8500),
+    currentProgram: {
+      title: prog.title,
+      startTime: "19:00",
+      endTime: "21:00",
+      progress: ((idx * 17) % 80) + 10,
+      description: prog.desc
+    },
+    nextProgram: {
+      title: "Chương trình chuyên đề tổng hợp tiếp theo",
+      startTime: "21:00"
+    },
+    description: `Kênh phát sóng ${ch.name} thuộc nhóm ${ch.group}, truyền dẫn tín hiệu chất lượng cao trên hạ tầng Waves Community.`,
+    resolution: isRadio ? "Audio Only" : "1920x1080",
+    bitrate: isRadio ? "128 kbps" : "5.0 Mbps",
+    satelliteFrequency: "Vinasat-1 / Vinasat-2 (11.549 MHz)",
+    dvbT2Channel: `Kênh ${24 + (idx % 30)} DVB-T2`,
+    officialWebsite: "https://vtv.vn",
+    tags: [ch.group, isRadio ? "Radio" : "Truyền hình", "Live", quality],
+    bannerImage: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&auto=format&fit=crop&q=80"
+  };
+});
+
+// Program Schedules for LiveTV
+export const SCHEDULE_DATA: Record<string, ProgramScheduleItem[]> = {
+  vtv1: [
+    { id: 'vtv1-1', channelId: 'vtv1', startTime: '06:00', endTime: '07:00', title: 'Chào buổi sáng', category: 'Thời sự', description: 'Điểm tin trong nước và quốc tế đầu ngày', isLive: false },
+    { id: 'vtv1-2', channelId: 'vtv1', startTime: '11:30', endTime: '12:00', title: 'Thời sự trưa', category: 'Thời sự', description: 'Cập nhật tin tức buổi trưa trên mọi miền tổ quốc', isLive: false },
+    { id: 'vtv1-3', channelId: 'vtv1', startTime: '19:00', endTime: '20:00', title: 'Thời sự 19h', category: 'Chính luận', description: 'Bản tin thời sự trọng điểm quốc gia', isLive: true },
+    { id: 'vtv1-4', channelId: 'vtv1', startTime: '20:05', endTime: '20:45', title: 'Phim truyện giờ vàng', category: 'Phim truyền hình', description: 'Bộ phim truyền hình Việt Nam phát sóng giờ vàng', isLive: false },
+    { id: 'vtv1-5', channelId: 'vtv1', startTime: '22:00', endTime: '22:30', title: 'Vấn đề hôm nay', category: 'Phân tích', description: 'Tọa đàm chuyên sâu các sự kiện nổi bật trong ngày', isLive: false }
+  ],
+  vtv3: [
+    { id: 'vtv3-1', channelId: 'vtv3', startTime: '07:00', endTime: '08:00', title: 'Cà phê sáng với VTV3', category: 'Giải trí', description: 'Trò chuyện phong cách sống và nghệ thuật', isLive: false },
+    { id: 'vtv3-2', channelId: 'vtv3', startTime: '12:00', endTime: '13:00', title: 'Đường lên đỉnh Olympia', category: 'Trò chơi truyền hình', description: 'Sân chơi trí tuệ học đường', isLive: false },
+    { id: 'vtv3-3', channelId: 'vtv3', startTime: '20:00', endTime: '21:30', title: 'Cuộc hẹn cuối tuần', category: 'Gameshow', description: 'Show truyền hình giải trí đặc sắc cuối tuần', isLive: true }
+  ],
+  vn_today: [
+    { id: 'vn-today-1', channelId: 'vn_today', startTime: '18:00', endTime: '19:00', title: 'Vietnam Panorama', category: 'Đối ngoại', description: 'Bức tranh toàn cảnh Việt Nam đa sắc', isLive: false },
+    { id: 'vn-today-2', channelId: 'vn_today', startTime: '20:00', endTime: '21:00', title: 'VIETNAM TODAY LIVE', category: 'Tin tức Quốc tế', description: 'Bản tin đối ngoại trực tiếp trường quay AR 4K', isLive: true }
+  ]
+};

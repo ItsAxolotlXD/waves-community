@@ -532,14 +532,10 @@ export const ChannelPlayer = React.memo(function ChannelPlayer({
           </div>
         )}
 
-        {/* Dynamic Frosted Glass Bottom Overlay Controls */}
+        {/* Dynamic Bottom Overlay Controls */}
         {!isTestSignalChannel && (
-          <div className={`absolute bottom-0 inset-x-0 p-4 transition-all duration-300 flex flex-col gap-3.5 z-15 ${showControls || !isPlaying ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"}`}>
-            
-            {/* Progressive blur background for premium translucent control base */}
-            <div className="progressive-blur-player" />
-
-            {/* Interactive controls content wrapper above blur */}
+          <div className={`absolute bottom-0 inset-x-0 p-4 transition-all duration-300 flex flex-col gap-3.5 z-15 bg-gradient-to-t from-black/85 via-black/45 to-transparent ${showControls || !isPlaying ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"}`}>
+            {/* Interactive controls content wrapper */}
             <div className="relative z-10 flex flex-col gap-3.5 w-full">
               {/* 1. Horizontal Progress timeline/slider from mock */}
               <div className="w-full flex items-center mt-1 px-1 relative group/slider">

@@ -123,27 +123,29 @@ export const UnderConstructionModal: React.FC<UnderConstructionModalProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 bg-black/85 backdrop-blur-md"
           />
 
           {/* 2. Dialog Modal Box */}
           <motion.div
             id="under-construction-dialog"
-            initial={{ opacity: 0, scale: 1.08 }}
+            initial={{ opacity: 0, scale: 0.96, y: -8 }}
             animate={{ 
               opacity: 1, 
               scale: 1,
+              y: 0,
               transition: {
-                duration: 0.3,
+                duration: 0.28,
                 ease: [0.16, 1, 0.3, 1]
               }
             }}
             exit={{ 
               opacity: 0, 
-              scale: 1.06,
+              scale: 0.97,
+              y: -6,
               transition: {
-                duration: 0.22,
+                duration: 0.2,
                 ease: [0.32, 0, 0.67, 0]
               }
             }}

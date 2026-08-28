@@ -85,6 +85,7 @@ html, body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transform: translateZ(0);
 }
 
 .glass-panel-deep {
@@ -92,46 +93,6 @@ html, body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Progressive blur styles for high-fidelity vintage glass appearance with GPU acceleration */
-.progressive-blur-header {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(33, 31, 38, 0.95) 0%, rgba(33, 31, 38, 0.8) 35%, rgba(33, 31, 38, 0.4) 75%, rgba(33, 31, 38, 0) 100%);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 35%, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 35%, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0) 100%);
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: translateZ(0);
-  will-change: opacity;
-}
-
-.progressive-blur-dock {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(33, 31, 38, 0.95) 0%, rgba(33, 31, 38, 0.8) 35%, rgba(33, 31, 38, 0.4) 75%, rgba(33, 31, 38, 0) 100%);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 35%, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0) 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 35%, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0) 100%);
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  transform: translateZ(0);
-  will-change: opacity;
-}
-
-.progressive-blur-player {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(33, 31, 38, 0.95) 0%, rgba(33, 31, 38, 0.75) 40%, rgba(33, 31, 38, 0) 100%);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 40%, rgba(0, 0, 0, 0) 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 40%, rgba(0, 0, 0, 0) 100%);
-  transition: opacity 0.25s ease;
-  pointer-events: none;
   transform: translateZ(0);
 }
 
@@ -180,20 +141,33 @@ html, body {
 }
 
 .bouncy-btn {
-  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.15s ease, opacity 0.15s ease, border-color 0.15s ease !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease !important;
   transform: translateZ(0);
 }
 
 .tooltip-bounce {
-  transition: opacity 0.15s ease, transform 0.15s ease !important;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .bouncy-btn:hover {
-  transform: scale(1.06) translateZ(0);
+  transform: scale(1.04) translateZ(0);
 }
 
 .bouncy-btn:active {
-  transform: scale(0.96) translateZ(0);
+  transform: scale(0.97) translateZ(0);
+}
+
+/* Smooth modal & page transition easing utilities */
+.ease-smooth-in {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ease-smooth-out {
+  transition-timing-function: cubic-bezier(0.32, 0, 0.67, 0);
+}
+
+.ease-fluid {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .channel-grid-item {
@@ -275,5 +249,18 @@ button:hover .menu-vertical-pill-red {
 
 .group:hover .orange-hover-filter {
   filter: brightness(0) saturate(100%) invert(43%) sepia(87%) saturate(1478%) hue-rotate(1deg) brightness(101%) contrast(101%) !important;
+}
+
+/* Netflix style top 10 stroke outline number */
+.netflix-rank-number {
+  -webkit-text-stroke: 4px #595959;
+  text-stroke: 4px #595959;
+  paint-order: stroke fill;
+  font-feature-settings: "tnum";
+}
+
+.group:hover .netflix-rank-number {
+  -webkit-text-stroke: 4px #e50914;
+  text-stroke: 4px #e50914;
 }
 
