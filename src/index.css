@@ -776,21 +776,29 @@ input[type="range"] {
 
 /* Custom Scrollbar for dark theme */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 3.5px;
+  height: 3.5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(20, 20, 22, 0.6);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(230, 0, 90, 0.35);
+  background: rgba(255, 255, 255, 0.35);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(230, 0, 90, 0.65);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+html.light-mode ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+html.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.75);
 }
 
 /* Text Gradients */
@@ -828,7 +836,124 @@ input[type="range"] {
   box-shadow: 0 0 12px rgba(230, 0, 90, 0.25);
 }
 
-/* Hide scrollbar for clean scrolling across sidebar and components */
+/* Visible sleek scrollbar for sidebar (both collapsed & expanded) with auto-hide */
+.sidebar-scroller-active {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.45) transparent;
+  transition: scrollbar-color 0.4s ease;
+}
+
+.sidebar-scroller-active::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sidebar-scroller-active::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+  margin: 4px 0;
+  transition: background 0.4s ease;
+}
+
+.sidebar-scroller-active::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 9999px;
+  transition: background 0.4s ease;
+}
+
+.sidebar-scroller-active::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.sidebar-scroller-hidden {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.4s ease;
+}
+
+.sidebar-scroller-hidden::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sidebar-scroller-hidden::-webkit-scrollbar-track {
+  background: transparent;
+  transition: background 0.4s ease;
+}
+
+.sidebar-scroller-hidden::-webkit-scrollbar-thumb {
+  background: transparent;
+  transition: background 0.4s ease;
+}
+
+html.light-mode .sidebar-scroller-active {
+  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+}
+
+html.light-mode .sidebar-scroller-active::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.light-mode .sidebar-scroller-active::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+html.light-mode .sidebar-scroller-active::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+html.light-mode .sidebar-scroller-hidden {
+  scrollbar-color: transparent transparent;
+}
+
+html.light-mode .sidebar-scroller-hidden::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.light-mode .sidebar-scroller-hidden::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Fallback visible scroller */
+.sidebar-visible-scroller {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.45) transparent;
+}
+
+.sidebar-visible-scroller::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sidebar-visible-scroller::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+  margin: 4px 0;
+}
+
+.sidebar-visible-scroller::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 9999px;
+}
+
+.sidebar-visible-scroller::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+html.light-mode .sidebar-visible-scroller {
+  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+}
+
+html.light-mode .sidebar-visible-scroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.light-mode .sidebar-visible-scroller::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+html.light-mode .sidebar-visible-scroller::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* Hide scrollbar for clean scrolling across components where specified */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

@@ -82,7 +82,7 @@ export const Settings: React.FC = () => {
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
-            <Palette className="w-5 h-5 text-[#E50914] dark:text-[#E50914] shrink-0 mt-0.5" />
+            <Palette className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Giao diện
@@ -114,7 +114,7 @@ export const Settings: React.FC = () => {
                     onClick={() => updateSetting('theme', 'light')}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                       settings.theme === 'light'
-                        ? 'bg-[#E50914] text-white shadow-md'
+                        ? 'bg-[#E6005A] text-white shadow-md shadow-[#E6005A]/20'
                         : 'text-[#9CA3AF] hover:text-white'
                     }`}
                   >
@@ -127,7 +127,7 @@ export const Settings: React.FC = () => {
                     onClick={() => updateSetting('theme', 'dark')}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                       settings.theme === 'dark'
-                        ? 'bg-[#E50914] text-white shadow-md'
+                        ? 'bg-[#E6005A] text-white shadow-md shadow-[#E6005A]/20'
                         : 'text-[#9CA3AF] hover:text-white'
                     }`}
                   >
@@ -150,7 +150,7 @@ export const Settings: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Red Toggle Switch */}
+                {/* Magenta/Red Toggle Switch */}
                 <button
                   id="toggle-dock-to-sidebar"
                   type="button"
@@ -158,7 +158,7 @@ export const Settings: React.FC = () => {
                   aria-checked={settings.dockToSidebar}
                   onClick={() => updateSetting('dockToSidebar', !settings.dockToSidebar)}
                   className={`w-12 h-6.5 rounded-full p-0.5 transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                    settings.dockToSidebar ? 'bg-[#E50914]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                    settings.dockToSidebar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
                   <span
@@ -188,19 +188,17 @@ export const Settings: React.FC = () => {
                   <div className="group relative w-full h-16 rounded-[24px] bg-[#1E1D24] dark:bg-[#1E1D24] border border-[#34343E]/60 flex items-center px-6 transition-all settings-slider-capsule">
                     {/* Track Background */}
                     <div className="relative w-full h-2 rounded-full bg-[#383842] dark:bg-[#383842] overflow-visible">
-                      {/* Active Red Track */}
+                      {/* Active Magenta Track matching sidebar */}
                       <div 
-                        className="absolute left-0 top-0 h-full rounded-full bg-[#E50914] transition-all duration-150 ease-out"
+                        className="absolute left-0 top-0 h-full rounded-full bg-[#E6005A] transition-all duration-150 ease-out shadow-[0_0_10px_rgba(230,0,90,0.3)]"
                         style={{ width: `${(settings.fontScale / 3) * 100}%` }}
                       />
                       
-                      {/* White Pill Thumb Handle with Hover Scale-up */}
+                      {/* White Clean Pill Thumb Handle without inner dash/line */}
                       <div 
-                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-6 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.3)] transition-all duration-200 ease-out pointer-events-none flex items-center justify-center group-hover:scale-125 hover:scale-125"
+                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-6 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.3)] transition-all duration-200 ease-out pointer-events-none group-hover:scale-125 hover:scale-125"
                         style={{ left: `${(settings.fontScale / 3) * 100}%` }}
-                      >
-                        <div className="w-4 h-1 rounded-full bg-gray-300" />
-                      </div>
+                      />
                     </div>
 
                     {/* Native Range Input (Transparent Overlay for Smooth Drag & Touch) */}
@@ -228,7 +226,7 @@ export const Settings: React.FC = () => {
                           onClick={() => updateSetting('fontScale', idx)}
                           className={`cursor-pointer transition-colors ${
                             isSelected
-                              ? 'text-[#E50914] font-bold text-xs'
+                              ? 'text-[#E6005A] font-bold text-xs'
                               : 'text-[#6B7280] hover:text-[#9CA3AF]'
                           }`}
                         >
@@ -254,7 +252,7 @@ export const Settings: React.FC = () => {
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
-            <Key className="w-5 h-5 text-[#E50914] dark:text-[#E50914] shrink-0 mt-0.5" />
+            <Key className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Trợ năng
@@ -278,7 +276,7 @@ export const Settings: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Red Toggle Switch */}
+                {/* Magenta Toggle Switch */}
                 <button
                   id="toggle-autoscroll-banner"
                   type="button"
@@ -286,7 +284,7 @@ export const Settings: React.FC = () => {
                   aria-checked={settings.autoScrollBanner}
                   onClick={() => updateSetting('autoScrollBanner', !settings.autoScrollBanner)}
                   className={`w-12 h-6.5 rounded-full p-0.5 transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                    settings.autoScrollBanner ? 'bg-[#E50914]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                    settings.autoScrollBanner ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
                   <span
@@ -310,7 +308,7 @@ export const Settings: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Red Toggle Switch */}
+                {/* Magenta Toggle Switch */}
                 <button
                   id="toggle-autohide-sidebar"
                   type="button"
@@ -318,7 +316,7 @@ export const Settings: React.FC = () => {
                   aria-checked={settings.autoHideSidebar}
                   onClick={() => updateSetting('autoHideSidebar', !settings.autoHideSidebar)}
                   className={`w-12 h-6.5 rounded-full p-0.5 transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                    settings.autoHideSidebar ? 'bg-[#E50914]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                    settings.autoHideSidebar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
                   <span
@@ -346,7 +344,7 @@ export const Settings: React.FC = () => {
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
-            <Search className="w-5 h-5 text-[#E50914] dark:text-[#E50914] shrink-0 mt-0.5" />
+            <Search className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Tìm kiếm
@@ -376,7 +374,7 @@ export const Settings: React.FC = () => {
                 <div 
                   className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                     settings.searchCategories
-                      ? 'bg-[#E50914] text-white shadow-sm'
+                      ? 'bg-[#E6005A] text-white shadow-sm shadow-[#E6005A]/20'
                       : 'bg-[#24242A] border border-[#4B5563]'
                   }`}
                 >
@@ -403,7 +401,7 @@ export const Settings: React.FC = () => {
                 <div 
                   className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                     settings.searchNews
-                      ? 'bg-[#E50914] text-white shadow-sm'
+                      ? 'bg-[#E6005A] text-white shadow-sm shadow-[#E6005A]/20'
                       : 'bg-[#24242A] border border-[#4B5563]'
                   }`}
                 >
@@ -433,7 +431,7 @@ export const Settings: React.FC = () => {
                     <div 
                       className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                         settings.searchTv
-                          ? 'bg-[#E50914] text-white shadow-sm'
+                          ? 'bg-[#E6005A] text-white shadow-sm shadow-[#E6005A]/20'
                           : 'bg-[#24242A] border border-[#4B5563]'
                       }`}
                     >
@@ -453,10 +451,10 @@ export const Settings: React.FC = () => {
                   >
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-[#E50914] text-sm">
+                        <span className="font-semibold text-[#E6005A] text-sm">
                           Tìm kênh theo số hiệu kênh
                         </span>
-                        <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-[#E50914]/20 text-[#E50914] tracking-wider">
+                        <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-[#E6005A]/20 text-[#FF4D8B] tracking-wider">
                           CH #
                         </span>
                       </div>
@@ -468,7 +466,7 @@ export const Settings: React.FC = () => {
                     <div 
                       className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                         settings.searchChannelNumber
-                          ? 'bg-[#E50914] text-white shadow-sm'
+                          ? 'bg-[#E6005A] text-white shadow-sm shadow-[#E6005A]/20'
                           : 'bg-[#24242A] border border-[#4B5563]'
                       }`}
                     >
@@ -497,7 +495,7 @@ export const Settings: React.FC = () => {
                 <div 
                   className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                     settings.searchToolbox
-                      ? 'bg-[#E50914] text-white shadow-sm'
+                      ? 'bg-[#E6005A] text-white shadow-sm shadow-[#E6005A]/20'
                       : 'bg-[#24242A] border border-[#4B5563]'
                   }`}
                 >
@@ -524,7 +522,7 @@ export const Settings: React.FC = () => {
                 <div 
                   className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                     settings.searchSettings
-                      ? 'bg-[#E50914] text-white shadow-sm'
+                      ? 'bg-[#E6005A] text-white shadow-sm shadow-[#E6005A]/20'
                       : 'bg-[#24242A] border border-[#4B5563]'
                   }`}
                 >
