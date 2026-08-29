@@ -1,258 +1,333 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
+import { BottomDock } from './components/BottomDock';
 import { SpotlightModal } from './components/SpotlightModal';
 import { CustomStreamModal } from './components/CustomStreamModal';
 import { UnderConstructionModal } from './components/UnderConstructionModal';
 import { CrashScreen } from './components/CrashScreen';
-
 import { Home } from './pages/Home';
 import { LiveTV } from './pages/LiveTV';
 import { News } from './pages/News';
 import { Article } from './pages/Article';
+import { Channels } from './pages/Channels';
+import { Favorites } from './pages/Favorites';
 import { Toolbox } from './pages/Toolbox';
 import { About } from './pages/About';
-import { Favorites } from './pages/Favorites';
 import { Settings } from './pages/Settings';
-import { Channels } from './pages/Channels';
-
 import { CHANNELS_DATA } from './data/channels';
 import { Channel } from './types';
+import { useSettings } from './hooks/useSettings';
 
 export default function App() {
+  const { settings } = useSettings();
+  // Security & Construction Gate State: saved in localStorage so the device only requires entering password once
+  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('waves_device_unlocked') === 'true' || sessionStorage.getItem('waves_unlocked') === 'true';
+    } catch {
+      return false;
+    }
+  });
+  const [isCrashed, setIsCrashed] = useState<boolean>(false);
+  const [crashReason, setCrashReason] = useState<string>('');
+
+  // Navigation Route State (supports browser pathname or internal state)
   const [currentRoute, setCurrentRoute] = useState<string>(() => {
-    return window.location.pathname || '/';
+    return window.location.pathname === '/' ? '/' : window.location.pathname;
   });
   const [routeState, setRouteState] = useState<any>(null);
 
-  // Channels state (seeded with 158+ comprehensive channels data)
-  const [channels, setChannels] = useState<Channel[]>(CHANNELS_DATA);
-  const [selectedChannel, setSelectedChannel] = useState<Channel>(() => {
-    const params = new URLSearchParams(window.location.search);
-    const channelParam = params.get('channel');
-    if (channelParam) {
-      const found = CHANNELS_DATA.find(
-        (c) => c.slug === channelParam || c.id === channelParam
-      );
-      if (found) return found;
+  // Channels State (base channels + imported channels from localStorage)
+  const [channels, setChannels] = useState<Channel[]>(() => {
+    const saved = localStorage.getItem('waves_custom_channels');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        return [...CHANNELS_DATA, ...parsed];
+      } catch {
+        return CHANNELS_DATA;
+      }
+    }
+    return CHANNELS_DATA;
+  });
+
+  // Current Active Channel for Live TV Player
+  const [currentChannel, setCurrentChannel] = useState<Channel>(() => {
+    // Check if URL has ?channel=slug
+    const urlParams = new URLSearchParams(window.location.search);
+    const channelSlug = urlParams.get('channel');
+    if (channelSlug) {
+      const matched = CHANNELS_DATA.find((c) => c.slug === channelSlug);
+      if (matched) return matched;
     }
     return CHANNELS_DATA[0];
   });
 
-  // Modal dialog states
-  const [isSpotlightOpen, setIsSpotlightOpen] = useState<boolean>(false);
-  const [isCustomStreamOpen, setIsCustomStreamOpen] = useState<boolean>(false);
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
-
-  // Security passcode unlock & crash state
-  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
-    return localStorage.getItem('waves_unlocked') === 'true';
+  // Modals state
+  const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
+  const [isCustomStreamModalOpen, setIsCustomStreamModalOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('waves_sidebar_collapsed') === 'true';
+    } catch {
+      return false;
+    }
   });
-  const [crashReason, setCrashReason] = useState<string | null>(null);
+
+  const toggleSidebarCollapse = () => {
+    setIsSidebarCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('waves_sidebar_collapsed', String(next));
+      } catch {}
+      return next;
+    });
+  };
+
+  // Determine effective sidebar width for page adaptation
+  const isEffectiveCollapsed = settings.autoHideSidebar || isSidebarCollapsed;
 
   // Navigation handler
-  const navigate = useCallback((route: string, state?: any) => {
-    setRouteState(state || null);
-    setCurrentRoute(route);
-    window.history.pushState(state || {}, '', route);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  const navigate = (path: string, state?: any) => {
+    setRouteState(state);
+    
+    // Parse query params if any
+    if (path.includes('?')) {
+      const [baseRoute, query] = path.split('?');
+      const params = new URLSearchParams(query);
+      const chSlug = params.get('channel');
+      if (chSlug) {
+        const matched = channels.find((c) => c.slug === chSlug);
+        if (matched) setCurrentChannel(matched);
+      }
+      window.history.pushState(null, '', path);
+      setCurrentRoute(baseRoute);
+    } else {
+      window.history.pushState(null, '', path);
+      setCurrentRoute(path);
+    }
 
-  // Listen to browser forward/back buttons
+    // Scroll to top on navigation
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Handle browser back / forward navigation
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentRoute(window.location.pathname || '/');
+      const path = window.location.pathname;
+      const params = new URLSearchParams(window.location.search);
+      const chSlug = params.get('channel');
+      if (chSlug) {
+        const matched = channels.find((c) => c.slug === chSlug);
+        if (matched) setCurrentChannel(matched);
+      }
+      setCurrentRoute(path);
     };
+
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [channels]);
 
-  // Sync URL query params with selected channel
-  const handleSelectChannel = useCallback((channel: Channel) => {
-    setSelectedChannel(channel);
-    if (!currentRoute.startsWith('/live-tv')) {
-      navigate(`/live-tv?channel=${channel.slug}`);
-    } else {
-      const newUrl = `/live-tv?channel=${channel.slug}`;
-      window.history.replaceState({}, '', newUrl);
+  // Handle playing a custom single channel
+  const handlePlayCustomChannel = (newChannel: Channel) => {
+    setChannels((prev) => {
+      const exists = prev.some((c) => c.id === newChannel.id);
+      if (exists) return prev;
+      const updated = [newChannel, ...prev];
+      return updated;
+    });
+    setCurrentChannel(newChannel);
+    navigate(`/live-tv?channel=${newChannel.slug}`);
+  };
+
+  // Handle importing a list of M3U channels
+  const handleImportPlaylist = (importedList: Channel[]) => {
+    setChannels((prev) => {
+      const updated = [...importedList, ...prev];
+      try {
+        localStorage.setItem('waves_custom_channels', JSON.stringify(importedList));
+      } catch {}
+      return updated;
+    });
+    if (importedList.length > 0) {
+      setCurrentChannel(importedList[0]);
+      navigate(`/live-tv?channel=${importedList[0].slug}`);
     }
-  }, [currentRoute, navigate]);
-
-  // Add custom stream to channels list and play immediately
-  const handlePlayCustomChannel = useCallback((customChannel: Channel) => {
-    setChannels((prev) => [customChannel, ...prev]);
-    setSelectedChannel(customChannel);
-    navigate(`/live-tv?channel=${customChannel.slug}`);
-  }, [navigate]);
-
-  // Global Keyboard Shortcuts (⌘K / Ctrl+K for Spotlight)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        setIsSpotlightOpen((prev) => !prev);
-      }
-      if (e.key === 'Escape') {
-        setIsSpotlightOpen(false);
-        setIsCustomStreamOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  // Unlock callback
-  const handleUnlock = () => {
-    setIsUnlocked(true);
-    try {
-      localStorage.setItem('waves_unlocked', 'true');
-    } catch {}
   };
 
-  // Crash callback
-  const handleCrash = (reason: string) => {
-    setCrashReason(reason);
-  };
-
-  // Render Crash Screen if crashed
-  if (crashReason) {
-    return <CrashScreen reason={crashReason} />;
-  }
-
-  // Parse dynamic sub-routes (e.g. /news/:slug)
-  const isArticleRoute = currentRoute.startsWith('/news/') && currentRoute.length > 6;
-  const articleSlug = isArticleRoute ? currentRoute.replace('/news/', '') : '';
-
-  // Render current view
-  const renderCurrentView = () => {
-    if (isArticleRoute) {
-      return <Article slug={articleSlug} navigate={navigate} />;
+  // Render Page Content based on currentRoute
+  const renderContent = () => {
+    // Route matching for news detail: /news/:slug
+    if (currentRoute.startsWith('/news/')) {
+      const slug = currentRoute.replace('/news/', '');
+      return <Article slug={slug} navigate={navigate} />;
     }
 
     switch (currentRoute) {
       case '/':
+      case '/home':
         return (
           <Home
             navigate={navigate}
-            onSelectChannel={handleSelectChannel}
+            onSelectChannel={setCurrentChannel}
             channels={channels}
           />
         );
+
       case '/live-tv':
         return (
           <LiveTV
-            currentChannel={selectedChannel}
-            onSelectChannel={handleSelectChannel}
+            currentChannel={currentChannel}
+            onSelectChannel={setCurrentChannel}
             channels={channels}
-            onOpenCustomStreamModal={() => setIsCustomStreamOpen(true)}
+            onOpenCustomStreamModal={() => setIsCustomStreamModalOpen(true)}
           />
         );
+
+      case '/news':
+        return <News navigate={navigate} />;
+
       case '/channels':
         return (
           <Channels
             channels={channels}
-            onSelectChannel={handleSelectChannel}
+            onSelectChannel={setCurrentChannel}
             navigate={navigate}
-            onOpenCustomStreamModal={() => setIsCustomStreamOpen(true)}
+            onOpenCustomStreamModal={() => setIsCustomStreamModalOpen(true)}
           />
         );
-      case '/news':
-        return <News navigate={navigate} />;
-      case '/toolbox':
-        return (
-          <Toolbox
-            initialTab={routeState?.tab || 'safe-area'}
-            onSelectChannel={handleSelectChannel}
-            navigate={navigate}
-          />
-        );
-      case '/about':
-        return <About />;
+
       case '/favorites':
         return (
           <Favorites
             channels={channels}
-            onSelectChannel={handleSelectChannel}
+            onSelectChannel={setCurrentChannel}
             navigate={navigate}
           />
         );
+
+      case '/toolbox':
+        return (
+          <Toolbox
+            initialTab={routeState?.tab || 'safe-area'}
+            onSelectChannel={setCurrentChannel}
+            navigate={navigate}
+          />
+        );
+
+      case '/about':
+        return <About />;
+
       case '/settings':
         return <Settings />;
+
       default:
         return (
           <Home
             navigate={navigate}
-            onSelectChannel={handleSelectChannel}
+            onSelectChannel={setCurrentChannel}
             channels={channels}
           />
         );
     }
   };
 
+  // Handle unlocking the website
+  const handleUnlock = () => {
+    setIsUnlocked(true);
+    try {
+      localStorage.setItem('waves_device_unlocked', 'true');
+      sessionStorage.setItem('waves_unlocked', 'true');
+    } catch {}
+  };
+
+  // Handle crashing the website
+  const handleCrash = (reason: string) => {
+    setIsCrashed(true);
+    setCrashReason(reason);
+    try {
+      localStorage.removeItem('waves_device_unlocked');
+      sessionStorage.removeItem('waves_unlocked');
+    } catch {}
+  };
+
+  // If website is in crashed state, render fatal crash screen
+  if (isCrashed) {
+    return <CrashScreen reason={crashReason || 'FATAL_SYSTEM_SHUTDOWN'} />;
+  }
+
   return (
-    <div className="min-h-screen bg-[#171719] text-[#E0E0E6] flex flex-row overflow-x-hidden selection:bg-[#DF37EE]/30 selection:text-white">
-      {/* 1. Desktop Sidebar */}
+    <div className="min-h-screen bg-[#141416] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative">
+      {/* Under Construction Modal Gate (if not unlocked) */}
+      <UnderConstructionModal
+        isOpen={!isUnlocked}
+        onUnlock={handleUnlock}
+        onCrash={handleCrash}
+      />
+
+      {/* Sidebar Navigation (Desktop + Mobile Drawer) */}
       <Sidebar
         currentRoute={currentRoute}
         navigate={navigate}
         onOpenSearch={() => setIsSpotlightOpen(true)}
-        selectedChannel={selectedChannel}
-        onSelectChannel={handleSelectChannel}
+        onSelectChannel={setCurrentChannel}
         isCollapsed={isSidebarCollapsed}
-        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        onToggleCollapse={toggleSidebarCollapse}
+        isMobileOpen={isMobileSidebarOpen}
+        onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
-      {/* 2. Main Container with TopBar & Views */}
-      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
-        {/* TopBar (Header on Desktop & Mobile Drawer Toggle) */}
+      {/* Main App Container */}
+      <div className={`flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ${
+        !settings.dockToSidebar 
+          ? 'md:pl-0 pb-20' 
+          : isEffectiveCollapsed 
+            ? 'md:pl-[80px]' 
+            : 'md:pl-[290px]'
+      }`}>
+        {/* TopBar Header */}
         <TopBar
           currentRoute={currentRoute}
           navigate={navigate}
           onOpenSearch={() => setIsSpotlightOpen(true)}
-          selectedChannel={selectedChannel}
-          onSelectChannel={handleSelectChannel}
+          onOpenMobileMenu={() => setIsMobileSidebarOpen(true)}
         />
 
-        {/* Dynamic Page Content with Smooth Transition */}
-        <main className="flex-1 px-4 sm:px-6 md:px-8 py-4 sm:py-6 max-w-7xl w-full mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentRoute + (routeState?.tab || '')}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {renderCurrentView()}
-            </motion.div>
-          </AnimatePresence>
+        {/* Dynamic Page Content with smooth fade */}
+        <main className={`flex-1 w-full mx-auto transition-opacity duration-300 ease-out ${
+          currentRoute === '/' || currentRoute === '/home' 
+            ? 'p-0 max-w-none' 
+            : 'px-4 sm:px-6 md:px-8 py-5 max-w-7xl'
+        }`}>
+          {renderContent()}
         </main>
       </div>
 
-      {/* 3. Global Spotlight Search Modal */}
+      {/* Bottom Dock Navigation (When dockToSidebar is false) */}
+      {!settings.dockToSidebar && (
+        <BottomDock
+          currentRoute={currentRoute}
+          navigate={navigate}
+          onOpenSearch={() => setIsSpotlightOpen(true)}
+        />
+      )}
+
+      {/* Global Modals */}
       <SpotlightModal
         isOpen={isSpotlightOpen}
         onClose={() => setIsSpotlightOpen(false)}
         navigate={navigate}
-        onSelectChannel={handleSelectChannel}
+        onSelectChannel={setCurrentChannel}
       />
 
-      {/* 4. Custom Stream / M3U Modal */}
       <CustomStreamModal
-        isOpen={isCustomStreamOpen}
-        onClose={() => setIsCustomStreamOpen(false)}
+        isOpen={isCustomStreamModalOpen}
+        onClose={() => setIsCustomStreamModalOpen(false)}
         onPlayCustomChannel={handlePlayCustomChannel}
+        onImportPlaylist={handleImportPlaylist}
       />
-
-      {/* 5. Under Construction Modal (if not unlocked) */}
-      {!isUnlocked && (
-        <UnderConstructionModal
-          isOpen={!isUnlocked}
-          onUnlock={handleUnlock}
-          onCrash={handleCrash}
-        />
-      )}
     </div>
   );
 }

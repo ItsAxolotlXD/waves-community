@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Home, 
   Tv, 
-  Newspaper, 
-  Tag, 
+  Megaphone, 
   Heart, 
   Box, 
   BookOpen, 
@@ -11,9 +11,8 @@ import {
   Settings, 
   ChevronDown, 
   ChevronRight, 
-  Search, 
-  Mic, 
   ChevronLeft,
+  X,
   Radio,
   Palette,
   Film,
@@ -21,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useClock } from '../hooks/useClock';
 import { useFavorites } from '../hooks/useFavorites';
+import { useSettings } from '../hooks/useSettings';
 import { CHANNELS_DATA } from '../data/channels';
 import { Channel } from '../types';
 import { DiscordWelcomeModal } from './DiscordWelcomeModal';
@@ -33,6 +33,8 @@ interface SidebarProps {
   onSelectChannel?: (channel: Channel) => void;
   isCollapsed?: boolean;
   onToggleCollapse?: () => void;
+  isMobileOpen?: boolean;
+  onCloseMobile?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -41,8 +43,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenSearch,
   onSelectChannel,
   isCollapsed = false,
-  onToggleCollapse
+  onToggleCollapse,
+  isMobileOpen = false,
+  onCloseMobile
 }) => {
+  const { settings } = useSettings();
   const { timeString, dateString } = useClock();
   const { favoriteChannelIds } = useFavorites();
 
@@ -52,8 +57,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [isHelpExpanded, setIsHelpExpanded] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const [isDiscordModalOpen, setIsDiscordModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const favoriteChannels = CHANNELS_DATA.filter((ch) => favoriteChannelIds.includes(ch.id));
+
+  // Determine actual collapsed state based on settings
+  const effectiveCollapsed = settings.autoHideSidebar 
+    ? !isHovered 
+    : isCollapsed;
 
   const isActive = (route: string) => {
     if (route === '/' && currentRoute === '/') return true;
@@ -61,47 +72,62 @@ export const Sidebar: React.FC<SidebarProps> = ({
     return false;
   };
 
-  return (
-    <aside 
-      id="waves-desktop-sidebar"
-      className={`hidden md:flex flex-col h-screen bg-[#242429] border-r border-[#34343C] select-none shrink-0 fixed top-0 left-0 z-40 overflow-hidden transition-all duration-300 ease-in-out ${
-        isCollapsed ? 'w-[80px]' : 'w-[290px]'
-      }`}
-    >
-      {/* Top Header: Clock + Monochrome Logo (No Background) + Back / Collapse Controls */}
-      {!isCollapsed ? (
-        <div className="px-5 pt-5 pb-3 flex items-center justify-between">
-          <div className="flex items-center gap-3.5 pl-1.5">
-            {/* Monochrome Logo without background (Black in Light Mode, White in Dark Mode) */}
-            <div 
-              onClick={() => navigate('/')} 
-              className="cursor-pointer flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
-              title="Waves Community"
-            >
-              {!logoError ? (
-                <img 
-                  src="https://static.wikia.nocookie.net/ep-deo/images/7/72/Monochrom.png/revision/latest?cb=20260825072411" 
-                  alt="Waves Logo" 
-                  className="w-8 h-8 object-contain sidebar-brand-logo"
-                  onError={() => setLogoError(true)}
-                />
-              ) : (
-                <span className="text-white dark:text-white light:text-[#111827] font-black text-2xl tracking-tighter">W</span>
-              )}
-            </div>
+  const handleNavClick = (route: string, state?: any) => {
+    navigate(route, state);
+    if (onCloseMobile) onCloseMobile();
+  };
 
-            {/* Real-time Clock display */}
-            <div className="flex flex-col">
-              <div className="text-white text-base font-bold tracking-tight font-mono leading-tight">
-                {timeString || '20:16:35'}
-              </div>
-              <div className="text-[#A1A1AA] text-[11px] font-medium leading-none mt-0.5">
-                {dateString || 'Th 5, 27/08/2026'}
-              </div>
-            </div>
+  const handleSpotlightClick = () => {
+    onOpenSearch();
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  // Shared Sidebar Inner Content (used for both desktop expanded & mobile drawer)
+  const renderSidebarBody = (isMobile: boolean = false) => (
+    <div className="flex flex-col h-full select-none">
+      {/* Top Header: Clock + Monochrome Logo + Close/Collapse Button */}
+      <div className="px-5 pt-5 pb-3 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-3.5 pl-1.5">
+          {/* Monochrome Logo without background (Black in Light Mode, White in Dark Mode) */}
+          <div 
+            onClick={() => handleNavClick('/')} 
+            className="cursor-pointer flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+            title="Waves Community"
+          >
+            {!logoError ? (
+              <img 
+                src="https://static.wikia.nocookie.net/ep-deo/images/7/72/Monochrom.png/revision/latest?cb=20260825072411" 
+                alt="Waves Logo" 
+                className="w-8 h-8 object-contain sidebar-brand-logo"
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <span className="text-white dark:text-white light:text-[#111827] font-black text-2xl tracking-tighter">W</span>
+            )}
           </div>
 
-          {/* Collapse sidebar button */}
+          {/* Real-time Clock display */}
+          <div className="flex flex-col">
+            <div className="text-white text-base font-bold tracking-tight font-mono leading-tight">
+              {timeString || '20:16:35'}
+            </div>
+            <div className="text-[#A1A1AA] text-[11px] font-medium leading-none mt-0.5">
+              {dateString || 'Th 5, 27/08/2026'}
+            </div>
+          </div>
+        </div>
+
+        {/* Action Button: Close on Mobile / Collapse on Desktop */}
+        {isMobile ? (
+          <button 
+            id="btn-mobile-sidebar-close"
+            onClick={onCloseMobile}
+            className="w-8 h-8 rounded-full bg-[#2F2F36] border border-[#3E3E48] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:bg-[#3C3C46] transition-all cursor-pointer shadow-sm"
+            title="Đóng menu"
+          >
+            <X className="w-4.5 h-4.5" />
+          </button>
+        ) : (
           <button 
             id="btn-sidebar-collapse"
             onClick={onToggleCollapse}
@@ -110,111 +136,52 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             <ChevronLeft className="w-4.5 h-4.5" />
           </button>
-        </div>
-      ) : (
-        <div className="pt-4 pb-3 flex flex-col items-center gap-3">
-          {/* Monochrome Logo */}
-          <div 
-            onClick={() => navigate('/')} 
-            className="cursor-pointer flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
-            title="Waves Community"
-          >
-            {!logoError ? (
-              <img 
-                src="https://static.wikia.nocookie.net/ep-deo/images/7/72/Monochrom.png/revision/latest?cb=20260825072411" 
-                alt="Waves Logo" 
-                className="w-7 h-7 object-contain sidebar-brand-logo"
-                onError={() => setLogoError(true)}
-              />
-            ) : (
-              <span className="text-white dark:text-white light:text-[#111827] font-black text-xl tracking-tighter">W</span>
-            )}
-          </div>
+        )}
+      </div>
 
-          {/* Expand sidebar button */}
-          <button 
-            id="btn-sidebar-expand"
-            onClick={onToggleCollapse}
-            className="w-7 h-7 rounded-full bg-[#2F2F36] border border-[#3E3E48] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:bg-[#3C3C46] transition-all cursor-pointer shadow-sm"
-            title="Mở rộng menu"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-      )}
-
-      {/* Spotlight Search Box with generous breathing room above & below */}
-      {!isCollapsed ? (
-        <div className="px-4 pt-2 pb-6">
-          <button
-            id="btn-spotlight-search"
-            onClick={onOpenSearch}
-            className="w-full h-[44px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box text-left text-sm text-[#A1A1AA] hover:text-white transition-all group cursor-pointer shadow-md"
-          >
-            <div className="flex items-center gap-3 min-w-0 truncate">
-              <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
-                <img
-                  src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
-                  alt="Search"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full aspect-square object-contain brightness-0 invert opacity-75 group-hover:opacity-100 transition-opacity"
-                  onError={(e) => {
-                    // Fallback if network blocked
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
-                />
-              </div>
-              <span className="text-sm text-[#9CA3AF] group-hover:text-white font-medium truncate">Spotlight Search...</span>
-            </div>
-            <div className="w-4 h-4 min-w-[16px] min-h-[16px] max-w-[16px] max-h-[16px] flex items-center justify-center shrink-0 ml-1">
-              <img
-                src="https://github.com/andrewtavis/sf-symbols-online/raw/master/glyphs/mic.png"
-                alt="Mic"
-                referrerPolicy="no-referrer"
-                className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
-                onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
-                }}
-              />
-            </div>
-          </button>
-        </div>
-      ) : (
-        <div className="px-2 pt-1 pb-5 flex justify-center">
-          <button
-            id="btn-spotlight-search-mini"
-            onClick={onOpenSearch}
-            title="Spotlight Search (⌘K)"
-            className="w-11 h-11 rounded-full spotlight-bubble-box flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer shadow-md hover:ring-1 hover:ring-white/40"
-          >
+      {/* Spotlight Search Box with generous breathing room */}
+      <div className="px-4 pt-2 pb-5 shrink-0">
+        <button
+          id={isMobile ? 'btn-mobile-spotlight-search' : 'btn-spotlight-search'}
+          onClick={handleSpotlightClick}
+          className="w-full h-[44px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box text-left text-sm text-[#A1A1AA] hover:text-white transition-all group cursor-pointer"
+        >
+          <div className="flex items-center gap-3 min-w-0 truncate">
             <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
               <img
                 src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
                 alt="Search"
                 referrerPolicy="no-referrer"
-                className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80"
+                className="w-full h-full aspect-square object-contain brightness-0 invert opacity-75 group-hover:opacity-100 transition-opacity"
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
               />
             </div>
-          </button>
-        </div>
-      )}
+            <span className="text-sm text-[#9CA3AF] group-hover:text-white font-medium truncate">Spotlight Search...</span>
+          </div>
+          <div className="w-4 h-4 min-w-[16px] min-h-[16px] max-w-[16px] max-h-[16px] flex items-center justify-center shrink-0 ml-1">
+            <img
+              src="https://github.com/andrewtavis/sf-symbols-online/raw/master/glyphs/mic.png"
+              alt="Mic"
+              referrerPolicy="no-referrer"
+              className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
+              onError={(e) => {
+                (e.target as HTMLElement).style.display = 'none';
+              }}
+            />
+          </div>
+        </button>
+      </div>
 
-      {/* Scrollable Navigation Menu - Space out between tabs */}
-      <div className={`flex-1 overflow-y-auto pb-6 text-sm font-medium sidebar-scroller no-scrollbar ${
-        isCollapsed 
-          ? 'px-2 pt-1 space-y-3 flex flex-col items-center' 
-          : 'px-4 pt-1 space-y-2.5'
-      }`}>
+      {/* Scrollable Navigation Menu */}
+      <div className="flex-1 overflow-y-auto pb-6 text-sm font-medium sidebar-scroller no-scrollbar px-4 pt-1 space-y-2.5">
         {/* 1. Home */}
         <button
-          id="nav-item-home"
-          onClick={() => navigate('/')}
+          id={isMobile ? 'mobile-nav-item-home' : 'nav-item-home'}
+          onClick={() => handleNavClick('/')}
           title="Home"
-          className={`${
-            isCollapsed 
-              ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-              : 'w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px]'
-          } transition-all duration-200 ${
+          className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all duration-200 cursor-pointer ${
             isActive('/') && currentRoute === '/'
               ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
@@ -224,62 +191,58 @@ export const Sidebar: React.FC<SidebarProps> = ({
             src="https://static.wikia.nocookie.net/ep-deo/images/6/6e/New_hom.png/revision/latest?cb=20260722124341"
             alt="Home"
             referrerPolicy="no-referrer"
-            className="w-5 h-5 object-contain shrink-0 brightness-0 invert"
+            className={`w-5 h-5 object-contain shrink-0 ${
+              isActive('/') && currentRoute === '/' ? 'brightness-0 invert' : 'sidebar-nav-home-icon'
+            }`}
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-          {!isCollapsed && <span className="truncate">Home</span>}
+          <span className="truncate">Home</span>
         </button>
 
         {/* 2. Live TV with Accordion */}
-        <div className={isCollapsed ? 'w-full flex flex-col items-center' : 'w-full'}>
+        <div className="w-full">
           <button
-            id="nav-item-live-tv"
-            onClick={() => navigate('/live-tv')}
+            id={isMobile ? 'mobile-nav-item-live-tv' : 'nav-item-live-tv'}
+            onClick={() => handleNavClick('/live-tv')}
             title="Live TV"
-            className={`${
-              isCollapsed 
-                ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-                : 'w-full flex items-center justify-between px-4 py-3 rounded-[14px]'
-            } transition-all ${
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
               isActive('/live-tv')
                 ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
                 : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
             }`}
           >
-            <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3.5 truncate'}`}>
+            <div className="flex items-center gap-3.5 truncate">
               <Tv className="w-5 h-5 shrink-0" />
-              {!isCollapsed && <span className="truncate">Live TV</span>}
+              <span className="truncate">Live TV</span>
             </div>
-            {!isCollapsed && (
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsLiveTvExpanded(!isLiveTvExpanded);
-                }}
-                className="p-1 hover:text-white"
-              >
-                {isLiveTvExpanded ? (
-                  <ChevronDown className="w-4 h-4 opacity-70" />
-                ) : (
-                  <ChevronRight className="w-4 h-4 opacity-70" />
-                )}
-              </div>
-            )}
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLiveTvExpanded(!isLiveTvExpanded);
+              }}
+              className="p-1 hover:text-white"
+            >
+              {isLiveTvExpanded ? (
+                <ChevronDown className="w-4 h-4 opacity-70" />
+              ) : (
+                <ChevronRight className="w-4 h-4 opacity-70" />
+              )}
+            </div>
           </button>
 
           {/* Expanded Channels list */}
-          {!isCollapsed && isLiveTvExpanded && (
+          {isLiveTvExpanded && (
             <div className="mt-2 ml-4 pl-3 border-l border-[#3E3E48] space-y-1">
               {CHANNELS_DATA.slice(0, 5).map((ch) => (
                 <button
                   key={ch.id}
                   onClick={() => {
-                    navigate(`/live-tv?channel=${ch.slug}`);
+                    handleNavClick(`/live-tv?channel=${ch.slug}`);
                     if (onSelectChannel) onSelectChannel(ch);
                   }}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors"
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
                 >
                   <span className="truncate">{ch.shortName || ch.name}</span>
                   <span className="px-1.5 py-0.2 text-[9px] bg-[#DF37EE]/20 text-[#FF55FF] border border-[#DF37EE]/40 rounded-full font-bold">
@@ -288,8 +251,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </button>
               ))}
               <button
-                onClick={() => navigate('/live-tv')}
-                className="w-full text-left px-3 py-1.5 text-[11px] text-[#DF37EE] hover:underline font-medium"
+                onClick={() => handleNavClick('/live-tv')}
+                className="w-full text-left px-3 py-1.5 text-[11px] text-[#DF37EE] hover:underline font-medium cursor-pointer"
               >
                 + Xem tất cả kênh
               </button>
@@ -299,76 +262,66 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* 3. News */}
         <button
-          id="nav-item-news"
-          onClick={() => navigate('/news')}
+          id={isMobile ? 'mobile-nav-item-news' : 'nav-item-news'}
+          onClick={() => handleNavClick('/news')}
           title="News"
-          className={`${
-            isCollapsed 
-              ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-              : 'w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px]'
-          } transition-all ${
+          className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
             isActive('/news')
               ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
           }`}
         >
-          <Newspaper className="w-5 h-5 shrink-0" />
-          {!isCollapsed && <span className="truncate">News</span>}
+          <Megaphone className="w-5 h-5 shrink-0" />
+          <span className="truncate">News</span>
         </button>
 
         {/* Divider */}
-        <div className={`py-1 ${isCollapsed ? 'w-8' : 'w-full'}`}>
+        <div className="py-1 w-full">
           <hr className="border-[#34343C]" />
         </div>
 
         {/* 5. Favorites Accordion */}
-        <div className={isCollapsed ? 'w-full flex flex-col items-center' : 'w-full'}>
+        <div className="w-full">
           <button
-            id="nav-item-favorites"
-            onClick={() => navigate('/favorites')}
+            id={isMobile ? 'mobile-nav-item-favorites' : 'nav-item-favorites'}
+            onClick={() => handleNavClick('/favorites')}
             title="Favorites"
-            className={`${
-              isCollapsed 
-                ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-                : 'w-full flex items-center justify-between px-4 py-3 rounded-[14px]'
-            } transition-all ${
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
               isActive('/favorites')
                 ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
                 : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
             }`}
           >
-            <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3.5 truncate'}`}>
+            <div className="flex items-center gap-3.5 truncate">
               <Heart className="w-5 h-5 shrink-0" />
-              {!isCollapsed && <span className="truncate">Favorites</span>}
+              <span className="truncate">Favorites</span>
             </div>
-            {!isCollapsed && (
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsFavoritesExpanded(!isFavoritesExpanded);
-                }}
-                className="p-1 hover:text-white"
-              >
-                {isFavoritesExpanded ? (
-                  <ChevronDown className="w-4 h-4 opacity-70" />
-                ) : (
-                  <ChevronRight className="w-4 h-4 opacity-70" />
-                )}
-              </div>
-            )}
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFavoritesExpanded(!isFavoritesExpanded);
+              }}
+              className="p-1 hover:text-white"
+            >
+              {isFavoritesExpanded ? (
+                <ChevronDown className="w-4 h-4 opacity-70" />
+              ) : (
+                <ChevronRight className="w-4 h-4 opacity-70" />
+              )}
+            </div>
           </button>
 
-          {!isCollapsed && isFavoritesExpanded && (
+          {isFavoritesExpanded && (
             <div className="mt-2 ml-4 pl-3 border-l border-[#3E3E48] space-y-1">
               {favoriteChannels.length > 0 ? (
                 favoriteChannels.map((ch) => (
                   <button
                     key={ch.id}
                     onClick={() => {
-                      navigate(`/live-tv?channel=${ch.slug}`);
+                      handleNavClick(`/live-tv?channel=${ch.slug}`);
                       if (onSelectChannel) onSelectChannel(ch);
                     }}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors group"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors group cursor-pointer"
                   >
                     <span className="truncate">{ch.shortName || ch.name}</span>
                     <span className="px-2 py-0.5 text-[9px] bg-[#3E3E48] text-[#E0E0E6] group-hover:bg-[#DF37EE] group-hover:text-white rounded-full font-semibold transition-colors">
@@ -386,68 +339,62 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* 6. Toolbox Accordion */}
-        <div className={isCollapsed ? 'w-full flex flex-col items-center' : 'w-full'}>
+        <div className="w-full">
           <button
-            id="nav-item-toolbox"
-            onClick={() => navigate('/toolbox')}
+            id={isMobile ? 'mobile-nav-item-toolbox' : 'nav-item-toolbox'}
+            onClick={() => handleNavClick('/toolbox')}
             title="Toolbox"
-            className={`${
-              isCollapsed 
-                ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-                : 'w-full flex items-center justify-between px-4 py-3 rounded-[14px]'
-            } transition-all ${
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
               isActive('/toolbox')
                 ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
                 : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
             }`}
           >
-            <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3.5 truncate'}`}>
+            <div className="flex items-center gap-3.5 truncate">
               <Box className="w-5 h-5 shrink-0" />
-              {!isCollapsed && <span className="truncate">Toolbox</span>}
+              <span className="truncate">Toolbox</span>
             </div>
-            {!isCollapsed && (
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsToolboxExpanded(!isToolboxExpanded);
-                }}
-                className="p-1 hover:text-white"
-              >
-                {isToolboxExpanded ? (
-                  <ChevronDown className="w-4 h-4 opacity-70" />
-                ) : (
-                  <ChevronRight className="w-4 h-4 opacity-70" />
-                )}
-              </div>
-            )}
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsToolboxExpanded(!isToolboxExpanded);
+              }}
+              className="p-1 hover:text-white"
+            >
+              {isToolboxExpanded ? (
+                <ChevronDown className="w-4 h-4 opacity-70" />
+              ) : (
+                <ChevronRight className="w-4 h-4 opacity-70" />
+              )}
+            </div>
           </button>
 
-          {!isCollapsed && isToolboxExpanded && (
+          {isToolboxExpanded && (
             <div className="mt-2 ml-4 pl-3 border-l border-[#3E3E48] space-y-1">
               <button
-                onClick={() => navigate('/toolbox', { tab: 'safe-area' })}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors"
+                onClick={() => handleNavClick('/toolbox', { tab: 'safe-area' })}
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
               >
                 <Layers className="w-3.5 h-3.5 text-[#FF6B6B]" />
                 <span className="truncate">Aspect Ratio & Safe Area</span>
               </button>
               <button
-                onClick={() => navigate('/toolbox', { tab: 'color-bars' })}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors"
+                onClick={() => handleNavClick('/toolbox', { tab: 'color-bars' })}
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
               >
                 <Palette className="w-3.5 h-3.5 text-[#FF5555]" />
                 <span className="truncate">SMPTE Color Bars & Tone</span>
               </button>
               <button
-                onClick={() => navigate('/toolbox', { tab: 'm3u-tester' })}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors"
+                onClick={() => handleNavClick('/toolbox', { tab: 'm3u-tester' })}
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
               >
                 <Radio className="w-3.5 h-3.5 text-[#38BDF8]" />
                 <span className="truncate">M3U Playlist Parser</span>
               </button>
               <button
-                onClick={() => navigate('/toolbox', { tab: 'timecode' })}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors"
+                onClick={() => handleNavClick('/toolbox', { tab: 'timecode' })}
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
               >
                 <Film className="w-3.5 h-3.5 text-[#FBBF24]" />
                 <span className="truncate">Broadcast Timecode</span>
@@ -457,37 +404,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* 7. Help (Book Icon) */}
-        <div className={isCollapsed ? 'w-full flex flex-col items-center' : 'w-full'}>
+        <div className="w-full">
           <button
-            id="nav-item-help"
-            onClick={() => {
-              if (isCollapsed) {
-                navigate('/about');
-              } else {
-                setIsHelpExpanded(!isHelpExpanded);
-              }
-            }}
+            id={isMobile ? 'mobile-nav-item-help' : 'nav-item-help'}
+            onClick={() => setIsHelpExpanded(!isHelpExpanded)}
             title="Help"
-            className={`${
-              isCollapsed 
-                ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-                : 'w-full flex items-center justify-between px-4 py-3 rounded-[14px]'
-            } text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36] transition-all`}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-[14px] text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36] transition-all cursor-pointer"
           >
-            <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3.5 truncate'}`}>
+            <div className="flex items-center gap-3.5 truncate">
               <BookOpen className="w-5 h-5 shrink-0" />
-              {!isCollapsed && <span className="truncate">Help</span>}
+              <span className="truncate">Help</span>
             </div>
-            {!isCollapsed && (
-              isHelpExpanded ? (
-                <ChevronDown className="w-4 h-4 opacity-70" />
-              ) : (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )
+            {isHelpExpanded ? (
+              <ChevronDown className="w-4 h-4 opacity-70" />
+            ) : (
+              <ChevronRight className="w-4 h-4 opacity-70" />
             )}
           </button>
 
-          {!isCollapsed && isHelpExpanded && (
+          {isHelpExpanded && (
             <div className="mt-2 ml-4 pl-3 border-l border-[#3E3E48] space-y-1.5 text-xs text-[#A1A1AA] p-2">
               <p>• Phím tắt: ⌘K tìm kiếm, Space tạm dừng</p>
               <p>• Báo lỗi phát sóng trực tiếp qua Discord</p>
@@ -497,68 +432,232 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         {/* 8. About */}
         <button
-          id="nav-item-about"
-          onClick={() => navigate('/about')}
+          id={isMobile ? 'mobile-nav-item-about' : 'nav-item-about'}
+          onClick={() => handleNavClick('/about')}
           title="About"
-          className={`${
-            isCollapsed 
-              ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-              : 'w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px]'
-          } transition-all ${
+          className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
             isActive('/about')
               ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
           }`}
         >
           <Info className="w-5 h-5 shrink-0" />
-          {!isCollapsed && <span className="truncate">About</span>}
+          <span className="truncate">About</span>
         </button>
 
         {/* 9. Join Waves on Discord (Monochrome White Icon & Modal Trigger) */}
         <button
           type="button"
-          id="nav-item-discord"
+          id={isMobile ? 'mobile-nav-item-discord' : 'nav-item-discord'}
           onClick={() => setIsDiscordModalOpen(true)}
           title="Join Waves on Discord"
-          className={`${
-            isCollapsed 
-              ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-              : 'w-full flex items-center justify-between px-4 py-3 rounded-[14px]'
-          } text-[#D1D5DB] hover:text-white hover:bg-white/10 border border-transparent transition-all group cursor-pointer text-left`}
+          className="w-full flex items-center justify-between px-4 py-3 rounded-[14px] text-[#D1D5DB] hover:text-white hover:bg-white/10 border border-transparent transition-all group cursor-pointer text-left"
         >
-          <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3.5 truncate'}`}>
+          <div className="flex items-center gap-3.5 truncate">
             <svg className="w-5 h-5 fill-current text-white shrink-0" viewBox="0 0 24 24">
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.078.078 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
             </svg>
-            {!isCollapsed && <span className="truncate text-xs font-medium">Join Waves on Discord</span>}
+            <span className="truncate text-xs font-medium">Join Waves on Discord</span>
           </div>
         </button>
 
         {/* 10. Settings */}
         <button
-          id="nav-item-settings"
-          onClick={() => navigate('/settings')}
+          id={isMobile ? 'mobile-nav-item-settings' : 'nav-item-settings'}
+          onClick={() => handleNavClick('/settings')}
           title="Cài đặt"
-          className={`${
-            isCollapsed 
-              ? 'w-11 h-11 rounded-[14px] flex items-center justify-center p-0' 
-              : 'w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px]'
-          } transition-all ${
+          className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
             isActive('/settings')
               ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
           }`}
         >
           <Settings className="w-5 h-5 shrink-0" />
-          {!isCollapsed && <span className="truncate">Cài đặt</span>}
+          <span className="truncate">Cài đặt</span>
         </button>
       </div>
+    </div>
+  );
+
+  return (
+    <>
+      {/* 1. Desktop Persistent Sidebar (Only when dockToSidebar is true or desktop) */}
+      {settings.dockToSidebar && (
+        <aside 
+          id="waves-desktop-sidebar"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className={`hidden md:flex flex-col h-screen bg-[#242429] border-r border-[#34343C] select-none shrink-0 fixed top-0 left-0 z-40 overflow-hidden transition-all duration-300 ease-in-out ${
+            effectiveCollapsed ? 'w-[80px]' : 'w-[290px]'
+          }`}
+        >
+          {!effectiveCollapsed ? (
+            renderSidebarBody(false)
+          ) : (
+            <div className="flex flex-col h-full pt-4 pb-3 items-center">
+              {/* Monochrome Logo */}
+              <div 
+                onClick={() => handleNavClick('/')} 
+                className="cursor-pointer flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
+                title="Waves Community"
+              >
+                {!logoError ? (
+                  <img 
+                    src="https://static.wikia.nocookie.net/ep-deo/images/7/72/Monochrom.png/revision/latest?cb=20260825072411" 
+                    alt="Waves Logo" 
+                    className="w-7 h-7 object-contain sidebar-brand-logo"
+                    onError={() => setLogoError(true)}
+                  />
+                ) : (
+                  <span className="text-white dark:text-white light:text-[#111827] font-black text-xl tracking-tighter">W</span>
+                )}
+              </div>
+
+              {/* Expand sidebar button */}
+              <button 
+                id="btn-sidebar-expand"
+                onClick={onToggleCollapse}
+                className="mt-3 w-7 h-7 rounded-full bg-[#2F2F36] border border-[#3E3E48] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:bg-[#3C3C46] transition-all cursor-pointer shadow-sm"
+                title="Mở rộng menu"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+
+              {/* Collapsed Search button */}
+              <div className="px-2 pt-4 pb-3 flex justify-center">
+                <button
+                  id="btn-spotlight-search-mini"
+                  onClick={handleSpotlightClick}
+                  title="Spotlight Search (⌘K)"
+                  className="w-11 h-11 rounded-full spotlight-bubble-box flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer shadow-md hover:ring-1 hover:ring-white/40"
+                >
+                  <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
+                    <img
+                      src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
+                      alt="Search"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80"
+                    />
+                  </div>
+                </button>
+              </div>
+
+              {/* Mini nav icons */}
+              <div className="flex-1 overflow-y-auto pb-4 space-y-3 flex flex-col items-center no-scrollbar">
+                <button
+                  onClick={() => handleNavClick('/')}
+                  title="Home"
+                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
+                    isActive('/') && currentRoute === '/' ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                  }`}
+                >
+                  <img
+                    src="https://static.wikia.nocookie.net/ep-deo/images/6/6e/New_hom.png/revision/latest?cb=20260722124341"
+                    alt="Home"
+                    referrerPolicy="no-referrer"
+                    className={`w-5 h-5 object-contain shrink-0 ${
+                      isActive('/') && currentRoute === '/' ? 'brightness-0 invert' : 'sidebar-nav-home-icon'
+                    }`}
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                </button>
+                <button
+                  onClick={() => handleNavClick('/live-tv')}
+                  title="Live TV"
+                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
+                    isActive('/live-tv') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                  }`}
+                >
+                  <Tv className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleNavClick('/news')}
+                  title="News"
+                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
+                    isActive('/news') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                  }`}
+                >
+                  <Megaphone className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleNavClick('/favorites')}
+                  title="Favorites"
+                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
+                    isActive('/favorites') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                  }`}
+                >
+                  <Heart className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleNavClick('/toolbox')}
+                  title="Toolbox"
+                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
+                    isActive('/toolbox') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                  }`}
+                >
+                  <Box className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleNavClick('/about')}
+                  title="About"
+                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
+                    isActive('/about') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                  }`}
+                >
+                  <Info className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleNavClick('/settings')}
+                  title="Cài đặt"
+                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
+                    isActive('/settings') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                  }`}
+                >
+                  <Settings className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          )}
+        </aside>
+      )}
+
+      {/* 2. Mobile Responsive Drawer Sidebar with Smooth Slide-in & Identical Layout/Style */}
+      <AnimatePresence>
+        {isMobileOpen && (
+          <div className="fixed inset-0 z-50 md:hidden flex">
+            {/* Backdrop with smooth ease fade */}
+            <motion.div 
+              id="waves-mobile-sidebar-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+              onClick={onCloseMobile}
+            />
+
+            {/* Mobile Drawer with smooth deceleration ease */}
+            <motion.div
+              id="waves-mobile-sidebar"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-[290px] sm:w-[320px] max-w-[85vw] h-full bg-[#242429] border-r border-[#34343C] flex flex-col shadow-2xl z-10 overflow-hidden"
+            >
+              {renderSidebarBody(true)}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Discord Welcome Modal Dialog */}
       <DiscordWelcomeModal
         isOpen={isDiscordModalOpen}
         onClose={() => setIsDiscordModalOpen(false)}
       />
-    </aside>
+    </>
   );
 };

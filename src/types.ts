@@ -79,15 +79,17 @@ export interface NewsArticle {
 export interface HeroSlide {
   id: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   description: string;
   category: string;
   quality: string;
   badge: string;
   channelId: string;
   channelLogo?: string;
+  channelName?: string;
   backgroundImage: string;
   ctaText: string;
+  director?: string;
 }
 
 export interface UserSettings {
