@@ -59,7 +59,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
               title={item.label}
               className={`w-12 h-12 rounded-full flex items-center justify-center transition-all cursor-pointer shrink-0 ${
                 active 
-                  ? 'bg-[#DF37EE] text-white shadow-lg shadow-[#DF37EE]/30' 
+                  ? 'bg-[#E50914] text-white shadow-lg shadow-[#E50914]/30' 
                   : 'text-[#9CA3AF] hover:text-white hover:bg-white/10'
               }`}
             >

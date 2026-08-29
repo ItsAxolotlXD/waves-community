@@ -178,7 +178,7 @@ export const Toolbox: React.FC<ToolboxProps> = ({
               : 'bg-[#1E1E22] text-[#A1A1AA] hover:text-white border border-[#2E2E36]'
           }`}
         >
-          <Layers className="w-4 h-4 text-[#C83DFF]" />
+          <Layers className="w-4 h-4 text-[#E50914]" />
           <span>Aspect Ratio & Safe Area</span>
         </button>
 
@@ -237,7 +237,7 @@ export const Toolbox: React.FC<ToolboxProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <Layers className="w-5 h-5 text-[#C83DFF]" />
+                <Layers className="w-5 h-5 text-[#E50914]" />
                 <span>Tiêu chuẩn Vùng An toàn (Broadcast Safe Area EBU/SMPTE)</span>
               </h2>
               <p className="text-xs text-[#9CA3AF] mt-1">
@@ -252,7 +252,7 @@ export const Toolbox: React.FC<ToolboxProps> = ({
                   key={r}
                   onClick={() => setAspectRatio(r)}
                   className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${
-                    aspectRatio === r ? 'bg-[#C83DFF] text-white' : 'text-[#8E8E93] hover:text-white'
+                    aspectRatio === r ? 'bg-[#E50914] text-white' : 'text-[#8E8E93] hover:text-white'
                   }`}
                 >
                   {r}
@@ -369,7 +369,7 @@ export const Toolbox: React.FC<ToolboxProps> = ({
                 type="checkbox"
                 checked={showGrid3x3}
                 onChange={(e) => setShowGrid3x3(e.target.checked)}
-                className="w-4 h-4 rounded accent-[#C83DFF]"
+                className="w-4 h-4 rounded accent-[#E50914]"
               />
               <span className="font-semibold text-white">Lưới 1/3 (Rule of Thirds)</span>
             </label>
@@ -494,7 +494,7 @@ export const Toolbox: React.FC<ToolboxProps> = ({
                 rows={10}
                 value={m3uInput}
                 onChange={(e) => setM3uInput(e.target.value)}
-                className="w-full p-4 rounded-2xl bg-[#141416] border border-[#2D2D35] text-xs font-mono text-white focus:outline-none focus:border-[#C83DFF] resize-none"
+                className="w-full p-4 rounded-2xl bg-[#141416] border border-[#2D2D35] text-xs font-mono text-white focus:outline-none focus:border-[#E50914] resize-none"
               />
             </div>
 
@@ -510,7 +510,7 @@ export const Toolbox: React.FC<ToolboxProps> = ({
                       <span className="font-bold text-white block">{ch.name}</span>
                       <span className="text-[10px] text-[#8E8E93] font-mono truncate max-w-xs block">{ch.streamUrl}</span>
                     </div>
-                    <span className="px-2 py-0.5 rounded-full bg-[#C83DFF]/20 text-[#C83DFF] text-[10px] font-bold">
+                    <span className="px-2 py-0.5 rounded-full bg-[#E50914]/20 text-[#E50914] text-[10px] font-bold">
                       {ch.category || 'HD'}
                     </span>
                   </div>

@@ -29,13 +29,13 @@ interface SpotlightModalProps {
 }
 
 const CATEGORY_ITEMS = [
-  { id: 'cat-home', title: 'Trang chủ (Home)', route: '/', icon: Home, color: '#DF37EE' },
-  { id: 'cat-livetv', title: 'Truyền hình trực tiếp (Live TV)', route: '/live-tv', icon: Tv, color: '#DF37EE' },
-  { id: 'cat-news', title: 'Tin tức & Thông báo (News)', route: '/news', icon: Megaphone, color: '#FF4D4D' },
-  { id: 'cat-fav', title: 'Kênh yêu thích (Favorites)', route: '/favorites', icon: Heart, color: '#EC4899' },
+  { id: 'cat-home', title: 'Trang chủ (Home)', route: '/', icon: Home, color: '#E6005A' },
+  { id: 'cat-livetv', title: 'Truyền hình trực tiếp (Live TV)', route: '/live-tv', icon: Tv, color: '#E6005A' },
+  { id: 'cat-news', title: 'Tin tức & Thông báo (News)', route: '/news', icon: Megaphone, color: '#FF4D8B' },
+  { id: 'cat-fav', title: 'Kênh yêu thích (Favorites)', route: '/favorites', icon: Heart, color: '#E6005A' },
   { id: 'cat-toolbox', title: 'Công cụ kỹ thuật (Toolbox)', route: '/toolbox', icon: Box, color: '#38BDF8' },
-  { id: 'cat-about', title: 'Giới thiệu Waves Community', route: '/about', icon: Info, color: '#A855F7' },
-  { id: 'cat-settings', title: 'Cài đặt hệ thống (Settings)', route: '/settings', icon: SettingsIcon, color: '#C084FC' },
+  { id: 'cat-about', title: 'Giới thiệu Waves Community', route: '/about', icon: Info, color: '#E6005A' },
+  { id: 'cat-settings', title: 'Cài đặt hệ thống (Settings)', route: '/settings', icon: SettingsIcon, color: '#E6005A' },
 ];
 
 const TOOLBOX_ITEMS = [
@@ -181,7 +181,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
             className="relative w-full max-w-[380px] sm:max-w-[440px] bg-[#1A1A20] rounded-[28px] p-4 sm:p-5 shadow-2xl overflow-hidden z-10"
           >
             {/* Capsule Pill Search Input Bar */}
-            <div className="w-full h-[46px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box text-sm transition-all focus-within:ring-1 focus-within:ring-white/40 spotlight-input-container">
+            <div className="w-full h-[46px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box text-sm transition-all spotlight-input-container">
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
                   <img
@@ -240,7 +240,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                 {/* 1. Channels */}
                 {matchedChannels.length > 0 && (
                   <div className="space-y-1">
-                    <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#DF37EE] flex items-center gap-1.5">
+                    <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#E6005A] flex items-center gap-1.5">
                       <Tv className="w-3 h-3" />
                       <span>Kênh truyền hình ({matchedChannels.length})</span>
                     </div>
@@ -264,7 +264,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                             />
                           </div>
                           <div className="min-w-0">
-                            <div className="text-xs font-bold text-white group-hover:text-[#DF37EE] truncate">
+                            <div className="text-xs font-bold text-white group-hover:text-[#E6005A] truncate">
                               {ch.name}
                             </div>
                             <div className="text-[10px] text-[#9CA3AF] truncate">
@@ -272,7 +272,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                             </div>
                           </div>
                         </div>
-                        <div className="w-7 h-7 rounded-full bg-[#2F2F3A] group-hover:bg-[#DF37EE] flex items-center justify-center text-white shrink-0 transition-colors">
+                        <div className="w-7 h-7 rounded-full bg-[#2F2F3A] group-hover:bg-[#E6005A] flex items-center justify-center text-white shrink-0 transition-colors">
                           <Play className="w-3 h-3 fill-current ml-0.5" />
                         </div>
                       </div>
@@ -364,7 +364,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                 {/* 5. Settings Shortcuts */}
                 {matchedSettings.length > 0 && (
                   <div className="space-y-1">
-                    <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#C084FC] flex items-center gap-1.5">
+                    <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#FF4D4D] flex items-center gap-1.5">
                       <SettingsIcon className="w-3 h-3" />
                       <span>Cài đặt ({matchedSettings.length})</span>
                     </div>
@@ -378,7 +378,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                         className="flex items-center gap-2.5 p-2 rounded-[14px] bg-[#22222A] hover:bg-[#2C2C36] cursor-pointer transition-colors"
                       >
                         <div className="w-7 h-7 rounded-lg bg-[#2E2E38] flex items-center justify-center shrink-0">
-                          <SettingsIcon className="w-4 h-4 text-[#C084FC]" />
+                          <SettingsIcon className="w-4 h-4 text-[#FF4D4D]" />
                         </div>
                         <span className="text-xs font-medium text-white truncate">{st.title}</span>
                       </div>

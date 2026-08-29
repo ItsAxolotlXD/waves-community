@@ -24,12 +24,10 @@
 
 @layer base {
   :root {
-    --primary-purple: #C83DFF;
-    --solid-dark-purple: #381E72;
-    --solid-red: #E50914;
-    --deep-purple: #7B2CBF;
-    --magenta: #F000FF;
-    --accent-red: #FF2020;
+    --primary-red: #E6005A;
+    --solid-red: #E6005A;
+    --accent-red: #FF267A;
+    --dark-red: #B30046;
     --dark-bg: #141416;
     --sidebar-bg: #222227;
     --card-bg: #222226;
@@ -57,9 +55,7 @@ html.light-mode body {
   color: #111827 !important;
 }
 
-/* Sidebar & Header Brand Logo & Search Monochrome Filter */
-html.light-mode .sidebar-brand-logo,
-html.light-mode .topbar-brand-logo,
+/* Header & Search Monochrome Filter */
 html.light-mode .topbar-search-icon,
 html.light-mode .sidebar-nav-home-icon,
 html.light-mode #btn-top-search img,
@@ -71,8 +67,6 @@ html.light-mode #dock-spotlight-btn img {
   opacity: 0.85 !important;
 }
 
-html:not(.light-mode) .sidebar-brand-logo,
-html:not(.light-mode) .topbar-brand-logo,
 html:not(.light-mode) .topbar-search-icon,
 html:not(.light-mode) .sidebar-nav-home-icon,
 html:not(.light-mode) #btn-top-search img,
@@ -128,8 +122,8 @@ html.light-mode #waves-mobile-sidebar hr {
   border-color: #E5E7EB !important;
 }
 
-html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#DF37EE\]):hover,
-html.light-mode #waves-mobile-sidebar button:not(.bg-\[\#DF37EE\]):hover {
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover,
+html.light-mode #waves-mobile-sidebar button:not(.bg-\[\#E6005A\]):hover {
   background-color: #F1F3F5 !important;
   color: #111827 !important;
 }
@@ -152,10 +146,18 @@ html.light-mode #btn-sidebar-back:hover {
 }
 
 /* Light Mode Settings Page */
-html.light-mode #settings-search-input {
-  background-color: #FFFFFF !important;
-  border-color: #D1D5DB !important;
+html.light-mode #settings-search-input,
+html.light-mode .spotlight-bubble-box input,
+html.light-mode .search-box-capsule input {
+  background-color: transparent !important;
+  border: none !important;
   color: #111827 !important;
+  box-shadow: none !important;
+}
+html.light-mode #settings-search-input::placeholder,
+html.light-mode .spotlight-bubble-box input::placeholder,
+html.light-mode .search-box-capsule input::placeholder {
+  color: #6B7280 !important;
 }
 html.light-mode #settings-section-interface,
 html.light-mode #settings-section-accessibility,
@@ -179,18 +181,19 @@ html.light-mode #settings-section-search hr {
   border-color: #E2E8F0 !important;
 }
 
-
-/* Spotlight search on sidebar & modals - Bubble Capsule style with clean borders and no outer shadow */
-.spotlight-bubble-box {
+/* Search Box Container Capsule Style - Only outer box gets thick red focus border */
+.spotlight-bubble-box,
+.search-box-capsule {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%), #27272D;
   border: 1.5px solid rgba(255, 255, 255, 0.18);
   border-top-color: rgba(255, 255, 255, 0.35);
   border-bottom-color: rgba(255, 255, 255, 0.15);
   box-shadow: none;
-  transition: all 0.25s ease-in-out;
+  transition: border 0.18s ease-in-out, box-shadow 0.18s ease-in-out, background 0.18s ease-in-out;
 }
 
-.spotlight-bubble-box:hover {
+.spotlight-bubble-box:hover,
+.search-box-capsule:hover {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.03) 100%), #2E2E36;
   border-color: rgba(255, 255, 255, 0.32);
   border-top-color: rgba(255, 255, 255, 0.52);
@@ -198,15 +201,30 @@ html.light-mode #settings-section-search hr {
   box-shadow: none;
 }
 
-.spotlight-bubble-box:focus-within {
+/* THICK FOCUS BORDER ON SEARCH BOX CONTAINER ONLY (3px Solid Reddish Magenta) */
+.spotlight-bubble-box:focus-within,
+.search-box-capsule:focus-within {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%), #32323B;
-  border-color: rgba(255, 255, 255, 0.42);
-  border-top-color: rgba(255, 255, 255, 0.7);
-  border-bottom-color: rgba(255, 255, 255, 0.35);
-  box-shadow: none;
+  border: 3px solid #E6005A !important;
+  box-shadow: 0 0 0 3px rgba(230, 0, 90, 0.25), 0 4px 16px rgba(230, 0, 90, 0.15) !important;
 }
 
-html.light-mode .spotlight-bubble-box {
+/* Inner input inside search boxes NEVER gets focus border/ring */
+.spotlight-bubble-box input,
+.spotlight-bubble-box input:focus,
+.search-box-capsule input,
+.search-box-capsule input:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  ring: 0 !important;
+  --tw-ring-shadow: none !important;
+  --tw-ring-offset-shadow: none !important;
+  background-color: transparent !important;
+}
+
+html.light-mode .spotlight-bubble-box,
+html.light-mode .search-box-capsule {
   background: #F1F3F6 !important;
   border: 1.5px solid rgba(0, 0, 0, 0.12) !important;
   border-top-color: rgba(255, 255, 255, 0.9) !important;
@@ -214,11 +232,19 @@ html.light-mode .spotlight-bubble-box {
   box-shadow: none !important;
 }
 
-html.light-mode .spotlight-bubble-box:hover {
+html.light-mode .spotlight-bubble-box:hover,
+html.light-mode .search-box-capsule:hover {
   background: #E8EBEF !important;
   border-color: rgba(0, 0, 0, 0.2) !important;
   border-top-color: #FFFFFF !important;
   box-shadow: none !important;
+}
+
+html.light-mode .spotlight-bubble-box:focus-within,
+html.light-mode .search-box-capsule:focus-within {
+  background: #FFFFFF !important;
+  border: 3px solid #E6005A !important;
+  box-shadow: 0 0 0 3px rgba(230, 0, 90, 0.2), 0 4px 16px rgba(230, 0, 90, 0.1) !important;
 }
 
 /* Spotlight search on sidebar */
@@ -239,24 +265,21 @@ html.light-mode .sidebar-search-btn:hover svg {
 }
 
 /* Sidebar tabs hover and active states */
-html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#DF37EE\]):not(.bg-\[\#E50914\]):hover {
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover {
   background-color: #F1F3F5 !important;
   color: #111827 !important;
 }
-html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#DF37EE\]):not(.bg-\[\#E50914\]):hover span,
-html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#DF37EE\]):not(.bg-\[\#E50914\]):hover svg {
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover span,
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover svg {
   color: #111827 !important;
 }
 
-html.light-mode #waves-desktop-sidebar .bg-\[\#DF37EE\],
-html.light-mode #waves-desktop-sidebar .bg-\[\#E50914\] {
-  background-color: #DF37EE !important;
+html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] {
+  background-color: #E6005A !important;
   color: #FFFFFF !important;
 }
-html.light-mode #waves-desktop-sidebar .bg-\[\#DF37EE\] span,
-html.light-mode #waves-desktop-sidebar .bg-\[\#DF37EE\] svg,
-html.light-mode #waves-desktop-sidebar .bg-\[\#E50914\] span,
-html.light-mode #waves-desktop-sidebar .bg-\[\#E50914\] svg {
+html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] span,
+html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] svg {
   color: #FFFFFF !important;
 }
 
@@ -410,6 +433,26 @@ html.light-mode #hero-carousel-container p {
   color: #374151 !important;
 }
 
+/* Light mode Director Badge on Hero Banner */
+html.light-mode .hero-director-badge {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light-mode .hero-director-label {
+  color: #6B7280 !important;
+}
+
+html.light-mode .hero-director-name {
+  color: #111827 !important;
+}
+
+/* Hero Banner Channel Logo in Light Mode - Subtle, clean shadow instead of heavy dark halo */
+html.light-mode .hero-banner-channel-logo {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.12)) brightness(1) !important;
+}
+
 html.light-mode #hero-carousel-container .hero-badge-channel {
   background-color: rgba(255, 255, 255, 0.9) !important;
   border-color: #E2E8F0 !important;
@@ -434,14 +477,14 @@ html.light-mode #hero-carousel-container #btn-hero-next:hover {
 }
 
 html.light-mode #btn-hero-watch-now {
-  background-color: #CEBEFE !important;
-  color: #2E1065 !important;
+  background-color: #E6005A !important;
+  color: #FFFFFF !important;
 }
 
 html.light-mode #btn-hero-watch-now span,
 html.light-mode #btn-hero-watch-now svg {
-  color: #2E1065 !important;
-  fill: #2E1065 !important;
+  color: #FFFFFF !important;
+  fill: #FFFFFF !important;
 }
 
 /* Spotlight Compact Popover in Light Mode */
@@ -533,7 +576,7 @@ html.light-mode #custom-stream-dialog textarea {
 
 html.light-mode #custom-stream-dialog input:focus,
 html.light-mode #custom-stream-dialog textarea:focus {
-  border-color: #A855F7 !important;
+  border-color: #E6005A !important;
   background-color: #FFFFFF !important;
 }
 
@@ -563,6 +606,32 @@ html.light-mode #under-construction-dialog {
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18) !important;
 }
 
+/* Welcome Modal in Light Mode */
+html.light-mode #welcome-modal-dialog {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18) !important;
+}
+
+html.light-mode #welcome-modal-title {
+  color: #111827 !important;
+}
+
+html.light-mode #welcome-modal-description {
+  color: #4B5563 !important;
+}
+
+html.light-mode #btn-welcome-close-icon {
+  background-color: #F1F3F5 !important;
+  color: #4B5563 !important;
+}
+
+html.light-mode #btn-welcome-close-icon:hover {
+  background-color: #E5E7EB !important;
+  color: #111827 !important;
+}
+
 html.light-mode #under-construction-title {
   color: #111827 !important;
 }
@@ -579,13 +648,13 @@ html.light-mode #under-construction-dialog input {
 
 html.light-mode #under-construction-dialog input:focus {
   background-color: #FFFFFF !important;
-  border-color: #A855F7 !important;
+  border-color: #E6005A !important;
   color: #111827 !important;
 }
 
 html.light-mode #btn-enter-password {
-  background-color: #CEBEFE !important;
-  color: #2E1065 !important;
+  background-color: #FEE2E2 !important;
+  color: #991B1B !important;
 }
 
 /* Theme Segmented Box in Settings */
@@ -594,11 +663,11 @@ html.light-mode .theme-segmented-box {
   border-color: #E5E7EB !important;
 }
 
-html.light-mode .theme-segmented-box button:not(.bg-\[\#A855F7\]) {
+html.light-mode .theme-segmented-box button:not(.bg-\[\#E6005A\]) {
   color: #4B5563 !important;
 }
 
-html.light-mode .theme-segmented-box button:not(.bg-\[\#A855F7\]):hover {
+html.light-mode .theme-segmented-box button:not(.bg-\[\#E6005A\]):hover {
   color: #111827 !important;
 }
 
@@ -618,13 +687,13 @@ html.light-mode #dock-spotlight-btn:hover {
   background-color: rgba(0, 0, 0, 0.06) !important;
 }
 
-html.light-mode .fixed.bottom-5 button:not(.bg-\[\#DF37EE\]),
-html.light-mode .fixed.bottom-4 button:not(.bg-\[\#DF37EE\]) {
+html.light-mode .fixed.bottom-5 button:not(.bg-\[\#E6005A\]),
+html.light-mode .fixed.bottom-4 button:not(.bg-\[\#E6005A\]) {
   color: #4B5563 !important;
 }
 
-html.light-mode .fixed.bottom-5 button:not(.bg-\[\#DF37EE\]):hover,
-html.light-mode .fixed.bottom-4 button:not(.bg-\[\#DF37EE\]):hover {
+html.light-mode .fixed.bottom-5 button:not(.bg-\[\#E6005A\]):hover,
+html.light-mode .fixed.bottom-4 button:not(.bg-\[\#E6005A\]):hover {
   color: #111827 !important;
   background-color: rgba(0, 0, 0, 0.06) !important;
 }
@@ -644,7 +713,7 @@ html.light-mode .settings-slider-capsule .shadow-\[0_2px_10px_rgba\(0\,0\,0\,0\.
 }
 
 /* Settings Deactivated Switches & Checkboxes in Light Mode */
-html.light-mode button[role="switch"]:not(.bg-\[\#A855F7\]) {
+html.light-mode button[role="switch"]:not(.bg-\[\#E6005A\]) {
   background-color: #E4E4E7 !important;
 }
 
@@ -662,7 +731,16 @@ html.light-mode #settings-section-search .bg-\[\#24242A\] {
 html.light-mode #settings-section-interface > div:first-child svg,
 html.light-mode #settings-section-accessibility > div:first-child svg,
 html.light-mode #settings-section-search > div:first-child svg {
-  color: #9333EA !important;
+  color: #E6005A !important;
+}
+
+/* Global Form Controls (Checkboxes, Switches, Sliders) */
+input[type="checkbox"] {
+  accent-color: #E6005A !important;
+}
+
+input[type="range"] {
+  accent-color: #E6005A !important;
 }
 
 /* Modal Dialog Zoom Ease In / Ease Out Animations */
@@ -707,41 +785,47 @@ html.light-mode #settings-section-search > div:first-child svg {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(200, 61, 255, 0.25);
+  background: rgba(230, 0, 90, 0.35);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(200, 61, 255, 0.5);
+  background: rgba(230, 0, 90, 0.65);
 }
 
 /* Text Gradients */
+.text-gradient-red {
+  background: linear-gradient(135deg, #FF267A 0%, #E6005A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .text-gradient-red-magenta {
-  background: linear-gradient(135deg, #FF2020 0%, #F000FF 100%);
+  background: linear-gradient(135deg, #FF4D8B 0%, #E6005A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-purple {
-  background: linear-gradient(135deg, #C83DFF 0%, #F000FF 100%);
+  background: linear-gradient(135deg, #FF267A 0%, #E6005A 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .bg-gradient-purple-active {
-  background: linear-gradient(90deg, #C83DFF 0%, #D846EF 100%);
+  background: linear-gradient(90deg, #E6005A 0%, #B30046 100%) !important;
 }
 
 .bg-gradient-red-magenta {
-  background: linear-gradient(90deg, #FF2020 0%, #F000FF 100%);
+  background: linear-gradient(90deg, #FF267A 0%, #E6005A 100%);
 }
 
 .glow-purple {
-  box-shadow: 0 0 25px rgba(200, 61, 255, 0.35);
+  box-shadow: 0 0 25px rgba(230, 0, 90, 0.35);
 }
 
 .glow-purple-sm {
-  box-shadow: 0 0 12px rgba(200, 61, 255, 0.25);
+  box-shadow: 0 0 12px rgba(230, 0, 90, 0.25);
 }
 
 /* Hide scrollbar for clean scrolling across sidebar and components */

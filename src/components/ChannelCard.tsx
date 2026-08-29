@@ -23,8 +23,8 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
       onClick={() => onSelect(channel)}
       className={`group relative rounded-[28px] bg-[#1E1E22] border transition-all duration-300 overflow-hidden cursor-pointer hover:scale-[1.02] ${
         isActive
-          ? 'border-[#C83DFF] glow-purple bg-[#25252C]'
-          : 'border-[#2D2D35] hover:border-[#C83DFF]/60 hover:bg-[#26262D]'
+          ? 'border-[#E50914] glow-purple bg-[#25252C]'
+          : 'border-[#2D2D35] hover:border-[#E50914]/60 hover:bg-[#26262D]'
       }`}
     >
       {/* Top Banner / Logo Area */}
@@ -92,7 +92,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
       {/* Card Info Content */}
       <div className="p-4 pt-3">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="text-sm font-bold text-white group-hover:text-[#C83DFF] transition-colors truncate">
+          <h3 className="text-sm font-bold text-white group-hover:text-[#E50914] transition-colors truncate">
             {channel.name}
           </h3>
           <span className="text-[11px] font-medium text-[#8E8E93] shrink-0">
@@ -114,7 +114,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
           {/* Progress bar */}
           <div className="w-full bg-[#2A2A32] h-1.5 rounded-full overflow-hidden">
             <div
-              className="bg-gradient-to-r from-[#FF2020] to-[#C83DFF] h-full rounded-full"
+              className="bg-gradient-to-r from-[#FF2020] to-[#E50914] h-full rounded-full"
               style={{ width: `${channel.currentProgram?.progress || 50}%` }}
             />
           </div>

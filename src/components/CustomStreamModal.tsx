@@ -138,7 +138,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between p-6 pb-4 border-b border-[#2C2C34]">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-2xl bg-[#CEBEFE]/20 text-[#CEBEFE] flex items-center justify-center border border-[#CEBEFE]/30">
+                <div className="w-9 h-9 rounded-2xl bg-[#E6005A]/20 text-[#E6005A] flex items-center justify-center border border-[#E6005A]/30">
                   <Radio className="w-5 h-5" />
                 </div>
                 <div>
@@ -165,7 +165,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                 onClick={() => setActiveTab('single')}
                 className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   activeTab === 'single'
-                    ? 'bg-[#381E72] text-white shadow-md'
+                    ? 'bg-[#E6005A] text-white shadow-md'
                     : 'text-[#9CA3AF] hover:text-white'
                 }`}
               >
@@ -176,7 +176,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                 onClick={() => setActiveTab('playlist')}
                 className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   activeTab === 'playlist'
-                    ? 'bg-[#381E72] text-white shadow-md'
+                    ? 'bg-[#E6005A] text-white shadow-md'
                     : 'text-[#9CA3AF] hover:text-white'
                 }`}
               >
@@ -197,13 +197,13 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                       value={channelName}
                       onChange={(e) => setChannelName(e.target.value)}
                       placeholder="Ví dụ: VTV1 HD Nguồn Phụ"
-                      className="w-full px-4 py-3 rounded-full bg-[#141318] border border-[#2D2D36] text-white text-sm focus:outline-none focus:border-[#CEBEFE]"
+                      className="w-full px-4 py-3 rounded-full bg-[#141318] border border-[#2D2D36] text-white text-sm focus:outline-none focus:border-[#E6005A]"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-semibold text-[#D1D5DB] mb-1.5">
-                      Đường dẫn HLS Stream URL (.m3u8) <span className="text-[#FF2020]">*</span>
+                      Đường dẫn HLS Stream URL (.m3u8) <span className="text-[#FF267A]">*</span>
                     </label>
                     <input
                       type="url"
@@ -211,7 +211,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                       value={streamUrl}
                       onChange={(e) => setStreamUrl(e.target.value)}
                       placeholder="https://example.com/live/channel.m3u8"
-                      className="w-full px-4 py-3 rounded-full bg-[#141318] border border-[#2D2D36] text-white text-sm focus:outline-none focus:border-[#CEBEFE]"
+                      className="w-full px-4 py-3 rounded-full bg-[#141318] border border-[#2D2D36] text-white text-sm focus:outline-none focus:border-[#E6005A]"
                     />
                   </div>
 
@@ -247,7 +247,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="w-full py-4 rounded-full bg-[#CEBEFE] text-[#2E1065] text-base font-bold flex items-center justify-center gap-2 hover:bg-[#DBCFFF] active:scale-[0.98] transition-all shadow-md cursor-pointer"
+                      className="w-full py-4 rounded-full bg-[#E6005A] text-white text-base font-bold flex items-center justify-center gap-2 hover:bg-[#FF267A] active:scale-[0.98] transition-all shadow-md cursor-pointer"
                     >
                       <Play className="w-4 h-4 fill-current ml-0.5" />
                       <span>Phát Ngay Trên Player</span>
@@ -264,7 +264,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                       <button
                         type="button"
                         onClick={handleLoadSample}
-                        className="text-[11px] text-[#CEBEFE] hover:underline cursor-pointer"
+                        className="text-[11px] text-[#E6005A] hover:underline cursor-pointer font-semibold"
                       >
                         Nạp playlist mẫu
                       </button>
@@ -274,7 +274,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                       value={playlistText}
                       onChange={(e) => setPlaylistText(e.target.value)}
                       placeholder={`#EXTM3U\n#EXTINF:-1 tvg-id="vtv1" tvg-name="VTV1 HD" group-title="VTV", VTV1 HD\nhttps://example.com/vtv1.m3u8`}
-                      className="w-full p-3.5 rounded-2xl bg-[#141318] border border-[#2D2D36] text-white text-xs font-mono focus:outline-none focus:border-[#CEBEFE] resize-none"
+                      className="w-full p-3.5 rounded-2xl bg-[#141318] border border-[#2D2D36] text-white text-xs font-mono focus:outline-none focus:border-[#E6005A] resize-none"
                     />
                   </div>
 
@@ -288,7 +288,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                   <button
                     type="button"
                     onClick={handleImportM3U}
-                    className="w-full py-4 rounded-full bg-[#CEBEFE] text-[#2E1065] text-base font-bold flex items-center justify-center gap-2 hover:bg-[#DBCFFF] active:scale-[0.98] transition-all shadow-md cursor-pointer"
+                    className="w-full py-4 rounded-full bg-[#E6005A] text-white text-base font-bold flex items-center justify-center gap-2 hover:bg-[#FF267A] active:scale-[0.98] transition-all shadow-md cursor-pointer"
                   >
                     <Upload className="w-4 h-4" />
                     <span>Nhập Toàn Bộ Kênh Vào Danh Sách</span>

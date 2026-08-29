@@ -64,9 +64,9 @@ export const Channels: React.FC<ChannelsProps> = ({
             <button
               key={grp}
               onClick={() => setSelectedGroup(grp)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 selectedGroup === grp
-                  ? 'bg-[#C83DFF] text-white shadow-md'
+                  ? 'bg-[#DF37EE] text-white shadow-md'
                   : 'bg-[#141416] text-[#A1A1AA] hover:text-white border border-[#2D2D35]'
               }`}
             >
@@ -83,7 +83,7 @@ export const Channels: React.FC<ChannelsProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Tìm kiếm kênh truyền hình..."
-            className="w-full pl-10 pr-4 py-2 rounded-full bg-[#141416] border border-[#34343C] text-xs text-white placeholder-[#8E8E93] focus:outline-none focus:border-[#C83DFF]"
+            className="w-full pl-10 pr-4 py-2 rounded-full bg-[#141416] border border-[#34343C] text-xs text-white placeholder-[#8E8E93] focus:outline-none focus:border-[#DF37EE]"
           />
         </div>
       </div>

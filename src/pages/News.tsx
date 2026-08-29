@@ -49,15 +49,17 @@ export const News: React.FC<NewsProps> = ({ navigate }) => {
         </div>
 
         {/* Search */}
-        <div className="relative w-full sm:w-72">
-          <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-[#8E8E93]" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm bài viết..."
-            className="w-full pl-10 pr-4 py-2 rounded-full bg-[#1E1E22] border border-[#34343C] text-xs text-white placeholder-[#8E8E93] focus:outline-none focus:border-[#C83DFF]"
-          />
+        <div className="relative w-full sm:w-72 search-box-capsule rounded-full transition-all">
+          <div className="flex items-center px-3 py-1.5 w-full">
+            <Search className="w-4 h-4 text-[#8E8E93] shrink-0 mr-2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Tìm kiếm bài viết..."
+              className="w-full bg-transparent text-xs text-white placeholder-[#8E8E93] focus:outline-none"
+            />
+          </div>
         </div>
       </div>
 
@@ -65,7 +67,7 @@ export const News: React.FC<NewsProps> = ({ navigate }) => {
       {featured && selectedCategory === 'Tất cả' && !searchQuery && (
         <div
           onClick={() => navigate(`/news/${featured.slug}`)}
-          className="relative rounded-[30px] overflow-hidden bg-[#1E1E22] border border-[#2D2D35] hover:border-[#C83DFF]/60 cursor-pointer group shadow-2xl transition-all"
+          className="relative rounded-[30px] overflow-hidden bg-[#1E1E22] border border-[#2D2D35] hover:border-[#E50914]/60 cursor-pointer group shadow-2xl transition-all"
         >
           <div className="grid grid-cols-1 md:grid-cols-12 min-h-[360px]">
             {/* Image */}
@@ -85,10 +87,10 @@ export const News: React.FC<NewsProps> = ({ navigate }) => {
             {/* Content */}
             <div className="md:col-span-5 p-6 md:p-8 flex flex-col justify-between">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#C83DFF]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#E50914]">
                   {featured.category}
                 </span>
-                <h2 className="text-xl md:text-2xl font-extrabold text-white mt-2 group-hover:text-[#C83DFF] transition-colors leading-tight">
+                <h2 className="text-xl md:text-2xl font-extrabold text-white mt-2 group-hover:text-[#E50914] transition-colors leading-tight">
                   {featured.title}
                 </h2>
                 <p className="text-xs md:text-sm text-[#9CA3AF] mt-3 leading-relaxed line-clamp-3">

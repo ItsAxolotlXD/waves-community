@@ -115,7 +115,7 @@ export const UnderConstructionModal: React.FC<UnderConstructionModalProps> = ({
       {isOpen && (
         <div
           id="under-construction-container"
-          className="fixed inset-0 z-9999 flex items-center justify-center p-4 sm:p-6 selection:bg-[#C83DFF] selection:text-white"
+          className="fixed inset-0 z-9999 flex items-center justify-center p-4 sm:p-6 selection:bg-[#E6005A] selection:text-white"
         >
           {/* 1. Backdrop / Lớp nền mờ */}
           <motion.div
@@ -187,8 +187,8 @@ export const UnderConstructionModal: React.FC<UnderConstructionModalProps> = ({
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     className={`w-11 h-14 sm:w-14 sm:h-16 text-center text-xl sm:text-2xl font-bold bg-[#141318] border rounded-[20px] transition-all outline-none ${
                       digit
-                        ? 'border-[#CEBEFE] text-white bg-[#222129]'
-                        : 'border-[#2D2D36] text-[#E0E0E6] focus:border-[#CEBEFE] focus:bg-[#201F26]'
+                        ? 'border-[#E6005A] text-white bg-[#222129]'
+                        : 'border-[#2D2D36] text-[#E0E0E6] focus:border-[#E6005A] focus:bg-[#201F26]'
                     }`}
                     autoComplete="off"
                   />
@@ -218,7 +218,7 @@ export const UnderConstructionModal: React.FC<UnderConstructionModalProps> = ({
                 type="button"
                 id="btn-enter-password"
                 onClick={handleVerifyPassword}
-                className="w-full py-4 px-6 rounded-full font-bold text-[#2E1065] bg-[#CEBEFE] hover:bg-[#DBCFFF] active:scale-[0.98] transition-all text-base sm:text-[17px] cursor-pointer flex items-center justify-center shadow-md tracking-tight"
+                className="w-full py-4 px-6 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-base sm:text-[17px] cursor-pointer flex items-center justify-center shadow-md tracking-tight"
               >
                 Enter password
               </button>

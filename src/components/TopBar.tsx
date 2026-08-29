@@ -38,7 +38,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         <button
           id="btn-mobile-menu-toggle"
           onClick={onOpenMobileMenu}
-          className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-white bg-transparent hover:text-[#E50914] transition-colors cursor-pointer"
+          className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-white bg-transparent hover:text-[#E6005A] transition-colors cursor-pointer"
           aria-label="Mở menu điều hướng"
         >
           <Menu className="w-5 h-5" />
@@ -48,21 +48,22 @@ export const TopBar: React.FC<TopBarProps> = ({
           onClick={() => navigate('/')}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <div className="w-8 h-8 flex items-center justify-center overflow-hidden">
+          <div className="h-8 flex items-center justify-center overflow-hidden">
             {!logoError ? (
               <img 
-                src="https://static.wikia.nocookie.net/ep-deo/images/7/72/Monochrom.png/revision/latest?cb=20260825072411" 
-                alt="Waves Logo" 
-                className="w-5 h-5 object-contain topbar-brand-logo"
+                src={isLightMode 
+                  ? "https://static.wikia.nocookie.net/ep-deo/images/f/f3/Vplay_light_mode.png/revision/latest/scale-to-width-down/1000?cb=20260829062448"
+                  : "https://static.wikia.nocookie.net/ep-deo/images/f/f8/Vpla.png/revision/latest/scale-to-width-down/1000?cb=20260829062528"
+                } 
+                alt="Vplay Logo" 
+                referrerPolicy="no-referrer"
+                className="h-7 w-auto max-w-[120px] object-contain"
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <span className="text-[#E50914] font-black text-sm">W</span>
+              <span className="text-[#E6005A] font-black text-sm">V</span>
             )}
           </div>
-          <span className="font-bold text-sm tracking-tight text-[#18181B] dark:text-white">
-            Waves <span className="text-[#E50914]">Community</span>
-          </span>
         </div>
       </div>
 
@@ -98,7 +99,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             title="Thông báo cộng đồng"
           >
             <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#E50914]" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#E6005A]" />
           </button>
 
           {/* Notification dropdown */}
@@ -106,7 +107,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#FFFFFF] dark:bg-[#222226] border border-[#E5E7EB] dark:border-[#36363E] p-3 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200 topbar-notification-box">
               <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#F3F4F6] dark:border-[#303036] topbar-notification-header">
                 <span className="text-xs font-bold text-[#111827] dark:text-white uppercase tracking-wider">Thông báo phát sóng</span>
-                <span className="text-[10px] text-[#E50914] font-medium cursor-pointer hover:underline">Đã đọc tất cả</span>
+                <span className="text-[10px] text-[#E6005A] font-medium cursor-pointer hover:underline">Đã đọc tất cả</span>
               </div>
               <div className="space-y-2">
                 {notifications.map((n) => (
@@ -120,7 +121,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                   >
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-[#111827] dark:text-white font-medium leading-snug">{n.title}</p>
-                      {n.unread && <span className="w-1.5 h-1.5 rounded-full bg-[#E50914] shrink-0 mt-1" />}
+                      {n.unread && <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] shrink-0 mt-1" />}
                     </div>
                     <span className="text-[10px] text-[#6B7280] dark:text-[#8E8E93] mt-1 block">{n.time}</span>
                   </div>

@@ -156,7 +156,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         <div className="flex items-center gap-2 md:gap-3">
           {/* Viewers Counter */}
           <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-xs text-[#D1D5DB]">
-            <Eye className="w-3.5 h-3.5 text-[#C83DFF]" />
+            <Eye className="w-3.5 h-3.5 text-[#E50914]" />
             <span className="font-semibold">{channel.viewers?.toLocaleString() || '14,280'}</span>
             <span className="text-[10px] text-[#9CA3AF]">đang xem</span>
           </div>
@@ -185,7 +185,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       {/* Buffering & Loading Spinner */}
       {(isLoading || isBuffering) && !error && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] z-10 pointer-events-none">
-          <div className="w-12 h-12 rounded-full border-3 border-[#C83DFF]/20 border-t-[#C83DFF] animate-spin mb-3 glow-purple" />
+          <div className="w-12 h-12 rounded-full border-3 border-[#E50914]/20 border-t-[#E50914] animate-spin mb-3 glow-purple" />
           <span className="text-xs font-medium text-white/90 tracking-wide bg-black/60 px-3 py-1 rounded-full border border-white/10">
             {isLoading ? 'Đang kết nối luồng phát sóng HLS...' : 'Đang nạp bộ đệm (Buffering)...'}
           </span>
@@ -219,7 +219,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
                 onClick={onOpenCustomStreamModal}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#2A2A30] hover:bg-[#34343E] border border-[#3E3E48] text-white text-xs font-medium transition-colors"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#C83DFF]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#E50914]" />
                 <span>Dán URL M3U8 Khác</span>
               </button>
             )}
@@ -233,7 +233,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           onClick={togglePlay}
           className="absolute inset-0 flex items-center justify-center z-15 cursor-pointer group"
         >
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-r from-[#C83DFF] to-[#D846EF] flex items-center justify-center text-white shadow-2xl glow-purple transform group-hover:scale-110 transition-transform">
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-r from-[#FF2020] to-[#E50914] flex items-center justify-center text-white shadow-2xl glow-purple transform group-hover:scale-110 transition-transform">
             <Play className="w-8 h-8 fill-current ml-1" />
           </div>
         </div>
@@ -251,7 +251,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             {/* Play/Pause */}
             <button
               onClick={togglePlay}
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#C83DFF] text-white flex items-center justify-center transition-colors"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#E50914] text-white flex items-center justify-center transition-colors"
               aria-label={isPlaying ? 'Tạm dừng' : 'Phát'}
             >
               {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
@@ -283,7 +283,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
                 step="0.05"
                 value={isMuted ? 0 : volume}
                 onChange={(e) => changeVolume(parseFloat(e.target.value))}
-                className="w-16 sm:w-20 h-1 bg-[#3A3A42] accent-[#C83DFF] rounded-lg cursor-pointer"
+                className="w-16 sm:w-20 h-1 bg-[#3A3A42] accent-[#E50914] rounded-lg cursor-pointer"
               />
             </div>
           </div>
@@ -296,7 +296,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
                 onClick={() => setShowQualityMenu(!showQualityMenu)}
                 className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#26262C] hover:bg-[#34343E] border border-white/15 text-xs text-white font-medium transition-colors"
               >
-                <Settings className="w-3.5 h-3.5 text-[#C83DFF]" />
+                <Settings className="w-3.5 h-3.5 text-[#E50914]" />
                 <span>
                   {currentQuality === -1 
                     ? 'Tự động' 
@@ -315,7 +315,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
                       setShowQualityMenu(false);
                     }}
                     className={`w-full text-left px-2.5 py-1.5 rounded-xl text-xs flex items-center justify-between ${
-                      currentQuality === -1 ? 'bg-[#C83DFF] text-white font-bold' : 'text-[#D1D5DB] hover:bg-[#2A2A32]'
+                      currentQuality === -1 ? 'bg-[#E50914] text-white font-bold' : 'text-[#D1D5DB] hover:bg-[#2A2A32]'
                     }`}
                   >
                     <span>Tự động (Auto)</span>
@@ -328,7 +328,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
                         setShowQualityMenu(false);
                       }}
                       className={`w-full text-left px-2.5 py-1.5 rounded-xl text-xs flex items-center justify-between ${
-                        currentQuality === q.id ? 'bg-[#C83DFF] text-white font-bold' : 'text-[#D1D5DB] hover:bg-[#2A2A32]'
+                        currentQuality === q.id ? 'bg-[#E50914] text-white font-bold' : 'text-[#D1D5DB] hover:bg-[#2A2A32]'
                       }`}
                     >
                       <span>{q.label}</span>

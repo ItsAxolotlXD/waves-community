@@ -88,21 +88,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Top Header: Clock + Monochrome Logo + Close/Collapse Button */}
       <div className="px-5 pt-5 pb-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3.5 pl-1.5">
-          {/* Monochrome Logo without background (Black in Light Mode, White in Dark Mode) */}
+          {/* Brand Logo (Dark mode logo vs Light mode logo) */}
           <div 
             onClick={() => handleNavClick('/')} 
-            className="cursor-pointer flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
-            title="Waves Community"
+            className="cursor-pointer flex items-center justify-center p-0 hover:opacity-85 transition-opacity"
+            title="Vplay"
           >
             {!logoError ? (
               <img 
-                src="https://static.wikia.nocookie.net/ep-deo/images/7/72/Monochrom.png/revision/latest?cb=20260825072411" 
-                alt="Waves Logo" 
-                className="w-8 h-8 object-contain sidebar-brand-logo"
+                src={settings.theme === 'light'
+                  ? "https://static.wikia.nocookie.net/ep-deo/images/f/f3/Vplay_light_mode.png/revision/latest/scale-to-width-down/1000?cb=20260829062448"
+                  : "https://static.wikia.nocookie.net/ep-deo/images/f/f8/Vpla.png/revision/latest/scale-to-width-down/1000?cb=20260829062528"
+                } 
+                alt="Vplay Logo" 
+                referrerPolicy="no-referrer"
+                className="h-8 max-w-[125px] w-auto object-contain shrink-0"
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <span className="text-white dark:text-white light:text-[#111827] font-black text-2xl tracking-tighter">W</span>
+              <span className="text-white dark:text-white light:text-[#111827] font-black text-2xl tracking-tighter">V</span>
             )}
           </div>
 
@@ -144,7 +148,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           id={isMobile ? 'btn-mobile-spotlight-search' : 'btn-spotlight-search'}
           onClick={handleSpotlightClick}
-          className="w-full h-[44px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box text-left text-sm text-[#A1A1AA] hover:text-white transition-all group cursor-pointer"
+          className="w-full h-[46px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box spotlight-input-container text-left text-sm text-[#8E8E93] hover:text-white transition-all group cursor-pointer"
         >
           <div className="flex items-center gap-3 min-w-0 truncate">
             <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
@@ -152,13 +156,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
                 alt="Search"
                 referrerPolicy="no-referrer"
-                className="w-full h-full aspect-square object-contain brightness-0 invert opacity-75 group-hover:opacity-100 transition-opacity"
+                className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}
               />
             </div>
-            <span className="text-sm text-[#9CA3AF] group-hover:text-white font-medium truncate">Spotlight Search...</span>
+            <span className="text-sm text-[#8E8E93] group-hover:text-white font-medium truncate">Spotlight Search...</span>
           </div>
           <div className="w-4 h-4 min-w-[16px] min-h-[16px] max-w-[16px] max-h-[16px] flex items-center justify-center shrink-0 ml-1">
             <img
@@ -183,7 +187,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           title="Home"
           className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all duration-200 cursor-pointer ${
             isActive('/') && currentRoute === '/'
-              ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
+              ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
           }`}
         >
@@ -209,7 +213,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title="Live TV"
             className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
               isActive('/live-tv')
-                ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
+                ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
                 : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
             }`}
           >
@@ -245,14 +249,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
                 >
                   <span className="truncate">{ch.shortName || ch.name}</span>
-                  <span className="px-1.5 py-0.2 text-[9px] bg-[#DF37EE]/20 text-[#FF55FF] border border-[#DF37EE]/40 rounded-full font-bold">
+                  <span className="px-1.5 py-0.2 text-[9px] bg-[#E6005A]/20 text-[#FF4D8B] border border-[#E6005A]/40 rounded-full font-bold">
                     HD
                   </span>
                 </button>
               ))}
               <button
                 onClick={() => handleNavClick('/live-tv')}
-                className="w-full text-left px-3 py-1.5 text-[11px] text-[#DF37EE] hover:underline font-medium cursor-pointer"
+                className="w-full text-left px-3 py-1.5 text-[11px] text-[#E6005A] hover:underline font-medium cursor-pointer"
               >
                 + Xem tất cả kênh
               </button>
@@ -267,7 +271,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           title="News"
           className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
             isActive('/news')
-              ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
+              ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
           }`}
         >
@@ -288,7 +292,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title="Favorites"
             className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
               isActive('/favorites')
-                ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
+                ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
                 : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
             }`}
           >
@@ -324,7 +328,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors group cursor-pointer"
                   >
                     <span className="truncate">{ch.shortName || ch.name}</span>
-                    <span className="px-2 py-0.5 text-[9px] bg-[#3E3E48] text-[#E0E0E6] group-hover:bg-[#DF37EE] group-hover:text-white rounded-full font-semibold transition-colors">
+                    <span className="px-2 py-0.5 text-[9px] bg-[#3E3E48] text-[#E0E0E6] group-hover:bg-[#E6005A] group-hover:text-white rounded-full font-semibold transition-colors">
                       Phát
                     </span>
                   </button>
@@ -346,7 +350,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title="Toolbox"
             className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
               isActive('/toolbox')
-                ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
+                ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
                 : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
             }`}
           >
@@ -437,7 +441,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           title="About"
           className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
             isActive('/about')
-              ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
+              ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
           }`}
         >
@@ -468,7 +472,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           title="Cài đặt"
           className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
             isActive('/settings')
-              ? 'bg-[#DF37EE] text-white font-bold shadow-md shadow-[#DF37EE]/20'
+              ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
           }`}
         >
@@ -495,21 +499,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
             renderSidebarBody(false)
           ) : (
             <div className="flex flex-col h-full pt-4 pb-3 items-center">
-              {/* Monochrome Logo */}
+              {/* Collapsed Icon Logo */}
               <div 
                 onClick={() => handleNavClick('/')} 
                 className="cursor-pointer flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
-                title="Waves Community"
+                title="Vplay"
               >
                 {!logoError ? (
                   <img 
-                    src="https://static.wikia.nocookie.net/ep-deo/images/7/72/Monochrom.png/revision/latest?cb=20260825072411" 
-                    alt="Waves Logo" 
-                    className="w-7 h-7 object-contain sidebar-brand-logo"
+                    src="https://static.wikia.nocookie.net/ep-deo/images/4/4b/Vplay_no_wordmark.png/revision/latest/scale-to-width-down/1000?cb=20260829062616" 
+                    alt="Vplay Logo" 
+                    referrerPolicy="no-referrer"
+                    className="w-8 h-8 object-contain shrink-0"
                     onError={() => setLogoError(true)}
                   />
                 ) : (
-                  <span className="text-white dark:text-white light:text-[#111827] font-black text-xl tracking-tighter">W</span>
+                  <span className="text-white dark:text-white light:text-[#111827] font-black text-xl tracking-tighter">V</span>
                 )}
               </div>
 
@@ -548,7 +553,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => handleNavClick('/')}
                   title="Home"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
-                    isActive('/') && currentRoute === '/' ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                    isActive('/') && currentRoute === '/' ? 'bg-[#E6005A] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
                   }`}
                 >
                   <img
@@ -567,7 +572,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => handleNavClick('/live-tv')}
                   title="Live TV"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
-                    isActive('/live-tv') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                    isActive('/live-tv') ? 'bg-[#E6005A] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
                   }`}
                 >
                   <Tv className="w-5 h-5" />
@@ -576,7 +581,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => handleNavClick('/news')}
                   title="News"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
-                    isActive('/news') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                    isActive('/news') ? 'bg-[#E6005A] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
                   }`}
                 >
                   <Megaphone className="w-5 h-5" />
@@ -585,7 +590,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => handleNavClick('/favorites')}
                   title="Favorites"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
-                    isActive('/favorites') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                    isActive('/favorites') ? 'bg-[#E6005A] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
                   }`}
                 >
                   <Heart className="w-5 h-5" />
@@ -594,7 +599,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => handleNavClick('/toolbox')}
                   title="Toolbox"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
-                    isActive('/toolbox') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                    isActive('/toolbox') ? 'bg-[#E6005A] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
                   }`}
                 >
                   <Box className="w-5 h-5" />
@@ -603,7 +608,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => handleNavClick('/about')}
                   title="About"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
-                    isActive('/about') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                    isActive('/about') ? 'bg-[#E6005A] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
                   }`}
                 >
                   <Info className="w-5 h-5" />
@@ -612,7 +617,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   onClick={() => handleNavClick('/settings')}
                   title="Cài đặt"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 transition-all ${
-                    isActive('/settings') ? 'bg-[#DF37EE] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
+                    isActive('/settings') ? 'bg-[#E6005A] text-white shadow-md' : 'text-[#D1D5DB] hover:bg-[#2F2F36]'
                   }`}
                 >
                   <Settings className="w-5 h-5" />

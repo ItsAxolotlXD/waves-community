@@ -55,7 +55,7 @@ export const Article: React.FC<ArticleProps> = ({ slug, navigate }) => {
       </h1>
 
       {/* Subtitle */}
-      <p className="text-lg md:text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#FF2020] to-[#F000FF]">
+      <p className="text-lg md:text-xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-[#FF2020] to-[#E50914]">
         {article.subtitle}
       </p>
 
@@ -65,7 +65,7 @@ export const Article: React.FC<ArticleProps> = ({ slug, navigate }) => {
           <img
             src={article.author.avatar}
             alt={article.author.name}
-            className="w-11 h-11 rounded-full object-cover border border-[#C83DFF]"
+            className="w-11 h-11 rounded-full object-cover border border-[#E50914]"
           />
           <div>
             <div className="text-sm font-bold text-white">{article.author.name}</div>
@@ -78,7 +78,7 @@ export const Article: React.FC<ArticleProps> = ({ slug, navigate }) => {
             onClick={() => toggleBookmarkNews(article.slug)}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-full border text-xs font-bold transition-all ${
               bookmarked
-                ? 'bg-[#C83DFF] border-[#C83DFF] text-white'
+                ? 'bg-[#E50914] border-[#E50914] text-white'
                 : 'bg-[#26262C] border-[#383842] text-[#D1D5DB] hover:text-white'
             }`}
           >
@@ -107,7 +107,7 @@ export const Article: React.FC<ArticleProps> = ({ slug, navigate }) => {
 
       {/* Article Body Content */}
       <div className="p-6 md:p-10 rounded-[30px] bg-[#1A1A1E] border border-[#2A2A32] shadow-xl text-[#D1D5DB] text-sm md:text-base leading-relaxed space-y-6">
-        <p className="text-base md:text-lg font-semibold text-white leading-relaxed border-l-4 border-[#C83DFF] pl-4 italic">
+        <p className="text-base md:text-lg font-semibold text-white leading-relaxed border-l-4 border-[#E50914] pl-4 italic">
           {article.excerpt}
         </p>
 
@@ -117,7 +117,7 @@ export const Article: React.FC<ArticleProps> = ({ slug, navigate }) => {
 
         {/* Tags */}
         <div className="pt-6 border-t border-[#2A2A30] flex flex-wrap items-center gap-2">
-          <Tag className="w-4 h-4 text-[#C83DFF]" />
+          <Tag className="w-4 h-4 text-[#E50914]" />
           {article.tags.map((tag) => (
             <span
               key={tag}

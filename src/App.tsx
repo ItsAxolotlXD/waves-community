@@ -5,6 +5,7 @@ import { BottomDock } from './components/BottomDock';
 import { SpotlightModal } from './components/SpotlightModal';
 import { CustomStreamModal } from './components/CustomStreamModal';
 import { UnderConstructionModal } from './components/UnderConstructionModal';
+import { WelcomeModal } from './components/WelcomeModal';
 import { CrashScreen } from './components/CrashScreen';
 import { Home } from './pages/Home';
 import { LiveTV } from './pages/LiveTV';
@@ -65,6 +66,7 @@ export default function App() {
   });
 
   // Modals state
+  const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(true);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
   const [isCustomStreamModalOpen, setIsCustomStreamModalOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -327,6 +329,12 @@ export default function App() {
         onClose={() => setIsCustomStreamModalOpen(false)}
         onPlayCustomChannel={handlePlayCustomChannel}
         onImportPlaylist={handleImportPlaylist}
+      />
+
+      {/* Startup / Refresh Welcome Modal */}
+      <WelcomeModal
+        isOpen={isWelcomeModalOpen}
+        onClose={() => setIsWelcomeModalOpen(false)}
       />
     </div>
   );

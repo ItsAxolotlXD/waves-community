@@ -116,10 +116,10 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         {/* Director credits */}
         {currentSlide.director && (
           <div className="flex items-center gap-2.5 mt-3.5">
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2A2A32]/90 border border-white/15 text-xs text-white">
+            <div className="hero-director-badge flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2A2A32]/90 border border-white/15 text-xs text-white">
               <Clapperboard className="w-3.5 h-3.5 text-[#FF3366]" />
-              <span className="text-[#9CA3AF] uppercase text-[10px] font-bold tracking-wider">ĐẠO DIỄN:</span>
-              <span className="font-extrabold text-white tracking-wide">{currentSlide.director}</span>
+              <span className="hero-director-label text-[#9CA3AF] uppercase text-[10px] font-bold tracking-wider">ĐẠO DIỄN:</span>
+              <span className="hero-director-name font-extrabold text-white tracking-wide">{currentSlide.director}</span>
             </div>
           </div>
         )}
@@ -152,7 +152,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                 src={currentSlide.channelLogo}
                 alt={currentSlide.channelName || 'Logo banner'}
                 referrerPolicy="no-referrer"
-                className="h-8 sm:h-9 w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+                className="hero-banner-channel-logo h-8 sm:h-9 w-auto object-contain brightness-110 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
                 onError={(e) => {
                   const target = e.currentTarget;
                   target.style.display = 'none';

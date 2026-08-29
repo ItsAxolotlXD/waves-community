@@ -6,14 +6,14 @@ export const About: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-10 pb-20">
       {/* Hero Intro */}
       <div className="text-center space-y-4 pt-4">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C83DFF]/15 border border-[#C83DFF]/30 text-[#C83DFF] text-xs font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E50914]/15 border border-[#E50914]/30 text-[#E50914] text-xs font-bold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Về Waves Community</span>
         </div>
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
           Nơi Lưu Giữ & Tôn Vinh <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2020] via-[#FF3366] to-[#F000FF]">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2020] via-[#FF3366] to-[#E50914]">
             Văn Hóa Truyền Hình Việt Nam
           </span>
         </h1>
@@ -36,7 +36,7 @@ export const About: React.FC = () => {
         </div>
 
         <div className="p-6 rounded-[28px] bg-[#1E1E22] border border-[#2D2D35] space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-[#C83DFF]/20 text-[#C83DFF] flex items-center justify-center">
+          <div className="w-12 h-12 rounded-2xl bg-[#E50914]/20 text-[#E50914] flex items-center justify-center">
             <Tv className="w-6 h-6" />
           </div>
           <h3 className="text-base font-bold text-white">Lưu Trữ & Tư Liệu</h3>
@@ -59,7 +59,7 @@ export const About: React.FC = () => {
       {/* Disclaimer and Ethics Card */}
       <div className="p-8 rounded-[30px] bg-gradient-to-br from-[#1E1E24] to-[#161618] border border-[#34343E] shadow-xl space-y-4">
         <div className="flex items-center gap-3">
-          <Shield className="w-6 h-6 text-[#C83DFF]" />
+          <Shield className="w-6 h-6 text-[#E50914]" />
           <h3 className="text-lg font-bold text-white">Tuyên bố bản quyền & Nguồn phát sóng</h3>
         </div>
         <p className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed">

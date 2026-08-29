@@ -15,7 +15,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, onClick }) => {
   return (
     <div
       onClick={() => onClick(article)}
-      className="group rounded-[28px] bg-[#1E1E22] border border-[#2D2D35] hover:border-[#C83DFF]/60 hover:bg-[#25252C] transition-all overflow-hidden flex flex-col justify-between cursor-pointer shadow-lg hover:scale-[1.01]"
+      className="group rounded-[28px] bg-[#1E1E22] border border-[#2D2D35] hover:border-[#E50914]/60 hover:bg-[#25252C] transition-all overflow-hidden flex flex-col justify-between cursor-pointer shadow-lg hover:scale-[1.01]"
     >
       {/* Cover Image */}
       <div className="relative h-44 sm:h-48 overflow-hidden">
@@ -39,7 +39,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, onClick }) => {
           }}
           className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-md border transition-colors ${
             bookmarked 
-              ? 'bg-[#C83DFF] text-white border-[#C83DFF]' 
+              ? 'bg-[#E50914] text-white border-[#E50914]' 
               : 'bg-black/60 text-[#A1A1AA] hover:text-white border-white/10'
           }`}
           title={bookmarked ? 'Bỏ lưu bài viết' : 'Lưu bài viết'}
@@ -51,7 +51,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, onClick }) => {
       {/* Content */}
       <div className="p-5 pt-3 flex-1 flex flex-col justify-between">
         <div>
-          <h3 className="text-base font-bold text-white group-hover:text-[#C83DFF] transition-colors leading-snug line-clamp-2">
+          <h3 className="text-base font-bold text-white group-hover:text-[#E50914] transition-colors leading-snug line-clamp-2">
             {article.title}
           </h3>
           <p className="text-xs text-[#9CA3AF] line-clamp-2 mt-2 leading-relaxed">
@@ -68,7 +68,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, onClick }) => {
             <span>{article.publishedAt}</span>
           </div>
 
-          <div className="flex items-center gap-1 text-[#C83DFF] font-semibold text-xs group-hover:translate-x-1 transition-transform">
+          <div className="flex items-center gap-1 text-[#E50914] font-semibold text-xs group-hover:translate-x-1 transition-transform">
             <span>Chi tiết</span>
             <ArrowRight className="w-3 h-3" />
           </div>
