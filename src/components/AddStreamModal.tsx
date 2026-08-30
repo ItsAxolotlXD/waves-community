@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Plus, Radio, Play } from 'lucide-react';
 import { Channel } from '../types';
+import { useSettings } from '../hooks/useSettings';
 
 interface AddStreamModalProps {
   isOpen: boolean;
@@ -14,6 +15,8 @@ export const AddStreamModal: React.FC<AddStreamModalProps> = ({
   onClose,
   onAddStream
 }) => {
+  const { settings } = useSettings();
+  const shouldAnimate = !settings.reduceAllMotion && settings.animateModals;
   const [streamName, setStreamName] = useState('');
   const [streamUrl, setStreamUrl] = useState('');
   const [streamQuality, setStreamQuality] = useState<'HD' | 'Full HD' | '4K' | 'SD'>('HD');
@@ -57,16 +60,16 @@ export const AddStreamModal: React.FC<AddStreamModalProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: shouldAnimate ? 0.3 : 0 }}
             onClick={onClose}
             className="fixed inset-0 bg-black/80 backdrop-blur-md"
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 1.08 }}
+            initial={shouldAnimate ? { opacity: 0, scale: 1.08 } : { opacity: 1, scale: 1 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            exit={shouldAnimate ? { opacity: 0, scale: 1.05 } : { opacity: 0 }}
+            transition={{ duration: shouldAnimate ? 0.35 : 0, ease: [0.16, 1, 0.3, 1] }}
             className="relative w-full max-w-md bg-[#1E1D22] border border-white/10 rounded-[32px] p-6 sm:p-7 shadow-2xl z-10 text-white"
           >
             {/* Header */}

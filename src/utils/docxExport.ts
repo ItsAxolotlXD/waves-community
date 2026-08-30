@@ -31,7 +31,7 @@ export async function exportArticleToDocx(article: NewsArticle) {
           new Paragraph({
             children: [
               new TextRun({
-                text: `Chuyên mục: ${article.category} | Tác giả: ${article.author.name} (${article.author.role}) | Thời gian đọc: ${article.readingTime}`,
+                text: `Chuyên mục: ${article.category} | Xuất bản: ${article.publishedAt}`,
                 size: 20,
                 color: '666666',
               }),

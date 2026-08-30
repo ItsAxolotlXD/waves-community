@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { BottomDock } from './components/BottomDock';
@@ -336,13 +337,30 @@ export default function App() {
           onChangeFontSize={handleFontSizeChange}
         />
 
-        {/* Dynamic Page Content with smooth fade */}
-        <main className={`flex-1 w-full mx-auto transition-opacity duration-300 ease-out ${
+        {/* Dynamic Page Content with smooth slide-up transition */}
+        <main className={`flex-1 w-full mx-auto ${
           currentRoute === '/' || currentRoute === '/home' 
             ? 'p-0 max-w-none' 
             : 'px-4 sm:px-6 md:px-8 py-5 max-w-7xl'
         }`}>
-          {renderContent()}
+          {!settings.reduceAllMotion && settings.animatePageTransitions ? (
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={currentRoute}
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full h-full"
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <div key={currentRoute} className="w-full h-full">
+              {renderContent()}
+            </div>
+          )}
         </main>
       </div>
 

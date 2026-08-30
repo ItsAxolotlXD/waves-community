@@ -92,9 +92,16 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
       {/* Card Info Content */}
       <div className="p-4 pt-3">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="text-sm font-bold text-white group-hover:text-[#E50914] transition-colors truncate">
-            {channel.name}
-          </h3>
+          <div className="flex items-center gap-1.5 min-w-0">
+            <h3 className="text-sm font-bold text-white group-hover:text-[#E50914] transition-colors truncate">
+              {channel.shortName || channel.name}
+            </h3>
+            {channel.channelCode && (
+              <span className="text-[10px] font-mono font-bold text-[#FF4D4D] bg-[#FF2020]/15 px-1.5 py-0.2 rounded shrink-0">
+                {channel.channelCode}
+              </span>
+            )}
+          </div>
           <span className="text-[11px] font-medium text-[#8E8E93] shrink-0">
             {channel.category}
           </span>

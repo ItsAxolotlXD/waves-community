@@ -15,6 +15,8 @@ export interface Channel {
   id: string;
   name: string;
   shortName?: string;
+  channelNumber?: number;
+  channelCode?: string;
   slug: string;
   logo: string;
   category: ChannelCategory;
@@ -61,7 +63,7 @@ export interface NewsArticle {
   title: string;
   subtitle: string;
   coverImage: string;
-  category: 'Thời sự truyền hình' | 'Công nghệ phát sóng' | 'Hậu trường & Kỹ thuật' | 'Đồ hoạ & Nhận diện' | 'Tư liệu & Lịch sử';
+  category: 'Thời sự truyền hình' | 'Công nghệ phát sóng' | 'Hậu trường & Kỹ thuật' | 'Đồ hoạ & Nhận diện' | 'Tư liệu & Lịch sử' | 'Cộng đồng & Kỷ niệm';
   publishedAt: string;
   readingTime: string;
   author: {
@@ -74,6 +76,11 @@ export interface NewsArticle {
   tags: string[];
   relatedChannelId?: string;
   featured?: boolean;
+  isLocked?: boolean;
+  password?: string;
+  treeDiagram?: {
+    nodes: string[];
+  };
 }
 
 export interface HeroSlide {

@@ -50,6 +50,7 @@ const SETTINGS_SHORTCUTS = [
   { id: 'set-font', title: 'Cài đặt: Tỷ lệ cỡ chữ ứng dụng', keyword: 'cỡ chữ font chữ zoom tỷ lệ' },
   { id: 'set-banner', title: 'Cài đặt: Tự động trượt banner', keyword: 'banner trượt auto scroll' },
   { id: 'set-autohide', title: 'Cài đặt: Tự động ẩn Sidebar', keyword: 'tự động ẩn sidebar collapse' },
+  { id: 'set-motion', title: 'Cài đặt: Motion and Movements / Hiệu ứng chuyển động', keyword: 'motion movements hiệu ứng animation reduce all animation chuyển trang' },
   { id: 'set-search', title: 'Cài đặt: Tùy chỉnh danh mục tìm kiếm', keyword: 'tìm kiếm search spotlight' },
 ];
 
@@ -92,12 +93,27 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
   const matchedChannels = settings.searchTv ? CHANNELS_DATA.filter((ch, index) => {
     if (!normalizedQuery) return false;
     
-    // Check channel number search
+    // Check channel number search (if searchChannelNumber setting is enabled)
     if (settings.searchChannelNumber) {
-      const channelIndex = String(index + 1);
+      const chNum = ch.channelNumber || (index + 1);
+      const chCode = ch.channelCode || String(chNum).padStart(3, '0');
       const cleanNum = normalizedQuery.replace(/[^0-9]/g, '');
-      if (cleanNum && (channelIndex === cleanNum || ch.slug.includes(cleanNum) || ch.id === cleanNum)) {
+      
+      // Match "001", "1", "kênh 1", "ch 1", "#1", etc.
+      if (cleanNum && (
+        String(chNum) === cleanNum || 
+        chCode === cleanNum || 
+        chCode.endsWith(cleanNum) ||
+        cleanNum === String(chNum).padStart(cleanNum.length, '0')
+      )) {
         return true;
+      }
+      
+      // Match query containing channel code or formatted string
+      if (normalizedQuery.includes(chCode) || normalizedQuery.includes(String(chNum))) {
+        if (/^(kênh|ch|kenh|#|\s)*\d+$/i.test(normalizedQuery)) {
+          return true;
+        }
       }
     }
 
@@ -140,6 +156,8 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
     matchedToolbox.length > 0 || 
     matchedSettings.length > 0;
 
+  const shouldAnimateModal = !settings.reduceAllMotion && settings.animateModals;
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -153,7 +171,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: shouldAnimateModal ? 0.32 : 0, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 bg-black/70 backdrop-blur-xs"
             onClick={onClose}
           />
@@ -161,23 +179,23 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
           {/* 2. Dialog Modal Box */}
           <motion.div 
             id="spotlight-popup-card"
-            initial={{ opacity: 0, scale: 1.10 }}
+            initial={shouldAnimateModal ? { opacity: 0, scale: 1.10 } : { opacity: 1, scale: 1 }}
             animate={{ 
               opacity: 1, 
               scale: 1,
               transition: {
-                duration: 0.38,
+                duration: shouldAnimateModal ? 0.38 : 0,
                 ease: [0.16, 1, 0.3, 1]
               }
             }}
-            exit={{ 
+            exit={shouldAnimateModal ? { 
               opacity: 0, 
               scale: 1.08,
               transition: {
                 duration: 0.25,
                 ease: [0.25, 0.1, 0.25, 1]
               }
-            }}
+            } : { opacity: 0 }}
             className="relative w-full max-w-[380px] sm:max-w-[440px] bg-[#1A1A20] rounded-[28px] p-4 sm:p-5 shadow-2xl overflow-hidden z-10"
           >
             {/* Capsule Pill Search Input Bar */}
@@ -263,12 +281,19 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                               className="max-w-full max-h-full object-contain"
                             />
                           </div>
-                          <div className="min-w-0">
-                            <div className="text-xs font-bold text-white group-hover:text-[#E6005A] truncate">
-                              {ch.name}
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-bold text-white group-hover:text-[#E6005A] truncate">
+                                {ch.name}
+                              </span>
+                              {ch.channelCode && (
+                                <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-[#E6005A]/20 text-[#FF4D8B] tracking-wider shrink-0">
+                                  {ch.channelCode}
+                                </span>
+                              )}
                             </div>
                             <div className="text-[10px] text-[#9CA3AF] truncate">
-                              {ch.currentProgram?.title || ch.category}
+                              {ch.category}
                             </div>
                           </div>
                         </div>

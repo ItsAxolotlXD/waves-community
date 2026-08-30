@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Keyboard, HelpCircle, Tv, Search, Moon, Bookmark, Share2 } from 'lucide-react';
+import { useSettings } from '../hooks/useSettings';
 
 interface HelpModalProps {
   isOpen: boolean;
@@ -8,6 +9,9 @@ interface HelpModalProps {
 }
 
 export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
+  const { settings } = useSettings();
+  const shouldAnimate = !settings.reduceAllMotion && settings.animateModals;
+
   const shortcuts = [
     { key: '⌘ + K / Ctrl + K', desc: 'Mở Spotlight tìm kiếm nhanh toàn ứng dụng' },
     { key: 'Space', desc: 'Tạm dừng / Tiếp tục phát luồng Live TV' },
@@ -25,17 +29,17 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: shouldAnimate ? 0.3 : 0 }}
             onClick={onClose}
             className="fixed inset-0 bg-black/80 backdrop-blur-md"
           />
 
           <motion.div
             id="help-modal-dialog"
-            initial={{ opacity: 0, scale: 1.08 }}
+            initial={shouldAnimate ? { opacity: 0, scale: 1.08 } : { opacity: 1, scale: 1 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            exit={shouldAnimate ? { opacity: 0, scale: 1.05 } : { opacity: 0 }}
+            transition={{ duration: shouldAnimate ? 0.35 : 0, ease: [0.16, 1, 0.3, 1] }}
             className="relative w-full max-w-lg bg-[#1E1D22] border border-white/10 rounded-[32px] p-6 sm:p-8 shadow-2xl z-10 text-white"
           >
             <div className="flex items-center justify-between pb-4 border-b border-[#2C2C34]">

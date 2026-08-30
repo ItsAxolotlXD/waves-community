@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, X } from 'lucide-react';
+import { useSettings } from '../hooks/useSettings';
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -11,6 +12,9 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
   isOpen,
   onClose,
 }) => {
+  const { settings } = useSettings();
+  const shouldAnimate = !settings.reduceAllMotion && settings.animateModals;
+
   // Listen for Escape key to close
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,7 +39,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: shouldAnimate ? 0.3 : 0, ease: [0.16, 1, 0.3, 1] }}
             onClick={onClose}
             className="fixed inset-0 bg-black/80 backdrop-blur-md"
           />
@@ -43,17 +47,17 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
           {/* 2. Dialog Modal Box */}
           <motion.div
             id="welcome-modal-dialog"
-            initial={{ opacity: 0, scale: 0.92, y: 16 }}
+            initial={shouldAnimate ? { opacity: 0, scale: 0.92, y: 16 } : { opacity: 1, scale: 1, y: 0 }}
             animate={{ 
               opacity: 1, 
               scale: 1,
               y: 0,
               transition: {
-                duration: 0.35,
+                duration: shouldAnimate ? 0.35 : 0,
                 ease: [0.16, 1, 0.3, 1]
               }
             }}
-            exit={{ 
+            exit={shouldAnimate ? { 
               opacity: 0, 
               scale: 0.95,
               y: 10,
@@ -61,7 +65,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
                 duration: 0.22,
                 ease: [0.25, 0.1, 0.25, 1]
               }
-            }}
+            } : { opacity: 0 }}
             className="relative z-10 w-full max-w-[480px] bg-[#1E1D22] rounded-[34px] p-7 sm:p-9 shadow-2xl border border-[#34343E]/70"
           >
             {/* Top Badge */}

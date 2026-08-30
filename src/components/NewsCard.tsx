@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, ArrowRight, Bookmark } from 'lucide-react';
+import { Calendar, ArrowRight, Bookmark, Lock } from 'lucide-react';
 import { NewsArticle } from '../types';
 import { useFavorites } from '../hooks/useFavorites';
 
@@ -15,7 +15,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, onClick }) => {
   return (
     <div
       onClick={() => onClick(article)}
-      className="group rounded-[28px] bg-[#1E1E22] border border-[#2D2D35] hover:border-[#E50914]/60 hover:bg-[#25252C] transition-all overflow-hidden flex flex-col justify-between cursor-pointer shadow-lg hover:scale-[1.01]"
+      className="group rounded-[24px] bg-white dark:bg-[#1E1E22] border border-[#E5E7EB] dark:border-[#2D2D35] hover:border-[#E50914]/60 hover:bg-[#F9FAFB] dark:hover:bg-[#25252C] transition-all overflow-hidden flex flex-col justify-between cursor-pointer shadow-sm hover:shadow-lg hover:scale-[1.01]"
     >
       {/* Cover Image */}
       <div className="relative h-44 sm:h-48 overflow-hidden">
@@ -24,11 +24,19 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, onClick }) => {
           alt={article.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1E1E22] via-transparent to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
 
-        {/* Category Badge */}
-        <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-bold text-white uppercase tracking-wider">
-          {article.category}
+        {/* Category Badge & Lock Badge */}
+        <div className="absolute top-3 left-3 flex items-center gap-1.5">
+          <div className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] font-bold text-white uppercase tracking-wider">
+            {article.category}
+          </div>
+          {article.isLocked && (
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/90 backdrop-blur-md border border-amber-400 text-[10px] font-bold text-white shadow-xs">
+              <Lock className="w-3 h-3" />
+              <span>Khóa</span>
+            </div>
+          )}
         </div>
 
         {/* Bookmark Button */}
@@ -51,25 +59,23 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, onClick }) => {
       {/* Content */}
       <div className="p-5 pt-3 flex-1 flex flex-col justify-between">
         <div>
-          <h3 className="text-base font-bold text-white group-hover:text-[#E50914] transition-colors leading-snug line-clamp-2">
+          <h3 className="text-base font-bold text-[#111827] dark:text-white group-hover:text-[#E50914] transition-colors leading-snug line-clamp-2">
             {article.title}
           </h3>
-          <p className="text-xs text-[#9CA3AF] line-clamp-2 mt-2 leading-relaxed">
+          <p className="text-xs text-[#4B5563] dark:text-[#9CA3AF] line-clamp-2 mt-2 leading-relaxed">
             {article.excerpt}
           </p>
         </div>
 
         {/* Metadata Footer */}
-        <div className="mt-4 pt-3 border-t border-[#2A2A30] flex items-center justify-between text-xs text-[#8E8E93]">
-          <div className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5" />
-            <span>{article.readingTime}</span>
-            <span>•</span>
+        <div className="mt-4 pt-3 border-t border-[#E5E7EB] dark:border-[#2A2A30] flex items-center justify-between text-xs text-[#6B7280] dark:text-[#8E8E93]">
+          <div className="flex items-center gap-1.5 font-medium">
+            <Calendar className="w-3.5 h-3.5" />
             <span>{article.publishedAt}</span>
           </div>
 
           <div className="flex items-center gap-1 text-[#E50914] font-semibold text-xs group-hover:translate-x-1 transition-transform">
-            <span>Chi tiết</span>
+            <span>{article.isLocked ? 'Mở khóa' : 'Chi tiết'}</span>
             <ArrowRight className="w-3 h-3" />
           </div>
         </div>

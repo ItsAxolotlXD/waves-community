@@ -7,7 +7,9 @@ import {
   Check,
   X,
   Sun,
-  Moon
+  Moon,
+  Sparkles,
+  Sliders
 } from 'lucide-react';
 import { useSettings, FONT_SCALE_CONFIG } from '../hooks/useSettings';
 
@@ -333,7 +335,159 @@ export const Settings: React.FC = () => {
         </section>
       )}
 
-      {/* 4. Section 3: Tìm kiếm */}
+      {/* 4. Section 3: Motion and Movements */}
+      {(matchesSearch('Motion and Movements') ||
+        matchesSearch('Reduce all animation') ||
+        matchesSearch('Sidebar') ||
+        matchesSearch('Hộp thoại') ||
+        matchesSearch('Modal dialog') ||
+        matchesSearch('Chuyển trang')) && (
+        <section 
+          id="settings-section-motion"
+          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+        >
+          {/* Section Header */}
+          <div className="flex items-start gap-3">
+            <Sparkles className="w-5 h-5 text-[#E50914] dark:text-[#E50914] shrink-0 mt-0.5" />
+            <div>
+              <h2 className="text-base font-bold text-white leading-tight">
+                Motion and Movements
+              </h2>
+              <p className="text-xs text-[#9CA3AF] mt-1 leading-relaxed">
+                Tùy chỉnh hiệu ứng trong ứng dụng
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-3 pt-1">
+            {/* 1. Reduce all animation */}
+            {matchesSearch('Reduce all animation') && (
+              <div 
+                id="setting-motion-reduce-all"
+                onClick={() => updateSetting('reduceAllMotion', !settings.reduceAllMotion)}
+                className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+              >
+                <div>
+                  <div className="font-semibold text-white text-sm">
+                    Reduce all animation
+                  </div>
+                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                    Giảm và tắt toàn bộ các hiệu ứng chuyển động trong ứng dụng
+                  </div>
+                </div>
+
+                <div 
+                  className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                    settings.reduceAllMotion
+                      ? 'bg-[#E50914] text-white shadow-sm'
+                      : 'bg-[#24242A] border border-[#4B5563]'
+                  }`}
+                >
+                  {settings.reduceAllMotion && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                </div>
+              </div>
+            )}
+
+            {/* Divider */}
+            <hr className="border-[#383742]" />
+
+            {/* Sub-options Container: Grayed out and disabled when Reduce all animation is active */}
+            <div 
+              className={`space-y-3 transition-opacity duration-200 ${
+                settings.reduceAllMotion 
+                  ? 'opacity-35 pointer-events-none select-none filter grayscale-[30%]' 
+                  : ''
+              }`}
+            >
+              {/* 2. Sidebar */}
+              {matchesSearch('Sidebar') && (
+                <div 
+                  id="setting-motion-sidebar"
+                  onClick={() => updateSetting('animateSidebar', !settings.animateSidebar)}
+                  className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                >
+                  <div>
+                    <div className="font-semibold text-white text-sm">
+                      Sidebar
+                    </div>
+                    <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                      Hiệu ứng mở rộng/thu gọn và trượt ngăn kéo menu bên
+                    </div>
+                  </div>
+
+                  <div 
+                    className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                      settings.animateSidebar && !settings.reduceAllMotion
+                        ? 'bg-[#E50914] text-white shadow-sm'
+                        : 'bg-[#24242A] border border-[#4B5563]'
+                    }`}
+                  >
+                    {settings.animateSidebar && !settings.reduceAllMotion && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                  </div>
+                </div>
+              )}
+
+              {/* 3. Hộp thoại (Modal dialog) */}
+              {(matchesSearch('Hộp thoại') || matchesSearch('Modal dialog')) && (
+                <div 
+                  id="setting-motion-modals"
+                  onClick={() => updateSetting('animateModals', !settings.animateModals)}
+                  className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                >
+                  <div>
+                    <div className="font-semibold text-white text-sm">
+                      Hộp thoại (Modal dialog)
+                    </div>
+                    <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                      Hiệu ứng phóng to, thu nhỏ và làm mờ các cửa sổ bật lên
+                    </div>
+                  </div>
+
+                  <div 
+                    className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                      settings.animateModals && !settings.reduceAllMotion
+                        ? 'bg-[#E50914] text-white shadow-sm'
+                        : 'bg-[#24242A] border border-[#4B5563]'
+                    }`}
+                  >
+                    {settings.animateModals && !settings.reduceAllMotion && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                  </div>
+                </div>
+              )}
+
+              {/* 4. Chuyển trang */}
+              {matchesSearch('Chuyển trang') && (
+                <div 
+                  id="setting-motion-page-transitions"
+                  onClick={() => updateSetting('animatePageTransitions', !settings.animatePageTransitions)}
+                  className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                >
+                  <div>
+                    <div className="font-semibold text-white text-sm">
+                      Chuyển trang
+                    </div>
+                    <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                      Hiệu ứng trượt lên (slide up) các thành phần khi chuyển giữa các trang
+                    </div>
+                  </div>
+
+                  <div 
+                    className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                      settings.animatePageTransitions && !settings.reduceAllMotion
+                        ? 'bg-[#E50914] text-white shadow-sm'
+                        : 'bg-[#24242A] border border-[#4B5563]'
+                    }`}
+                  >
+                    {settings.animatePageTransitions && !settings.reduceAllMotion && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 5. Section 4: Tìm kiếm */}
       {(matchesSearch('Tìm kiếm') ||
         matchesSearch('Danh mục') ||
         matchesSearch('Tin tức') ||

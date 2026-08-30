@@ -113,7 +113,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       id="waves-video-player-container"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => isPlaying && setShowControls(false)}
-      className={`relative w-full rounded-[30px] overflow-hidden bg-black border border-[#2E2E36] shadow-2xl transition-all duration-300 ${
+      className={`relative w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black border border-[#2E2E36] dark:border-[#2E2E36] shadow-2xl transition-all duration-300 ${
         isTheaterMode ? 'aspect-[21/9] max-h-[75vh]' : 'aspect-video'
       }`}
     >
@@ -125,59 +125,33 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         onClick={togglePlay}
       />
 
-      {/* Ambient background glow when playing */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/80 via-transparent to-black/60 opacity-80" />
-
-      {/* Top Header Overlay: Channel Brand + Live Badge + Viewers */}
+      {/* Top Header Overlay: Channel Brand + Actions */}
       <div 
-        className={`absolute top-0 left-0 right-0 p-4 md:p-6 flex items-center justify-between z-20 transition-opacity duration-300 ${
+        className={`absolute top-0 left-0 right-0 p-3.5 md:p-5 flex items-center justify-between z-20 transition-opacity duration-300 ${
           showControls || !isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#1E1E22]/90 backdrop-blur-md border border-white/20 flex items-center justify-center overflow-hidden shadow-lg">
-            <img src={channel.logo} alt={channel.name} className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-sm md:text-base font-bold text-white tracking-tight drop-shadow-md">
-                {channel.name}
-              </h2>
-              <span className="px-2 py-0.5 text-[10px] font-extrabold bg-[#FF2020] text-white rounded-full uppercase tracking-wider">
-                {channel.quality}
-              </span>
-            </div>
-            <p className="text-xs text-[#D1D5DB] line-clamp-1">
-              Đang phát: {channel.currentProgram?.title}
-            </p>
-          </div>
+        <div className="flex items-center gap-2.5">
+          <h2 className="text-sm md:text-base font-bold text-white tracking-tight drop-shadow-md">
+            {channel.name}
+          </h2>
+          <span className="px-2 py-0.5 text-[10px] font-extrabold bg-[#FF2020] text-white rounded-full uppercase tracking-wider">
+            {channel.quality}
+          </span>
         </div>
 
         <div className="flex items-center gap-2 md:gap-3">
-          {/* Viewers Counter */}
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-xs text-[#D1D5DB]">
-            <Eye className="w-3.5 h-3.5 text-[#E50914]" />
-            <span className="font-semibold">{channel.viewers?.toLocaleString() || '14,280'}</span>
-            <span className="text-[10px] text-[#9CA3AF]">đang xem</span>
-          </div>
-
-          {/* Glowing Live Indicator */}
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF2020]/20 border border-[#FF2020]/60 text-[#FF4D4D] text-xs font-bold shadow-[0_0_12px_rgba(255,32,32,0.4)]">
-            <span className="w-2 h-2 rounded-full bg-[#FF2020] animate-ping" />
-            <span>TRỰC TIẾP</span>
-          </div>
-
           {/* Favorite Toggle Button */}
           <button
             onClick={() => toggleFavoriteChannel(channel.id)}
-            className={`w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md border transition-all ${
+            className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center backdrop-blur-md border transition-all ${
               isFav 
                 ? 'bg-[#FF2020] border-[#FF2020] text-white shadow-lg' 
                 : 'bg-black/60 border-white/20 text-white hover:bg-[#FF2020]/20 hover:border-[#FF2020]'
             }`}
             title={isFav ? 'Bỏ yêu thích' : 'Thêm vào yêu thích'}
           >
-            <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
+            <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isFav ? 'fill-current' : ''}`} />
           </button>
         </div>
       </div>

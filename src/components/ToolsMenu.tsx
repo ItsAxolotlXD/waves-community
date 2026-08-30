@@ -76,6 +76,18 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
     return NEWS_DATA[0];
   })();
 
+  // Check if active article is locked in session
+  const isCurrentArticleLocked = (() => {
+    if (!currentNewsArticle || !currentNewsArticle.isLocked) return false;
+    try {
+      const saved = sessionStorage.getItem('waves_unlocked_articles');
+      const unlocked = saved ? JSON.parse(saved) : {};
+      return !unlocked[currentNewsArticle.slug];
+    } catch {
+      return true;
+    }
+  })();
+
   const handleMouseEnter = () => {
     if (!isRelevant) return;
     if (closeTimeoutRef.current) {
@@ -275,16 +287,25 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
               <button
                 id="tool-news-summarize"
                 type="button"
+                disabled={isCurrentArticleLocked}
                 onClick={() => {
+                  if (isCurrentArticleLocked) return;
                   setIsOpen(false);
                   onOpenSummarize(currentNewsArticle);
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#F3F4F6] dark:hover:bg-[#2A2A32] text-sm font-medium transition-colors text-left cursor-default group"
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-left cursor-default group ${
+                  isCurrentArticleLocked 
+                    ? 'opacity-40 cursor-not-allowed hover:bg-transparent' 
+                    : 'hover:bg-[#F3F4F6] dark:hover:bg-[#2A2A32]'
+                }`}
+                title={isCurrentArticleLocked ? 'Bài viết đang bị khóa, hãy mở khóa để tóm tắt' : 'Tóm tắt bài viết'}
               >
                 <div className="w-5 h-5 flex items-center justify-center text-[#18181B] dark:text-white shrink-0">
                   <Sparkles className="w-[18px] h-[18px]" />
                 </div>
-                <span className="text-[#1F2937] dark:text-[#E5E7EB]">Summarize News</span>
+                <span className="text-[#1F2937] dark:text-[#E5E7EB]">
+                  {isCurrentArticleLocked ? 'Summarize (Khóa)' : 'Summarize News'}
+                </span>
               </button>
 
               {/* 2. Find words */}
@@ -339,14 +360,23 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
                 id="tool-news-export-docx"
                 type="button"
                 onClick={handleExportDocx}
-                disabled={exportingDocx}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#F3F4F6] dark:hover:bg-[#2A2A32] text-sm font-medium transition-colors text-left cursor-default group"
+                disabled={exportingDocx || isCurrentArticleLocked}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-left cursor-default group ${
+                  isCurrentArticleLocked
+                    ? 'opacity-40 cursor-not-allowed hover:bg-transparent'
+                    : 'hover:bg-[#F3F4F6] dark:hover:bg-[#2A2A32]'
+                }`}
+                title={isCurrentArticleLocked ? 'Bài viết đang bị khóa, hãy mở khóa để xuất .docx' : 'Xuất bài viết thành file .docx'}
               >
                 <div className="w-5 h-5 flex items-center justify-center text-[#18181B] dark:text-white shrink-0">
                   <FileDown className="w-[18px] h-[18px]" />
                 </div>
                 <span className="text-[#1F2937] dark:text-[#E5E7EB]">
-                  {exportingDocx ? 'Exporting .docx...' : 'Export as .docx'}
+                  {isCurrentArticleLocked 
+                    ? 'Export as .docx (Khóa)' 
+                    : exportingDocx 
+                      ? 'Exporting .docx...' 
+                      : 'Export as .docx'}
                 </span>
               </button>
             </div>

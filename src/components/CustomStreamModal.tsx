@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Play, Upload, Radio, FileText, CheckCircle2, AlertCircle, Copy } from 'lucide-react';
 import { parseM3UPlaylist, SAMPLE_M3U_TEMPLATE } from '../utils/m3uParser';
 import { Channel } from '../types';
+import { useSettings } from '../hooks/useSettings';
 
 interface CustomStreamModalProps {
   isOpen: boolean;
@@ -17,6 +18,8 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
   onPlayCustomChannel,
   onImportPlaylist
 }) => {
+  const { settings } = useSettings();
+  const shouldAnimate = !settings.reduceAllMotion && settings.animateModals;
   const [activeTab, setActiveTab] = useState<'single' | 'playlist'>('single');
   const [streamUrl, setStreamUrl] = useState('');
   const [channelName, setChannelName] = useState('Luồng Trực Tiếp Tùy Chỉnh');
@@ -108,7 +111,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: shouldAnimate ? 0.35 : 0, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 bg-black/80 backdrop-blur-md"
             onClick={onClose}
           />
@@ -116,23 +119,23 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
           {/* 2. Dialog Modal Box */}
           <motion.div 
             id="custom-stream-dialog"
-            initial={{ opacity: 0, scale: 1.10 }}
+            initial={shouldAnimate ? { opacity: 0, scale: 1.10 } : { opacity: 1, scale: 1 }}
             animate={{ 
               opacity: 1, 
               scale: 1,
               transition: {
-                duration: 0.40,
+                duration: shouldAnimate ? 0.40 : 0,
                 ease: [0.16, 1, 0.3, 1]
               }
             }}
-            exit={{ 
+            exit={shouldAnimate ? { 
               opacity: 0, 
               scale: 1.08,
               transition: {
                 duration: 0.26,
                 ease: [0.25, 0.1, 0.25, 1]
               }
-            }}
+            } : { opacity: 0 }}
             className="relative w-full max-w-xl bg-[#1E1D22] border border-white/10 rounded-[38px] shadow-2xl overflow-hidden z-10"
           >
             {/* Header */}

@@ -166,6 +166,7 @@ html.light-mode .search-box-capsule input::placeholder {
 }
 html.light-mode #settings-section-interface,
 html.light-mode #settings-section-accessibility,
+html.light-mode #settings-section-motion,
 html.light-mode #settings-section-search {
   background-color: #FFFFFF !important;
   border-color: #E5E7EB !important;
@@ -173,15 +174,18 @@ html.light-mode #settings-section-search {
 }
 html.light-mode #settings-section-interface .text-white,
 html.light-mode #settings-section-accessibility .text-white,
+html.light-mode #settings-section-motion .text-white,
 html.light-mode #settings-section-search .text-white {
   color: #111827 !important;
 }
 html.light-mode #settings-section-interface .bg-\[\#28272E\],
 html.light-mode #settings-section-accessibility .bg-\[\#28272E\],
+html.light-mode #settings-section-motion .bg-\[\#28272E\],
 html.light-mode #settings-section-search .bg-\[\#28272E\] {
   background-color: #F8FAFC !important;
   border-color: #E2E8F0 !important;
 }
+html.light-mode #settings-section-motion hr,
 html.light-mode #settings-section-search hr {
   border-color: #E2E8F0 !important;
 }
@@ -1079,4 +1083,41 @@ html.light-mode #news-summary-dialog button.bg-\[\#28282E\]:hover {
   background-color: #E5E7EB !important;
   color: #111827 !important;
 }
+
+/* ==========================================================================
+   Live TV & Video Player Light Mode Adaptations
+   ========================================================================== */
+html.light-mode #waves-video-player-container {
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12) !important;
+}
+
+html.light-mode #livetv-channel-search {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #111827 !important;
+}
+
+html.light-mode #livetv-channel-search:focus {
+  border-color: #E50914 !important;
+}
+
+html.light-mode [id^="livetv-channel-card-"] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light-mode [id^="livetv-channel-card-"]:hover {
+  border-color: rgba(229, 9, 20, 0.5) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light-mode [id^="livetv-channel-card-"] h3 {
+  color: #111827 !important;
+}
+
+html.light-mode [id^="livetv-channel-card-"] p {
+  color: #6B7280 !important;
+}
+
 

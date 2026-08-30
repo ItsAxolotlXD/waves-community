@@ -178,37 +178,43 @@ const RAW_CHANNELS: RawChannelItem[] = [
   { id: 'hanoi_fm96', name: 'Hà Nội FM96', logo: 'https://static.wikia.nocookie.net/ep-deo/images/5/55/FM96.png/revision/latest/scale-to-width-down/1000?cb=20260622073735', category: 'Kênh phát thanh', streamUrl: 'http://222.252.21.96:8000/HANOI96' }
 ];
 
-export const CHANNELS_DATA: Channel[] = RAW_CHANNELS.map((item, idx) => ({
-  id: item.id,
-  name: item.name,
-  shortName: item.name.replace(/ HD| —.*/g, ''),
-  slug: item.id,
-  logo: item.logo,
-  category: item.category,
-  quality: item.name.includes('HD') ? 'HD' : item.category === 'Kênh phát thanh' ? 'SD' : 'HD',
-  streamUrl: item.streamUrl,
-  isLive: true,
-  viewers: Math.floor(1800 + Math.abs(Math.sin(idx + 1)) * 32000),
-  currentProgram: {
-    title: item.category === 'Kênh phát thanh'
-      ? `${item.name} — Phát thanh trực tiếp`
-      : `${item.name} — Chương trình trực tiếp`,
-    startTime: '19:00',
-    endTime: '21:00',
-    progress: 45 + (idx % 40),
-    description: `Phát sóng trực tiếp chất lượng cao từ ${item.name}. Tiếp sóng hạ tầng Waves Network.`
-  },
-  nextProgram: {
-    title: item.category === 'Kênh phát thanh'
-      ? 'Chương trình phát thanh tiếp nối'
-      : 'Bản tin & Sự kiện thời sự tiếp theo',
-    startTime: '21:00'
-  },
-  description: `Tiếp sóng trực tiếp chính thức kênh ${item.name} (${item.category}).`,
-  resolution: item.category === 'Kênh phát thanh' ? 'Audio Stream' : '1080p Full HD',
-  bitrate: item.category === 'Kênh phát thanh' ? '128 - 320 kbps' : '6.5 - 9.0 Mbps HLS',
-  tags: [item.category, item.name, 'Trực tuyến', 'Waves Live']
-}));
+export const CHANNELS_DATA: Channel[] = RAW_CHANNELS.map((item, idx) => {
+  const chNum = idx + 1;
+  const chCode = String(chNum).padStart(3, '0');
+  return {
+    id: item.id,
+    name: item.name,
+    shortName: item.name.replace(/ HD| —.*/g, ''),
+    channelNumber: chNum,
+    channelCode: chCode,
+    slug: item.id,
+    logo: item.logo,
+    category: item.category,
+    quality: item.name.includes('HD') ? 'HD' : item.category === 'Kênh phát thanh' ? 'SD' : 'HD',
+    streamUrl: item.streamUrl,
+    isLive: true,
+    viewers: Math.floor(1800 + Math.abs(Math.sin(idx + 1)) * 32000),
+    currentProgram: {
+      title: item.category === 'Kênh phát thanh'
+        ? `${item.name} — Trực tuyến`
+        : `${item.name}`,
+      startTime: '19:00',
+      endTime: '21:00',
+      progress: 45 + (idx % 40),
+      description: `Kênh truyền hình ${item.name} (${item.category}).`
+    },
+    nextProgram: {
+      title: item.category === 'Kênh phát thanh'
+        ? 'Chương trình tiếp nối'
+        : 'Bản tin tiếp theo',
+      startTime: '21:00'
+    },
+    description: `Kênh ${item.name} (${item.category}).`,
+    resolution: item.category === 'Kênh phát thanh' ? 'Audio Stream' : '1080p Full HD',
+    bitrate: item.category === 'Kênh phát thanh' ? '128 - 320 kbps' : '6.5 - 9.0 Mbps HLS',
+    tags: [item.category, item.name, chCode, String(chNum)]
+  };
+});
 
 export const SCHEDULE_DATA: Record<string, ProgramScheduleItem[]> = {
   vtv1: [

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 
 export interface SystemSettings {
   theme: 'light' | 'dark';
@@ -12,6 +12,10 @@ export interface SystemSettings {
   searchChannelNumber: boolean;
   searchToolbox: boolean;
   searchSettings: boolean;
+  reduceAllMotion: boolean;
+  animateSidebar: boolean;
+  animateModals: boolean;
+  animatePageTransitions: boolean;
 }
 
 export const DEFAULT_SETTINGS: SystemSettings = {
@@ -26,6 +30,10 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   searchChannelNumber: true,
   searchToolbox: true,
   searchSettings: true,
+  reduceAllMotion: false,
+  animateSidebar: true,
+  animateModals: true,
+  animatePageTransitions: true,
 };
 
 export const FONT_SCALE_CONFIG = [
@@ -75,43 +83,53 @@ export const applySystemSettings = (settings: SystemSettings) => {
   document.documentElement.style.setProperty('--waves-font-scale', scaleVal);
 };
 
-export const useSettings = () => {
-  const [settings, setSettings] = useState<SystemSettings>(() => {
-    const initial = getStoredSettings();
-    applySystemSettings(initial);
-    return initial;
-  });
+// Initialize current settings and apply them to DOM immediately
+let settingsStore = getStoredSettings();
+if (typeof window !== 'undefined') {
+  applySystemSettings(settingsStore);
+}
 
-  useEffect(() => {
-    const handleSettingsChange = () => {
-      const updated = getStoredSettings();
-      setSettings(updated);
-      applySystemSettings(updated);
-    };
+const listeners = new Set<() => void>();
 
-    window.addEventListener('waves_settings_change', handleSettingsChange);
-    window.addEventListener('storage', handleSettingsChange);
-
-    return () => {
-      window.removeEventListener('waves_settings_change', handleSettingsChange);
-      window.removeEventListener('storage', handleSettingsChange);
-    };
-  }, []);
-
-  const updateSetting = <K extends keyof SystemSettings>(key: K, value: SystemSettings[K]) => {
-    setSettings((prev) => {
-      const updated = { ...prev, [key]: value };
-      try {
-        localStorage.setItem('waves_system_settings', JSON.stringify(updated));
-        if (key === 'theme') {
-          localStorage.setItem('waves_theme', value as string);
-        }
-        applySystemSettings(updated);
-        window.dispatchEvent(new Event('waves_settings_change'));
-      } catch {}
-      return updated;
-    });
+function subscribe(callback: () => void) {
+  listeners.add(callback);
+  const handleStorage = (e: StorageEvent) => {
+    if (e.key === 'waves_system_settings' || e.key === 'waves_theme' || !e.key) {
+      settingsStore = getStoredSettings();
+      applySystemSettings(settingsStore);
+      callback();
+    }
   };
+  window.addEventListener('storage', handleStorage);
+  return () => {
+    listeners.delete(callback);
+    window.removeEventListener('storage', handleStorage);
+  };
+}
 
-  return { settings, updateSetting };
+function getSnapshot(): SystemSettings {
+  return settingsStore;
+}
+
+export const updateGlobalSetting = <K extends keyof SystemSettings>(key: K, value: SystemSettings[K]) => {
+  settingsStore = { ...settingsStore, [key]: value };
+  try {
+    localStorage.setItem('waves_system_settings', JSON.stringify(settingsStore));
+    if (key === 'theme') {
+      localStorage.setItem('waves_theme', value as string);
+    }
+  } catch {}
+  applySystemSettings(settingsStore);
+  listeners.forEach((listener) => {
+    try {
+      listener();
+    } catch (err) {
+      console.error(err);
+    }
+  });
+};
+
+export const useSettings = () => {
+  const settings = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+  return { settings, updateSetting: updateGlobalSetting };
 };
