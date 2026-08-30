@@ -95,6 +95,19 @@ export function exportToM3U(channels: Channel[]): string {
   return output;
 }
 
+export function downloadPlaylistFile(channels: Channel[], filename = 'vplay_channels.m3u8') {
+  const content = exportToM3U(channels);
+  const blob = new Blob([content], { type: 'audio/x-mpegurl;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 export const SAMPLE_M3U_TEMPLATE = `#EXTM3U
 #EXTINF:-1 tvg-id="vtv1-hd" tvg-name="VTV1 HD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/VTV1_logo_2013_final.svg/200px-VTV1_logo_2013_final.svg.png" group-title="VTV", VTV1 HD
 https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8

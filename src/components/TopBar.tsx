@@ -1,19 +1,41 @@
 import React, { useState } from 'react';
 import { Menu, Bell, Sun, Moon } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
+import { ToolsMenu } from './ToolsMenu';
+import { Channel, NewsArticle } from '../types';
 
 interface TopBarProps {
   currentRoute: string;
   navigate: (route: string) => void;
   onOpenSearch: () => void;
   onOpenMobileMenu?: () => void;
+  currentChannel?: Channel;
+  channels?: Channel[];
+  onOpenHelp?: () => void;
+  onOpenDiscord?: () => void;
+  onOpenSummarize?: (article: NewsArticle) => void;
+  onOpenFindWords?: () => void;
+  onOpenAddStream?: () => void;
+  onImportChannels?: (channels: Channel[]) => void;
+  fontSize?: number;
+  onChangeFontSize?: (size: number) => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
-  currentRoute: _currentRoute,
+  currentRoute,
   navigate,
   onOpenSearch,
-  onOpenMobileMenu
+  onOpenMobileMenu,
+  currentChannel,
+  channels = [],
+  onOpenHelp = () => {},
+  onOpenDiscord = () => {},
+  onOpenSummarize = () => {},
+  onOpenFindWords = () => {},
+  onOpenAddStream = () => {},
+  onImportChannels = () => {},
+  fontSize = 16,
+  onChangeFontSize = () => {}
 }) => {
   const { settings, updateSetting } = useSettings();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -70,8 +92,8 @@ export const TopBar: React.FC<TopBarProps> = ({
       {/* Empty placeholder on desktop left */}
       <div className="hidden md:flex items-center gap-3" />
 
-      {/* Right Action Icons: Search, Notifications & Light Mode Toggle */}
-      <div className="flex items-center gap-3 md:gap-4 pointer-events-auto ml-auto">
+      {/* Right Action Icons: Search, Tools Menu, Notifications & Light Mode Toggle */}
+      <div className="flex items-center gap-2.5 md:gap-3.5 pointer-events-auto ml-auto">
         {/* Quick Spotlight Search trigger */}
         <button
           id="btn-top-search"
@@ -89,6 +111,23 @@ export const TopBar: React.FC<TopBarProps> = ({
             }}
           />
         </button>
+
+        {/* Tools Menu Icon (Contextual hover dropdown for each tab) - Placed directly right of search */}
+        <ToolsMenu
+          currentRoute={currentRoute}
+          currentChannel={currentChannel}
+          channels={channels}
+          isLightMode={isLightMode}
+          onNavigate={navigate}
+          onOpenHelp={onOpenHelp}
+          onOpenDiscord={onOpenDiscord}
+          onOpenSummarize={onOpenSummarize}
+          onOpenFindWords={onOpenFindWords}
+          onOpenAddStream={onOpenAddStream}
+          onImportChannels={onImportChannels}
+          fontSize={fontSize}
+          onChangeFontSize={onChangeFontSize}
+        />
 
         {/* Notifications button */}
         <div className="relative">

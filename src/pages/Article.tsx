@@ -8,9 +8,10 @@ import { ArrowLeft, Clock, Calendar, Bookmark, Share2, CheckCircle2, User, Tag }
 interface ArticleProps {
   slug: string;
   navigate: (route: string) => void;
+  fontSize?: number;
 }
 
-export const Article: React.FC<ArticleProps> = ({ slug, navigate }) => {
+export const Article: React.FC<ArticleProps> = ({ slug, navigate, fontSize = 16 }) => {
   const [copied, setCopied] = useState(false);
   const article = NEWS_DATA.find((a) => a.slug === slug) || NEWS_DATA[0];
 
@@ -106,8 +107,14 @@ export const Article: React.FC<ArticleProps> = ({ slug, navigate }) => {
       </div>
 
       {/* Article Body Content */}
-      <div className="p-6 md:p-10 rounded-[30px] bg-[#1A1A1E] border border-[#2A2A32] shadow-xl text-[#D1D5DB] text-sm md:text-base leading-relaxed space-y-6">
-        <p className="text-base md:text-lg font-semibold text-white leading-relaxed border-l-4 border-[#E50914] pl-4 italic">
+      <div 
+        style={{ fontSize: `${fontSize}px`, lineHeight: 1.7 }}
+        className="p-6 md:p-10 rounded-[30px] bg-[#1A1A1E] border border-[#2A2A32] shadow-xl text-[#D1D5DB] space-y-6"
+      >
+        <p 
+          style={{ fontSize: `${fontSize * 1.125}px` }}
+          className="font-semibold text-white leading-relaxed border-l-4 border-[#E50914] pl-4 italic"
+        >
           {article.excerpt}
         </p>
 

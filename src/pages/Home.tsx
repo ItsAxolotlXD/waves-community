@@ -38,7 +38,7 @@ export const Home: React.FC<HomeProps> = ({
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-                <Megaphone className="w-6 h-6 text-[#FF4D8B]" />
+                <Megaphone className="w-6 h-6 text-[#FF2020]" />
                 <span>Tin tức & Chuyên san Truyền hình</span>
               </h2>
               <p className="text-xs text-[#9CA3AF] mt-0.5">
@@ -48,7 +48,7 @@ export const Home: React.FC<HomeProps> = ({
 
             <button
               onClick={() => navigate('/news')}
-              className="flex items-center gap-1.5 text-xs font-semibold text-[#E6005A] hover:underline"
+              className="flex items-center gap-1.5 text-xs font-semibold text-[#E50914] hover:underline"
             >
               <span>Xem tất cả bài viết</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -70,7 +70,7 @@ export const Home: React.FC<HomeProps> = ({
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-              <Sparkles className="w-6 h-6 text-[#E6005A]" />
+              <Sparkles className="w-6 h-6 text-[#E50914]" />
               <span>Chuyên mục nổi bật</span>
             </h2>
           </div>
@@ -79,12 +79,12 @@ export const Home: React.FC<HomeProps> = ({
             {/* Card 1 */}
             <div 
               onClick={() => navigate('/toolbox', { tab: 'safe-area' })}
-              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#E6005A]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
+              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#E50914]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
             >
-              <div className="w-12 h-12 rounded-2xl bg-[#E6005A]/15 text-[#E6005A] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-[#E50914]/15 text-[#E50914] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Layers className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-white group-hover:text-[#E6005A] transition-colors">
+              <h3 className="text-base font-bold text-white group-hover:text-[#E50914] transition-colors">
                 Quy chuẩn Safe Area
               </h3>
               <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
@@ -95,12 +95,12 @@ export const Home: React.FC<HomeProps> = ({
             {/* Card 2 */}
             <div 
               onClick={() => navigate('/toolbox', { tab: 'color-bars' })}
-              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#FF267A]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
+              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#FF2020]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
             >
-              <div className="w-12 h-12 rounded-2xl bg-[#FF267A]/15 text-[#FF267A] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-[#FF2020]/15 text-[#FF2020] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <Film className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-white group-hover:text-[#FF267A] transition-colors">
+              <h3 className="text-base font-bold text-white group-hover:text-[#FF2020] transition-colors">
                 SMPTE Color Bars
               </h3>
               <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
@@ -127,12 +127,12 @@ export const Home: React.FC<HomeProps> = ({
             {/* Card 4 */}
             <div 
               onClick={() => navigate('/about')}
-              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#E6005A]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
+              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#E50914]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
             >
-              <div className="w-12 h-12 rounded-2xl bg-[#E6005A]/15 text-[#E6005A] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-[#E50914]/15 text-[#E50914] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-white group-hover:text-[#E6005A] transition-colors">
+              <h3 className="text-base font-bold text-white group-hover:text-[#E50914] transition-colors">
                 Waves Community
               </h3>
               <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">

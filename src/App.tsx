@@ -7,6 +7,10 @@ import { CustomStreamModal } from './components/CustomStreamModal';
 import { UnderConstructionModal } from './components/UnderConstructionModal';
 import { WelcomeModal } from './components/WelcomeModal';
 import { CrashScreen } from './components/CrashScreen';
+import { HelpModal } from './components/HelpModal';
+import { NewsSummaryModal } from './components/NewsSummaryModal';
+import { FindWordsBar } from './components/FindWordsBar';
+import { AddStreamModal } from './components/AddStreamModal';
 import { Home } from './pages/Home';
 import { LiveTV } from './pages/LiveTV';
 import { News } from './pages/News';
@@ -17,7 +21,8 @@ import { Toolbox } from './pages/Toolbox';
 import { About } from './pages/About';
 import { Settings } from './pages/Settings';
 import { CHANNELS_DATA } from './data/channels';
-import { Channel } from './types';
+import { NEWS_DATA } from './data/news';
+import { Channel, NewsArticle } from './types';
 import { useSettings } from './hooks/useSettings';
 
 export default function App() {
@@ -69,6 +74,27 @@ export default function App() {
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(true);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
   const [isCustomStreamModalOpen, setIsCustomStreamModalOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isNewsSummaryOpen, setIsNewsSummaryOpen] = useState(false);
+  const [summarizeArticle, setSummarizeArticle] = useState<NewsArticle>(NEWS_DATA[0]);
+  const [isFindWordsOpen, setIsFindWordsOpen] = useState(false);
+  const [isAddStreamOpen, setIsAddStreamOpen] = useState(false);
+  const [articleFontSize, setArticleFontSize] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('vplay_font_size');
+      return saved ? parseInt(saved, 10) : 16;
+    } catch {
+      return 16;
+    }
+  });
+
+  const handleFontSizeChange = (size: number) => {
+    setArticleFontSize(size);
+    try {
+      localStorage.setItem('vplay_font_size', String(size));
+    } catch {}
+  };
+
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
     try {
@@ -164,7 +190,7 @@ export default function App() {
     // Route matching for news detail: /news/:slug
     if (currentRoute.startsWith('/news/')) {
       const slug = currentRoute.replace('/news/', '');
-      return <Article slug={slug} navigate={navigate} />;
+      return <Article slug={slug} navigate={navigate} fontSize={articleFontSize} />;
     }
 
     switch (currentRoute) {
@@ -295,6 +321,19 @@ export default function App() {
           navigate={navigate}
           onOpenSearch={() => setIsSpotlightOpen(true)}
           onOpenMobileMenu={() => setIsMobileSidebarOpen(true)}
+          currentChannel={currentChannel}
+          channels={channels}
+          onOpenHelp={() => setIsHelpModalOpen(true)}
+          onOpenDiscord={() => setIsWelcomeModalOpen(true)}
+          onOpenSummarize={(art) => {
+            setSummarizeArticle(art);
+            setIsNewsSummaryOpen(true);
+          }}
+          onOpenFindWords={() => setIsFindWordsOpen(true)}
+          onOpenAddStream={() => setIsAddStreamOpen(true)}
+          onImportChannels={handleImportPlaylist}
+          fontSize={articleFontSize}
+          onChangeFontSize={handleFontSizeChange}
         />
 
         {/* Dynamic Page Content with smooth fade */}
@@ -329,6 +368,32 @@ export default function App() {
         onClose={() => setIsCustomStreamModalOpen(false)}
         onPlayCustomChannel={handlePlayCustomChannel}
         onImportPlaylist={handleImportPlaylist}
+      />
+
+      {/* Help Modal */}
+      <HelpModal
+        isOpen={isHelpModalOpen}
+        onClose={() => setIsHelpModalOpen(false)}
+      />
+
+      {/* News Summary Modal */}
+      <NewsSummaryModal
+        isOpen={isNewsSummaryOpen}
+        onClose={() => setIsNewsSummaryOpen(false)}
+        article={summarizeArticle}
+      />
+
+      {/* In-Article / News Word Finder */}
+      <FindWordsBar
+        isOpen={isFindWordsOpen}
+        onClose={() => setIsFindWordsOpen(false)}
+      />
+
+      {/* Quick Add Stream Modal Dialog (Tên luồng, Địa chỉ luồng) */}
+      <AddStreamModal
+        isOpen={isAddStreamOpen}
+        onClose={() => setIsAddStreamOpen(false)}
+        onAddStream={handlePlayCustomChannel}
       />
 
       {/* Startup / Refresh Welcome Modal */}
