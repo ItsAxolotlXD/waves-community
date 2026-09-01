@@ -84,9 +84,6 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                   {currentChannel.channelCode}
                 </span>
               )}
-              <span className="px-2 py-0.5 text-xs font-bold bg-[#FF2020] text-white rounded-md">
-                {currentChannel.quality}
-              </span>
             </h1>
           </div>
           <p className="text-xs sm:text-sm text-[#4B5563] dark:text-[#9CA3AF] mt-1 font-medium flex items-center gap-2">
@@ -179,7 +176,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
         </div>
 
         {/* Category Tabs Filter */}
-        <div className="flex gap-1.5 overflow-x-auto pb-2 no-scrollbar">
+        <div id="livetv-category-tabs" className="flex gap-1.5 overflow-x-auto pb-2 no-scrollbar">
           {categoryTabs.map((cat) => (
             <button
               key={cat}
@@ -206,8 +203,8 @@ export const LiveTV: React.FC<LiveTVProps> = ({
           <div className="space-y-8">
             {groupedCategories.map((group) => (
               <section key={group.category} className="space-y-3">
-                {/* Category Section Header (e.g. Kênh VTV, Kênh HTV,...) */}
-                <div className="flex items-center justify-between border-b border-[#E5E7EB] dark:border-[#2D2D35] pb-2">
+                {/* Category Section Header & Divider */}
+                <div className="livetv-category-divider flex items-center justify-between border-b border-[#E5E7EB] dark:border-[#2D2D35] pb-2">
                   <div className="flex items-center gap-2">
                     <div className="w-1.5 h-4 bg-[#E50914] rounded-full" />
                     <h3 className="text-sm sm:text-base font-bold text-[#111827] dark:text-white">
@@ -237,7 +234,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                         }`}
                       >
                         {/* Channel Logo Box without background (transparent background, strictly only logo) */}
-                        <div className="w-full h-16 sm:h-20 flex items-center justify-center p-1.5 mb-2 sm:mb-2.5 relative">
+                        <div className="w-full h-16 sm:h-20 flex items-center justify-center p-1.5 mb-1.5 sm:mb-2 relative">
                           <img
                             src={ch.logo}
                             alt={ch.name}
@@ -250,12 +247,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                           
                           {/* Fallback Text if image fails */}
                           <span className="text-[11px] font-extrabold text-neutral-400 absolute pointer-events-none -z-10 uppercase tracking-tighter">
-                            {ch.shortName || ch.name.slice(0, 5)}
-                          </span>
-
-                          {/* Quality Pill */}
-                          <span className="absolute top-0 left-0 px-1.5 py-0.2 rounded text-[8px] sm:text-[9px] font-black bg-black/60 dark:bg-black/70 text-white">
-                            {ch.quality}
+                            {ch.channelCode || String(ch.channelNumber || 1).padStart(3, '0')}
                           </span>
 
                           {/* Favorite Heart Button */}
@@ -268,7 +260,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                             className={`absolute top-0 right-0 p-1 rounded-full backdrop-blur-sm transition-colors cursor-pointer ${
                               isChFav 
                                 ? 'bg-[#E50914] text-white shadow-sm' 
-                                : 'bg-black/40 text-white/80 hover:text-white hover:bg-black/60'
+                                : 'bg-black/5 hover:bg-[#E50914]/15 text-[#9CA3AF] hover:text-[#E50914] dark:bg-black/40 dark:text-white/80 dark:hover:text-white dark:hover:bg-black/60'
                             }`}
                             title={isChFav ? 'Bỏ thích' : 'Yêu thích'}
                           >
@@ -284,20 +276,15 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                           )}
                         </div>
 
-                        {/* Channel Title & Channel Number Underneath (e.g. VTV1 - 001) */}
-                        <div className="min-w-0 text-center sm:text-left">
-                          <h4 className={`text-[11px] sm:text-xs md:text-sm font-bold truncate transition-colors ${
-                            isSelected ? 'text-[#E50914]' : 'text-[#111827] dark:text-white group-hover:text-[#E50914]'
+                        {/* Channel Number Only Underneath (e.g. 001, 002) */}
+                        <div className="min-w-0 text-center">
+                          <span className={`text-xs sm:text-sm font-mono font-bold tracking-wider transition-colors ${
+                            isSelected 
+                              ? 'text-[#E50914]' 
+                              : 'text-[#4B5563] dark:text-[#9CA3AF] group-hover:text-[#E50914]'
                           }`}>
-                            {ch.shortName || ch.name}
-                          </h4>
-                          
-                          {/* Channel number in ascending order: e.g. "001", "002", etc. */}
-                          <div className="flex items-center sm:justify-start justify-center gap-1 mt-0.5">
-                            <span className="text-[10px] sm:text-xs font-mono font-semibold text-[#6B7280] dark:text-[#9CA3AF] tracking-wide">
-                              {ch.channelCode || String(ch.channelNumber || 1).padStart(3, '0')}
-                            </span>
-                          </div>
+                            {ch.channelCode || String(ch.channelNumber || 1).padStart(3, '0')}
+                          </span>
                         </div>
                       </div>
                     );

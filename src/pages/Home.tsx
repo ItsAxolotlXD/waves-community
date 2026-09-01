@@ -39,7 +39,7 @@ export const Home: React.FC<HomeProps> = ({
             <div>
               <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
                 <Megaphone className="w-6 h-6 text-[#FF2020]" />
-                <span>Tin tức & Chuyên san Truyền hình</span>
+                <span>News Feed</span>
               </h2>
               <p className="text-xs text-[#9CA3AF] mt-0.5">
                 Cập nhật xu hướng kỹ thuật, trường quay và nhận diện truyền hình Việt Nam
@@ -66,7 +66,7 @@ export const Home: React.FC<HomeProps> = ({
           </div>
         </section>
 
-        {/* 4. Chuyên mục nổi bật (Featured Broadcast Topics) */}
+        {/* 4. Chuyên mục nổi bật (Featured Topics) */}
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
@@ -78,49 +78,49 @@ export const Home: React.FC<HomeProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Card 1 */}
             <div 
-              onClick={() => navigate('/toolbox', { tab: 'safe-area' })}
+              onClick={() => navigate('/live-tv')}
               className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#E50914]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
             >
               <div className="w-12 h-12 rounded-2xl bg-[#E50914]/15 text-[#E50914] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Layers className="w-6 h-6" />
+                <Radio className="w-6 h-6" />
               </div>
               <h3 className="text-base font-bold text-white group-hover:text-[#E50914] transition-colors">
-                Quy chuẩn Safe Area
+                Truyền hình Trực tiếp
               </h3>
               <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
-                Mô phỏng tiêu chuẩn vùng an toàn Action Safe 90% & Title Safe 80% theo chuẩn EBU/ITU.
+                Thưởng thức các luồng phát sóng chất lượng cao trực tiếp ổn định và nhanh chóng.
               </p>
             </div>
 
             {/* Card 2 */}
             <div 
-              onClick={() => navigate('/toolbox', { tab: 'color-bars' })}
+              onClick={() => navigate('/channels')}
               className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#FF2020]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
             >
               <div className="w-12 h-12 rounded-2xl bg-[#FF2020]/15 text-[#FF2020] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Film className="w-6 h-6" />
+                <Layers className="w-6 h-6" />
               </div>
               <h3 className="text-base font-bold text-white group-hover:text-[#FF2020] transition-colors">
-                SMPTE Color Bars
+                Danh sách Kênh TV
               </h3>
               <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
-                Bảng màu chuẩn hiệu chuẩn màn hình và phát âm tham chiếu 1kHz âm thanh chuẩn đài.
+                Đầy đủ các đài VTV, HTV, VTC, Truyền hình địa phương và các kênh đặc sắc.
               </p>
             </div>
 
             {/* Card 3 */}
             <div 
-              onClick={() => navigate('/toolbox', { tab: 'dvb-t2' })}
+              onClick={() => navigate('/news')}
               className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#00E5FF]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
             >
               <div className="w-12 h-12 rounded-2xl bg-[#00E5FF]/15 text-[#00E5FF] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Radio className="w-6 h-6" />
+                <Film className="w-6 h-6" />
               </div>
               <h3 className="text-base font-bold text-white group-hover:text-[#00E5FF] transition-colors">
-                Tần số DVB-T2
+                Chuyên san & Tư liệu
               </h3>
               <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
-                Bảng tra cứu tần số kênh UHF/VHF số hóa truyền hình tại các tỉnh thành Việt Nam.
+                Lịch sử truyền hình, phân tích kỹ thuật phát sóng và các bài viết cộng đồng.
               </p>
             </div>
 
@@ -133,7 +133,7 @@ export const Home: React.FC<HomeProps> = ({
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <h3 className="text-base font-bold text-white group-hover:text-[#E50914] transition-colors">
-                Waves Community
+                Vplay
               </h3>
               <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
                 Không gian lưu trữ tư liệu, lịch sử hình hiệu idents và văn hóa truyền hình Việt Nam.

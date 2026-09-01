@@ -5,9 +5,8 @@ import { TopBar } from './components/TopBar';
 import { BottomDock } from './components/BottomDock';
 import { SpotlightModal } from './components/SpotlightModal';
 import { CustomStreamModal } from './components/CustomStreamModal';
-import { UnderConstructionModal } from './components/UnderConstructionModal';
 import { WelcomeModal } from './components/WelcomeModal';
-import { CrashScreen } from './components/CrashScreen';
+import { UnderConstructionModal } from './components/UnderConstructionModal';
 import { HelpModal } from './components/HelpModal';
 import { NewsSummaryModal } from './components/NewsSummaryModal';
 import { FindWordsBar } from './components/FindWordsBar';
@@ -18,7 +17,6 @@ import { News } from './pages/News';
 import { Article } from './pages/Article';
 import { Channels } from './pages/Channels';
 import { Favorites } from './pages/Favorites';
-import { Toolbox } from './pages/Toolbox';
 import { About } from './pages/About';
 import { Settings } from './pages/Settings';
 import { CHANNELS_DATA } from './data/channels';
@@ -28,16 +26,6 @@ import { useSettings } from './hooks/useSettings';
 
 export default function App() {
   const { settings } = useSettings();
-  // Security & Construction Gate State: saved in localStorage so the device only requires entering password once
-  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem('waves_device_unlocked') === 'true' || sessionStorage.getItem('waves_unlocked') === 'true';
-    } catch {
-      return false;
-    }
-  });
-  const [isCrashed, setIsCrashed] = useState<boolean>(false);
-  const [crashReason, setCrashReason] = useState<string>('');
 
   // Navigation Route State (supports browser pathname or internal state)
   const [currentRoute, setCurrentRoute] = useState<string>(() => {
@@ -73,6 +61,7 @@ export default function App() {
 
   // Modals state
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(true);
+  const [isUnderConstructionOpen, setIsUnderConstructionOpen] = useState(false);
   const [isSpotlightOpen, setIsSpotlightOpen] = useState(false);
   const [isCustomStreamModalOpen, setIsCustomStreamModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
@@ -237,15 +226,6 @@ export default function App() {
           />
         );
 
-      case '/toolbox':
-        return (
-          <Toolbox
-            initialTab={routeState?.tab || 'safe-area'}
-            onSelectChannel={setCurrentChannel}
-            navigate={navigate}
-          />
-        );
-
       case '/about':
         return <About />;
 
@@ -263,39 +243,8 @@ export default function App() {
     }
   };
 
-  // Handle unlocking the website
-  const handleUnlock = () => {
-    setIsUnlocked(true);
-    try {
-      localStorage.setItem('waves_device_unlocked', 'true');
-      sessionStorage.setItem('waves_unlocked', 'true');
-    } catch {}
-  };
-
-  // Handle crashing the website
-  const handleCrash = (reason: string) => {
-    setIsCrashed(true);
-    setCrashReason(reason);
-    try {
-      localStorage.removeItem('waves_device_unlocked');
-      sessionStorage.removeItem('waves_unlocked');
-    } catch {}
-  };
-
-  // If website is in crashed state, render fatal crash screen
-  if (isCrashed) {
-    return <CrashScreen reason={crashReason || 'FATAL_SYSTEM_SHUTDOWN'} />;
-  }
-
   return (
     <div className="min-h-screen bg-[#141416] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative">
-      {/* Under Construction Modal Gate (if not unlocked) */}
-      <UnderConstructionModal
-        isOpen={!isUnlocked}
-        onUnlock={handleUnlock}
-        onCrash={handleCrash}
-      />
-
       {/* Sidebar Navigation (Desktop + Mobile Drawer) */}
       <Sidebar
         currentRoute={currentRoute}
@@ -333,6 +282,7 @@ export default function App() {
           onOpenFindWords={() => setIsFindWordsOpen(true)}
           onOpenAddStream={() => setIsAddStreamOpen(true)}
           onImportChannels={handleImportPlaylist}
+          onOpenNotifications={() => setIsUnderConstructionOpen(true)}
           fontSize={articleFontSize}
           onChangeFontSize={handleFontSizeChange}
         />
@@ -340,7 +290,7 @@ export default function App() {
         {/* Dynamic Page Content with smooth slide-up transition */}
         <main className={`flex-1 w-full mx-auto ${
           currentRoute === '/' || currentRoute === '/home' 
-            ? 'p-0 max-w-none' 
+            ? 'p-0 max-w-none -mt-16' 
             : 'px-4 sm:px-6 md:px-8 py-5 max-w-7xl'
         }`}>
           {!settings.reduceAllMotion && settings.animatePageTransitions ? (
@@ -418,6 +368,12 @@ export default function App() {
       <WelcomeModal
         isOpen={isWelcomeModalOpen}
         onClose={() => setIsWelcomeModalOpen(false)}
+      />
+
+      {/* Notifications / Under Construction Modal */}
+      <UnderConstructionModal
+        isOpen={isUnderConstructionOpen}
+        onClose={() => setIsUnderConstructionOpen(false)}
       />
     </div>
   );

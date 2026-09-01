@@ -33,16 +33,8 @@ const CATEGORY_ITEMS = [
   { id: 'cat-livetv', title: 'Truyền hình trực tiếp (Live TV)', route: '/live-tv', icon: Tv, color: '#E6005A' },
   { id: 'cat-news', title: 'Tin tức & Thông báo (News)', route: '/news', icon: Megaphone, color: '#FF4D8B' },
   { id: 'cat-fav', title: 'Kênh yêu thích (Favorites)', route: '/favorites', icon: Heart, color: '#E6005A' },
-  { id: 'cat-toolbox', title: 'Công cụ kỹ thuật (Toolbox)', route: '/toolbox', icon: Box, color: '#38BDF8' },
-  { id: 'cat-about', title: 'Giới thiệu Waves Community', route: '/about', icon: Info, color: '#E6005A' },
+  { id: 'cat-about', title: 'Giới thiệu Vplay', route: '/about', icon: Info, color: '#E6005A' },
   { id: 'cat-settings', title: 'Cài đặt hệ thống (Settings)', route: '/settings', icon: SettingsIcon, color: '#E6005A' },
-];
-
-const TOOLBOX_ITEMS = [
-  { id: 'tb-safe-area', title: 'Aspect Ratio & Safe Area', tab: 'safe-area', icon: Layers, color: '#FF6B6B' },
-  { id: 'tb-color-bars', title: 'SMPTE Color Bars & Tone', tab: 'color-bars', icon: Palette, color: '#FF5555' },
-  { id: 'tb-m3u', title: 'M3U Playlist Parser', tab: 'm3u-tester', icon: Radio, color: '#38BDF8' },
-  { id: 'tb-timecode', title: 'Broadcast Timecode', tab: 'timecode', icon: Film, color: '#FBBF24' },
 ];
 
 const SETTINGS_SHORTCUTS = [
@@ -140,12 +132,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
     )
   ) : [];
 
-  // 4. Toolbox matching
-  const matchedToolbox = settings.searchToolbox ? TOOLBOX_ITEMS.filter((tb) =>
-    normalizedQuery && tb.title.toLowerCase().includes(normalizedQuery)
-  ) : [];
-
-  // 5. Settings shortcuts matching
+  // 4. Settings shortcuts matching
   const matchedSettings = settings.searchSettings ? SETTINGS_SHORTCUTS.filter((s) =>
     normalizedQuery && (s.title.toLowerCase().includes(normalizedQuery) || s.keyword.toLowerCase().includes(normalizedQuery))
   ) : [];
@@ -153,7 +140,6 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
   const hasAnyResults = matchedChannels.length > 0 || 
     matchedCategories.length > 0 || 
     matchedNews.length > 0 || 
-    matchedToolbox.length > 0 || 
     matchedSettings.length > 0;
 
   const shouldAnimateModal = !settings.reduceAllMotion && settings.animateModals;
@@ -250,7 +236,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
             {!query ? (
               <div className="py-7 sm:py-9 px-3 text-center">
                 <p className="text-[13px] sm:text-sm text-[#8E8E93] leading-relaxed font-normal select-none max-w-[290px] mx-auto">
-                  Nhập từ khóa hoặc số kênh để tìm kiếm trong Waves Community
+                  Nhập từ khóa hoặc số kênh để tìm kiếm trong Vplay
                 </p>
               </div>
             ) : (
@@ -358,35 +344,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                   </div>
                 )}
 
-                {/* 4. Toolbox */}
-                {matchedToolbox.length > 0 && (
-                  <div className="space-y-1">
-                    <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#FBBF24] flex items-center gap-1.5">
-                      <Layers className="w-3 h-3" />
-                      <span>Toolbox ({matchedToolbox.length})</span>
-                    </div>
-                    {matchedToolbox.map((tb) => {
-                      const IconComponent = tb.icon;
-                      return (
-                        <div
-                          key={tb.id}
-                          onClick={() => {
-                            navigate('/toolbox', { tab: tb.tab });
-                            onClose();
-                          }}
-                          className="flex items-center gap-2.5 p-2 rounded-[14px] bg-[#22222A] hover:bg-[#2C2C36] cursor-pointer transition-colors"
-                        >
-                          <div className="w-7 h-7 rounded-lg bg-[#2E2E38] flex items-center justify-center shrink-0">
-                            <IconComponent className="w-4 h-4 text-[#FBBF24]" />
-                          </div>
-                          <span className="text-xs font-medium text-white truncate">{tb.title}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {/* 5. Settings Shortcuts */}
+                {/* 4. Settings Shortcuts */}
                 {matchedSettings.length > 0 && (
                   <div className="space-y-1">
                     <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#FF4D4D] flex items-center gap-1.5">

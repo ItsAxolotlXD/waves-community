@@ -60,7 +60,7 @@ export const DiscordWelcomeModal: React.FC<DiscordWelcomeModalProps> = ({
               id="discord-welcome-title"
               className="text-2xl sm:text-[28px] font-bold text-white tracking-tight mb-3 font-sans leading-tight"
             >
-              Chào mừng bạn đến Waves!
+              Chào mừng bạn!
             </h1>
 
             {/* Subtitle */}

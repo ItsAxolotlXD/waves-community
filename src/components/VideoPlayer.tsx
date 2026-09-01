@@ -61,17 +61,32 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     retry
   } = useHLS(channel.streamUrl, true);
 
-  // Auto-hide controls after inactivity
-  const handleMouseMove = () => {
+  // Auto-hide controls after 3 seconds of inactivity
+  const resetControlsTimeout = () => {
     setShowControls(true);
-    if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
     controlsTimeoutRef.current = setTimeout(() => {
       if (isPlaying) {
         setShowControls(false);
         setShowQualityMenu(false);
       }
-    }, 3500);
+    }, 3000);
   };
+
+  // Reset 3s timer on play state change or channel change
+  useEffect(() => {
+    if (isPlaying) {
+      resetControlsTimeout();
+    } else {
+      setShowControls(true);
+      if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
+    }
+    return () => {
+      if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
+    };
+  }, [isPlaying, channel.id]);
 
   const handleFullscreenToggle = () => {
     if (!containerRef.current) return;
@@ -82,6 +97,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       document.exitFullscreen().catch(console.warn);
       setIsFullscreen(false);
     }
+    resetControlsTimeout();
   };
 
   const handlePiP = async () => {
@@ -96,6 +112,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     } catch (e) {
       console.warn('PiP not supported or failed', e);
     }
+    resetControlsTimeout();
   };
 
   // Listen to fullscreen changes
@@ -111,11 +128,13 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     <div
       ref={containerRef}
       id="waves-video-player-container"
-      onMouseMove={handleMouseMove}
+      onMouseMove={resetControlsTimeout}
+      onPointerMove={resetControlsTimeout}
+      onTouchStart={resetControlsTimeout}
       onMouseLeave={() => isPlaying && setShowControls(false)}
       className={`relative w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black border border-[#2E2E36] dark:border-[#2E2E36] shadow-2xl transition-all duration-300 ${
         isTheaterMode ? 'aspect-[21/9] max-h-[75vh]' : 'aspect-video'
-      }`}
+      } ${!showControls && isPlaying ? 'cursor-none' : ''}`}
     >
       {/* Video Element */}
       <video

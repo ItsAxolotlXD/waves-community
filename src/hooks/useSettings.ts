@@ -10,7 +10,6 @@ export interface SystemSettings {
   searchNews: boolean;
   searchTv: boolean;
   searchChannelNumber: boolean;
-  searchToolbox: boolean;
   searchSettings: boolean;
   reduceAllMotion: boolean;
   animateSidebar: boolean;
@@ -28,7 +27,6 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   searchNews: true,
   searchTv: true,
   searchChannelNumber: true,
-  searchToolbox: true,
   searchSettings: true,
   reduceAllMotion: false,
   animateSidebar: true,

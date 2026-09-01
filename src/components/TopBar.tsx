@@ -17,6 +17,7 @@ interface TopBarProps {
   onOpenFindWords?: () => void;
   onOpenAddStream?: () => void;
   onImportChannels?: (channels: Channel[]) => void;
+  onOpenNotifications?: () => void;
   fontSize?: number;
   onChangeFontSize?: (size: number) => void;
 }
@@ -34,11 +35,11 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenFindWords = () => {},
   onOpenAddStream = () => {},
   onImportChannels = () => {},
+  onOpenNotifications = () => {},
   fontSize = 16,
   onChangeFontSize = () => {}
 }) => {
   const { settings, updateSetting } = useSettings();
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [logoError, setLogoError] = useState(false);
 
   const isLightMode = settings.theme === 'light';
@@ -46,12 +47,6 @@ export const TopBar: React.FC<TopBarProps> = ({
   const toggleTheme = () => {
     updateSetting('theme', isLightMode ? 'dark' : 'light');
   };
-
-  const notifications = [
-    { id: 1, title: 'Trực tiếp VIETNAM TODAY lúc 20:00 trên VTV4 HD', time: 'Vừa xong', unread: true },
-    { id: 2, title: 'Thời sự 19h đã cập nhật tiêu điểm kinh tế số', time: '45 phút trước', unread: false },
-    { id: 3, title: 'Bản tin số hóa truyền hình DVB-T2 các tỉnh thành', time: '2 giờ trước', unread: false }
-  ];
 
   return (
     <header className="w-full h-16 bg-transparent border-0 px-4 md:px-8 flex items-center justify-between sticky top-0 z-30 pointer-events-none">
@@ -130,45 +125,15 @@ export const TopBar: React.FC<TopBarProps> = ({
         />
 
         {/* Notifications button */}
-        <div className="relative">
-          <button
-            id="btn-top-notifications"
-            onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-white hover:opacity-80 bg-transparent transition-all relative drop-shadow-sm cursor-pointer"
-            title="Thông báo cộng đồng"
-          >
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#E6005A]" />
-          </button>
-
-          {/* Notification dropdown */}
-          {notificationsOpen && (
-            <div className="absolute right-0 mt-2 w-80 rounded-2xl bg-[#FFFFFF] dark:bg-[#222226] border border-[#E5E7EB] dark:border-[#36363E] p-3 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200 topbar-notification-box">
-              <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#F3F4F6] dark:border-[#303036] topbar-notification-header">
-                <span className="text-xs font-bold text-[#111827] dark:text-white uppercase tracking-wider">Thông báo phát sóng</span>
-                <span className="text-[10px] text-[#E6005A] font-medium cursor-pointer hover:underline">Đã đọc tất cả</span>
-              </div>
-              <div className="space-y-2">
-                {notifications.map((n) => (
-                  <div 
-                    key={n.id} 
-                    className={`p-2.5 rounded-xl text-xs transition-colors cursor-pointer topbar-notification-item ${
-                      n.unread 
-                        ? 'bg-[#F3F4F6] dark:bg-[#2E2E34] border border-[#E5E7EB] dark:border-[#40404A]' 
-                        : 'bg-transparent hover:bg-[#F8FAFC] dark:hover:bg-[#28282E]'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="text-[#111827] dark:text-white font-medium leading-snug">{n.title}</p>
-                      {n.unread && <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] shrink-0 mt-1" />}
-                    </div>
-                    <span className="text-[10px] text-[#6B7280] dark:text-[#8E8E93] mt-1 block">{n.time}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+        <button
+          id="btn-top-notifications"
+          onClick={onOpenNotifications}
+          className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-white hover:opacity-80 bg-transparent transition-all relative drop-shadow-sm cursor-pointer"
+          title="Thông báo cộng đồng"
+        >
+          <Bell className="w-5 h-5" />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#E6005A]" />
+        </button>
 
         {/* Light Mode / Dark Mode Toggle button */}
         <button

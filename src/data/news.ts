@@ -4,7 +4,7 @@ export const NEWS_DATA: NewsArticle[] = [
   {
     id: 'news-waves-1-year-journey',
     slug: 'hanh-trinh-1-nam-vuot-song-cua-waves',
-    title: 'Hành trình 1 năm "vượt sóng" của Waves',
+    title: 'Hành trình 1 năm "vượt sóng" của The Waves',
     subtitle: 'Nhìn lại chặng đường từ những bình luận tình cờ trên YouTube đến diện mạo mới đầy kiêu hãnh',
     coverImage: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200&auto=format&fit=crop&q=80',
     category: 'Cộng đồng & Kỷ niệm',
@@ -30,7 +30,7 @@ export const NEWS_DATA: NewsArticle[] = [
       '27/09/2024 — Television Material\nNgày 27/09/2024, Facebook Group Television Material được thành lập. Lần đầu tiên, những cuộc trò chuyện ấy có một nơi để tập hợp, không chỉ là trên những bình luận lẻ loi trên YouTube, nơi mà:\n• Tư liệu được chia sẻ.\n• Ký ức được nhắc lại.\n• Những câu chuyện về truyền hình được tiếp nối.\nTelevision Material khi ấy có thể chỉ là một nhóm nhỏ, nhưng nó đã đặt viên gạch đầu tiên cho một cộng đồng lớn hơn về sau.\n\n13/04/2025 — Khi những cuộc trò chuyện trở nên gần gũi hơn\nĐến 13/04/2025, NTTMA thành lập thêm một nhóm Messenger riêng để cả nhóm có thể thoải mái trò chuyện và “tám” về truyền hình. Cũng từ đây, TMC xuất hiện và trở thành thành viên thứ sáu. Facebook Group và Messenger tiếp tục tồn tại song song, mỗi nơi mang một vai trò riêng. Đó là một nơi để chia sẻ, một nơi để trò chuyện, vui đùa sau những ngày giờ mệt mỏi. Và cả hai đều trở thành những mảnh ghép đầu tiên trong câu chuyện của Waves.',
       'III. BƯỚC SANG MỘT CHƯƠNG MỚI',
       'Ngày 09/06/2025, năm thành viên nòng cốt chính thức rời Messenger để bước lên Discord, với VNTV là owner. Server khi ấy thậm chí chưa có một cái tên cố định, nhưng chính nơi đó lại trở thành tiền thân của The Waves ngày hôm nay. Và rồi, cái tên cứ thay đổi ngày qua ngày...\n\nMỗi cái tên là một ý tưởng chung. Mỗi cái tên là một giai đoạn. Và mỗi lần đổi tên lại phản ánh một lần cộng đồng thử tìm kiếm cho mình một bản sắc mới. Đến một lúc, RSU trở thành “ngôi trường truyền hình” của cả cộng đồng — một nơi mang trong mình rất nhiều câu chuyện, kỷ niệm và những ngày tháng không thể lặp lại.\n\n→ Television Material\n→ TV Material\n→ TV Warriors\n→ TVerse\n→ Retro Universe\n→ Retroverse\n→ Retroverse University (RSU)',
-      'IV. 19/09/2025 — MỘT LẦN RẼ SANG CON ĐƯỜNG KHÁC',
+      'IV. 19/09/2025 — LẦN RẼ SANG CON ĐƯỜNG MỚI',
       'Ngày 19/09/2025, cả nhóm chuyển sang một server hoàn toàn mới do Johnny Phạm làm owner. Một lần nữa, hành trình mới lại bắt đầu tiếp tục với rất nhiều lần đổi tên tiếp theo.\n\nVà cuối cùng, cái tên The Waves được giữ lại. Có lẽ không ai khi ấy nghĩ rằng cái tên ấy sẽ trở thành dấu ấn gắn với cộng đồng trong suốt một năm tiếp theo.\n\n→ Retro(New)verse / Retroverse II\n→ RetroStudios\n→ RetroCafe\n→ SVN - Network\n→ SVN - Archive\n→ V-Network Community\n→ V-Archive Community\n→ The Waves - Television Group\n→ The Waves - Television Community\n→ The Waves',
       'V. NHỮNG NƠI ĐÃ TỪNG LÀ NHÀ',
       'Ngày 03/07/2025, nhóm Messenger dần đi vào im lặng... Nó không bị xóa... Vẫn ở đó... Như một căn phòng cũ mà chẳng còn ai bước vào, nhưng cũng chẳng ai muốn khóa cửa. Bởi đôi khi, một nơi không còn được sử dụng vẫn có giá trị — vì nó lưu giữ những ngày tháng mà chúng ta từng ở đó.\n\n... Và đúng ngày 18/10/2025, server Retroverse University chính thức “rút máy thở”. Một chương khép lại. Nhưng câu chuyện chưa bao giờ thực sự kết thúc.',

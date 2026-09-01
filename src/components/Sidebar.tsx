@@ -53,7 +53,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const [isLiveTvExpanded, setIsLiveTvExpanded] = useState(false);
   const [isFavoritesExpanded, setIsFavoritesExpanded] = useState(false);
-  const [isToolboxExpanded, setIsToolboxExpanded] = useState(false);
   const [isHelpExpanded, setIsHelpExpanded] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const [isDiscordModalOpen, setIsDiscordModalOpen] = useState(false);
@@ -344,72 +343,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
         </div>
 
-        {/* 6. Toolbox Accordion */}
-        <div className="w-full">
-          <button
-            id={isMobile ? 'mobile-nav-item-toolbox' : 'nav-item-toolbox'}
-            onClick={() => handleNavClick('/toolbox')}
-            title="Toolbox"
-            className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
-              isActive('/toolbox')
-                ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
-                : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
-            }`}
-          >
-            <div className="flex items-center gap-3.5 truncate">
-              <Box className="w-5 h-5 shrink-0" />
-              <span className="truncate">Toolbox</span>
-            </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsToolboxExpanded(!isToolboxExpanded);
-              }}
-              className="p-1 hover:text-white"
-            >
-              {isToolboxExpanded ? (
-                <ChevronDown className="w-4 h-4 opacity-70" />
-              ) : (
-                <ChevronRight className="w-4 h-4 opacity-70" />
-              )}
-            </div>
-          </button>
-
-          {isToolboxExpanded && (
-            <div className="mt-2 ml-4 pl-3 border-l border-[#3E3E48] space-y-1">
-              <button
-                onClick={() => handleNavClick('/toolbox', { tab: 'safe-area' })}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
-              >
-                <Layers className="w-3.5 h-3.5 text-[#FF6B6B]" />
-                <span className="truncate">Aspect Ratio & Safe Area</span>
-              </button>
-              <button
-                onClick={() => handleNavClick('/toolbox', { tab: 'color-bars' })}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
-              >
-                <Palette className="w-3.5 h-3.5 text-[#FF5555]" />
-                <span className="truncate">SMPTE Color Bars & Tone</span>
-              </button>
-              <button
-                onClick={() => handleNavClick('/toolbox', { tab: 'm3u-tester' })}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
-              >
-                <Radio className="w-3.5 h-3.5 text-[#38BDF8]" />
-                <span className="truncate">M3U Playlist Parser</span>
-              </button>
-              <button
-                onClick={() => handleNavClick('/toolbox', { tab: 'timecode' })}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
-              >
-                <Film className="w-3.5 h-3.5 text-[#FBBF24]" />
-                <span className="truncate">Broadcast Timecode</span>
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* 7. Help (Book Icon) */}
+        {/* 6. Help (Book Icon) */}
         <div className="w-full">
           <button
             id={isMobile ? 'mobile-nav-item-help' : 'nav-item-help'}
@@ -436,11 +370,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
         </div>
 
-        {/* 8. About */}
+        {/* 7. About */}
         <button
           id={isMobile ? 'mobile-nav-item-about' : 'nav-item-about'}
           onClick={() => handleNavClick('/about')}
-          title="About"
+          title="Giới thiệu"
           className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
             isActive('/about')
               ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
@@ -448,22 +382,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
           }`}
         >
           <Info className="w-5 h-5 shrink-0" />
-          <span className="truncate">About</span>
+          <span className="truncate">Giới thiệu</span>
         </button>
 
-        {/* 9. Join Waves on Discord (Monochrome White Icon & Modal Trigger) */}
+        {/* 8. Join our Discord */}
         <button
           type="button"
           id={isMobile ? 'mobile-nav-item-discord' : 'nav-item-discord'}
           onClick={() => setIsDiscordModalOpen(true)}
-          title="Join Waves on Discord"
+          title="Join our Discord"
           className="w-full flex items-center justify-between px-4 py-3 rounded-[14px] text-[#D1D5DB] hover:text-white hover:bg-white/10 border border-transparent transition-all group cursor-pointer text-left"
         >
           <div className="flex items-center gap-3.5 truncate">
             <svg className="w-5 h-5 fill-current text-white shrink-0" viewBox="0 0 24 24">
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.078.078 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
             </svg>
-            <span className="truncate text-xs font-medium">Join Waves on Discord</span>
+            <span className="truncate text-xs font-medium">Join our Discord</span>
           </div>
         </button>
 
@@ -614,18 +548,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <Heart className="w-5 h-5 shrink-0" />
                 </button>
 
-                {/* 5. Toolbox */}
-                <button
-                  onClick={() => handleNavClick('/toolbox')}
-                  title="Toolbox"
-                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 shrink-0 transition-all cursor-pointer ${
-                    isActive('/toolbox') ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20' : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
-                  }`}
-                >
-                  <Box className="w-5 h-5 shrink-0" />
-                </button>
-
-                {/* 6. Help */}
+                {/* 5. Help */}
                 <button
                   onClick={() => handleNavClick('/about')}
                   title="Help"
@@ -634,10 +557,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <BookOpen className="w-5 h-5 shrink-0" />
                 </button>
 
-                {/* 7. About */}
+                {/* 6. About */}
                 <button
                   onClick={() => handleNavClick('/about')}
-                  title="About"
+                  title="Giới thiệu"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 shrink-0 transition-all cursor-pointer ${
                     isActive('/about') ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20' : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
                   }`}
@@ -645,10 +568,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <Info className="w-5 h-5 shrink-0" />
                 </button>
 
-                {/* 8. Discord Community */}
+                {/* 7. Discord Community */}
                 <button
                   onClick={() => setIsDiscordModalOpen(true)}
-                  title="Join Waves on Discord"
+                  title="Join our Discord"
                   className="w-11 h-11 rounded-[14px] flex items-center justify-center p-0 shrink-0 text-[#D1D5DB] hover:text-white hover:bg-white/10 transition-all cursor-pointer"
                 >
                   <svg className="w-5 h-5 fill-current text-white shrink-0" viewBox="0 0 24 24">

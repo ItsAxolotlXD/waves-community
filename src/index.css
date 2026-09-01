@@ -107,8 +107,8 @@ html.light-mode #waves-mobile-sidebar {
   border-color: #E2E8F0 !important;
 }
 
-html.light-mode #waves-desktop-sidebar .text-white,
-html.light-mode #waves-mobile-sidebar .text-white {
+html.light-mode #waves-desktop-sidebar .text-white:not(.bg-\[\#E6005A\]):not(.bg-\[\#E6005A\] *),
+html.light-mode #waves-mobile-sidebar .text-white:not(.bg-\[\#E6005A\]):not(.bg-\[\#E6005A\] *) {
   color: #111827 !important;
 }
 
@@ -274,22 +274,50 @@ html.light-mode .sidebar-search-btn:hover svg {
 }
 
 /* Sidebar tabs hover and active states */
-html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover {
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover,
+html.light-mode #waves-mobile-sidebar button:not(.bg-\[\#E6005A\]):hover {
   background-color: #F1F3F5 !important;
   color: #111827 !important;
 }
 html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover span,
-html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover svg {
+html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover svg,
+html.light-mode #waves-mobile-sidebar button:not(.bg-\[\#E6005A\]):hover span,
+html.light-mode #waves-mobile-sidebar button:not(.bg-\[\#E6005A\]):hover svg {
   color: #111827 !important;
 }
 
-html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] {
+/* Selected/Active sidebar item in both dark and light modes */
+#waves-desktop-sidebar .bg-\[\#E6005A\],
+#waves-mobile-sidebar .bg-\[\#E6005A\],
+html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\],
+html.light-mode #waves-mobile-sidebar .bg-\[\#E6005A\] {
   background-color: #E6005A !important;
   color: #FFFFFF !important;
 }
+
+#waves-desktop-sidebar .bg-\[\#E6005A\] span,
+#waves-desktop-sidebar .bg-\[\#E6005A\] svg,
+#waves-desktop-sidebar .bg-\[\#E6005A\] *,
+#waves-mobile-sidebar .bg-\[\#E6005A\] span,
+#waves-mobile-sidebar .bg-\[\#E6005A\] svg,
+#waves-mobile-sidebar .bg-\[\#E6005A\] *,
 html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] span,
-html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] svg {
+html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] svg,
+html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] *,
+html.light-mode #waves-mobile-sidebar .bg-\[\#E6005A\] span,
+html.light-mode #waves-mobile-sidebar .bg-\[\#E6005A\] svg,
+html.light-mode #waves-mobile-sidebar .bg-\[\#E6005A\] * {
   color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none;
+}
+
+#waves-desktop-sidebar .bg-\[\#E6005A\] img,
+#waves-mobile-sidebar .bg-\[\#E6005A\] img,
+html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] img,
+html.light-mode #waves-mobile-sidebar .bg-\[\#E6005A\] img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 1 !important;
 }
 
 /* Submenu expanded container */
@@ -556,8 +584,7 @@ html.light-mode #btn-discord-close:hover {
 }
 
 html.light-mode #discord-welcome-backdrop,
-html.light-mode #custom-stream-backdrop,
-html.light-mode #under-construction-backdrop {
+html.light-mode #custom-stream-backdrop {
   background-color: rgba(0, 0, 0, 0.45) !important;
 }
 
@@ -607,63 +634,35 @@ html.light-mode #custom-stream-dialog button.bg-\[\#28282E\]:hover {
   color: #111827 !important;
 }
 
-/* Under Construction Modal in Light Mode */
-html.light-mode #under-construction-dialog {
-  background-color: #FFFFFF !important;
-  color: #111827 !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18) !important;
-}
-
 /* Welcome Modal in Light Mode */
-html.light-mode #welcome-modal-dialog {
+html.light-mode #welcome-modal-dialog,
+html.light-mode #under-construction-modal-dialog {
   background-color: #FFFFFF !important;
   color: #111827 !important;
   border-color: #E2E8F0 !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18) !important;
 }
 
-html.light-mode #welcome-modal-title {
+html.light-mode #welcome-modal-title,
+html.light-mode #under-construction-modal-title {
   color: #111827 !important;
 }
 
-html.light-mode #welcome-modal-description {
+html.light-mode #welcome-modal-description,
+html.light-mode #under-construction-modal-description {
   color: #4B5563 !important;
 }
 
-html.light-mode #btn-welcome-close-icon {
+html.light-mode #btn-welcome-close-icon,
+html.light-mode #btn-under-construction-close-icon {
   background-color: #F1F3F5 !important;
   color: #4B5563 !important;
 }
 
-html.light-mode #btn-welcome-close-icon:hover {
+html.light-mode #btn-welcome-close-icon:hover,
+html.light-mode #btn-under-construction-close-icon:hover {
   background-color: #E5E7EB !important;
   color: #111827 !important;
-}
-
-html.light-mode #under-construction-title {
-  color: #111827 !important;
-}
-
-html.light-mode #under-construction-subtitle {
-  color: #4B5563 !important;
-}
-
-html.light-mode #under-construction-dialog input {
-  background-color: #F8FAFC !important;
-  border-color: #D1D5DB !important;
-  color: #111827 !important;
-}
-
-html.light-mode #under-construction-dialog input:focus {
-  background-color: #FFFFFF !important;
-  border-color: #E6005A !important;
-  color: #111827 !important;
-}
-
-html.light-mode #btn-enter-password {
-  background-color: #FEE2E2 !important;
-  color: #991B1B !important;
 }
 
 /* Theme Segmented Box in Settings */
@@ -1092,6 +1091,45 @@ html.light-mode #waves-video-player-container {
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12) !important;
 }
 
+html.light-mode #btn-livetv-import-m3u8,
+html.light-mode #btn-livetv-share {
+  background-color: #F3F4F6 !important;
+  border-color: #E5E7EB !important;
+  color: #1F2937 !important;
+}
+
+html.light-mode #btn-livetv-import-m3u8:hover,
+html.light-mode #btn-livetv-share:hover {
+  background-color: #E5E7EB !important;
+  color: #111827 !important;
+}
+
+html.light-mode #btn-livetv-favorite:not(.bg-\[\#E50914\]) {
+  background-color: #F3F4F6 !important;
+  border-color: #E5E7EB !important;
+  color: #4B5563 !important;
+}
+
+html.light-mode #btn-livetv-favorite:not(.bg-\[\#E50914\]):hover {
+  background-color: #E5E7EB !important;
+  color: #111827 !important;
+}
+
+html.light-mode #livetv-category-tabs button:not(.bg-\[\#E50914\]) {
+  background-color: #F3F4F6 !important;
+  border-color: #E5E7EB !important;
+  color: #4B5563 !important;
+}
+
+html.light-mode #livetv-category-tabs button:not(.bg-\[\#E50914\]):hover {
+  background-color: #E5E7EB !important;
+  color: #111827 !important;
+}
+
+html.light-mode .livetv-category-divider {
+  border-bottom-color: #E5E7EB !important;
+}
+
 html.light-mode #livetv-channel-search {
   background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
@@ -1118,6 +1156,49 @@ html.light-mode [id^="livetv-channel-card-"] h3 {
 
 html.light-mode [id^="livetv-channel-card-"] p {
   color: #6B7280 !important;
+}
+
+html.light-mode #under-construction-modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+}
+
+html.light-mode #under-construction-modal-dialog {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18) !important;
+}
+
+html.light-mode #under-construction-modal-title {
+  color: #111827 !important;
+}
+
+html.light-mode #under-construction-modal-description {
+  color: #4B5563 !important;
+}
+
+/* ==========================================================================
+   About Page Light Mode Adaptations
+   ========================================================================== */
+html.light-mode #about-disclaimer-card {
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light-mode #about-disclaimer-title {
+  color: #111827 !important;
+}
+
+html.light-mode #about-disclaimer-text {
+  color: #4B5563 !important;
+}
+
+html.light-mode #about-community-card {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
 
 
