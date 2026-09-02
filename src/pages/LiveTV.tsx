@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { VideoPlayer } from '../components/VideoPlayer';
 import { Channel } from '../types';
 import { useFavorites } from '../hooks/useFavorites';
+import { useVoiceSearch } from '../hooks/useVoiceSearch';
 import { 
   Tv, 
   Search, 
@@ -11,8 +12,10 @@ import {
   CheckCircle2, 
   X,
   ChevronRight,
-  Hash
+  Hash,
+  Mic
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface LiveTVProps {
   currentChannel: Channel;
@@ -31,6 +34,17 @@ export const LiveTV: React.FC<LiveTVProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [copiedLink, setCopiedLink] = useState(false);
   const [isTheaterMode, setIsTheaterMode] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const {
+    isListening,
+    toggleListening
+  } = useVoiceSearch((transcript) => {
+    setSearchQuery(transcript);
+    setIsFocused(true);
+    inputRef.current?.focus();
+  });
 
   const { isChannelFavorite, toggleFavoriteChannel } = useFavorites();
   const isFav = isChannelFavorite(currentChannel.id);
@@ -154,24 +168,78 @@ export const LiveTV: React.FC<LiveTVProps> = ({
           </div>
 
           {/* Search Box */}
-          <div className="relative w-full sm:w-64">
+          <div className="relative w-full sm:w-64 flex items-center">
             <Search className="absolute left-3 top-2.5 w-4 h-4 text-[#9CA3AF]" />
             <input
+              ref={inputRef}
               id="livetv-channel-search"
               type="text"
               value={searchQuery}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => {
+                if (!searchQuery && !isListening) setIsFocused(false);
+              }}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm tên kênh hoặc số hiệu (VD: 001)..."
-              className="w-full pl-9 pr-8 py-2 rounded-full bg-white dark:bg-[#171719] border border-[#E5E7EB] dark:border-[#34343C] text-xs text-[#111827] dark:text-white placeholder-[#9CA3AF] focus:outline-none focus:border-[#E50914] transition-colors"
+              placeholder={isListening ? "Đang nghe..." : "Tìm tên kênh hoặc số hiệu..."}
+              className={`w-full pl-9 ${isFocused || isListening ? 'pr-14' : 'pr-8'} py-2 rounded-full bg-white dark:bg-[#171719] border border-[#E5E7EB] dark:border-[#34343C] text-xs text-[#111827] dark:text-white placeholder-[#9CA3AF] focus:outline-none focus:border-[#E50914] transition-all`}
             />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-2.5 text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white cursor-pointer"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
+            <div className="absolute right-2 flex items-center gap-1 overflow-visible">
+              <AnimatePresence>
+                {searchQuery && (
+                  <motion.button
+                    type="button"
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.7 }}
+                    transition={{ duration: 0.15 }}
+                    onClick={() => {
+                      setSearchQuery('');
+                      inputRef.current?.focus();
+                    }}
+                    className="text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white cursor-pointer p-1"
+                    title="Xóa tìm kiếm"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </motion.button>
+                )}
+
+                {(isFocused || isListening) && (
+                  <motion.button
+                    type="button"
+                    initial={{ opacity: 0, x: 20, scale: 0.85 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: 20, scale: 0.85 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 350,
+                      damping: 28,
+                      mass: 0.8
+                    }}
+                    onClick={() => toggleListening()}
+                    className={`w-6 h-6 rounded-full transition-all cursor-pointer flex items-center justify-center ${
+                      isListening
+                        ? 'bg-[#E50914] shadow-[0_0_10px_rgba(229,9,20,0.7)] animate-pulse'
+                        : 'hover:bg-black/5 dark:hover:bg-white/10'
+                    }`}
+                    title={isListening ? "Dừng nghe" : "Tìm kiếm bằng giọng nói"}
+                  >
+                    <div className="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center shrink-0">
+                      <img
+                        src="https://github.com/andrewtavis/sf-symbols-online/blob/master/glyphs/mic.png?raw=true"
+                        alt="Voice Search"
+                        referrerPolicy="no-referrer"
+                        className={`w-full h-full aspect-square object-contain select-none pointer-events-none ${
+                          isListening ? 'brightness-0 invert' : 'opacity-70 dark:brightness-0 dark:invert'
+                        }`}
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  </motion.button>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   BookOpen, 
   Info, 
@@ -204,7 +205,7 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
         type="button"
         disabled={!isRelevant}
         onClick={() => isRelevant && setIsOpen(!isOpen)}
-        className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-white bg-transparent transition-opacity drop-shadow-sm cursor-default relative"
+        className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-white transition-all drop-shadow-sm cursor-default relative"
         title={isRelevant ? "Công cụ & Tiện ích Vplay (Tools)" : "Không có công cụ khả dụng"}
         aria-label="Menu công cụ Vplay"
         aria-expanded={isOpen}
@@ -222,13 +223,23 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
         />
       </button>
 
-      {/* Floating Instant Popup Menu (No animation, no border, no header title, monochrome icons, normal cursor) */}
-      {isOpen && isRelevant && (
-        <div
-          id="vplay-tools-dropdown-card"
-          className="absolute right-0 mt-2 w-72 rounded-[22px] bg-white dark:bg-[#1E1E24] p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] z-50 select-none text-[#111827] dark:text-white cursor-default"
-        >
-          {/* Menu Items for HOME */}
+      {/* Floating Popup Menu with Slide Down Bounce Animation */}
+      <AnimatePresence>
+        {isOpen && isRelevant && (
+          <motion.div
+            id="vplay-tools-dropdown-card"
+            initial={{ opacity: 0, y: -16, scale: 0.94 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.95 }}
+            transition={{
+              type: "spring",
+              stiffness: 420,
+              damping: 20,
+              mass: 0.75
+            }}
+            className="absolute right-0 mt-2 w-72 rounded-[22px] bg-white dark:bg-[#1E1E24] p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] z-50 select-none text-[#111827] dark:text-white cursor-default origin-top-right"
+          >
+            {/* Menu Items for HOME */}
           {isHome && (
             <div className="space-y-1">
               <button
@@ -476,8 +487,9 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
               <span>{copiedToast}</span>
             </div>
           )}
-        </div>
+        </motion.div>
       )}
-    </div>
-  );
+    </AnimatePresence>
+  </div>
+);
 };

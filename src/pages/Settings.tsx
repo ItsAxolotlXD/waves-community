@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Palette, 
   Key, 
@@ -9,13 +9,30 @@ import {
   Sun,
   Moon,
   Sparkles,
-  Sliders
+  Sliders,
+  Mic,
+  MicOff
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useSettings, FONT_SCALE_CONFIG } from '../hooks/useSettings';
+import { useVoiceSearch } from '../hooks/useVoiceSearch';
+import { WelcomeModal } from '../components/WelcomeModal';
 
 export const Settings: React.FC = () => {
   const { settings, updateSetting } = useSettings();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+  const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const {
+    isListening,
+    toggleListening
+  } = useVoiceSearch((transcript) => {
+    setSearchQuery(transcript);
+    setIsFocused(true);
+    inputRef.current?.focus();
+  });
 
   const matchesSearch = (text: string) => {
     if (!searchQuery.trim()) return true;
@@ -33,10 +50,27 @@ export const Settings: React.FC = () => {
           Quản lý giao diện, trợ năng và tiện ích hệ thống
         </p>
 
-        {/* Search Bar Capsule with Spotlight Search Styling */}
+        {/* Search Bar Capsule with Spotlight Search Centering & Styling */}
         <div className="pt-2">
-          <div className="w-full h-[46px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box text-sm transition-all">
-            <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div 
+            onClick={() => {
+              setIsFocused(true);
+              inputRef.current?.focus();
+            }}
+            className="relative w-full h-[46px] flex items-center px-4 rounded-full spotlight-bubble-box text-sm transition-all spotlight-input-container overflow-hidden cursor-text select-none"
+          >
+            <motion.div 
+              animate={{
+                x: isFocused || searchQuery ? 0 : 'calc(50% - 75px)',
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 350,
+                damping: 28,
+                mass: 0.8
+              }}
+              className={`flex items-center gap-2.5 w-full ${isFocused || isListening ? 'pr-16' : 'pr-8'}`}
+            >
               <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
                 <img
                   src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
@@ -49,23 +83,81 @@ export const Settings: React.FC = () => {
                 />
               </div>
               <input
+                ref={inputRef}
                 id="settings-search-input"
                 type="text"
                 value={searchQuery}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => {
+                  if (!searchQuery && !isListening) setIsFocused(false);
+                }}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm kiếm cài đặt..."
-                className="w-full bg-transparent text-white placeholder-[#8E8E93] text-sm focus:outline-none font-medium truncate"
+                placeholder={isListening ? "Đang nghe giọng nói..." : "Tìm kiếm cài đặt"}
+                className="w-full bg-transparent text-white placeholder-[#8E8E93] text-sm focus:outline-none font-medium truncate text-left"
               />
+            </motion.div>
+
+            {/* Right Side Actions: Clear & Voice Search Mic (visible when focused/active) */}
+            <div className="absolute right-2.5 flex items-center gap-1 shrink-0 overflow-visible">
+              <AnimatePresence>
+                {searchQuery && (
+                  <motion.button 
+                    type="button"
+                    initial={{ opacity: 0, scale: 0.7 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.7 }}
+                    transition={{ duration: 0.15 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSearchQuery('');
+                      setIsFocused(true);
+                      inputRef.current?.focus();
+                    }}
+                    className="p-1 rounded-full text-[#8E8E93] hover:text-white transition-colors cursor-pointer"
+                    title="Xóa tìm kiếm"
+                  >
+                    <X className="w-4 h-4" />
+                  </motion.button>
+                )}
+
+                {(isFocused || isListening) && (
+                  <motion.button
+                    type="button"
+                    initial={{ opacity: 0, x: 24, scale: 0.85 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: 24, scale: 0.85 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 350,
+                      damping: 28,
+                      mass: 0.8
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleListening();
+                    }}
+                    className={`w-7 h-7 rounded-full transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                      isListening
+                        ? 'bg-[#E6005A] shadow-[0_0_14px_rgba(230,0,90,0.8)] scale-105 animate-pulse'
+                        : 'hover:bg-white/10 dark:hover:bg-white/15'
+                    }`}
+                    title={isListening ? "Dừng nghe giọng nói" : "Tìm kiếm bằng giọng nói"}
+                  >
+                    <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
+                      <img
+                        src="https://github.com/andrewtavis/sf-symbols-online/blob/master/glyphs/mic.png?raw=true"
+                        alt="Voice Search"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full aspect-square object-contain brightness-0 invert opacity-90 select-none pointer-events-none drop-shadow-sm"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  </motion.button>
+                )}
+              </AnimatePresence>
             </div>
-            {searchQuery && (
-              <button 
-                onClick={() => setSearchQuery('')}
-                className="p-1 rounded-full text-[#8E8E93] hover:text-white transition-colors cursor-pointer shrink-0 ml-2"
-                title="Xóa tìm kiếm"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
           </div>
         </div>
       </div>
@@ -662,6 +754,64 @@ export const Settings: React.FC = () => {
           </div>
         </section>
       )}
+
+      {/* 5. Section 5: Khác */}
+      {(matchesSearch('Khác') ||
+        matchesSearch('Changelogs') ||
+        matchesSearch('Nhật ký thay đổi') ||
+        matchesSearch('Cập nhật') ||
+        matchesSearch('Release Notes') ||
+        matchesSearch('Vplay')) && (
+        <section 
+          id="settings-section-other"
+          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+        >
+          {/* Section Header */}
+          <div className="flex items-start gap-3">
+            <Sparkles className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <div>
+              <h2 className="text-base font-bold text-white leading-tight">
+                Khác
+              </h2>
+              <p className="text-xs text-[#9CA3AF] mt-1 leading-relaxed">
+                Thông tin phiên bản, nhật ký cập nhật và các tiện ích bổ sung
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-3 pt-1">
+            {/* Changelogs Option Card */}
+            {(matchesSearch('Changelogs') || matchesSearch('Khác') || matchesSearch('Nhật ký thay đổi') || matchesSearch('Cập nhật') || matchesSearch('Release Notes') || matchesSearch('Vplay')) && (
+              <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
+                <div>
+                  <div className="font-semibold text-white text-sm">
+                    Changelogs
+                  </div>
+                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                    Danh sách những sự thay đổi trong bản cập nhật mới nhất của Vplay.
+                  </div>
+                </div>
+
+                {/* Colored Button: Read */}
+                <button
+                  id="btn-changelogs-read"
+                  type="button"
+                  onClick={() => setIsWelcomeModalOpen(true)}
+                  className="px-5 py-2 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.96] transition-all text-xs sm:text-sm cursor-pointer flex items-center justify-center shrink-0 shadow-md tracking-tight text-center"
+                >
+                  Read
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Welcome to Vplay 26.9 / Changelogs Modal Dialog */}
+      <WelcomeModal
+        isOpen={isWelcomeModalOpen}
+        onClose={() => setIsWelcomeModalOpen(false)}
+      />
     </div>
   );
 };

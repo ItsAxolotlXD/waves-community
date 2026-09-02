@@ -38,15 +38,17 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
 
         <div className="flex items-center gap-2">
           <button
+            id="slider-prev-btn"
             onClick={() => scroll('left')}
-            className="w-8 h-8 rounded-full bg-[#222226] hover:bg-[#2F2F36] border border-[#34343C] flex items-center justify-center text-[#A1A1AA] hover:text-white transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
             aria-label="Cuộn sang trái"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
+            id="slider-next-btn"
             onClick={() => scroll('right')}
-            className="w-8 h-8 rounded-full bg-[#222226] hover:bg-[#2F2F36] border border-[#34343C] flex items-center justify-center text-[#A1A1AA] hover:text-white transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
             aria-label="Cuộn sang phải"
           >
             <ChevronRight className="w-4 h-4" />

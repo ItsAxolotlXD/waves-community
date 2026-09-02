@@ -14,12 +14,15 @@ import {
   Layers,
   Palette,
   Radio,
-  Film
+  Film,
+  Mic,
+  MicOff
 } from 'lucide-react';
 import { CHANNELS_DATA } from '../data/channels';
 import { NEWS_DATA } from '../data/news';
 import { Channel } from '../types';
 import { useSettings } from '../hooks/useSettings';
+import { useVoiceSearch } from '../hooks/useVoiceSearch';
 
 interface SpotlightModalProps {
   isOpen: boolean;
@@ -54,12 +57,30 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
 }) => {
   const { settings } = useSettings();
   const [query, setQuery] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const {
+    isListening,
+    errorMessage: voiceError,
+    toggleListening
+  } = useVoiceSearch((transcript) => {
+    setQuery(transcript);
+    setIsFocused(true);
+    inputRef.current?.focus();
+  });
 
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 60);
       setQuery('');
+      setIsFocused(false);
+      const timer = setTimeout(() => {
+        setIsFocused(true);
+        inputRef.current?.focus();
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      setIsFocused(false);
     }
   }, [isOpen]);
 
@@ -185,14 +206,31 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
             className="relative w-full max-w-[380px] sm:max-w-[440px] bg-[#1A1A20] rounded-[28px] p-4 sm:p-5 shadow-2xl overflow-hidden z-10"
           >
             {/* Capsule Pill Search Input Bar */}
-            <div className="w-full h-[46px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box text-sm transition-all spotlight-input-container">
-              <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div 
+              onClick={() => {
+                setIsFocused(true);
+                inputRef.current?.focus();
+              }}
+              className="relative w-full h-[46px] flex items-center px-4 rounded-full spotlight-bubble-box text-sm transition-all spotlight-input-container overflow-hidden cursor-text select-none"
+            >
+              <motion.div 
+                animate={{
+                  x: isFocused || query ? 0 : 'calc(50% - 68px)',
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 350,
+                  damping: 28,
+                  mass: 0.8
+                }}
+                className={`flex items-center gap-2.5 w-full ${isFocused || isListening ? 'pr-16' : 'pr-8'}`}
+              >
                 <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
                   <img
                     src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
                     alt="Search"
                     referrerPolicy="no-referrer"
-                    className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80"
+                    className="w-full h-full aspect-square object-contain brightness-0 invert opacity-90"
                     onError={(e) => {
                       (e.target as HTMLElement).style.display = 'none';
                     }}
@@ -202,33 +240,75 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                   ref={inputRef}
                   type="text"
                   value={query}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => {
+                    if (!query && !isListening) setIsFocused(false);
+                  }}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Spotlight Search..."
-                  className="w-full bg-transparent text-white placeholder-[#8E8E93] text-sm focus:outline-none font-medium truncate"
+                  placeholder={isListening ? "Đang nghe giọng nói..." : "Spotlight Search"}
+                  className="bg-transparent text-white placeholder-[#A1A1AA] text-sm focus:outline-none font-medium w-full text-left"
                 />
-              </div>
-              <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                {query ? (
-                  <button 
-                    onClick={() => setQuery('')}
-                    className="p-1 rounded-full text-[#8E8E93] hover:text-white transition-colors cursor-pointer"
-                    title="Xóa tìm kiếm"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                ) : (
-                  <div className="w-4 h-4 min-w-[16px] min-h-[16px] max-w-[16px] max-h-[16px] flex items-center justify-center shrink-0">
-                    <img
-                      src="https://github.com/andrewtavis/sf-symbols-online/raw/master/glyphs/mic.png"
-                      alt="Mic"
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80"
-                      onError={(e) => {
-                        (e.target as HTMLElement).style.display = 'none';
+              </motion.div>
+
+              {/* Right Side Actions: Clear & Voice Search Mic (visible when focused/active) */}
+              <div className="absolute right-2.5 flex items-center gap-1 shrink-0 overflow-visible">
+                <AnimatePresence>
+                  {query && (
+                    <motion.button 
+                      type="button"
+                      initial={{ opacity: 0, scale: 0.7 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.7 }}
+                      transition={{ duration: 0.15 }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setQuery('');
+                        inputRef.current?.focus();
                       }}
-                    />
-                  </div>
-                )}
+                      className="p-1 rounded-full text-[#8E8E93] hover:text-white transition-colors cursor-pointer"
+                      title="Xóa tìm kiếm"
+                    >
+                      <X className="w-4 h-4" />
+                    </motion.button>
+                  )}
+
+                  {(isFocused || isListening) && (
+                    <motion.button
+                      type="button"
+                      initial={{ opacity: 0, x: 24, scale: 0.85 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, x: 24, scale: 0.85 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 350,
+                        damping: 28,
+                        mass: 0.8
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleListening();
+                      }}
+                      className={`w-7 h-7 rounded-full transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                        isListening
+                          ? 'bg-[#E6005A] shadow-[0_0_14px_rgba(230,0,90,0.8)] scale-105 animate-pulse'
+                          : 'hover:bg-white/10 dark:hover:bg-white/15'
+                      }`}
+                      title={isListening ? "Dừng nghe giọng nói" : "Tìm kiếm bằng giọng nói"}
+                    >
+                      <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
+                        <img
+                          src="https://github.com/andrewtavis/sf-symbols-online/blob/master/glyphs/mic.png?raw=true"
+                          alt="Voice Search"
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full aspect-square object-contain brightness-0 invert opacity-90 select-none pointer-events-none drop-shadow-sm"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    </motion.button>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 

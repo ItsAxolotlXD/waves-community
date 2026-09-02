@@ -133,23 +133,6 @@ html.light-mode #waves-mobile-sidebar button:not(.bg-\[\#E6005A\]):hover {
   color: #111827 !important;
 }
 
-/* Close & collapse button on sidebar */
-html.light-mode #btn-sidebar-collapse,
-html.light-mode #btn-sidebar-expand,
-html.light-mode #btn-mobile-sidebar-close,
-html.light-mode #btn-sidebar-back {
-  background-color: #F1F3F5 !important;
-  border-color: #E5E7EB !important;
-  color: #4B5563 !important;
-}
-html.light-mode #btn-sidebar-collapse:hover,
-html.light-mode #btn-sidebar-expand:hover,
-html.light-mode #btn-mobile-sidebar-close:hover,
-html.light-mode #btn-sidebar-back:hover {
-  background-color: #E5E7EB !important;
-  color: #111827 !important;
-}
-
 /* Light Mode Settings Page */
 html.light-mode #settings-search-input,
 html.light-mode .spotlight-bubble-box input,
@@ -167,7 +150,8 @@ html.light-mode .search-box-capsule input::placeholder {
 html.light-mode #settings-section-interface,
 html.light-mode #settings-section-accessibility,
 html.light-mode #settings-section-motion,
-html.light-mode #settings-section-search {
+html.light-mode #settings-section-search,
+html.light-mode #settings-section-other {
   background-color: #FFFFFF !important;
   border-color: #E5E7EB !important;
   box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05) !important;
@@ -175,13 +159,15 @@ html.light-mode #settings-section-search {
 html.light-mode #settings-section-interface .text-white,
 html.light-mode #settings-section-accessibility .text-white,
 html.light-mode #settings-section-motion .text-white,
-html.light-mode #settings-section-search .text-white {
+html.light-mode #settings-section-search .text-white,
+html.light-mode #settings-section-other .text-white {
   color: #111827 !important;
 }
 html.light-mode #settings-section-interface .bg-\[\#28272E\],
 html.light-mode #settings-section-accessibility .bg-\[\#28272E\],
 html.light-mode #settings-section-motion .bg-\[\#28272E\],
-html.light-mode #settings-section-search .bg-\[\#28272E\] {
+html.light-mode #settings-section-search .bg-\[\#28272E\],
+html.light-mode #settings-section-other .bg-\[\#28272E\] {
   background-color: #F8FAFC !important;
   border-color: #E2E8F0 !important;
 }
@@ -190,32 +176,324 @@ html.light-mode #settings-section-search hr {
   border-color: #E2E8F0 !important;
 }
 
-/* Search Box Container Capsule Style - Only outer box gets thick red focus border */
+/* ==========================================================================
+   LIQUID GLASS DESIGN SYSTEM (Vplay 26.9 - Developer Beta 4)
+   ========================================================================== */
+
+/* Liquid Glass Capsule / Surface Style for Controls & Action Buttons */
+#btn-sidebar-collapse,
+#btn-sidebar-expand,
+#btn-mobile-sidebar-close,
+#btn-sidebar-back,
+#btn-mobile-menu-toggle,
+#slider-prev-btn,
+#slider-next-btn,
+#dock-spotlight-btn,
+#dock-home,
+#dock-tv,
+#dock-news,
+#dock-settings,
+#btn-discord-close,
+#btn-welcome-close-icon,
+#btn-under-construction-close-icon,
+#livetv-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]),
+#btn-theme-light:not(.bg-\[\#E6005A\]),
+#btn-theme-dark:not(.bg-\[\#E6005A\]),
 .spotlight-bubble-box,
-.search-box-capsule {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%), #27272D;
-  border: 1.5px solid rgba(255, 255, 255, 0.18);
-  border-top-color: rgba(255, 255, 255, 0.35);
-  border-bottom-color: rgba(255, 255, 255, 0.15);
-  box-shadow: none;
-  transition: border 0.18s ease-in-out, box-shadow 0.18s ease-in-out, background 0.18s ease-in-out;
+.search-box-capsule,
+.liquid-glass-control {
+  border: 1px solid transparent;
+  background-image: 
+    linear-gradient(#2F2F36, #2F2F36), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(160, 160, 175, 0.18) 15%, rgba(160, 160, 175, 0.05) 35%, rgba(160, 160, 175, 0.05) 65%, rgba(160, 160, 175, 0.18) 85%, rgba(255, 255, 255, 0.45) 100%);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 2px 8px rgba(0, 0, 0, 0.22);
+  transform: scale(1);
+  transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.24s ease-out, background-image 0.18s ease-in-out, border 0.18s ease-in-out;
+  will-change: transform;
 }
 
+#btn-sidebar-collapse:hover,
+#btn-sidebar-expand:hover,
+#btn-mobile-sidebar-close:hover,
+#btn-sidebar-back:hover,
+#btn-mobile-menu-toggle:hover,
+#slider-prev-btn:hover,
+#slider-next-btn:hover,
+#dock-spotlight-btn:hover,
+#dock-home:hover,
+#dock-tv:hover,
+#dock-news:hover,
+#dock-settings:hover,
+#btn-discord-close:hover,
+#btn-welcome-close-icon:hover,
+#btn-under-construction-close-icon:hover,
+#livetv-category-tabs button:hover,
+#btn-theme-light:hover,
+#btn-theme-dark:hover {
+  border: 1px solid transparent;
+  background-image: 
+    linear-gradient(#3E3E48, #3E3E48), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(160, 160, 175, 0.28) 15%, rgba(160, 160, 175, 0.10) 35%, rgba(160, 160, 175, 0.10) 65%, rgba(160, 160, 175, 0.28) 85%, rgba(255, 255, 255, 0.65) 100%);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 5px 16px rgba(0, 0, 0, 0.32);
+  transform: scale(1.085) !important;
+}
+
+#btn-sidebar-collapse:active,
+#btn-sidebar-expand:active,
+#btn-mobile-sidebar-close:active,
+#btn-sidebar-back:active,
+#btn-mobile-menu-toggle:active,
+#slider-prev-btn:active,
+#slider-next-btn:active,
+#dock-spotlight-btn:active,
+#dock-home:active,
+#dock-tv:active,
+#dock-news:active,
+#dock-settings:active,
+#btn-discord-close:active,
+#btn-welcome-close-icon:active,
+#btn-under-construction-close-icon:active,
+#livetv-category-tabs button:active,
+#btn-theme-light:active,
+#btn-theme-dark:active {
+  transform: scale(0.93) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out !important;
+}
+
+/* 4 Top Quick Action Buttons: Pure transparent background, no border, spring bounce scale on hover/active */
+#btn-top-tools-menu,
+#btn-top-search,
+#btn-top-notifications,
+#btn-top-light-mode {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: scale(1);
+  transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), opacity 0.2s ease, color 0.2s ease !important;
+  will-change: transform;
+}
+
+#btn-top-tools-menu:hover,
+#btn-top-search:hover,
+#btn-top-notifications:hover,
+#btn-top-light-mode:hover {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: scale(1.15) !important;
+  opacity: 1 !important;
+}
+
+#btn-top-tools-menu:active,
+#btn-top-search:active,
+#btn-top-notifications:active,
+#btn-top-light-mode:active {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: scale(0.92) !important;
+  transition: transform 0.1s ease-out !important;
+}
+
+html.light-mode #btn-top-tools-menu,
+html.light-mode #btn-top-search,
+html.light-mode #btn-top-notifications,
+html.light-mode #btn-top-light-mode {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #18181B !important;
+}
+
+html.light-mode #btn-top-tools-menu:hover,
+html.light-mode #btn-top-search:hover,
+html.light-mode #btn-top-notifications:hover,
+html.light-mode #btn-top-light-mode:hover {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Search Box Container Bounce on Hover & Unhover */
 .spotlight-bubble-box:hover,
 .search-box-capsule:hover {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.03) 100%), #2E2E36;
-  border-color: rgba(255, 255, 255, 0.32);
-  border-top-color: rgba(255, 255, 255, 0.52);
-  border-bottom-color: rgba(255, 255, 255, 0.24);
-  box-shadow: none;
+  border: 1px solid transparent;
+  background-image: 
+    linear-gradient(#3E3E48, #3E3E48), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.18) 35%, rgba(255, 255, 255, 0.18) 65%, rgba(255, 255, 255, 0.60) 100%);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2), 0 5px 16px rgba(0, 0, 0, 0.28);
+  transform: scale(1.035) !important;
 }
 
-/* THICK FOCUS BORDER ON SEARCH BOX CONTAINER ONLY (3px Solid Reddish Magenta) */
+.spotlight-bubble-box:active,
+.search-box-capsule:active {
+  transform: scale(0.98) !important;
+  transition: transform 0.1s ease-out !important;
+}
+
+/* Primary / Accent Pink Liquid Glass Action Buttons */
+#btn-discord-join,
+#btn-welcome-close,
+#btn-under-construction-close,
+#btn-changelogs-read,
+#dock-home.bg-\[\#E6005A\],
+#dock-tv.bg-\[\#E6005A\],
+#dock-news.bg-\[\#E6005A\],
+#dock-settings.bg-\[\#E6005A\],
+#livetv-category-tabs button.bg-\[\#E50914\],
+#livetv-category-tabs button.bg-\[\#E6005A\],
+#btn-theme-light.bg-\[\#E6005A\],
+#btn-theme-dark.bg-\[\#E6005A\] {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.20) 35%, rgba(255, 255, 255, 0.20) 65%, rgba(255, 255, 255, 0.58) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 0 3px 12px rgba(230, 0, 90, 0.38) !important;
+  transform: scale(1);
+  transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.24s ease-out, background-image 0.18s ease-in-out !important;
+}
+
+#btn-discord-join:hover,
+#btn-welcome-close:hover,
+#btn-under-construction-close:hover,
+#btn-changelogs-read:hover,
+#dock-home.bg-\[\#E6005A\]:hover,
+#dock-tv.bg-\[\#E6005A\]:hover,
+#dock-news.bg-\[\#E6005A\]:hover,
+#dock-settings.bg-\[\#E6005A\]:hover,
+#livetv-category-tabs button.bg-\[\#E50914\]:hover,
+#livetv-category-tabs button.bg-\[\#E6005A\]:hover,
+#btn-theme-light.bg-\[\#E6005A\]:hover,
+#btn-theme-dark.bg-\[\#E6005A\]:hover {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#FF267A, #FF267A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.30) 35%, rgba(255, 255, 255, 0.30) 65%, rgba(255, 255, 255, 0.78) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4), 0 5px 18px rgba(230, 0, 90, 0.48) !important;
+  transform: scale(1.065) !important;
+}
+
+#btn-discord-join:active,
+#btn-welcome-close:active,
+#btn-under-construction-close:active,
+#btn-changelogs-read:active {
+  transform: scale(0.94) !important;
+  transition: transform 0.1s ease-out !important;
+}
+
+/* Liquid Glass Toggle Switch Styling */
+button[role="switch"] {
+  border: 1px solid transparent !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  transform: scale(1);
+  transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), background 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+button[role="switch"]:hover {
+  transform: scale(1.085) !important;
+}
+
+button[role="switch"]:active {
+  transform: scale(0.94) !important;
+  transition: transform 0.1s ease-out !important;
+}
+
+button[role="switch"][aria-checked="true"] {
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.18) 40%, rgba(255, 255, 255, 0.5) 100%) !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 2px 10px rgba(230, 0, 90, 0.35) !important;
+}
+
+button[role="switch"][aria-checked="false"] {
+  background-image: 
+    linear-gradient(#3F3F46, #3F3F46), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.06) 40%, rgba(255, 255, 255, 0.25) 100%) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+button[role="switch"] span {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.32s cubic-bezier(0.34, 1.5, 0.64, 1), background-color 0.2s ease !important;
+}
+
+/* Global Button Hover Bounce for general buttons across the app */
+button:not(:disabled):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]) {
+  transform: scale(1);
+  transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.2s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+button:not(:disabled):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):hover {
+  transform: scale(1.06);
+}
+
+button:not(:disabled):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease-out;
+}
+
+/* Sidebar Navigation Tabs & Channel Items - Pure static layout, NO scale/bounce on hover or unhover */
+#waves-desktop-sidebar [id^="nav-item-"],
+#waves-desktop-sidebar .sidebar-visible-scroller button,
+#waves-desktop-sidebar .sidebar-visible-scroller [role="button"],
+#waves-mobile-sidebar [id^="mobile-nav-item-"],
+#waves-mobile-sidebar .sidebar-visible-scroller button,
+#waves-mobile-sidebar .sidebar-visible-scroller [role="button"],
+[id^="nav-item-"],
+[id^="mobile-nav-item-"] {
+  transform: none !important;
+  transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease !important;
+  will-change: auto !important;
+}
+
+#waves-desktop-sidebar [id^="nav-item-"]:hover,
+#waves-desktop-sidebar .sidebar-visible-scroller button:hover,
+#waves-desktop-sidebar .sidebar-visible-scroller [role="button"]:hover,
+#waves-mobile-sidebar [id^="mobile-nav-item-"]:hover,
+#waves-mobile-sidebar .sidebar-visible-scroller button:hover,
+#waves-mobile-sidebar .sidebar-visible-scroller [role="button"]:hover,
+[id^="nav-item-"]:hover,
+[id^="mobile-nav-item-"]:hover {
+  transform: none !important;
+}
+
+#waves-desktop-sidebar [id^="nav-item-"]:active,
+#waves-desktop-sidebar .sidebar-visible-scroller button:active,
+#waves-desktop-sidebar .sidebar-visible-scroller [role="button"]:active,
+#waves-mobile-sidebar [id^="mobile-nav-item-"]:active,
+#waves-mobile-sidebar .sidebar-visible-scroller button:active,
+#waves-mobile-sidebar .sidebar-visible-scroller [role="button"]:active,
+[id^="nav-item-"]:active,
+[id^="mobile-nav-item-"]:active {
+  transform: none !important;
+}
+
+/* THICK FOCUS BORDER ON SEARCH BOX CONTAINER ONLY (3px Solid Reddish Magenta, No Outer Ring) */
 .spotlight-bubble-box:focus-within,
+.spotlight-input-container:focus-within,
 .search-box-capsule:focus-within {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%), #32323B;
+  background-image: none !important;
+  background-color: #2F2F36 !important;
   border: 3px solid #E6005A !important;
-  box-shadow: 0 0 0 3px rgba(230, 0, 90, 0.25), 0 4px 16px rgba(230, 0, 90, 0.15) !important;
+  outline: none !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
 }
 
 /* Inner input inside search boxes NEVER gets focus border/ring */
@@ -232,31 +510,140 @@ html.light-mode #settings-section-search hr {
   background-color: transparent !important;
 }
 
+/* Light Mode Liquid Glass for Buttons & Search Capsules */
+html.light-mode #btn-mobile-menu-toggle,
+html.light-mode #btn-sidebar-collapse,
+html.light-mode #btn-sidebar-expand,
+html.light-mode #btn-mobile-sidebar-close,
+html.light-mode #btn-sidebar-back,
+html.light-mode #btn-spotlight-search,
+html.light-mode #btn-mobile-spotlight-search,
+html.light-mode #btn-spotlight-search-mini,
+html.light-mode #slider-prev-btn,
+html.light-mode #slider-next-btn,
+html.light-mode #dock-spotlight-btn,
+html.light-mode #dock-home:not(.bg-\[\#E6005A\]),
+html.light-mode #dock-tv:not(.bg-\[\#E6005A\]),
+html.light-mode #dock-news:not(.bg-\[\#E6005A\]),
+html.light-mode #dock-settings:not(.bg-\[\#E6005A\]),
+html.light-mode #btn-discord-close,
+html.light-mode #btn-welcome-close-icon,
+html.light-mode #btn-under-construction-close-icon,
+html.light-mode #livetv-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]),
+html.light-mode #btn-theme-light:not(.bg-\[\#E6005A\]),
+html.light-mode #btn-theme-dark:not(.bg-\[\#E6005A\]),
 html.light-mode .spotlight-bubble-box,
-html.light-mode .search-box-capsule {
-  background: #F1F3F6 !important;
-  border: 1.5px solid rgba(0, 0, 0, 0.12) !important;
-  border-top-color: rgba(255, 255, 255, 0.9) !important;
-  border-bottom-color: rgba(0, 0, 0, 0.14) !important;
-  box-shadow: none !important;
+html.light-mode .spotlight-input-container,
+html.light-mode .search-box-capsule,
+html.light-mode .liquid-glass-control {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#FFFFFF, #FFFFFF), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 0 14px rgba(0, 0, 0, 0.18), 0 3px 8px rgba(0, 0, 0, 0.12) !important;
+  color: #374151 !important;
 }
 
+html.light-mode #btn-mobile-menu-toggle:hover,
+html.light-mode #btn-sidebar-collapse:hover,
+html.light-mode #btn-sidebar-expand:hover,
+html.light-mode #btn-mobile-sidebar-close:hover,
+html.light-mode #btn-sidebar-back:hover,
+html.light-mode #btn-spotlight-search:hover,
+html.light-mode #btn-mobile-spotlight-search:hover,
+html.light-mode #btn-spotlight-search-mini:hover,
+html.light-mode #slider-prev-btn:hover,
+html.light-mode #slider-next-btn:hover,
+html.light-mode #dock-spotlight-btn:hover,
+html.light-mode #dock-home:not(.bg-\[\#E6005A\]):hover,
+html.light-mode #dock-tv:not(.bg-\[\#E6005A\]):hover,
+html.light-mode #dock-news:not(.bg-\[\#E6005A\]):hover,
+html.light-mode #dock-settings:not(.bg-\[\#E6005A\]):hover,
+html.light-mode #btn-discord-close:hover,
+html.light-mode #btn-welcome-close-icon:hover,
+html.light-mode #btn-under-construction-close-icon:hover,
+html.light-mode #livetv-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]):hover,
+html.light-mode #btn-theme-light:not(.bg-\[\#E6005A\]):hover,
+html.light-mode #btn-theme-dark:not(.bg-\[\#E6005A\]):hover,
 html.light-mode .spotlight-bubble-box:hover,
+html.light-mode .spotlight-input-container:hover,
 html.light-mode .search-box-capsule:hover {
-  background: #E8EBEF !important;
-  border-color: rgba(0, 0, 0, 0.2) !important;
-  border-top-color: #FFFFFF !important;
-  box-shadow: none !important;
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#FFFFFF, #FFFFFF), 
+    linear-gradient(180deg, rgba(71, 85, 105, 0.65) 0%, rgba(100, 116, 139, 0) 25%, rgba(100, 116, 139, 0) 75%, rgba(71, 85, 105, 0.65) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 1), 0 0 0 1px rgba(0, 0, 0, 0.12), 0 0 20px rgba(0, 0, 0, 0.28), 0 6px 14px rgba(0, 0, 0, 0.16) !important;
+  color: #111827 !important;
+}
+
+html.light-mode #btn-discord-join,
+html.light-mode #btn-welcome-close,
+html.light-mode #btn-under-construction-close,
+html.light-mode #btn-changelogs-read,
+html.light-mode #dock-home.bg-\[\#E6005A\],
+html.light-mode #dock-tv.bg-\[\#E6005A\],
+html.light-mode #dock-news.bg-\[\#E6005A\],
+html.light-mode #dock-settings.bg-\[\#E6005A\],
+html.light-mode #livetv-category-tabs button.bg-\[\#E50914\],
+html.light-mode #livetv-category-tabs button.bg-\[\#E6005A\],
+html.light-mode #btn-theme-light.bg-\[\#E6005A\],
+html.light-mode #btn-theme-dark.bg-\[\#E6005A\] {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.65) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.12), 0 0 14px rgba(0, 0, 0, 0.20), 0 4px 12px rgba(230, 0, 90, 0.30) !important;
+  color: #FFFFFF !important;
+}
+
+html.light-mode #btn-discord-join:hover,
+html.light-mode #btn-welcome-close:hover,
+html.light-mode #btn-under-construction-close:hover,
+html.light-mode #btn-changelogs-read:hover,
+html.light-mode #dock-home.bg-\[\#E6005A\]:hover,
+html.light-mode #dock-tv.bg-\[\#E6005A\]:hover,
+html.light-mode #dock-news.bg-\[\#E6005A\]:hover,
+html.light-mode #dock-settings.bg-\[\#E6005A\]:hover,
+html.light-mode #livetv-category-tabs button.bg-\[\#E50914\]:hover,
+html.light-mode #livetv-category-tabs button.bg-\[\#E6005A\]:hover,
+html.light-mode #btn-theme-light.bg-\[\#E6005A\]:hover,
+html.light-mode #btn-theme-dark.bg-\[\#E6005A\]:hover {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#FF267A, #FF267A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.85) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.16), 0 0 20px rgba(0, 0, 0, 0.28), 0 6px 18px rgba(230, 0, 90, 0.38) !important;
+  color: #FFFFFF !important;
 }
 
 html.light-mode .spotlight-bubble-box:focus-within,
+html.light-mode .spotlight-input-container:focus-within,
 html.light-mode .search-box-capsule:focus-within {
-  background: #FFFFFF !important;
+  background-image: none !important;
   border: 3px solid #E6005A !important;
-  box-shadow: 0 0 0 3px rgba(230, 0, 90, 0.2), 0 4px 16px rgba(230, 0, 90, 0.1) !important;
+  outline: none !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.22), 0 6px 16px rgba(0, 0, 0, 0.14) !important;
 }
 
 /* Spotlight search on sidebar */
+html.light-mode #btn-spotlight-search span,
+html.light-mode #btn-mobile-spotlight-search span {
+  color: #4B5563 !important;
+}
+html.light-mode #btn-spotlight-search:hover span,
+html.light-mode #btn-mobile-spotlight-search:hover span {
+  color: #111827 !important;
+}
+
 html.light-mode .sidebar-search-btn {
   background-color: #F1F3F5 !important;
   border-color: #E2E8F0 !important;
@@ -526,28 +913,50 @@ html.light-mode #btn-hero-watch-now svg {
 
 /* Spotlight Compact Popover in Light Mode */
 html.light-mode #spotlight-popup-card {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.14) !important;
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#FFFFFF, #FFFFFF), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.48) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(0, 0, 0, 0.10), 0 0 32px rgba(0, 0, 0, 0.22), 0 20px 45px -8px rgba(0, 0, 0, 0.24) !important;
 }
 
-html.light-mode .spotlight-input-container {
-  background-color: #F1F3F5 !important;
-  border-color: #E2E8F0 !important;
-}
-
+html.light-mode .spotlight-bubble-box input,
 html.light-mode .spotlight-input-container input {
   color: #111827 !important;
   background-color: transparent !important;
-  border-color: transparent !important;
+  border: none !important;
 }
 
+html.light-mode .spotlight-bubble-box input::placeholder,
 html.light-mode .spotlight-input-container input::placeholder {
   color: #6B7280 !important;
 }
 
+html.light-mode .spotlight-bubble-box svg,
 html.light-mode .spotlight-input-container svg {
   color: #6B7280 !important;
+}
+
+/* Light mode Spotlight results items */
+html.light-mode #spotlight-popup-card .bg-\[\#22222A\] {
+  background-color: #F3F4F6 !important;
+}
+html.light-mode #spotlight-popup-card .bg-\[\#22222A\]:hover {
+  background-color: #E5E7EB !important;
+}
+html.light-mode #spotlight-popup-card .bg-\[\#141418\] {
+  background-color: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+}
+html.light-mode #spotlight-popup-card .bg-\[\#2E2E38\],
+html.light-mode #spotlight-popup-card .bg-\[\#2F2F3A\] {
+  background-color: #E5E7EB !important;
+  color: #374151 !important;
+}
+html.light-mode #spotlight-popup-card .text-white {
+  color: #111827 !important;
 }
 
 /* Light mode category filter buttons */
@@ -572,15 +981,6 @@ html.light-mode #discord-welcome-title {
 
 html.light-mode #discord-welcome-subtitle {
   color: #4B5563 !important;
-}
-
-html.light-mode #btn-discord-close {
-  color: #4B5563 !important;
-}
-
-html.light-mode #btn-discord-close:hover {
-  background-color: #F1F3F5 !important;
-  color: #111827 !important;
 }
 
 html.light-mode #discord-welcome-backdrop,
@@ -653,22 +1053,15 @@ html.light-mode #under-construction-modal-description {
   color: #4B5563 !important;
 }
 
-html.light-mode #btn-welcome-close-icon,
-html.light-mode #btn-under-construction-close-icon {
-  background-color: #F1F3F5 !important;
-  color: #4B5563 !important;
-}
-
-html.light-mode #btn-welcome-close-icon:hover,
-html.light-mode #btn-under-construction-close-icon:hover {
-  background-color: #E5E7EB !important;
-  color: #111827 !important;
-}
-
 /* Theme Segmented Box in Settings */
 html.light-mode .theme-segmented-box {
-  background-color: #F1F3F5 !important;
-  border-color: #E5E7EB !important;
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#F1F3F5, #F1F3F5), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.40) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.40) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.8), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 0 14px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.10) !important;
 }
 
 html.light-mode .theme-segmented-box button:not(.bg-\[\#E6005A\]) {
@@ -682,34 +1075,25 @@ html.light-mode .theme-segmented-box button:not(.bg-\[\#E6005A\]):hover {
 /* BottomDock in Light Mode */
 html.light-mode .fixed.bottom-5 > div,
 html.light-mode .fixed.bottom-4 > div {
-  background-color: rgba(255, 255, 255, 0.95) !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
-}
-
-html.light-mode #dock-spotlight-btn {
-  color: #18181B !important;
-}
-
-html.light-mode #dock-spotlight-btn:hover {
-  background-color: rgba(0, 0, 0, 0.06) !important;
-}
-
-html.light-mode .fixed.bottom-5 button:not(.bg-\[\#E6005A\]),
-html.light-mode .fixed.bottom-4 button:not(.bg-\[\#E6005A\]) {
-  color: #4B5563 !important;
-}
-
-html.light-mode .fixed.bottom-5 button:not(.bg-\[\#E6005A\]):hover,
-html.light-mode .fixed.bottom-4 button:not(.bg-\[\#E6005A\]):hover {
-  color: #111827 !important;
-  background-color: rgba(0, 0, 0, 0.06) !important;
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.48) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 0 24px rgba(0, 0, 0, 0.18), 0 10px 30px rgba(0, 0, 0, 0.18) !important;
 }
 
 /* Settings Slider Capsule */
 html.light-mode .settings-slider-capsule {
-  background-color: #F1F3F5 !important;
-  border-color: #E2E8F0 !important;
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#F1F3F5, #F1F3F5), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.40) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.40) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.8), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 0 14px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.10) !important;
 }
 
 html.light-mode .settings-slider-capsule .bg-\[\#383842\] {
@@ -720,14 +1104,30 @@ html.light-mode .settings-slider-capsule .shadow-\[0_2px_10px_rgba\(0\,0\,0\,0\.
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Settings Deactivated Switches & Checkboxes in Light Mode */
-html.light-mode button[role="switch"]:not(.bg-\[\#E6005A\]) {
-  background-color: #E4E4E7 !important;
+/* Settings Switches in Light Mode */
+html.light-mode button[role="switch"][aria-checked="true"] {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.65) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 0 2px 10px rgba(230, 0, 90, 0.3) !important;
+}
+
+html.light-mode button[role="switch"][aria-checked="false"] {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#E4E4E7, #E4E4E7), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08) !important;
 }
 
 html.light-mode button[role="switch"] span {
   background-color: #FFFFFF !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
 
 html.light-mode #settings-section-search .bg-\[\#24242A\] {
@@ -738,7 +1138,8 @@ html.light-mode #settings-section-search .bg-\[\#24242A\] {
 /* Settings Section Header Icons in Light Mode */
 html.light-mode #settings-section-interface > div:first-child svg,
 html.light-mode #settings-section-accessibility > div:first-child svg,
-html.light-mode #settings-section-search > div:first-child svg {
+html.light-mode #settings-section-search > div:first-child svg,
+html.light-mode #settings-section-other > div:first-child svg {
   color: #E6005A !important;
 }
 

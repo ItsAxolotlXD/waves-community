@@ -127,7 +127,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button 
             id="btn-mobile-sidebar-close"
             onClick={onCloseMobile}
-            className="w-8 h-8 rounded-full bg-[#2F2F36] border border-[#3E3E48] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:bg-[#3C3C46] transition-all cursor-pointer shadow-sm"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
             title="Đóng menu"
           >
             <X className="w-4.5 h-4.5" />
@@ -136,7 +136,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button 
             id="btn-sidebar-collapse"
             onClick={onToggleCollapse}
-            className="w-8 h-8 rounded-full bg-[#2F2F36] border border-[#3E3E48] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:bg-[#3C3C46] transition-all cursor-pointer shadow-sm"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
             title="Thu gọn menu"
           >
             <ChevronLeft className="w-4.5 h-4.5" />
@@ -149,32 +149,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           id={isMobile ? 'btn-mobile-spotlight-search' : 'btn-spotlight-search'}
           onClick={handleSpotlightClick}
-          className="w-full h-[46px] flex items-center justify-between px-4 rounded-full spotlight-bubble-box spotlight-input-container text-left text-sm text-[#8E8E93] hover:text-white transition-all group cursor-pointer"
+          className="w-full h-[46px] flex items-center justify-center px-4 rounded-full spotlight-bubble-box spotlight-input-container text-sm text-[#C4C4CC] hover:text-white transition-all group cursor-pointer"
         >
-          <div className="flex items-center gap-3 min-w-0 truncate">
+          <div className="flex items-center justify-center gap-2.5 min-w-0">
             <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
               <img
                 src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
                 alt="Search"
                 referrerPolicy="no-referrer"
-                className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
+                className="w-full h-full aspect-square object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}
               />
             </div>
-            <span className="text-sm text-[#8E8E93] group-hover:text-white font-medium truncate">Spotlight Search...</span>
-          </div>
-          <div className="w-4 h-4 min-w-[16px] min-h-[16px] max-w-[16px] max-h-[16px] flex items-center justify-center shrink-0 ml-1">
-            <img
-              src="https://github.com/andrewtavis/sf-symbols-online/raw/master/glyphs/mic.png"
-              alt="Mic"
-              referrerPolicy="no-referrer"
-              className="w-full h-full aspect-square object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity"
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = 'none';
-              }}
-            />
+            <span className="text-sm text-[#C4C4CC] group-hover:text-white font-medium truncate">Spotlight Search</span>
           </div>
         </button>
       </div>
@@ -461,7 +450,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <button 
                   id="btn-sidebar-expand"
                   onClick={onToggleCollapse}
-                  className="w-7 h-7 rounded-full bg-[#2F2F36] border border-[#3E3E48] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:bg-[#3C3C46] transition-all cursor-pointer shadow-sm"
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
                   title="Mở rộng menu"
                 >
                   <ChevronRight className="w-4 h-4" />

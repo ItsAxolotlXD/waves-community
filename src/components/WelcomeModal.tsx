@@ -88,16 +88,28 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
               id="welcome-modal-title"
               className="text-2xl sm:text-[28px] font-bold text-white tracking-tight mb-3 font-sans leading-tight"
             >
-              Welcome to Vplay 26.9 - Developer Beta 3
+              Welcome to Vplay 26.9 - Developer Beta 4
             </h1>
 
-            {/* Description */}
-            <p
+            {/* Description & Changelogs */}
+            <div
               id="welcome-modal-description"
-              className="text-sm sm:text-[15px] text-[#D1D5DB] leading-relaxed mb-8 font-normal"
+              className="text-sm sm:text-[15px] text-[#D1D5DB] leading-relaxed mb-7 font-normal space-y-3"
             >
-              This update added and fixed some stuff.
-            </p>
+              <p className="font-semibold text-white/95 text-sm tracking-wide">
+                Changelogs:
+              </p>
+              <ul className="space-y-2 text-[#C4C4CC] text-[13.5px] sm:text-sm pl-1">
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-2 shrink-0" />
+                  <span>Thử nghiệm Liquid Glass trên input box, buttons, toggles...</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-2 shrink-0" />
+                  <span>Tweak một vài hiệu ứng, độ bo góc cho phù hợp với ngôn ngữ Liquid Glass</span>
+                </li>
+              </ul>
+            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-3">

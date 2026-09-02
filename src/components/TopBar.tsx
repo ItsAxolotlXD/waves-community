@@ -55,7 +55,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         <button
           id="btn-mobile-menu-toggle"
           onClick={onOpenMobileMenu}
-          className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-white bg-transparent hover:text-[#E6005A] transition-colors cursor-pointer"
+          className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-white transition-all cursor-pointer"
           aria-label="Mở menu điều hướng"
         >
           <Menu className="w-5 h-5" />
@@ -93,7 +93,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         <button
           id="btn-top-search"
           onClick={onOpenSearch}
-          className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-white hover:opacity-80 bg-transparent transition-all drop-shadow-sm cursor-pointer"
+          className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-white transition-all drop-shadow-sm cursor-pointer"
           title="Spotlight Search (⌘K)"
         >
           <img
@@ -128,7 +128,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         <button
           id="btn-top-notifications"
           onClick={onOpenNotifications}
-          className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-white hover:opacity-80 bg-transparent transition-all relative drop-shadow-sm cursor-pointer"
+          className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-white transition-all relative drop-shadow-sm cursor-pointer"
           title="Thông báo cộng đồng"
         >
           <Bell className="w-5 h-5" />
@@ -139,7 +139,7 @@ export const TopBar: React.FC<TopBarProps> = ({
         <button
           id="btn-top-light-mode"
           onClick={toggleTheme}
-          className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-[#FBBF24] hover:opacity-80 bg-transparent transition-all drop-shadow-sm cursor-pointer"
+          className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-[#FBBF24] transition-all drop-shadow-sm cursor-pointer"
           title={isLightMode ? 'Chuyển sang Dark Mode' : 'Chuyển sang Light Mode'}
           aria-label="Chuyển chế độ sáng/tối"
         >
