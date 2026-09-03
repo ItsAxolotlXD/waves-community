@@ -53,12 +53,12 @@ export const DiscordWelcomeModal: React.FC<DiscordWelcomeModalProps> = ({
                 ease: [0.25, 0.1, 0.25, 1]
               }
             }}
-            className="relative z-10 w-full max-w-[520px] bg-[#1E1D22] rounded-[38px] p-8 sm:p-10 shadow-2xl select-none border border-white/5"
+            className="relative z-10 w-full max-w-[450px] bg-[#1E1D22] rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 shadow-2xl select-none border border-white/5"
           >
             {/* Title */}
             <h1
               id="discord-welcome-title"
-              className="text-2xl sm:text-[28px] font-bold text-white tracking-tight mb-3 font-sans leading-tight"
+              className="text-xl sm:text-[23px] font-bold text-white tracking-tight mb-2.5 font-sans leading-tight"
             >
               Chào mừng bạn!
             </h1>
@@ -66,19 +66,19 @@ export const DiscordWelcomeModal: React.FC<DiscordWelcomeModalProps> = ({
             {/* Subtitle */}
             <p
               id="discord-welcome-subtitle"
-              className="text-sm sm:text-[15px] text-[#D1D5DB] leading-relaxed mb-8 font-normal"
+              className="text-xs sm:text-sm text-[#D1D5DB] leading-relaxed mb-5 font-normal"
             >
               “Nhịp sóng lưu dấu thời đại” – nơi kết nối những tâm hồn từ khắp mọi miền Bắc – Trung – Nam, cùng gặp gỡ, sẻ chia và trò chuyện qua những câu chuyện của thời đại. Không chỉ là nơi hội tụ của những tiếng nói và góc nhìn đa dạng, đây còn là không gian lưu giữ những ký ức, khoảnh khắc và dấu ấn truyền thông – những mảnh ghép nhỏ góp phần tạo nên bức tranh lớn của một thời đã qua.
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
               {/* Button colored: Tham gia */}
               <button
                 type="button"
                 id="btn-discord-join"
                 onClick={handleJoin}
-                className="w-full py-4 px-6 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-base sm:text-[17px] cursor-pointer flex items-center justify-center shadow-md tracking-tight text-center"
+                className="w-full h-11 sm:h-12 px-5 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer flex items-center justify-center shadow-md tracking-tight text-center"
               >
                 Tham gia
               </button>
@@ -88,7 +88,7 @@ export const DiscordWelcomeModal: React.FC<DiscordWelcomeModalProps> = ({
                 type="button"
                 id="btn-discord-close"
                 onClick={onClose}
-                className="w-full py-3.5 px-6 rounded-full font-medium text-[#A1A1AA] hover:text-white hover:bg-white/5 active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer flex items-center justify-center text-center"
+                className="w-full h-11 sm:h-12 px-5 rounded-full font-semibold text-[#D1D5DB] hover:text-white active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer flex items-center justify-center text-center"
               >
                 Close
               </button>

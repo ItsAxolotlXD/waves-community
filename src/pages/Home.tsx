@@ -26,7 +26,7 @@ export const Home: React.FC<HomeProps> = ({
       />
 
       <div className="px-4 sm:px-6 md:px-8 max-w-7xl mx-auto space-y-12">
-        {/* 2. Đang phát sóng (On Air Section) */}
+        {/* 2. Đề xuất cho bạn (Recommended Section) */}
         <OnAirSlider
           channels={channels}
           onSelectChannel={onSelectChannel}

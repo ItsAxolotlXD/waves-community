@@ -58,8 +58,6 @@ html.light-mode body {
 /* Header & Search Monochrome Filter */
 html.light-mode .topbar-search-icon,
 html.light-mode .sidebar-nav-home-icon,
-html.light-mode .topbar-tools-icon,
-html.light-mode #btn-top-tools-menu img,
 html.light-mode #btn-top-search img,
 html.light-mode #btn-spotlight-search-mini img,
 html.light-mode #btn-spotlight-search-desktop img,
@@ -67,6 +65,13 @@ html.light-mode .spotlight-bubble-box img,
 html.light-mode #dock-spotlight-btn img {
   filter: brightness(0) !important;
   opacity: 0.85 !important;
+}
+
+/* Tools Copilot Icon: Original colors in Light Mode, Monochrome White in Dark Mode */
+html.light-mode .topbar-tools-icon,
+html.light-mode #btn-top-tools-menu img {
+  filter: none !important;
+  opacity: 1 !important;
 }
 
 html:not(.light-mode) .topbar-search-icon,
@@ -177,7 +182,7 @@ html.light-mode #settings-section-search hr {
 }
 
 /* ==========================================================================
-   LIQUID GLASS DESIGN SYSTEM (Vplay 26.9 - Developer Beta 4)
+   LIQUID GLASS DESIGN SYSTEM (Vplay 26.9 - Developer Beta 5)
    ========================================================================== */
 
 /* Liquid Glass Capsule / Surface Style for Controls & Action Buttons */
@@ -197,6 +202,7 @@ html.light-mode #settings-section-search hr {
 #btn-welcome-close-icon,
 #btn-under-construction-close-icon,
 #livetv-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]),
+#news-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]),
 #btn-theme-light:not(.bg-\[\#E6005A\]),
 #btn-theme-dark:not(.bg-\[\#E6005A\]),
 .spotlight-bubble-box,
@@ -229,7 +235,6 @@ html.light-mode #settings-section-search hr {
 #btn-discord-close:hover,
 #btn-welcome-close-icon:hover,
 #btn-under-construction-close-icon:hover,
-#livetv-category-tabs button:hover,
 #btn-theme-light:hover,
 #btn-theme-dark:hover {
   border: 1px solid transparent;
@@ -240,6 +245,19 @@ html.light-mode #settings-section-search hr {
   background-clip: padding-box, border-box;
   box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 5px 16px rgba(0, 0, 0, 0.32);
   transform: scale(1.085) !important;
+}
+
+#livetv-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]):hover,
+#news-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]):hover {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#3E3E48, #3E3E48), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(160, 160, 175, 0.28) 15%, rgba(160, 160, 175, 0.10) 35%, rgba(160, 160, 175, 0.10) 65%, rgba(160, 160, 175, 0.28) 85%, rgba(255, 255, 255, 0.65) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 3px 10px rgba(0, 0, 0, 0.28) !important;
+  color: #FFFFFF !important;
+  transform: none !important;
 }
 
 #btn-sidebar-collapse:active,
@@ -257,7 +275,6 @@ html.light-mode #settings-section-search hr {
 #btn-discord-close:active,
 #btn-welcome-close-icon:active,
 #btn-under-construction-close-icon:active,
-#livetv-category-tabs button:active,
 #btn-theme-light:active,
 #btn-theme-dark:active {
   transform: scale(0.93) !important;
@@ -324,6 +341,164 @@ html.light-mode #btn-top-light-mode:hover {
   box-shadow: none !important;
 }
 
+/* Tools Copilot Icon - 360deg rotation on hover with ease-in-out */
+@keyframes copilotSpinOnce {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.topbar-tools-icon {
+  transform-origin: center center;
+  transition: transform 0.65s cubic-bezier(0.42, 0, 0.58, 1) !important;
+  will-change: transform;
+}
+
+#btn-top-tools-menu:hover .topbar-tools-icon,
+.topbar-tools-icon:hover,
+#btn-top-tools-menu:active .topbar-tools-icon,
+.topbar-tools-icon.spin-click {
+  animation: copilotSpinOnce 0.65s cubic-bezier(0.42, 0, 0.58, 1) forwards !important;
+}
+
+/* Settings TopBar Apply Checkbox Button: Always colored button (Pink Accent with Liquid Glass border & depth) */
+#btn-top-settings-apply-checkbox {
+  background-color: #E6005A !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(255, 255, 255, 0.25) 65%, rgba(255, 255, 255, 0.70) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  border: 1px solid transparent !important;
+  border-radius: 9999px !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45), 0 3px 12px rgba(230, 0, 90, 0.40) !important;
+  transform: scale(1);
+  transition: transform 0.35s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.25s ease !important;
+}
+
+#btn-top-settings-apply-checkbox:hover {
+  background-image: 
+    linear-gradient(#FF1A75, #FF1A75), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(255, 255, 255, 0.35) 65%, rgba(255, 255, 255, 0.85) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.55), 0 4px 16px rgba(230, 0, 90, 0.55) !important;
+  transform: scale(1.10) !important;
+}
+
+#btn-top-settings-apply-checkbox:active {
+  transform: scale(0.92) !important;
+  transition: transform 0.1s ease-out !important;
+}
+
+html.light-mode #btn-top-settings-apply-checkbox {
+  background-color: #E6005A !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(255, 255, 255, 0.25) 65%, rgba(255, 255, 255, 0.70) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45), 0 3px 12px rgba(230, 0, 90, 0.35) !important;
+}
+
+html.light-mode #btn-top-settings-apply-checkbox:hover {
+  background-image: 
+    linear-gradient(#FF1A75, #FF1A75), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(255, 255, 255, 0.35) 65%, rgba(255, 255, 255, 0.85) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.55), 0 4px 16px rgba(230, 0, 90, 0.45) !important;
+  transform: scale(1.10) !important;
+}
+
+/* Shake animation when user attempts to leave settings with unsaved changes */
+@keyframes shakeHorizontal {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+.animate-shake {
+  animation: shakeHorizontal 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) !important;
+}
+
+/* Light mode styles for settings unsaved tooltip */
+html.light-mode .settings-unsaved-tooltip-arrow {
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+html.light-mode .settings-unsaved-tooltip-card {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: #18181B !important;
+  box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.18), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Progressive Blur Layer over Top Header Bar */
+.topbar-progressive-blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5.5rem;
+  pointer-events: none;
+  z-index: -10;
+  overflow: hidden;
+}
+
+.topbar-progressive-blur .progressive-blur-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.topbar-progressive-blur .layer-1 {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0) 55%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0) 55%);
+}
+
+.topbar-progressive-blur .layer-2 {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0) 70%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0) 70%);
+}
+
+.topbar-progressive-blur .layer-3 {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 60%, rgba(0,0,0,0) 85%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 60%, rgba(0,0,0,0) 85%);
+}
+
+.topbar-progressive-blur .layer-4 {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 75%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 75%, rgba(0,0,0,0) 100%);
+}
+
+.topbar-progressive-blur .progressive-blur-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 20, 22, 0.72) 0%,
+    rgba(20, 20, 22, 0.42) 45%,
+    rgba(20, 20, 22, 0.12) 75%,
+    rgba(20, 20, 22, 0) 100%
+  );
+}
+
+html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
+  background: linear-gradient(
+    to bottom,
+    rgba(244, 245, 247, 0.85) 0%,
+    rgba(244, 245, 247, 0.52) 45%,
+    rgba(244, 245, 247, 0.18) 75%,
+    rgba(244, 245, 247, 0) 100%
+  );
+}
+
 /* Search Box Container Bounce on Hover & Unhover */
 .spotlight-bubble-box:hover,
 .search-box-capsule:hover {
@@ -343,17 +518,66 @@ html.light-mode #btn-top-light-mode:hover {
   transition: transform 0.1s ease-out !important;
 }
 
+/* Liquid Glass Border Effect for Recommended Channel Cards & Live TV Channel Cards (Matching Spotlight Search & Buttons) */
+[id^="recommended-channel-"],
+[id^="livetv-channel-card-"]:not(.is-selected) {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#2F2F36, #2F2F36), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(160, 160, 175, 0.18) 15%, rgba(160, 160, 175, 0.05) 35%, rgba(160, 160, 175, 0.05) 65%, rgba(160, 160, 175, 0.18) 85%, rgba(255, 255, 255, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 2px 8px rgba(0, 0, 0, 0.22) !important;
+  transform: scale(1);
+  transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.24s ease-out, background-image 0.18s ease-in-out, border 0.18s ease-in-out !important;
+  will-change: transform;
+}
+
+[id^="recommended-channel-"]:hover,
+[id^="livetv-channel-card-"]:not(.is-selected):hover {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#3E3E48, #3E3E48), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(160, 160, 175, 0.28) 15%, rgba(160, 160, 175, 0.10) 35%, rgba(160, 160, 175, 0.10) 65%, rgba(160, 160, 175, 0.28) 85%, rgba(255, 255, 255, 0.65) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 5px 16px rgba(0, 0, 0, 0.32) !important;
+  transform: scale(1.035) !important;
+}
+
+[id^="recommended-channel-"]:active,
+[id^="livetv-channel-card-"]:not(.is-selected):active {
+  transform: scale(0.97) !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out !important;
+}
+
+/* Selected Live TV Channel Card in Dark Mode */
+[id^="livetv-channel-card-"].is-selected {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#2F2028, #2F2028), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, #E6005A 35%, #E6005A 65%, rgba(255, 255, 255, 0.5) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 1px rgba(230, 0, 90, 0.4), 0 4px 16px rgba(230, 0, 90, 0.25) !important;
+  transform: scale(1.02);
+}
+
 /* Primary / Accent Pink Liquid Glass Action Buttons */
 #btn-discord-join,
 #btn-welcome-close,
 #btn-under-construction-close,
 #btn-changelogs-read,
+#btn-hero-watch-now,
 #dock-home.bg-\[\#E6005A\],
 #dock-tv.bg-\[\#E6005A\],
 #dock-news.bg-\[\#E6005A\],
 #dock-settings.bg-\[\#E6005A\],
 #livetv-category-tabs button.bg-\[\#E50914\],
 #livetv-category-tabs button.bg-\[\#E6005A\],
+#news-category-tabs button.bg-\[\#E50914\],
+#news-category-tabs button.bg-\[\#E6005A\],
 #btn-theme-light.bg-\[\#E6005A\],
 #btn-theme-dark.bg-\[\#E6005A\] {
   border: 1px solid transparent !important;
@@ -371,12 +595,11 @@ html.light-mode #btn-top-light-mode:hover {
 #btn-welcome-close:hover,
 #btn-under-construction-close:hover,
 #btn-changelogs-read:hover,
+#btn-hero-watch-now:hover,
 #dock-home.bg-\[\#E6005A\]:hover,
 #dock-tv.bg-\[\#E6005A\]:hover,
 #dock-news.bg-\[\#E6005A\]:hover,
 #dock-settings.bg-\[\#E6005A\]:hover,
-#livetv-category-tabs button.bg-\[\#E50914\]:hover,
-#livetv-category-tabs button.bg-\[\#E6005A\]:hover,
 #btn-theme-light.bg-\[\#E6005A\]:hover,
 #btn-theme-dark.bg-\[\#E6005A\]:hover {
   border: 1px solid transparent !important;
@@ -392,61 +615,152 @@ html.light-mode #btn-top-light-mode:hover {
 #btn-discord-join:active,
 #btn-welcome-close:active,
 #btn-under-construction-close:active,
-#btn-changelogs-read:active {
+#btn-changelogs-read:active,
+#btn-hero-watch-now:active {
   transform: scale(0.94) !important;
   transition: transform 0.1s ease-out !important;
 }
 
 /* Liquid Glass Toggle Switch Styling */
-button[role="switch"] {
+button[role="switch"],
+.toggle-switch-btn {
+  width: 66px !important;
+  height: 28px !important;
+  box-sizing: border-box !important;
+  border-radius: 9999px !important;
+  padding: 3px !important;
   border: 1px solid transparent !important;
   background-origin: padding-box, border-box !important;
   background-clip: padding-box, border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
   transform: scale(1);
-  transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), background 0.2s ease, box-shadow 0.2s ease !important;
+  transition: transform 0.35s cubic-bezier(0.34, 1.65, 0.64, 1), background 0.25s ease, box-shadow 0.25s ease !important;
+  cursor: pointer !important;
+  flex-shrink: 0 !important;
 }
 
-button[role="switch"]:hover {
-  transform: scale(1.085) !important;
+button[role="switch"]:hover,
+.toggle-switch-btn:hover {
+  transform: scale(1) !important;
 }
 
-button[role="switch"]:active {
-  transform: scale(0.94) !important;
+button[role="switch"]:active,
+.toggle-switch-btn:active {
+  transform: scale(0.98) !important;
   transition: transform 0.1s ease-out !important;
 }
 
-button[role="switch"][aria-checked="true"] {
+button[role="switch"][aria-checked="true"],
+.toggle-switch-btn[aria-checked="true"] {
   background-image: 
     linear-gradient(#E6005A, #E6005A), 
     linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.18) 40%, rgba(255, 255, 255, 0.5) 100%) !important;
   box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 2px 10px rgba(230, 0, 90, 0.35) !important;
 }
 
-button[role="switch"][aria-checked="false"] {
+button[role="switch"][aria-checked="false"],
+.toggle-switch-btn[aria-checked="false"] {
   background-image: 
     linear-gradient(#3F3F46, #3F3F46), 
     linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.06) 40%, rgba(255, 255, 255, 0.25) 100%) !important;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
-button[role="switch"] span {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.2) !important;
-  transition: transform 0.32s cubic-bezier(0.34, 1.5, 0.64, 1), background-color 0.2s ease !important;
+/* Switch Pill Thumb (Núm toggle dạng pill) */
+button[role="switch"] span,
+.toggle-switch-thumb {
+  display: block !important;
+  width: 32px !important;
+  height: 22px !important;
+  border-radius: 9999px !important;
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+  transform: translateX(0px) scale(1);
+  transition: transform 0.35s cubic-bezier(0.34, 1.65, 0.64, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  will-change: transform;
+}
+
+button[role="switch"][aria-checked="true"] span,
+.toggle-switch-btn[aria-checked="true"] .toggle-switch-thumb {
+  transform: translateX(28px) scale(1) !important;
+}
+
+button[role="switch"][aria-checked="false"] span,
+.toggle-switch-btn[aria-checked="false"] .toggle-switch-thumb {
+  transform: translateX(0px) scale(1) !important;
+}
+
+/* Khi hover qua núm toggle switch: phóng to như nút, nền trong suốt và có viền thường */
+button[role="switch"]:hover span,
+button[role="switch"] span:hover,
+.toggle-switch-btn:hover .toggle-switch-thumb,
+.toggle-switch-thumb:hover {
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1.5px solid #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+}
+
+button[role="switch"][aria-checked="true"]:hover span,
+button[role="switch"][aria-checked="true"] span:hover,
+.toggle-switch-btn[aria-checked="true"]:hover .toggle-switch-thumb,
+.toggle-switch-btn[aria-checked="true"] .toggle-switch-thumb:hover {
+  transform: translateX(28px) scale(1.15) !important;
+}
+
+button[role="switch"][aria-checked="false"]:hover span,
+button[role="switch"][aria-checked="false"] span:hover,
+.toggle-switch-btn[aria-checked="false"]:hover .toggle-switch-thumb,
+.toggle-switch-btn[aria-checked="false"] .toggle-switch-thumb:hover {
+  transform: translateX(0px) scale(1.15) !important;
 }
 
 /* Global Button Hover Bounce for general buttons across the app */
-button:not(:disabled):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]) {
+button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]) {
   transform: scale(1);
   transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.2s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-button:not(:disabled):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):hover {
+button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):hover {
   transform: scale(1.06);
 }
 
-button:not(:disabled):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):active {
+button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):active {
   transform: scale(0.95);
   transition: transform 0.1s ease-out;
+}
+
+/* Category Tabs (Live TV & News): Pure static layout, absolutely NO zoom/scale on hover or active */
+#livetv-category-tabs button,
+#livetv-category-tabs button:hover,
+#livetv-category-tabs button:active,
+[id^="livetv-cat-btn-"],
+[id^="livetv-cat-btn-"]:hover,
+[id^="livetv-cat-btn-"]:active,
+#news-category-tabs button,
+#news-category-tabs button:hover,
+#news-category-tabs button:active,
+[id^="news-cat-btn-"],
+[id^="news-cat-btn-"]:hover,
+[id^="news-cat-btn-"]:active,
+html.light-mode #livetv-category-tabs button,
+html.light-mode #livetv-category-tabs button:hover,
+html.light-mode #livetv-category-tabs button:active,
+html.light-mode [id^="livetv-cat-btn-"],
+html.light-mode [id^="livetv-cat-btn-"]:hover,
+html.light-mode [id^="livetv-cat-btn-"]:active,
+html.light-mode #news-category-tabs button,
+html.light-mode #news-category-tabs button:hover,
+html.light-mode #news-category-tabs button:active,
+html.light-mode [id^="news-cat-btn-"],
+html.light-mode [id^="news-cat-btn-"]:hover,
+html.light-mode [id^="news-cat-btn-"]:active {
+  transform: none !important;
+  will-change: auto !important;
 }
 
 /* Sidebar Navigation Tabs & Channel Items - Pure static layout, NO scale/bounce on hover or unhover */
@@ -530,6 +844,7 @@ html.light-mode #btn-discord-close,
 html.light-mode #btn-welcome-close-icon,
 html.light-mode #btn-under-construction-close-icon,
 html.light-mode #livetv-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]),
+html.light-mode #news-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]),
 html.light-mode #btn-theme-light:not(.bg-\[\#E6005A\]),
 html.light-mode #btn-theme-dark:not(.bg-\[\#E6005A\]),
 html.light-mode .spotlight-bubble-box,
@@ -565,6 +880,7 @@ html.light-mode #btn-discord-close:hover,
 html.light-mode #btn-welcome-close-icon:hover,
 html.light-mode #btn-under-construction-close-icon:hover,
 html.light-mode #livetv-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]):hover,
+html.light-mode #news-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]):hover,
 html.light-mode #btn-theme-light:not(.bg-\[\#E6005A\]):hover,
 html.light-mode #btn-theme-dark:not(.bg-\[\#E6005A\]):hover,
 html.light-mode .spotlight-bubble-box:hover,
@@ -584,12 +900,15 @@ html.light-mode #btn-discord-join,
 html.light-mode #btn-welcome-close,
 html.light-mode #btn-under-construction-close,
 html.light-mode #btn-changelogs-read,
+html.light-mode #btn-hero-watch-now,
 html.light-mode #dock-home.bg-\[\#E6005A\],
 html.light-mode #dock-tv.bg-\[\#E6005A\],
 html.light-mode #dock-news.bg-\[\#E6005A\],
 html.light-mode #dock-settings.bg-\[\#E6005A\],
 html.light-mode #livetv-category-tabs button.bg-\[\#E50914\],
 html.light-mode #livetv-category-tabs button.bg-\[\#E6005A\],
+html.light-mode #news-category-tabs button.bg-\[\#E50914\],
+html.light-mode #news-category-tabs button.bg-\[\#E6005A\],
 html.light-mode #btn-theme-light.bg-\[\#E6005A\],
 html.light-mode #btn-theme-dark.bg-\[\#E6005A\] {
   border: 1px solid transparent !important;
@@ -606,12 +925,11 @@ html.light-mode #btn-discord-join:hover,
 html.light-mode #btn-welcome-close:hover,
 html.light-mode #btn-under-construction-close:hover,
 html.light-mode #btn-changelogs-read:hover,
+html.light-mode #btn-hero-watch-now:hover,
 html.light-mode #dock-home.bg-\[\#E6005A\]:hover,
 html.light-mode #dock-tv.bg-\[\#E6005A\]:hover,
 html.light-mode #dock-news.bg-\[\#E6005A\]:hover,
 html.light-mode #dock-settings.bg-\[\#E6005A\]:hover,
-html.light-mode #livetv-category-tabs button.bg-\[\#E50914\]:hover,
-html.light-mode #livetv-category-tabs button.bg-\[\#E6005A\]:hover,
 html.light-mode #btn-theme-light.bg-\[\#E6005A\]:hover,
 html.light-mode #btn-theme-dark.bg-\[\#E6005A\]:hover {
   border: 1px solid transparent !important;
@@ -911,6 +1229,41 @@ html.light-mode #btn-hero-watch-now svg {
   fill: #FFFFFF !important;
 }
 
+/* Recommended Channel Cards & Live TV Channel Cards in Light Mode */
+html.light-mode [id^="recommended-channel-"],
+html.light-mode [id^="livetv-channel-card-"]:not(.is-selected) {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#FFFFFF, #FFFFFF), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 0 14px rgba(0, 0, 0, 0.18), 0 3px 8px rgba(0, 0, 0, 0.12) !important;
+  color: #374151 !important;
+}
+
+html.light-mode [id^="recommended-channel-"]:hover,
+html.light-mode [id^="livetv-channel-card-"]:not(.is-selected):hover {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#FFFFFF, #FFFFFF), 
+    linear-gradient(180deg, rgba(71, 85, 105, 0.65) 0%, rgba(100, 116, 139, 0) 25%, rgba(100, 116, 139, 0) 75%, rgba(71, 85, 105, 0.65) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 1), 0 0 0 1px rgba(0, 0, 0, 0.12), 0 0 20px rgba(0, 0, 0, 0.28), 0 6px 14px rgba(0, 0, 0, 0.16) !important;
+  color: #111827 !important;
+}
+
+html.light-mode [id^="livetv-channel-card-"].is-selected {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#FFF0F5, #FFF0F5), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, #E6005A 35%, #E6005A 65%, rgba(255, 255, 255, 0.7) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 1), 0 0 0 1px rgba(230, 0, 90, 0.35), 0 4px 16px rgba(230, 0, 90, 0.2) !important;
+}
+
 /* Spotlight Compact Popover in Light Mode */
 html.light-mode #spotlight-popup-card {
   border: 1px solid transparent !important;
@@ -945,6 +1298,25 @@ html.light-mode #spotlight-popup-card .bg-\[\#22222A\] {
 }
 html.light-mode #spotlight-popup-card .bg-\[\#22222A\]:hover {
   background-color: #E5E7EB !important;
+}
+html.light-mode #spotlight-popup-card .bg-\[\#28272E\] {
+  background-color: #F4F4F5 !important;
+  border: 1px solid #E4E4E7 !important;
+}
+html.light-mode #spotlight-popup-card .bg-\[\#28272E\]:hover {
+  background-color: #E4E4E7 !important;
+}
+html.light-mode #spotlight-popup-card .border-\[\#383742\] {
+  border-color: #E4E4E7 !important;
+}
+html.light-mode #spotlight-popup-card .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+html.light-mode #spotlight-popup-card .text-\[\#9CA3AF\] {
+  color: #6B7280 !important;
+}
+html.light-mode #spotlight-popup-card .text-\[\#8E8E93\] {
+  color: #71717A !important;
 }
 html.light-mode #spotlight-popup-card .bg-\[\#141418\] {
   background-color: #FFFFFF !important;
@@ -1104,8 +1476,43 @@ html.light-mode .settings-slider-capsule .shadow-\[0_2px_10px_rgba\(0\,0\,0\,0\.
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
+/* Settings Slider Thumb (Núm slider với viền thường) */
+#settings-slider-thumb,
+.settings-slider-thumb {
+  position: absolute !important;
+  top: 50% !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  transition: transform 0.35s cubic-bezier(0.34, 1.65, 0.64, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Khi hover qua thanh slider hoặc núm slider: phóng to như nút, nền trong suốt và có viền thường */
+.settings-slider-capsule:hover #settings-slider-thumb,
+.settings-slider-capsule:hover .settings-slider-thumb,
+.group:hover #settings-slider-thumb,
+.group:hover .settings-slider-thumb,
+#slider-font-scale:hover ~ * #settings-slider-thumb,
+#slider-font-scale:hover ~ * .settings-slider-thumb,
+#slider-font-scale:active ~ * #settings-slider-thumb,
+#slider-font-scale:active ~ * .settings-slider-thumb,
+#settings-slider-thumb:hover,
+.settings-slider-thumb:hover {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) scale(1.18) !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1.5px solid #FFFFFF !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
 /* Settings Switches in Light Mode */
-html.light-mode button[role="switch"][aria-checked="true"] {
+html.light-mode button[role="switch"][aria-checked="true"],
+html.light-mode .toggle-switch-btn[aria-checked="true"] {
   border: 1px solid transparent !important;
   background-image: 
     linear-gradient(#E6005A, #E6005A), 
@@ -1115,7 +1522,8 @@ html.light-mode button[role="switch"][aria-checked="true"] {
   box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 0 2px 10px rgba(230, 0, 90, 0.3) !important;
 }
 
-html.light-mode button[role="switch"][aria-checked="false"] {
+html.light-mode button[role="switch"][aria-checked="false"],
+html.light-mode .toggle-switch-btn[aria-checked="false"] {
   border: 1px solid transparent !important;
   background-image: 
     linear-gradient(#E4E4E7, #E4E4E7), 
@@ -1125,9 +1533,66 @@ html.light-mode button[role="switch"][aria-checked="false"] {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08) !important;
 }
 
-html.light-mode button[role="switch"] span {
+html.light-mode button[role="switch"] span,
+html.light-mode .toggle-switch-thumb {
   background-color: #FFFFFF !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  background-image: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.10) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light-mode #settings-slider-thumb,
+html.light-mode .settings-slider-thumb {
+  position: absolute !important;
+  top: 50% !important;
+  margin: 0 !important;
+  background-color: #FFFFFF !important;
+  background-image: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Light Mode - Khi hover qua thanh slider hoặc núm slider: phóng to như nút, nền trong suốt và có viền */
+html.light-mode .settings-slider-capsule:hover #settings-slider-thumb,
+html.light-mode .settings-slider-capsule:hover .settings-slider-thumb,
+html.light-mode .group:hover #settings-slider-thumb,
+html.light-mode .group:hover .settings-slider-thumb,
+html.light-mode #slider-font-scale:hover ~ * #settings-slider-thumb,
+html.light-mode #slider-font-scale:hover ~ * .settings-slider-thumb,
+html.light-mode #slider-font-scale:active ~ * #settings-slider-thumb,
+html.light-mode #slider-font-scale:active ~ * .settings-slider-thumb,
+html.light-mode #settings-slider-thumb:hover,
+html.light-mode .settings-slider-thumb:hover {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) scale(1.18) !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1.5px solid #27272A !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Light Mode - Khi hover qua núm toggle switch: phóng to như nút, nền trong suốt và có viền */
+html.light-mode button[role="switch"][aria-checked="true"]:hover span,
+html.light-mode button[role="switch"][aria-checked="true"] span:hover,
+html.light-mode .toggle-switch-btn[aria-checked="true"]:hover .toggle-switch-thumb,
+html.light-mode .toggle-switch-btn[aria-checked="true"] .toggle-switch-thumb:hover {
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1.5px solid #FFFFFF !important;
+  transform: translateX(28px) scale(1.15) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.light-mode button[role="switch"][aria-checked="false"]:hover span,
+html.light-mode button[role="switch"][aria-checked="false"] span:hover,
+html.light-mode .toggle-switch-btn[aria-checked="false"]:hover .toggle-switch-thumb,
+html.light-mode .toggle-switch-btn[aria-checked="false"] .toggle-switch-thumb:hover {
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 1.5px solid #27272A !important;
+  transform: translateX(0px) scale(1.15) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
 }
 
 html.light-mode #settings-section-search .bg-\[\#24242A\] {
@@ -1144,6 +1609,103 @@ html.light-mode #settings-section-other > div:first-child svg {
 }
 
 /* Global Form Controls (Checkboxes, Switches, Sliders) */
+/* Full-rounded Checkmark with Liquid Glass Border Effect */
+.settings-checkmark {
+  border-radius: 9999px !important;
+  border: 1px solid transparent !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Checked State - Dark Mode */
+.settings-checkmark[data-checked="true"] {
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(255, 255, 255, 0.25) 65%, rgba(255, 255, 255, 0.70) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45), 0 3px 12px rgba(230, 0, 90, 0.40) !important;
+}
+
+/* Checked Hover - Dark Mode */
+.group:hover .settings-checkmark[data-checked="true"],
+.settings-checkmark[data-checked="true"]:hover {
+  background-image: 
+    linear-gradient(#FF1A75, #FF1A75), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(255, 255, 255, 0.35) 65%, rgba(255, 255, 255, 0.85) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.55), 0 4px 16px rgba(230, 0, 90, 0.52) !important;
+  transform: scale(1.06);
+}
+
+/* Unchecked State - Dark Mode */
+.settings-checkmark[data-checked="false"] {
+  background-color: #24242A !important;
+  background-image: 
+    linear-gradient(#24242A, #24242A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(160, 160, 175, 0.12) 30%, rgba(160, 160, 175, 0.08) 70%, rgba(255, 255, 255, 0.22) 100%) !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10), 0 2px 5px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Unchecked Hover - Dark Mode */
+.group:hover .settings-checkmark[data-checked="false"],
+.settings-checkmark[data-checked="false"]:hover {
+  background-image: 
+    linear-gradient(#2E2E36, #2E2E36), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(160, 160, 175, 0.20) 30%, rgba(160, 160, 175, 0.15) 70%, rgba(255, 255, 255, 0.40) 100%) !important;
+  box-shadow: inset 0 1px 1.2px 0 rgba(255, 255, 255, 0.18), 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  transform: scale(1.06);
+}
+
+/* Light Mode Checkmarks */
+html.light-mode .settings-checkmark[data-checked="true"] {
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(255, 255, 255, 0.25) 65%, rgba(255, 255, 255, 0.70) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45), 0 3px 12px rgba(230, 0, 90, 0.35) !important;
+}
+
+html.light-mode .group:hover .settings-checkmark[data-checked="true"],
+html.light-mode .settings-checkmark[data-checked="true"]:hover {
+  background-image: 
+    linear-gradient(#FF1A75, #FF1A75), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.35) 35%, rgba(255, 255, 255, 0.35) 65%, rgba(255, 255, 255, 0.85) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.55), 0 4px 16px rgba(230, 0, 90, 0.45) !important;
+  transform: scale(1.06);
+}
+
+html.light-mode .settings-checkmark[data-checked="false"] {
+  background-color: #F3F4F6 !important;
+  background-image: 
+    linear-gradient(#F3F4F6, #F3F4F6), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0.15) 30%, rgba(148, 163, 184, 0.15) 70%, rgba(100, 116, 139, 0.45) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9), 0 0 0 1px rgba(0, 0, 0, 0.06), 0 2px 5px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light-mode .group:hover .settings-checkmark[data-checked="false"],
+html.light-mode .settings-checkmark[data-checked="false"]:hover {
+  background-image: 
+    linear-gradient(#E5E7EB, #E5E7EB), 
+    linear-gradient(180deg, rgba(71, 85, 105, 0.65) 0%, rgba(100, 116, 139, 0.25) 30%, rgba(100, 116, 139, 0.25) 70%, rgba(71, 85, 105, 0.65) 100%) !important;
+  box-shadow: inset 0 1px 1.8px 0 rgba(255, 255, 255, 1), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 2px 7px rgba(0, 0, 0, 0.10) !important;
+  transform: scale(1.06);
+}
+
+/* Checkmark spring entry animation */
+.settings-checkmark svg,
+.settings-checkmark img {
+  animation: sfCheckmarkPop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes sfCheckmarkPop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 input[type="checkbox"] {
   accent-color: #E6005A !important;
 }
@@ -1270,10 +1832,14 @@ input[type="range"] {
 
 /* Light Mode Tools Menu Dropdown Card */
 html.light-mode #vplay-tools-dropdown-card {
-  background-color: #FFFFFF !important;
+  border-radius: 30px !important;
+  background-color: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  background-image: none !important;
   color: #111827 !important;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12) !important;
-  border: none !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.7), 0 16px 40px rgba(0, 0, 0, 0.10) !important;
 }
 
 html.light-mode #vplay-tools-dropdown-card button {
@@ -1285,7 +1851,7 @@ html.light-mode #vplay-tools-dropdown-card button span {
 }
 
 html.light-mode #vplay-tools-dropdown-card button:hover {
-  background-color: #F1F3F5 !important;
+  background-color: rgba(241, 243, 245, 0.75) !important;
   color: #111827 !important;
 }
 
@@ -1304,7 +1870,9 @@ html.light-mode #vplay-tools-dropdown-card svg.fill-current {
 }
 
 html.light-mode #vplay-tools-dropdown-card .tools-font-box {
-  background-color: #F1F3F5 !important;
+  background-color: rgba(241, 243, 245, 0.65) !important;
+  backdrop-filter: blur(6px) !important;
+  border: none !important;
 }
 
 html.light-mode #vplay-tools-dropdown-card .tools-font-text {
@@ -1312,7 +1880,7 @@ html.light-mode #vplay-tools-dropdown-card .tools-font-text {
 }
 
 html.light-mode #vplay-tools-dropdown-card .tools-font-btn {
-  background-color: #FFFFFF !important;
+  background-color: rgba(255, 255, 255, 0.90) !important;
   color: #18181B !important;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
 }
@@ -1328,10 +1896,14 @@ html.light-mode #vplay-tools-dropdown-card .tools-toast-badge {
 
 /* Dark Mode Tools Menu Dropdown Card */
 html:not(.light-mode) #vplay-tools-dropdown-card {
-  background-color: #1E1E24 !important;
+  border-radius: 30px !important;
+  background-color: rgba(30, 30, 36, 0.80) !important;
+  backdrop-filter: blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  background-image: none !important;
   color: #FFFFFF !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
-  border: none !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10), 0 20px 50px rgba(0, 0, 0, 0.45) !important;
 }
 
 html:not(.light-mode) #vplay-tools-dropdown-card button {
@@ -1343,7 +1915,7 @@ html:not(.light-mode) #vplay-tools-dropdown-card button span {
 }
 
 html:not(.light-mode) #vplay-tools-dropdown-card button:hover {
-  background-color: #2A2A32 !important;
+  background-color: rgba(255, 255, 255, 0.14) !important;
   color: #FFFFFF !important;
 }
 
@@ -1360,7 +1932,9 @@ html:not(.light-mode) #vplay-tools-dropdown-card svg.fill-current {
 }
 
 html:not(.light-mode) #vplay-tools-dropdown-card .tools-font-box {
-  background-color: #141318 !important;
+  background-color: rgba(20, 19, 24, 0.60) !important;
+  backdrop-filter: blur(6px) !important;
+  border: none !important;
 }
 
 html:not(.light-mode) #vplay-tools-dropdown-card .tools-font-text {
@@ -1368,7 +1942,7 @@ html:not(.light-mode) #vplay-tools-dropdown-card .tools-font-text {
 }
 
 html:not(.light-mode) #vplay-tools-dropdown-card .tools-font-btn {
-  background-color: #26262E !important;
+  background-color: rgba(45, 45, 54, 0.90) !important;
   color: #FFFFFF !important;
 }
 
@@ -1485,11 +2059,302 @@ html.light-mode #news-summary-dialog button.bg-\[\#28282E\]:hover {
 }
 
 /* ==========================================================================
+   Live TV Video Player - Liquid Glass Elements & Controls
+   ========================================================================== */
+#waves-video-player-container {
+  border-radius: 36px !important;
+  overflow: hidden !important;
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#000000, #000000), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.50) 0%, rgba(160, 160, 175, 0.15) 20%, rgba(160, 160, 175, 0.05) 50%, rgba(160, 160, 175, 0.15) 80%, rgba(255, 255, 255, 0.35) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.12), 0 20px 50px rgba(0, 0, 0, 0.55) !important;
+}
+
+/* VisionOS Liquid Glass Player Buttons */
+.glass-player-btn {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(6px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45), 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+  color: #FFFFFF !important;
+  transition: all 0.22s cubic-bezier(0.34, 1.5, 0.64, 1) !important;
+}
+
+.glass-player-btn:hover {
+  background-color: rgba(255, 255, 255, 0.30) !important;
+  border-color: rgba(255, 255, 255, 0.60) !important;
+  box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 0.65), 0 12px 30px rgba(0, 0, 0, 0.45) !important;
+  transform: scale(1.06) !important;
+}
+
+.glass-player-btn:active {
+  transform: scale(0.93) !important;
+}
+
+/* VisionOS Center Play / Pause Button */
+.glass-player-center-play {
+  background-color: rgba(255, 255, 255, 0.20) !important;
+  backdrop-filter: blur(6px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(150%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.60), 0 16px 45px rgba(0, 0, 0, 0.50) !important;
+  color: #FFFFFF !important;
+  transition: all 0.25s cubic-bezier(0.34, 1.5, 0.64, 1) !important;
+}
+
+.glass-player-center-play:hover {
+  background-color: rgba(255, 255, 255, 0.32) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+  box-shadow: inset 0 2px 3px 0 rgba(255, 255, 255, 0.80), 0 20px 50px rgba(0, 0, 0, 0.60) !important;
+  transform: scale(1.08) !important;
+}
+
+.glass-player-center-play:active {
+  transform: scale(0.93) !important;
+}
+
+/* VisionOS Center Seek 10s Buttons */
+.glass-player-center-seek {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(6px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.40), 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+  color: #FFFFFF !important;
+  transition: all 0.22s cubic-bezier(0.34, 1.5, 0.64, 1) !important;
+}
+
+.glass-player-center-seek:hover {
+  background-color: rgba(255, 255, 255, 0.28) !important;
+  border-color: rgba(255, 255, 255, 0.60) !important;
+  box-shadow: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.65), 0 14px 36px rgba(0, 0, 0, 0.45) !important;
+  transform: scale(1.08) !important;
+}
+
+.glass-player-center-seek:active {
+  transform: scale(0.93) !important;
+}
+
+/* VisionOS Volume Pill */
+.glass-player-volume-pill {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(6px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.40), 0 8px 28px rgba(0, 0, 0, 0.35) !important;
+  color: #FFFFFF !important;
+}
+
+/* VisionOS Bottom Progress Bar Pill */
+.glass-player-progress-pill {
+  background-color: rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(6px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(150%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45), 0 14px 45px rgba(0, 0, 0, 0.45) !important;
+  color: #FFFFFF !important;
+}
+
+/* Video Player Bottom Controls Bar Capsule */
+.video-player-controls-bar {
+  border: 1px solid transparent !important;
+  background-color: rgba(20, 20, 24, 0.84) !important;
+  background-image: 
+    linear-gradient(rgba(20, 20, 24, 0.84), rgba(20, 20, 24, 0.84)), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(160, 160, 175, 0.22) 20%, rgba(160, 160, 175, 0.05) 50%, rgba(160, 160, 175, 0.22) 80%, rgba(255, 255, 255, 0.50) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.20), 0 12px 36px rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+
+/* Video Player Glass Buttons */
+.video-player-glass-btn {
+  border: 1px solid transparent !important;
+  background-color: rgba(45, 45, 54, 0.75) !important;
+  background-image: 
+    linear-gradient(rgba(45, 45, 54, 0.75), rgba(45, 45, 54, 0.75)), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(160, 160, 175, 0.20) 25%, rgba(160, 160, 175, 0.05) 50%, rgba(160, 160, 175, 0.20) 75%, rgba(255, 255, 255, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.18), 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  transition: all 0.22s cubic-bezier(0.34, 1.5, 0.64, 1) !important;
+}
+
+.video-player-glass-btn:hover {
+  background-color: rgba(62, 62, 74, 0.9) !important;
+  background-image: 
+    linear-gradient(rgba(62, 62, 74, 0.9), rgba(62, 62, 74, 0.9)), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.90) 0%, rgba(160, 160, 175, 0.32) 20%, rgba(160, 160, 175, 0.10) 50%, rgba(160, 160, 175, 0.32) 80%, rgba(255, 255, 255, 0.70) 100%) !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.35), 0 4px 14px rgba(0, 0, 0, 0.45) !important;
+}
+
+.video-player-glass-btn:active {
+  transform: scale(0.92) !important;
+}
+
+/* Video Player Live Badge Button */
+.video-player-live-badge {
+  border: 1px solid transparent !important;
+  background-color: rgba(230, 0, 90, 0.20) !important;
+  background-image: 
+    linear-gradient(rgba(230, 0, 90, 0.20), rgba(230, 0, 90, 0.20)), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 77, 141, 0.35) 30%, rgba(255, 77, 141, 0.15) 70%, rgba(255, 255, 255, 0.55) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 2px 8px rgba(230, 0, 90, 0.3) !important;
+  color: #FF4D8D !important;
+  transition: all 0.22s ease !important;
+}
+
+.video-player-live-badge:hover {
+  background-color: rgba(230, 0, 90, 0.35) !important;
+  background-image: 
+    linear-gradient(rgba(230, 0, 90, 0.35), rgba(230, 0, 90, 0.35)), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 77, 141, 0.50) 30%, rgba(255, 77, 141, 0.25) 70%, rgba(255, 255, 255, 0.75) 100%) !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4), 0 4px 14px rgba(230, 0, 90, 0.45) !important;
+}
+
+/* Video Player Center Play Button */
+.video-player-center-play {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(255, 255, 255, 0.25) 65%, rgba(255, 255, 255, 0.75) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 0.45), 0 10px 30px rgba(230, 0, 90, 0.55) !important;
+}
+
+/* Video Player Favorite Button Active */
+.video-player-fav-active {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(255, 255, 255, 0.25) 65%, rgba(255, 255, 255, 0.70) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4), 0 4px 14px rgba(230, 0, 90, 0.45) !important;
+}
+
+/* Video Player Quality Badge in Header */
+.video-player-quality-badge {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.80) 0%, rgba(255, 255, 255, 0.22) 35%, rgba(255, 255, 255, 0.22) 65%, rgba(255, 255, 255, 0.65) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.35), 0 2px 8px rgba(230, 0, 90, 0.35) !important;
+}
+
+/* Video Player Buffering Badge */
+.video-player-glass-badge {
+  border: 1px solid transparent !important;
+  background-color: rgba(24, 24, 28, 0.80) !important;
+  background-image: 
+    linear-gradient(rgba(24, 24, 28, 0.80), rgba(24, 24, 28, 0.80)), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(160, 160, 175, 0.18) 25%, rgba(160, 160, 175, 0.05) 50%, rgba(160, 160, 175, 0.18) 75%, rgba(255, 255, 255, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* Video Player Quality Menu Dropdown Card */
+.video-player-quality-menu {
+  border: 1px solid transparent !important;
+  background-color: #1E1E24 !important;
+  background-image: 
+    linear-gradient(#1E1E24, #1E1E24), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(160, 160, 175, 0.25) 15%, rgba(160, 160, 175, 0.05) 35%, rgba(160, 160, 175, 0.05) 65%, rgba(160, 160, 175, 0.25) 85%, rgba(255, 255, 255, 0.55) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.18), 0 16px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Video Player Accent Buttons (e.g. Retry) */
+.video-player-accent-btn {
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#E6005A, #E6005A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 35%, rgba(255, 255, 255, 0.25) 65%, rgba(255, 255, 255, 0.70) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4), 0 4px 14px rgba(230, 0, 90, 0.45) !important;
+  transition: all 0.22s ease !important;
+}
+.video-player-accent-btn:hover {
+  background-image: 
+    linear-gradient(#FF267A, #FF267A), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.32) 35%, rgba(255, 255, 255, 0.32) 65%, rgba(255, 255, 255, 0.85) 100%) !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.5), 0 6px 18px rgba(230, 0, 90, 0.55) !important;
+}
+
+/* ==========================================================================
    Live TV & Video Player Light Mode Adaptations
    ========================================================================== */
 html.light-mode #waves-video-player-container {
-  border-color: #E2E8F0 !important;
+  border: 1px solid transparent !important;
+  background-image: 
+    linear-gradient(#000000, #000000), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0.15) 25%, rgba(148, 163, 184, 0.15) 75%, rgba(100, 116, 139, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12) !important;
+}
+
+html.light-mode .video-player-controls-bar {
+  border: 1px solid transparent !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 12px 36px rgba(0, 0, 0, 0.2) !important;
+  color: #111827 !important;
+}
+
+html.light-mode .video-player-glass-btn {
+  border: 1px solid transparent !important;
+  background-color: rgba(243, 244, 246, 0.9) !important;
+  background-image: 
+    linear-gradient(rgba(243, 244, 246, 0.9), rgba(243, 244, 246, 0.9)), 
+    linear-gradient(180deg, rgba(100, 116, 139, 0.40) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.40) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  color: #1F2937 !important;
+}
+
+html.light-mode .video-player-glass-btn:hover {
+  background-color: rgba(229, 231, 235, 0.95) !important;
+  background-image: 
+    linear-gradient(rgba(229, 231, 235, 0.95), rgba(229, 231, 235, 0.95)), 
+    linear-gradient(180deg, rgba(71, 85, 105, 0.65) 0%, rgba(100, 116, 139, 0) 25%, rgba(100, 116, 139, 0) 75%, rgba(71, 85, 105, 0.65) 100%) !important;
+  box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 1), 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+  color: #111827 !important;
+}
+
+html.light-mode .video-player-quality-menu {
+  border: 1px solid transparent !important;
+  background-color: #FFFFFF !important;
+  background-image: 
+    linear-gradient(#FFFFFF, #FFFFFF), 
+    linear-gradient(180deg, rgba(71, 85, 105, 0.45) 0%, rgba(100, 116, 139, 0.12) 25%, rgba(100, 116, 139, 0.12) 75%, rgba(71, 85, 105, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), 0 0 0 1px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.14) !important;
+  color: #111827 !important;
 }
 
 html.light-mode #btn-livetv-import-m3u8,
@@ -1516,17 +2381,6 @@ html.light-mode #btn-livetv-favorite:not(.bg-\[\#E50914\]):hover {
   color: #111827 !important;
 }
 
-html.light-mode #livetv-category-tabs button:not(.bg-\[\#E50914\]) {
-  background-color: #F3F4F6 !important;
-  border-color: #E5E7EB !important;
-  color: #4B5563 !important;
-}
-
-html.light-mode #livetv-category-tabs button:not(.bg-\[\#E50914\]):hover {
-  background-color: #E5E7EB !important;
-  color: #111827 !important;
-}
-
 html.light-mode .livetv-category-divider {
   border-bottom-color: #E5E7EB !important;
 }
@@ -1539,16 +2393,6 @@ html.light-mode #livetv-channel-search {
 
 html.light-mode #livetv-channel-search:focus {
   border-color: #E50914 !important;
-}
-
-html.light-mode [id^="livetv-channel-card-"] {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-}
-
-html.light-mode [id^="livetv-channel-card-"]:hover {
-  border-color: rgba(229, 9, 20, 0.5) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
 }
 
 html.light-mode [id^="livetv-channel-card-"] h3 {

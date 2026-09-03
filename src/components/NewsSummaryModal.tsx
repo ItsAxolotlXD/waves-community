@@ -67,29 +67,29 @@ export const NewsSummaryModal: React.FC<NewsSummaryModalProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={shouldAnimate ? { opacity: 0, scale: 1.05 } : { opacity: 0 }}
             transition={{ duration: shouldAnimate ? 0.25 : 0, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-xl bg-white dark:bg-[#1E1D22] border border-[#E5E7EB] dark:border-white/10 rounded-[28px] p-6 sm:p-8 shadow-2xl z-10 text-[#111827] dark:text-white"
+            className="relative w-full max-w-[480px] bg-white dark:bg-[#1E1D22] border border-[#E5E7EB] dark:border-white/10 rounded-[24px] p-5 sm:p-6 shadow-2xl z-10 text-[#111827] dark:text-white"
           >
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-[#E5E7EB] dark:border-[#2C2C34]">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#E6005A] to-[#FF4D8D] text-white flex items-center justify-center shadow-md">
-                  <Sparkles className="w-5 h-5" />
+            <div className="flex items-center justify-between pb-3.5 border-b border-[#E5E7EB] dark:border-[#2C2C34]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#E6005A] to-[#FF4D8D] text-white flex items-center justify-center shadow-md">
+                  <Sparkles className="w-4.5 h-4.5" />
                 </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold flex items-center gap-2 text-[#111827] dark:text-white">
+                  <h3 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[#111827] dark:text-white">
                     <span>Tóm tắt bài viết thông minh</span>
                     <span className="px-2 py-0.5 rounded-full bg-[#E6005A]/15 text-[#E6005A] dark:text-[#FF4D8D] text-[10px] font-extrabold uppercase">
                       AI Summary
                     </span>
                   </h3>
-                  <p className="text-xs text-[#6B7280] dark:text-[#9CA3AF]">Điểm tin cốt lõi và nội dung cô đọng</p>
+                  <p className="text-[11px] text-[#6B7280] dark:text-[#9CA3AF]">Điểm tin cốt lõi và nội dung cô đọng</p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-full bg-[#F3F4F6] dark:bg-[#28282E] flex items-center justify-center text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white cursor-pointer transition-colors"
+                className="w-7 h-7 rounded-full bg-[#F3F4F6] dark:bg-[#28282E] flex items-center justify-center text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white cursor-pointer transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
 

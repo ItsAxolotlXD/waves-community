@@ -64,10 +64,10 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
                 ease: [0.25, 0.1, 0.25, 1]
               }
             }}
-            className="relative z-10 w-full max-w-[520px] bg-[#1E1D22] rounded-[38px] p-8 sm:p-10 shadow-2xl border border-white/5"
+            className="relative z-10 w-full max-w-[450px] bg-[#1E1D22] rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 shadow-2xl border border-white/5"
           >
             {/* Top Badge */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-3">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E6005A]/15 border border-[#E6005A]/30 text-[#E6005A] text-xs font-bold uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Release Notes</span>
@@ -86,39 +86,32 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
             {/* Title */}
             <h1
               id="welcome-modal-title"
-              className="text-2xl sm:text-[28px] font-bold text-white tracking-tight mb-3 font-sans leading-tight"
+              className="text-xl sm:text-[23px] font-bold text-white tracking-tight mb-2.5 font-sans leading-tight"
             >
-              Welcome to Vplay 26.9 - Developer Beta 4
+              Welcome to Vplay 26.9 - Developer Beta 5
             </h1>
 
             {/* Description & Changelogs */}
             <div
               id="welcome-modal-description"
-              className="text-sm sm:text-[15px] text-[#D1D5DB] leading-relaxed mb-7 font-normal space-y-3"
+              className="text-xs sm:text-sm text-[#D1D5DB] leading-relaxed mb-5 font-normal space-y-2.5"
             >
-              <p className="font-semibold text-white/95 text-sm tracking-wide">
+              <p className="font-semibold text-white/95 text-xs sm:text-sm tracking-wide">
                 Changelogs:
               </p>
-              <ul className="space-y-2 text-[#C4C4CC] text-[13.5px] sm:text-sm pl-1">
-                <li className="flex items-start gap-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-2 shrink-0" />
-                  <span>Thử nghiệm Liquid Glass trên input box, buttons, toggles...</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-2 shrink-0" />
-                  <span>Tweak một vài hiệu ứng, độ bo góc cho phù hợp với ngôn ngữ Liquid Glass</span>
-                </li>
-              </ul>
+              <p className="text-[#C4C4CC] text-xs sm:text-[13px] leading-relaxed">
+                Update changelogs are being updated... Stay tuned.
+              </p>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
               {/* Button colored: Close */}
               <button
                 type="button"
                 id="btn-welcome-close"
                 onClick={onClose}
-                className="w-full py-4 px-6 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-base sm:text-[17px] cursor-pointer flex items-center justify-center shadow-md tracking-tight text-center"
+                className="w-full py-2.5 sm:py-3 px-5 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer flex items-center justify-center shadow-md tracking-tight text-center"
               >
                 Close
               </button>

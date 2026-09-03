@@ -54,10 +54,19 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
   onChangeFontSize
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [spinCount, setSpinCount] = useState(0);
+  const [isClickSpinning, setIsClickSpinning] = useState(false);
   const [copiedToast, setCopiedToast] = useState<string | null>(null);
   const [exportingDocx, setExportingDocx] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleTriggerClick = () => {
+    if (!isRelevant) return;
+    setSpinCount((prev) => prev + 1);
+    setIsClickSpinning(true);
+    setIsOpen((prev) => !prev);
+  };
 
   const { isChannelFavorite, toggleFavoriteChannel } = useFavorites();
   const isFav = currentChannel ? isChannelFavorite(currentChannel.id) : false;
@@ -199,26 +208,33 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
         onChange={handleFileInputChange}
       />
 
-      {/* Tools Trigger Button with Google Bard monochrome icon (No pulse/blinking) */}
+      {/* Tools Trigger Button with Microsoft Copilot icon */}
       <button
         id="btn-top-tools-menu"
         type="button"
         disabled={!isRelevant}
-        onClick={() => isRelevant && setIsOpen(!isOpen)}
-        className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-white transition-all drop-shadow-sm cursor-default relative"
+        onClick={handleTriggerClick}
+        className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-white transition-all drop-shadow-sm cursor-default relative group"
         title={isRelevant ? "Công cụ & Tiện ích Vplay (Tools)" : "Không có công cụ khả dụng"}
         aria-label="Menu công cụ Vplay"
         aria-expanded={isOpen}
       >
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Google_Bard_logo.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"
+          key={spinCount}
+          src="https://static.wikia.nocookie.net/ep-deo/images/c/c3/Icons8-microsoft-copilot-100.png/revision/latest?cb=20260903151425"
           alt="Tools"
           referrerPolicy="no-referrer"
-          className={`w-5 h-5 object-contain topbar-tools-icon ${
-            isLightMode ? 'brightness-0 opacity-90' : 'brightness-0 invert opacity-95'
+          onAnimationEnd={() => setIsClickSpinning(false)}
+          className={`w-5 h-5 object-contain topbar-tools-icon transition-transform duration-700 ease-in-out ${
+            isClickSpinning ? 'spin-click' : ''
+          } ${
+            isLightMode ? '' : 'brightness-0 invert opacity-95'
           }`}
           onError={(e) => {
-            (e.target as HTMLElement).style.display = 'none';
+            const target = e.target as HTMLImageElement;
+            if (!target.src.includes('/icons/copilot.png')) {
+              target.src = '/icons/copilot.png';
+            }
           }}
         />
       </button>
@@ -237,7 +253,7 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
               damping: 20,
               mass: 0.75
             }}
-            className="absolute right-0 mt-2 w-72 rounded-[22px] bg-white dark:bg-[#1E1E24] p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] z-50 select-none text-[#111827] dark:text-white cursor-default origin-top-right"
+            className="absolute right-0 mt-2 w-72 rounded-[30px] p-3 z-50 select-none text-[#111827] dark:text-white cursor-default origin-top-right overflow-hidden"
           >
             {/* Menu Items for HOME */}
           {isHome && (

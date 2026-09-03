@@ -70,31 +70,31 @@ export const AddStreamModal: React.FC<AddStreamModalProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={shouldAnimate ? { opacity: 0, scale: 1.05 } : { opacity: 0 }}
             transition={{ duration: shouldAnimate ? 0.35 : 0, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-md bg-[#1E1D22] border border-white/10 rounded-[32px] p-6 sm:p-7 shadow-2xl z-10 text-white"
+            className="relative w-full max-w-[390px] bg-[#1E1D22] border border-white/10 rounded-[26px] p-5 sm:p-6 shadow-2xl z-10 text-white"
           >
             {/* Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-[#2C2C34]">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#E6005A]/20 text-[#E6005A] flex items-center justify-center border border-[#E6005A]/30">
-                  <Plus className="w-5 h-5" />
+            <div className="flex items-center justify-between pb-3.5 border-b border-[#2C2C34]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-2xl bg-[#E6005A]/20 text-[#E6005A] flex items-center justify-center border border-[#E6005A]/30">
+                  <Plus className="w-4.5 h-4.5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">Thêm luồng trực tiếp mới</h3>
-                  <p className="text-xs text-[#9CA3AF]">Nhập thông tin luồng HLS / M3U8</p>
+                  <h3 className="text-sm sm:text-base font-bold text-white">Thêm luồng trực tiếp mới</h3>
+                  <p className="text-[11px] text-[#9CA3AF]">Nhập thông tin luồng HLS / M3U8</p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
+                className="w-7 h-7 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-4 space-y-3.5">
               <div>
-                <label className="block text-xs font-semibold text-[#D1D5DB] mb-1.5">
+                <label className="block text-xs font-semibold text-[#D1D5DB] mb-1">
                   Tên luồng <span className="text-[#FF4D8D]">*</span>
                 </label>
                 <input
@@ -103,12 +103,12 @@ export const AddStreamModal: React.FC<AddStreamModalProps> = ({
                   value={streamName}
                   onChange={(e) => setStreamName(e.target.value)}
                   placeholder="Ví dụ: VTV3 HD 1080p Nguồn 2"
-                  className="w-full px-4 py-3 rounded-2xl bg-[#141318] border border-[#2D2D36] text-white text-xs sm:text-sm focus:outline-none focus:border-[#E6005A]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#141318] border border-[#2D2D36] text-white text-xs sm:text-sm focus:outline-none focus:border-[#E6005A]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#D1D5DB] mb-1.5">
+                <label className="block text-xs font-semibold text-[#D1D5DB] mb-1">
                   Địa chỉ luồng (.m3u8) <span className="text-[#FF4D8D]">*</span>
                 </label>
                 <input
@@ -146,7 +146,7 @@ export const AddStreamModal: React.FC<AddStreamModalProps> = ({
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-full bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] text-white text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
+                  className="w-full py-2.5 sm:py-3 rounded-full bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
                 >
                   <Play className="w-4 h-4 fill-current" />
                   <span>Thêm & Phát luồng ngay</span>

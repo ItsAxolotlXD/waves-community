@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
@@ -25,7 +25,32 @@ import { Channel, NewsArticle } from './types';
 import { useSettings } from './hooks/useSettings';
 
 export default function App() {
-  const { settings } = useSettings();
+  const { settings, hasChanges } = useSettings();
+
+  // Tooltip & navigation block for unsaved settings
+  const [showUnsavedTooltip, setShowUnsavedTooltip] = useState(false);
+  const unsavedTooltipTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const triggerUnsavedTooltip = useCallback(() => {
+    setShowUnsavedTooltip(true);
+    if (unsavedTooltipTimerRef.current) clearTimeout(unsavedTooltipTimerRef.current);
+    unsavedTooltipTimerRef.current = setTimeout(() => {
+      setShowUnsavedTooltip(false);
+    }, 4500);
+  }, []);
+
+  // When changes are saved or cleared, hide tooltip
+  useEffect(() => {
+    if (!hasChanges) {
+      setShowUnsavedTooltip(false);
+    }
+  }, [hasChanges]);
+
+  useEffect(() => {
+    return () => {
+      if (unsavedTooltipTimerRef.current) clearTimeout(unsavedTooltipTimerRef.current);
+    };
+  }, []);
 
   // Navigation Route State (supports browser pathname or internal state)
   const [currentRoute, setCurrentRoute] = useState<string>(() => {
@@ -109,6 +134,15 @@ export default function App() {
 
   // Navigation handler
   const navigate = (path: string, state?: any) => {
+    // If currently on settings and there are unsaved changes, block switching to any other tab
+    if (currentRoute === '/settings' && hasChanges) {
+      const isStillSettings = path === '/settings' || path.startsWith('/settings?') || path.startsWith('/settings#');
+      if (!isStillSettings) {
+        triggerUnsavedTooltip();
+        return;
+      }
+    }
+
     setRouteState(state);
     
     // Parse query params if any
@@ -134,6 +168,11 @@ export default function App() {
   // Handle browser back / forward navigation
   useEffect(() => {
     const handlePopState = () => {
+      if (currentRoute === '/settings' && hasChanges) {
+        window.history.pushState(null, '', '/settings');
+        triggerUnsavedTooltip();
+        return;
+      }
       const path = window.location.pathname;
       const params = new URLSearchParams(window.location.search);
       const chSlug = params.get('channel');
@@ -146,7 +185,20 @@ export default function App() {
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [channels]);
+  }, [channels, currentRoute, hasChanges, triggerUnsavedTooltip]);
+
+  // Handle page reload / unload when settings are unsaved
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (currentRoute === '/settings' && hasChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [currentRoute, hasChanges]);
 
   // Handle playing a custom single channel
   const handlePlayCustomChannel = (newChannel: Channel) => {
@@ -285,6 +337,8 @@ export default function App() {
           onOpenNotifications={() => setIsUnderConstructionOpen(true)}
           fontSize={articleFontSize}
           onChangeFontSize={handleFontSizeChange}
+          showUnsavedTooltip={showUnsavedTooltip}
+          onDismissUnsavedTooltip={() => setShowUnsavedTooltip(false)}
         />
 
         {/* Dynamic Page Content with smooth slide-up transition */}

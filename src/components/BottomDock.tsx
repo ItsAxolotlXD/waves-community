@@ -2,9 +2,6 @@ import React from 'react';
 import { 
   Tv, 
   Megaphone, 
-  Heart, 
-  Box, 
-  Settings as SettingsIcon,
   Search
 } from 'lucide-react';
 
@@ -28,7 +25,6 @@ export const BottomDock: React.FC<BottomDockProps> = ({
     { id: 'dock-home', label: 'Trang chủ', isCustomHome: true, route: '/' },
     { id: 'dock-tv', label: 'Truyền hình', icon: Tv, route: '/live-tv' },
     { id: 'dock-news', label: 'Tin tức', icon: Megaphone, route: '/news' },
-    { id: 'dock-settings', label: 'Cài đặt', icon: SettingsIcon, route: '/settings' },
   ];
 
   return (

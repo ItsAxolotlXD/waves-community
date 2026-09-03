@@ -1,21 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { VideoPlayer } from '../components/VideoPlayer';
 import { Channel } from '../types';
 import { useFavorites } from '../hooks/useFavorites';
-import { useVoiceSearch } from '../hooks/useVoiceSearch';
 import { 
   Tv, 
-  Search, 
   Sparkles, 
   Heart, 
   Share2, 
   CheckCircle2, 
-  X,
   ChevronRight,
-  Hash,
-  Mic
+  Hash
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 
 interface LiveTVProps {
   currentChannel: Channel;
@@ -31,20 +27,8 @@ export const LiveTV: React.FC<LiveTVProps> = ({
   onOpenCustomStreamModal
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
-  const [searchQuery, setSearchQuery] = useState('');
   const [copiedLink, setCopiedLink] = useState(false);
   const [isTheaterMode, setIsTheaterMode] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const {
-    isListening,
-    toggleListening
-  } = useVoiceSearch((transcript) => {
-    setSearchQuery(transcript);
-    setIsFocused(true);
-    inputRef.current?.focus();
-  });
 
   const { isChannelFavorite, toggleFavoriteChannel } = useFavorites();
   const isFav = isChannelFavorite(currentChannel.id);
@@ -53,20 +37,9 @@ export const LiveTV: React.FC<LiveTVProps> = ({
   const distinctCategories = Array.from(new Set(channels.map((c) => c.category)));
   const categoryTabs = ['Tất cả', ...distinctCategories];
 
-  // Filter channels by search and tab
+  // Filter channels by tab
   const filteredChannels = channels.filter((c) => {
-    const matchesCategory = selectedCategory === 'Tất cả' || c.category === selectedCategory;
-    const query = searchQuery.trim().toLowerCase();
-    if (!query) return matchesCategory;
-
-    const matchesSearch = 
-      c.name.toLowerCase().includes(query) ||
-      c.category.toLowerCase().includes(query) ||
-      (c.channelCode && c.channelCode.includes(query)) ||
-      (c.channelNumber && String(c.channelNumber) === query) ||
-      (c.shortName && c.shortName.toLowerCase().includes(query));
-
-    return matchesCategory && matchesSearch;
+    return selectedCategory === 'Tất cả' || c.category === selectedCategory;
   });
 
   // Group channels by category when viewing "Tất cả" (or show single category if filtered)
@@ -156,108 +129,34 @@ export const LiveTV: React.FC<LiveTVProps> = ({
       {/* Channel List Section */}
       <div className="space-y-6 pt-2">
         {/* Section Header & Filters */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex flex-col gap-3 sm:gap-3.5">
           <div className="flex items-center gap-2">
-            <Tv className="w-5 h-5 text-[#E50914]" />
             <h2 className="text-lg sm:text-xl font-bold text-[#111827] dark:text-white">
               Danh sách kênh
             </h2>
-            <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-[#F1F3F5] dark:bg-[#26262C] text-[#4B5563] dark:text-[#9CA3AF] border border-[#E5E7EB] dark:border-[#383842]">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#F1F3F5] dark:bg-[#26262C] text-[#4B5563] dark:text-[#9CA3AF] border border-[#E5E7EB] dark:border-[#383842]">
               {filteredChannels.length} kênh
             </span>
           </div>
 
-          {/* Search Box */}
-          <div className="relative w-full sm:w-64 flex items-center">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-[#9CA3AF]" />
-            <input
-              ref={inputRef}
-              id="livetv-channel-search"
-              type="text"
-              value={searchQuery}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => {
-                if (!searchQuery && !isListening) setIsFocused(false);
-              }}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={isListening ? "Đang nghe..." : "Tìm tên kênh hoặc số hiệu..."}
-              className={`w-full pl-9 ${isFocused || isListening ? 'pr-14' : 'pr-8'} py-2 rounded-full bg-white dark:bg-[#171719] border border-[#E5E7EB] dark:border-[#34343C] text-xs text-[#111827] dark:text-white placeholder-[#9CA3AF] focus:outline-none focus:border-[#E50914] transition-all`}
-            />
-            <div className="absolute right-2 flex items-center gap-1 overflow-visible">
-              <AnimatePresence>
-                {searchQuery && (
-                  <motion.button
-                    type="button"
-                    initial={{ opacity: 0, scale: 0.7 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.7 }}
-                    transition={{ duration: 0.15 }}
-                    onClick={() => {
-                      setSearchQuery('');
-                      inputRef.current?.focus();
-                    }}
-                    className="text-[#9CA3AF] hover:text-[#111827] dark:hover:text-white cursor-pointer p-1"
-                    title="Xóa tìm kiếm"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </motion.button>
-                )}
-
-                {(isFocused || isListening) && (
-                  <motion.button
-                    type="button"
-                    initial={{ opacity: 0, x: 20, scale: 0.85 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: 20, scale: 0.85 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 350,
-                      damping: 28,
-                      mass: 0.8
-                    }}
-                    onClick={() => toggleListening()}
-                    className={`w-6 h-6 rounded-full transition-all cursor-pointer flex items-center justify-center ${
-                      isListening
-                        ? 'bg-[#E50914] shadow-[0_0_10px_rgba(229,9,20,0.7)] animate-pulse'
-                        : 'hover:bg-black/5 dark:hover:bg-white/10'
-                    }`}
-                    title={isListening ? "Dừng nghe" : "Tìm kiếm bằng giọng nói"}
-                  >
-                    <div className="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center shrink-0">
-                      <img
-                        src="https://github.com/andrewtavis/sf-symbols-online/blob/master/glyphs/mic.png?raw=true"
-                        alt="Voice Search"
-                        referrerPolicy="no-referrer"
-                        className={`w-full h-full aspect-square object-contain select-none pointer-events-none ${
-                          isListening ? 'brightness-0 invert' : 'opacity-70 dark:brightness-0 dark:invert'
-                        }`}
-                        onError={(e) => {
-                          (e.target as HTMLElement).style.display = 'none';
-                        }}
-                      />
-                    </div>
-                  </motion.button>
-                )}
-              </AnimatePresence>
-            </div>
+          {/* Category Tabs Filter */}
+          <div id="livetv-category-tabs" className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+            {categoryTabs.map((cat, idx) => (
+              <button
+                key={cat}
+                id={`livetv-cat-btn-${idx}`}
+                type="button"
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer select-none ${
+                  selectedCategory === cat
+                    ? 'bg-[#E50914] text-white shadow-sm'
+                    : 'bg-[#F1F3F5] hover:bg-[#E5E7EB] text-[#4B5563] hover:text-[#111827] dark:bg-[#26262C] dark:hover:bg-[#32323A] dark:text-[#A1A1AA] dark:hover:text-white border border-[#E5E7EB] dark:border-[#383842]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
-        </div>
-
-        {/* Category Tabs Filter */}
-        <div id="livetv-category-tabs" className="flex gap-1.5 overflow-x-auto pb-2 no-scrollbar">
-          {categoryTabs.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                selectedCategory === cat
-                  ? 'bg-[#E50914] text-white shadow-sm'
-                  : 'bg-[#F1F3F5] hover:bg-[#E5E7EB] text-[#4B5563] hover:text-[#111827] dark:bg-[#26262C] dark:hover:bg-[#32323A] dark:text-[#A1A1AA] dark:hover:text-white border border-[#E5E7EB] dark:border-[#383842]'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
         </div>
 
         {/* Channel Categories & Grids */}
@@ -295,10 +194,8 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                         key={ch.id}
                         id={`livetv-channel-card-${ch.id}`}
                         onClick={() => onSelectChannel(ch)}
-                        className={`group relative rounded-xl sm:rounded-2xl border transition-all duration-200 cursor-pointer overflow-hidden flex flex-col p-2.5 sm:p-3.5 select-none ${
-                          isSelected
-                            ? 'bg-[#E50914]/5 dark:bg-[#E50914]/15 border-[#E50914] shadow-sm ring-2 ring-[#E50914]/30'
-                            : 'bg-white dark:bg-[#1E1E22] border-[#E5E7EB] dark:border-[#2D2D35] hover:border-[#E50914]/50 hover:shadow-md'
+                        className={`group relative rounded-xl sm:rounded-2xl transition-all duration-200 cursor-pointer overflow-hidden flex flex-col p-2.5 sm:p-3.5 select-none ${
+                          isSelected ? 'is-selected' : ''
                         }`}
                       >
                         {/* Channel Logo Box without background (transparent background, strictly only logo) */}
@@ -337,7 +234,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
 
                           {/* Playing indicator */}
                           {isSelected && (
-                            <div className="absolute bottom-0 right-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#E50914] text-white text-[8px] font-bold shadow-sm">
+                            <div className="absolute bottom-0 right-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#E6005A] text-white text-[8px] font-bold shadow-sm">
                               <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
                               <span className="hidden sm:inline">Đang phát</span>
                             </div>
@@ -348,8 +245,8 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                         <div className="min-w-0 text-center">
                           <span className={`text-xs sm:text-sm font-mono font-bold tracking-wider transition-colors ${
                             isSelected 
-                              ? 'text-[#E50914]' 
-                              : 'text-[#4B5563] dark:text-[#9CA3AF] group-hover:text-[#E50914]'
+                              ? 'text-[#E6005A]' 
+                              : 'text-[#4B5563] dark:text-[#9CA3AF] group-hover:text-black dark:group-hover:text-white'
                           }`}>
                             {ch.channelCode || String(ch.channelNumber || 1).padStart(3, '0')}
                           </span>

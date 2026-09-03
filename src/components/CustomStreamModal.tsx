@@ -136,37 +136,37 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                 ease: [0.25, 0.1, 0.25, 1]
               }
             } : { opacity: 0 }}
-            className="relative w-full max-w-xl bg-[#1E1D22] border border-white/10 rounded-[38px] shadow-2xl overflow-hidden z-10"
+            className="relative w-full max-w-[480px] bg-[#1E1D22] border border-white/10 rounded-[28px] shadow-2xl overflow-hidden z-10"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 pb-4 border-b border-[#2C2C34]">
+            <div className="flex items-center justify-between p-5 pb-3.5 border-b border-[#2C2C34]">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-2xl bg-[#E6005A]/20 text-[#E6005A] flex items-center justify-center border border-[#E6005A]/30">
-                  <Radio className="w-5 h-5" />
+                <div className="w-8 h-8 rounded-xl bg-[#E6005A]/20 text-[#E6005A] flex items-center justify-center border border-[#E6005A]/30">
+                  <Radio className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-sm sm:text-base font-bold text-white">
                     Cấu hình Luồng M3U8 & Playlist
                   </h3>
-                  <p className="text-xs text-[#9CA3AF]">
+                  <p className="text-[11px] text-[#9CA3AF]">
                     Dán luồng HLS trực tiếp hoặc nhập playlist .m3u
                   </p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
+                className="w-7 h-7 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
             {/* Tab Toggle */}
-            <div className="flex p-1.5 mx-6 mt-4 rounded-full bg-[#141318] border border-[#2D2D35]">
+            <div className="flex p-1 mx-5 mt-3.5 rounded-full bg-[#141318] border border-[#2D2D35]">
               <button
                 type="button"
                 onClick={() => setActiveTab('single')}
-                className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                className={`flex-1 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   activeTab === 'single'
                     ? 'bg-[#E6005A] text-white shadow-md'
                     : 'text-[#9CA3AF] hover:text-white'
@@ -177,7 +177,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
               <button
                 type="button"
                 onClick={() => setActiveTab('playlist')}
-                className={`flex-1 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                className={`flex-1 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   activeTab === 'playlist'
                     ? 'bg-[#E6005A] text-white shadow-md'
                     : 'text-[#9CA3AF] hover:text-white'

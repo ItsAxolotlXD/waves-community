@@ -1,29 +1,68 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Palette, 
   Key, 
   Search, 
   Type, 
-  Check,
   X,
   Sun,
   Moon,
   Sparkles,
   Sliders,
   Mic,
-  MicOff
+  MicOff,
+  Wrench
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useSettings, FONT_SCALE_CONFIG } from '../hooks/useSettings';
+import { useSettings, FONT_SCALE_CONFIG, SystemSettings } from '../hooks/useSettings';
 import { useVoiceSearch } from '../hooks/useVoiceSearch';
 import { WelcomeModal } from '../components/WelcomeModal';
+import { SfCheckmark } from '../components/SfCheckmark';
 
 export const Settings: React.FC = () => {
-  const { settings, updateSetting } = useSettings();
+  const { 
+    settings, 
+    draftSettings, 
+    hasChanges, 
+    changedKeys, 
+    updateDraftSetting, 
+    applyDraftSettings 
+  } = useSettings();
+
+  const [showApplyToast, setShowApplyToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const updateDraft = <K extends keyof SystemSettings>(key: K, value: SystemSettings[K]) => {
+    updateDraftSetting(key, value);
+  };
+
+  const handleApplySettings = () => {
+    if (!hasChanges) {
+      setToastMessage('Tất cả cài đặt đã được áp dụng');
+      setShowApplyToast(true);
+      setTimeout(() => setShowApplyToast(false), 2200);
+      return;
+    }
+
+    applyDraftSettings();
+    setToastMessage(`Đã áp dụng ${changedKeys.length} thay đổi cài đặt!`);
+    setShowApplyToast(true);
+    setTimeout(() => setShowApplyToast(false), 2600);
+  };
+
+  useEffect(() => {
+    const handleAppliedEvent = () => {
+      setToastMessage('Đã áp dụng các thay đổi cài đặt thành công!');
+      setShowApplyToast(true);
+      setTimeout(() => setShowApplyToast(false), 2600);
+    };
+    window.addEventListener('settings-applied-toast', handleAppliedEvent);
+    return () => window.removeEventListener('settings-applied-toast', handleAppliedEvent);
+  }, []);
 
   const {
     isListening,
@@ -50,8 +89,9 @@ export const Settings: React.FC = () => {
           Quản lý giao diện, trợ năng và tiện ích hệ thống
         </p>
 
-        {/* Search Bar Capsule with Spotlight Search Centering & Styling */}
+        {/* Search Header */}
         <div className="pt-2">
+          {/* Search Bar Capsule with Spotlight Search Centering & Styling */}
           <div 
             onClick={() => {
               setIsFocused(true);
@@ -168,7 +208,6 @@ export const Settings: React.FC = () => {
         matchesSearch('Sáng') ||
         matchesSearch('Tối') ||
         matchesSearch('Theme') ||
-        matchesSearch('Dock sang Sidebar') ||
         matchesSearch('Cỡ chữ ứng dụng')) && (
         <section 
           id="settings-section-interface"
@@ -182,7 +221,7 @@ export const Settings: React.FC = () => {
                 Giao diện
               </h2>
               <p className="text-xs text-[#9CA3AF] mt-1 leading-relaxed">
-                Tùy biến chế độ sáng/tối, thanh Dock, Sidebar và tỷ lệ cỡ chữ toàn hệ thống
+                Tùy biến chế độ sáng/tối và tỷ lệ cỡ chữ toàn hệ thống
               </p>
             </div>
           </div>
@@ -190,81 +229,49 @@ export const Settings: React.FC = () => {
           <div className="space-y-3 pt-1">
             {/* Card 0: Chế độ giao diện (Light / Dark) - Placed at the very top of Interface section */}
             {(matchesSearch('Chế độ giao diện') || matchesSearch('Giao diện') || matchesSearch('Sáng') || matchesSearch('Tối') || matchesSearch('Theme') || matchesSearch('Light') || matchesSearch('Dark')) && (
-              <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
+              <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] flex flex-col gap-3.5 transition-colors">
                 <div>
-                  <div className="font-semibold text-white text-sm">
+                  <div className="font-semibold text-white text-sm sm:text-base">
                     Chế độ giao diện
                   </div>
-                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                  <div className="text-xs sm:text-sm text-[#9CA3AF] mt-1 leading-normal">
                     Chuyển đổi giao diện Sáng (Light mode) và Tối (Dark mode)
                   </div>
                 </div>
 
-                {/* Theme Selector Capsule */}
-                <div className="flex items-center p-1 rounded-full bg-[#18181B] shrink-0 theme-segmented-box border border-transparent">
+                {/* 2 Theme Action Buttons Placed Below (Full rounded & Compact size) */}
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-3 pt-1">
                   <button
                     id="btn-theme-light"
                     type="button"
-                    onClick={() => updateSetting('theme', 'light')}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                      settings.theme === 'light'
+                    onClick={() => updateDraft('theme', 'light')}
+                    className={`flex items-center justify-center gap-2 py-2 sm:py-2.5 px-4 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer select-none ${
+                      draftSettings.theme === 'light'
                         ? 'bg-[#E6005A] text-white shadow-md'
-                        : 'text-[#9CA3AF] hover:text-white'
+                        : 'text-[#D1D5DB] dark:text-[#9CA3AF] hover:text-white'
                     }`}
                   >
-                    <Sun className="w-3.5 h-3.5" />
+                    <Sun className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
                     <span>Sáng</span>
                   </button>
                   <button
                     id="btn-theme-dark"
                     type="button"
-                    onClick={() => updateSetting('theme', 'dark')}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                      settings.theme === 'dark'
+                    onClick={() => updateDraft('theme', 'dark')}
+                    className={`flex items-center justify-center gap-2 py-2 sm:py-2.5 px-4 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer select-none ${
+                      draftSettings.theme === 'dark'
                         ? 'bg-[#E6005A] text-white shadow-md'
-                        : 'text-[#9CA3AF] hover:text-white'
+                        : 'text-[#D1D5DB] dark:text-[#9CA3AF] hover:text-white'
                     }`}
                   >
-                    <Moon className="w-3.5 h-3.5" />
+                    <Moon className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
                     <span>Tối</span>
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Card 1: Dock sang Sidebar (No Border) */}
-            {matchesSearch('Dock sang Sidebar') && (
-              <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
-                <div>
-                  <div className="font-semibold text-white text-sm">
-                    Dock sang Sidebar
-                  </div>
-                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
-                    Chuyển thanh điều hướng dưới cùng sang thanh Sidebar bên trái
-                  </div>
-                </div>
-
-                {/* Red Toggle Switch */}
-                <button
-                  id="toggle-dock-to-sidebar"
-                  type="button"
-                  role="switch"
-                  aria-checked={settings.dockToSidebar}
-                  onClick={() => updateSetting('dockToSidebar', !settings.dockToSidebar)}
-                  className={`w-12 h-6.5 rounded-full p-0.5 transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                    settings.dockToSidebar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
-                  }`}
-                >
-                  <span
-                    className={`w-5.5 h-5.5 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out ${
-                      settings.dockToSidebar ? 'translate-x-5.5' : 'translate-x-0'
-                    }`}
-                  />
-                </button>
-              </div>
-            )}
-
-            {/* Card 2: Cỡ chữ ứng dụng (Liquid Glass Pill Slider Style) */}
+            {/* Card 1: Cỡ chữ ứng dụng (Liquid Glass Pill Slider Style) */}
             {matchesSearch('Cỡ chữ ứng dụng') && (
               <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-4">
                 {/* Header Row */}
@@ -279,48 +286,55 @@ export const Settings: React.FC = () => {
 
                 {/* Liquid Glass Capsule Slider Container */}
                 <div className="pt-1">
-                  <div className="group relative w-full h-16 rounded-[24px] bg-[#1E1D24] dark:bg-[#1E1D24] border border-[#34343E]/60 flex items-center px-6 transition-all settings-slider-capsule">
-                    {/* Track Background */}
-                    <div className="relative w-full h-2 rounded-full bg-[#383842] dark:bg-[#383842] overflow-visible">
-                      {/* Active Magenta Track */}
-                      <div 
-                        className="absolute left-0 top-0 h-full rounded-full bg-[#E6005A] transition-all duration-150 ease-out"
-                        style={{ width: `${(settings.fontScale / 3) * 100}%` }}
-                      />
-                      
-                      {/* White Pill Thumb Handle with Hover Scale-up */}
-                      <div 
-                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-6 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.3)] transition-all duration-200 ease-out pointer-events-none flex items-center justify-center group-hover:scale-125 hover:scale-125"
-                        style={{ left: `${(settings.fontScale / 3) * 100}%` }}
-                      >
-                        <div className="w-4 h-1 rounded-full bg-gray-300" />
-                      </div>
-                    </div>
-
+                  <div className="group relative w-full h-16 rounded-[24px] bg-[#1E1D24] dark:bg-[#1E1D24] border border-[#34343E]/60 flex items-center px-6 transition-all settings-slider-capsule select-none">
                     {/* Native Range Input (Transparent Overlay for Smooth Drag & Touch) */}
                     <input
                       id="slider-font-scale"
                       type="range"
                       min="0"
-                      max="3"
+                      max={FONT_SCALE_CONFIG.length - 1}
                       step="1"
-                      value={settings.fontScale}
-                      onChange={(e) => updateSetting('fontScale', parseInt(e.target.value, 10))}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                      value={draftSettings.fontScale}
+                      onChange={(e) => updateDraft('fontScale', parseInt(e.target.value, 10))}
+                      className="absolute left-6 right-6 top-0 bottom-0 opacity-0 cursor-pointer z-20"
                       aria-label="Cỡ chữ ứng dụng"
                     />
+
+                    {/* Track Background */}
+                    <div className="relative w-full h-2 rounded-full bg-[#383842] dark:bg-[#383842] overflow-visible pointer-events-none">
+                      {/* Active Magenta Track */}
+                      <div 
+                        className="absolute left-0 top-0 h-full rounded-full bg-[#E6005A] transition-all duration-150 ease-out"
+                        style={{ width: `${(draftSettings.fontScale / (FONT_SCALE_CONFIG.length - 1)) * 100}%` }}
+                      />
+                      
+                      {/* White Pill Thumb Handle with Normal Border & No Dash */}
+                      <div 
+                        id="settings-slider-thumb"
+                        className="settings-slider-thumb absolute w-11 h-6 rounded-full bg-white border border-black/10 dark:border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.25)] pointer-events-none flex items-center justify-center"
+                        style={{ 
+                          left: `${(draftSettings.fontScale / (FONT_SCALE_CONFIG.length - 1)) * 100}%`,
+                          top: '50%',
+                          transform: 'translate(-50%, -50%)'
+                        }}
+                      />
+                    </div>
                   </div>
 
                   {/* Step Labels */}
-                  <div className="flex items-center justify-between text-[11px] pt-3 px-2">
+                  <div className="relative flex items-center justify-between text-[11px] pt-3 px-1 sm:px-2">
                     {FONT_SCALE_CONFIG.map((item, idx) => {
-                      const isSelected = settings.fontScale === idx;
+                      const isSelected = draftSettings.fontScale === idx;
+                      let alignClass = 'text-center';
+                      if (idx === 0) alignClass = 'text-left';
+                      else if (idx === FONT_SCALE_CONFIG.length - 1) alignClass = 'text-right';
                       return (
                         <button
                           key={item.label}
                           type="button"
-                          onClick={() => updateSetting('fontScale', idx)}
-                          className={`cursor-pointer transition-colors ${
+                          id={`btn-font-scale-${idx}`}
+                          onClick={() => updateDraft('fontScale', idx)}
+                          className={`cursor-pointer transition-colors py-1 ${alignClass} ${
                             isSelected
                               ? 'text-[#E6005A] font-bold text-xs'
                               : 'text-[#6B7280] hover:text-[#9CA3AF]'
@@ -377,16 +391,14 @@ export const Settings: React.FC = () => {
                   id="toggle-autoscroll-banner"
                   type="button"
                   role="switch"
-                  aria-checked={settings.autoScrollBanner}
-                  onClick={() => updateSetting('autoScrollBanner', !settings.autoScrollBanner)}
-                  className={`w-12 h-6.5 rounded-full p-0.5 transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                    settings.autoScrollBanner ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                  aria-checked={draftSettings.autoScrollBanner}
+                  onClick={() => updateDraft('autoScrollBanner', !draftSettings.autoScrollBanner)}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.autoScrollBanner ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
                   <span
-                    className={`w-5.5 h-5.5 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out ${
-                      settings.autoScrollBanner ? 'translate-x-5.5' : 'translate-x-0'
-                    }`}
+                    className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none"
                   />
                 </button>
               </div>
@@ -409,16 +421,14 @@ export const Settings: React.FC = () => {
                   id="toggle-autohide-sidebar"
                   type="button"
                   role="switch"
-                  aria-checked={settings.autoHideSidebar}
-                  onClick={() => updateSetting('autoHideSidebar', !settings.autoHideSidebar)}
-                  className={`w-12 h-6.5 rounded-full p-0.5 transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                    settings.autoHideSidebar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                  aria-checked={draftSettings.autoHideSidebar}
+                  onClick={() => updateDraft('autoHideSidebar', !draftSettings.autoHideSidebar)}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.autoHideSidebar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
                   <span
-                    className={`w-5.5 h-5.5 rounded-full bg-white shadow-md transform transition-transform duration-200 ease-in-out ${
-                      settings.autoHideSidebar ? 'translate-x-5.5' : 'translate-x-0'
-                    }`}
+                    className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none"
                   />
                 </button>
               </div>
@@ -456,8 +466,8 @@ export const Settings: React.FC = () => {
             {matchesSearch('Reduce all animation') && (
               <div 
                 id="setting-motion-reduce-all"
-                onClick={() => updateSetting('reduceAllMotion', !settings.reduceAllMotion)}
-                className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                onClick={() => updateDraft('reduceAllMotion', !draftSettings.reduceAllMotion)}
+                className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
@@ -468,15 +478,21 @@ export const Settings: React.FC = () => {
                   </div>
                 </div>
 
-                <div 
-                  className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                    settings.reduceAllMotion
-                      ? 'bg-[#E6005A] text-white shadow-sm'
-                      : 'bg-[#24242A] border border-[#4B5563]'
+                <button
+                  id="toggle-motion-reduce-all"
+                  type="button"
+                  role="switch"
+                  aria-checked={draftSettings.reduceAllMotion}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updateDraft('reduceAllMotion', !draftSettings.reduceAllMotion);
+                  }}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.reduceAllMotion ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
-                  {settings.reduceAllMotion && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                </div>
+                  <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                </button>
               </div>
             )}
 
@@ -486,7 +502,7 @@ export const Settings: React.FC = () => {
             {/* Sub-options Container: Grayed out and disabled when Reduce all animation is active */}
             <div 
               className={`space-y-3 transition-opacity duration-200 ${
-                settings.reduceAllMotion 
+                draftSettings.reduceAllMotion 
                   ? 'opacity-35 pointer-events-none select-none filter grayscale-[30%]' 
                   : ''
               }`}
@@ -495,8 +511,12 @@ export const Settings: React.FC = () => {
               {matchesSearch('Sidebar') && (
                 <div 
                   id="setting-motion-sidebar"
-                  onClick={() => updateSetting('animateSidebar', !settings.animateSidebar)}
-                  className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                  onClick={() => {
+                    if (!draftSettings.reduceAllMotion) {
+                      updateDraft('animateSidebar', !draftSettings.animateSidebar);
+                    }
+                  }}
+                  className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
                 >
                   <div>
                     <div className="font-semibold text-white text-sm">
@@ -507,15 +527,21 @@ export const Settings: React.FC = () => {
                     </div>
                   </div>
 
-                  <div 
-                    className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                      settings.animateSidebar && !settings.reduceAllMotion
-                        ? 'bg-[#E6005A] text-white shadow-sm'
-                        : 'bg-[#24242A] border border-[#4B5563]'
+                  <button
+                    id="toggle-motion-sidebar"
+                    type="button"
+                    role="switch"
+                    aria-checked={draftSettings.animateSidebar && !draftSettings.reduceAllMotion}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateDraft('animateSidebar', !draftSettings.animateSidebar);
+                    }}
+                    className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                      draftSettings.animateSidebar && !draftSettings.reduceAllMotion ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                     }`}
                   >
-                    {settings.animateSidebar && !settings.reduceAllMotion && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                  </div>
+                    <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                  </button>
                 </div>
               )}
 
@@ -523,8 +549,12 @@ export const Settings: React.FC = () => {
               {(matchesSearch('Hộp thoại') || matchesSearch('Modal dialog')) && (
                 <div 
                   id="setting-motion-modals"
-                  onClick={() => updateSetting('animateModals', !settings.animateModals)}
-                  className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                  onClick={() => {
+                    if (!draftSettings.reduceAllMotion) {
+                      updateDraft('animateModals', !draftSettings.animateModals);
+                    }
+                  }}
+                  className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
                 >
                   <div>
                     <div className="font-semibold text-white text-sm">
@@ -535,15 +565,21 @@ export const Settings: React.FC = () => {
                     </div>
                   </div>
 
-                  <div 
-                    className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                      settings.animateModals && !settings.reduceAllMotion
-                        ? 'bg-[#E6005A] text-white shadow-sm'
-                        : 'bg-[#24242A] border border-[#4B5563]'
+                  <button
+                    id="toggle-motion-modals"
+                    type="button"
+                    role="switch"
+                    aria-checked={draftSettings.animateModals && !draftSettings.reduceAllMotion}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateDraft('animateModals', !draftSettings.animateModals);
+                    }}
+                    className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                      draftSettings.animateModals && !draftSettings.reduceAllMotion ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                     }`}
                   >
-                    {settings.animateModals && !settings.reduceAllMotion && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                  </div>
+                    <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                  </button>
                 </div>
               )}
 
@@ -551,8 +587,12 @@ export const Settings: React.FC = () => {
               {matchesSearch('Chuyển trang') && (
                 <div 
                   id="setting-motion-page-transitions"
-                  onClick={() => updateSetting('animatePageTransitions', !settings.animatePageTransitions)}
-                  className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                  onClick={() => {
+                    if (!draftSettings.reduceAllMotion) {
+                      updateDraft('animatePageTransitions', !draftSettings.animatePageTransitions);
+                    }
+                  }}
+                  className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
                 >
                   <div>
                     <div className="font-semibold text-white text-sm">
@@ -563,15 +603,21 @@ export const Settings: React.FC = () => {
                     </div>
                   </div>
 
-                  <div 
-                    className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                      settings.animatePageTransitions && !settings.reduceAllMotion
-                        ? 'bg-[#E6005A] text-white shadow-sm'
-                        : 'bg-[#24242A] border border-[#4B5563]'
+                  <button
+                    id="toggle-motion-page-transitions"
+                    type="button"
+                    role="switch"
+                    aria-checked={draftSettings.animatePageTransitions && !draftSettings.reduceAllMotion}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      updateDraft('animatePageTransitions', !draftSettings.animatePageTransitions);
+                    }}
+                    className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                      draftSettings.animatePageTransitions && !draftSettings.reduceAllMotion ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                     }`}
                   >
-                    {settings.animatePageTransitions && !settings.reduceAllMotion && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                  </div>
+                    <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                  </button>
                 </div>
               )}
             </div>
@@ -607,8 +653,9 @@ export const Settings: React.FC = () => {
             {/* 1. Danh mục */}
             {matchesSearch('Danh mục') && (
               <div 
-                onClick={() => updateSetting('searchCategories', !settings.searchCategories)}
-                className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                id="setting-search-categories"
+                onClick={() => updateDraft('searchCategories', !draftSettings.searchCategories)}
+                className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
@@ -619,23 +666,30 @@ export const Settings: React.FC = () => {
                   </div>
                 </div>
 
-                <div 
-                  className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                    settings.searchCategories
-                      ? 'bg-[#E6005A] text-white shadow-sm'
-                      : 'bg-[#24242A] border border-[#4B5563]'
+                <button
+                  id="toggle-search-categories"
+                  type="button"
+                  role="switch"
+                  aria-checked={draftSettings.searchCategories}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updateDraft('searchCategories', !draftSettings.searchCategories);
+                  }}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.searchCategories ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
-                  {settings.searchCategories && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                </div>
+                  <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                </button>
               </div>
             )}
 
             {/* 2. Tin tức */}
             {matchesSearch('Tin tức') && (
               <div 
-                onClick={() => updateSetting('searchNews', !settings.searchNews)}
-                className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                id="setting-search-news"
+                onClick={() => updateDraft('searchNews', !draftSettings.searchNews)}
+                className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
@@ -646,15 +700,21 @@ export const Settings: React.FC = () => {
                   </div>
                 </div>
 
-                <div 
-                  className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                    settings.searchNews
-                      ? 'bg-[#E6005A] text-white shadow-sm'
-                      : 'bg-[#24242A] border border-[#4B5563]'
+                <button
+                  id="toggle-search-news"
+                  type="button"
+                  role="switch"
+                  aria-checked={draftSettings.searchNews}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updateDraft('searchNews', !draftSettings.searchNews);
+                  }}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.searchNews ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
-                  {settings.searchNews && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                </div>
+                  <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                </button>
               </div>
             )}
 
@@ -664,8 +724,9 @@ export const Settings: React.FC = () => {
                 {/* 3.1 Truyền hình */}
                 {matchesSearch('Truyền hình') && (
                   <div 
-                    onClick={() => updateSetting('searchTv', !settings.searchTv)}
-                    className="flex items-center justify-between gap-4 cursor-pointer"
+                    id="setting-search-tv"
+                    onClick={() => updateDraft('searchTv', !draftSettings.searchTv)}
+                    className="group flex items-center justify-between gap-4 cursor-pointer"
                   >
                     <div>
                       <div className="font-semibold text-white text-sm">
@@ -676,15 +737,21 @@ export const Settings: React.FC = () => {
                       </div>
                     </div>
 
-                    <div 
-                      className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                        settings.searchTv
-                          ? 'bg-[#E6005A] text-white shadow-sm'
-                          : 'bg-[#24242A] border border-[#4B5563]'
+                    <button
+                      id="toggle-search-tv"
+                      type="button"
+                      role="switch"
+                      aria-checked={draftSettings.searchTv}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateDraft('searchTv', !draftSettings.searchTv);
+                      }}
+                      className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                        draftSettings.searchTv ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                       }`}
                     >
-                      {settings.searchTv && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                    </div>
+                      <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                    </button>
                   </div>
                 )}
 
@@ -694,12 +761,13 @@ export const Settings: React.FC = () => {
                 {/* 3.2 Tìm kênh theo số hiệu kênh */}
                 {matchesSearch('Tìm kênh theo số hiệu kênh') && (
                   <div 
-                    onClick={() => updateSetting('searchChannelNumber', !settings.searchChannelNumber)}
-                    className="flex items-center justify-between gap-4 cursor-pointer"
+                    id="setting-search-channel-number"
+                    onClick={() => updateDraft('searchChannelNumber', !draftSettings.searchChannelNumber)}
+                    className="group flex items-center justify-between gap-4 cursor-pointer"
                   >
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-[#E6005A] text-sm">
+                        <span className="font-semibold text-white text-sm">
                           Tìm kênh theo số hiệu kênh
                         </span>
                         <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-[#E6005A]/20 text-[#E6005A] tracking-wider">
@@ -711,15 +779,21 @@ export const Settings: React.FC = () => {
                       </div>
                     </div>
 
-                    <div 
-                      className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                        settings.searchChannelNumber
-                          ? 'bg-[#E6005A] text-white shadow-sm'
-                          : 'bg-[#24242A] border border-[#4B5563]'
+                    <button
+                      id="toggle-search-channel-number"
+                      type="button"
+                      role="switch"
+                      aria-checked={draftSettings.searchChannelNumber}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        updateDraft('searchChannelNumber', !draftSettings.searchChannelNumber);
+                      }}
+                      className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                        draftSettings.searchChannelNumber ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                       }`}
                     >
-                      {settings.searchChannelNumber && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                    </div>
+                      <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                    </button>
                   </div>
                 )}
               </div>
@@ -728,8 +802,9 @@ export const Settings: React.FC = () => {
             {/* 4. Cài đặt */}
             {matchesSearch('Cài đặt') && (
               <div 
-                onClick={() => updateSetting('searchSettings', !settings.searchSettings)}
-                className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                id="setting-search-settings"
+                onClick={() => updateDraft('searchSettings', !draftSettings.searchSettings)}
+                className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
@@ -740,15 +815,21 @@ export const Settings: React.FC = () => {
                   </div>
                 </div>
 
-                <div 
-                  className={`w-5.5 h-5.5 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
-                    settings.searchSettings
-                      ? 'bg-[#E6005A] text-white shadow-sm'
-                      : 'bg-[#24242A] border border-[#4B5563]'
+                <button
+                  id="toggle-search-settings"
+                  type="button"
+                  role="switch"
+                  aria-checked={draftSettings.searchSettings}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updateDraft('searchSettings', !draftSettings.searchSettings);
+                  }}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.searchSettings ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
                 >
-                  {settings.searchSettings && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                </div>
+                  <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                </button>
               </div>
             )}
           </div>
@@ -768,7 +849,7 @@ export const Settings: React.FC = () => {
         >
           {/* Section Header */}
           <div className="flex items-start gap-3">
-            <Sparkles className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <Wrench className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Khác
@@ -812,6 +893,23 @@ export const Settings: React.FC = () => {
         isOpen={isWelcomeModalOpen}
         onClose={() => setIsWelcomeModalOpen(false)}
       />
+
+      {/* Floating Apply Feedback Toast */}
+      <AnimatePresence>
+        {showApplyToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16, scale: 0.95 }}
+            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#1E1D24] border border-[#E6005A]/60 text-white text-xs sm:text-sm font-semibold shadow-2xl backdrop-blur-md"
+          >
+            <div className="w-5 h-5 rounded-full bg-[#E6005A] flex items-center justify-center shrink-0">
+              <SfCheckmark className="w-3 h-3" />
+            </div>
+            <span>{toastMessage}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -64,12 +64,12 @@ export const UnderConstructionModal: React.FC<UnderConstructionModalProps> = ({
                 ease: [0.25, 0.1, 0.25, 1]
               }
             }}
-            className="relative z-10 w-full max-w-[520px] bg-[#1E1D22] rounded-[38px] p-8 sm:p-10 shadow-2xl border border-white/5"
+            className="relative z-10 w-full max-w-[420px] sm:max-w-[440px] bg-[#1E1D22] rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 shadow-2xl border border-white/5"
           >
             {/* Title */}
             <h1
               id="under-construction-modal-title"
-              className="text-2xl sm:text-[28px] font-bold text-white tracking-tight mb-3 font-sans leading-tight"
+              className="text-xl sm:text-[23px] font-bold text-white tracking-tight mb-2.5 font-sans leading-tight"
             >
               Under construction
             </h1>
@@ -77,19 +77,19 @@ export const UnderConstructionModal: React.FC<UnderConstructionModalProps> = ({
             {/* Description */}
             <p
               id="under-construction-modal-description"
-              className="text-sm sm:text-[15px] text-[#D1D5DB] leading-relaxed mb-8 font-normal"
+              className="text-xs sm:text-sm text-[#D1D5DB] leading-relaxed mb-5 font-normal"
             >
               This feature will come in the near future updates. Stay tuned!
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5">
               {/* Button colored: Close */}
               <button
                 type="button"
                 id="btn-under-construction-close"
                 onClick={onClose}
-                className="w-full py-4 px-6 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-base sm:text-[17px] cursor-pointer flex items-center justify-center shadow-md tracking-tight text-center"
+                className="w-full py-2.5 sm:py-3 px-5 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer flex items-center justify-center shadow-md tracking-tight text-center"
               >
                 Close
               </button>

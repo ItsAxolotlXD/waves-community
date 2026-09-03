@@ -100,15 +100,17 @@ export const News: React.FC<NewsProps> = ({ navigate }) => {
       )}
 
       {/* Category Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-        {categories.map((cat) => (
+      <div id="news-category-tabs" className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+        {categories.map((cat, idx) => (
           <button
             key={cat}
+            id={`news-cat-btn-${idx}`}
+            type="button"
             onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+            className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer select-none ${
               selectedCategory === cat
-                ? 'bg-[#E50914] text-white shadow-md'
-                : 'bg-white dark:bg-[#1E1E22] text-[#4B5563] dark:text-[#A1A1AA] hover:text-[#111827] dark:hover:text-white border border-[#E5E7EB] dark:border-[#32323A] shadow-xs'
+                ? 'bg-[#E50914] text-white shadow-sm'
+                : 'bg-[#F1F3F5] hover:bg-[#E5E7EB] text-[#4B5563] hover:text-[#111827] dark:bg-[#26262C] dark:hover:bg-[#32323A] dark:text-[#A1A1AA] dark:hover:text-white border border-[#E5E7EB] dark:border-[#383842]'
             }`}
           >
             {cat}

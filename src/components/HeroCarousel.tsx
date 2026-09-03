@@ -135,10 +135,10 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           <button
             id="btn-hero-watch-now"
             onClick={handleWatchNow}
-            className="flex items-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-[#2E1065] bg-[#CEBEFE] hover:bg-[#DBCFFF] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg hover:shadow-xl group/btn select-none"
+            className="flex items-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none"
           >
-            <Play className="w-4.5 h-4.5 fill-[#2E1065] text-[#2E1065] ml-0.5 group-hover/btn:scale-110 transition-transform" />
-            <span>{currentSlide.ctaText || 'Xem'}</span>
+            <Play className="w-4.5 h-4.5 fill-white text-white ml-0.5 group-hover/btn:scale-110 transition-transform" />
+            <span className="font-bold text-white">{currentSlide.ctaText || 'Xem'}</span>
           </button>
 
           {/* Pure Banner Logo placed directly next to the Watch button */}

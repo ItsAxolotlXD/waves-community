@@ -427,33 +427,26 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ) : (
             <div className="flex flex-col h-full select-none">
               {/* Collapsed Top Header: Logo + Expand Button */}
-              <div className="pt-5 pb-3 flex flex-col items-center gap-2.5 shrink-0 px-2">
-                <div 
-                  onClick={() => handleNavClick('/')} 
-                  className="cursor-pointer flex items-center justify-center p-0 hover:opacity-80 transition-opacity"
-                  title="Vplay"
+              {/* Header: Clickable Logo to Expand Sidebar */}
+              <div className="pt-5 pb-3 flex flex-col items-center shrink-0 px-2">
+                <button 
+                  id="btn-sidebar-expand-logo"
+                  type="button"
+                  onClick={onToggleCollapse} 
+                  className="cursor-pointer flex items-center justify-center p-1 rounded-2xl hover:scale-110 active:scale-95 transition-transform duration-200 outline-none"
+                  title="Mở rộng thanh bên"
                 >
                   {!logoError ? (
                     <img 
                       src="https://static.wikia.nocookie.net/ep-deo/images/4/4b/Vplay_no_wordmark.png/revision/latest/scale-to-width-down/1000?cb=20260829062616" 
-                      alt="Vplay Logo" 
+                      alt="Vplay Logo - Mở rộng menu" 
                       referrerPolicy="no-referrer"
-                      className="w-8 h-8 object-contain shrink-0"
+                      className="w-8 h-8 object-contain shrink-0 drop-shadow-sm hover:drop-shadow-[0_0_8px_rgba(230,0,90,0.5)] transition-all"
                       onError={() => setLogoError(true)}
                     />
                   ) : (
                     <span className="text-white dark:text-white light:text-[#111827] font-black text-xl tracking-tighter">V</span>
                   )}
-                </div>
-
-                {/* Expand sidebar button */}
-                <button 
-                  id="btn-sidebar-expand"
-                  onClick={onToggleCollapse}
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
-                  title="Mở rộng menu"
-                >
-                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
 
