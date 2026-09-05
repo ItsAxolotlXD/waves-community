@@ -208,7 +208,7 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
         onChange={handleFileInputChange}
       />
 
-      {/* Tools Trigger Button with Microsoft Copilot icon */}
+      {/* Tools Trigger Button with Tools icon */}
       <button
         id="btn-top-tools-menu"
         type="button"
@@ -221,21 +221,13 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
       >
         <img
           key={spinCount}
-          src="https://static.wikia.nocookie.net/ep-deo/images/c/c3/Icons8-microsoft-copilot-100.png/revision/latest?cb=20260903151425"
+          src="https://static.wikia.nocookie.net/ep-deo/images/3/3c/Tools_menu.png/revision/latest?cb=20260905055712"
           alt="Tools"
           referrerPolicy="no-referrer"
           onAnimationEnd={() => setIsClickSpinning(false)}
           className={`w-5 h-5 object-contain topbar-tools-icon transition-transform duration-700 ease-in-out ${
             isClickSpinning ? 'spin-click' : ''
-          } ${
-            isLightMode ? '' : 'brightness-0 invert opacity-95'
           }`}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            if (!target.src.includes('/icons/copilot.png')) {
-              target.src = '/icons/copilot.png';
-            }
-          }}
         />
       </button>
 

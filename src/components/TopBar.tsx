@@ -79,10 +79,10 @@ export const TopBar: React.FC<TopBarProps> = ({
         <button
           id="btn-mobile-menu-toggle"
           onClick={onOpenMobileMenu}
-          className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-white transition-all cursor-pointer"
+          className="w-9 h-9 flex items-center justify-center text-[#18181B] dark:text-white bg-transparent border-0 shadow-none hover:bg-transparent transition-opacity hover:opacity-80 active:opacity-60 cursor-pointer p-0"
           aria-label="Mở menu điều hướng"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-6 h-6" />
         </button>
 
         <div 

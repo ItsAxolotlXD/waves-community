@@ -4,12 +4,9 @@ import { Channel } from '../types';
 import { useFavorites } from '../hooks/useFavorites';
 import { 
   Tv, 
-  Sparkles, 
-  Heart, 
-  Share2, 
-  CheckCircle2, 
   ChevronRight,
-  Hash
+  Hash,
+  Heart
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -27,11 +24,8 @@ export const LiveTV: React.FC<LiveTVProps> = ({
   onOpenCustomStreamModal
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
-  const [copiedLink, setCopiedLink] = useState(false);
   const [isTheaterMode, setIsTheaterMode] = useState(false);
-
   const { isChannelFavorite, toggleFavoriteChannel } = useFavorites();
-  const isFav = isChannelFavorite(currentChannel.id);
 
   // Distinct category list maintaining natural broadcast order
   const distinctCategories = Array.from(new Set(channels.map((c) => c.category)));
@@ -50,70 +44,23 @@ export const LiveTV: React.FC<LiveTVProps> = ({
     }))
     .filter((group) => group.channels.length > 0);
 
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2000);
-    }
-  };
-
   return (
-    <div className="space-y-6 sm:space-y-8 pb-16">
-      {/* Top Banner / Channel Title & Action Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#111827] dark:text-white tracking-tight flex items-center gap-2.5">
-              <span>{currentChannel.name}</span>
-              {currentChannel.channelCode && (
-                <span className="px-2 py-0.5 text-xs font-mono font-bold bg-[#E50914]/15 text-[#E50914] dark:bg-[#E50914]/25 dark:text-[#FF4D4D] rounded-md border border-[#E50914]/30">
-                  {currentChannel.channelCode}
-                </span>
-              )}
-            </h1>
-          </div>
-          <p className="text-xs sm:text-sm text-[#4B5563] dark:text-[#9CA3AF] mt-1 font-medium flex items-center gap-2">
-            <span>{currentChannel.category}</span>
-          </p>
-        </div>
-
+    <div className="space-y-4 sm:space-y-8 pb-16">
+      {/* Top Banner / Channel Title */}
+      <div>
         <div className="flex items-center gap-2">
-          {/* Add custom M3U8 */}
-          <button
-            id="btn-livetv-import-m3u8"
-            onClick={onOpenCustomStreamModal}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#F1F3F5] hover:bg-[#E5E7EB] dark:bg-[#26262C] dark:hover:bg-[#32323A] border border-[#E5E7EB] dark:border-[#383842] text-xs font-bold text-[#111827] dark:text-white transition-colors cursor-pointer"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#E50914]" />
-            <span>Nhập M3U8</span>
-          </button>
-
-          {/* Share */}
-          <button
-            id="btn-livetv-share"
-            onClick={handleShare}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#F1F3F5] hover:bg-[#E5E7EB] dark:bg-[#26262C] dark:hover:bg-[#32323A] border border-[#E5E7EB] dark:border-[#383842] text-xs font-semibold text-[#4B5563] hover:text-[#111827] dark:text-[#D1D5DB] dark:hover:text-white transition-colors cursor-pointer"
-            title="Sao chép liên kết kênh"
-          >
-            {copiedLink ? <CheckCircle2 className="w-4 h-4 text-emerald-500" /> : <Share2 className="w-4 h-4" />}
-            <span>{copiedLink ? 'Đã sao chép' : 'Chia sẻ'}</span>
-          </button>
-
-          {/* Favorite */}
-          <button
-            id="btn-livetv-favorite"
-            onClick={() => toggleFavoriteChannel(currentChannel.id)}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-xs font-bold transition-colors cursor-pointer ${
-              isFav 
-                ? 'bg-[#E50914] border-[#E50914] text-white shadow-sm' 
-                : 'bg-[#F1F3F5] hover:bg-[#E5E7EB] dark:bg-[#26262C] dark:hover:bg-[#32323A] border-[#E5E7EB] dark:border-[#383842] text-[#4B5563] dark:text-[#D1D5DB] hover:text-[#111827] dark:hover:text-white'
-            }`}
-          >
-            <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-current' : ''}`} />
-            <span>{isFav ? 'Đã thích' : 'Yêu thích'}</span>
-          </button>
+          <h1 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-[#111827] dark:text-white tracking-tight flex items-center gap-2">
+            <span>{currentChannel.name}</span>
+            {currentChannel.channelCode && (
+              <span className="px-1.5 py-0.5 text-[11px] sm:text-xs font-mono font-bold bg-[#E50914]/15 text-[#E50914] dark:bg-[#E50914]/25 dark:text-[#FF4D4D] rounded-md border border-[#E50914]/30">
+                {currentChannel.channelCode}
+              </span>
+            )}
+          </h1>
         </div>
+        <p className="text-xs sm:text-sm text-[#4B5563] dark:text-[#9CA3AF] mt-0.5 font-medium flex items-center gap-2">
+          <span>{currentChannel.category}</span>
+        </p>
       </div>
 
       {/* Video Player Section */}

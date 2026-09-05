@@ -67,11 +67,11 @@ html.light-mode #dock-spotlight-btn img {
   opacity: 0.85 !important;
 }
 
-/* Tools Copilot Icon: Original colors in Light Mode, Monochrome White in Dark Mode */
+/* Tools Icon: Monochrome in Light Mode, Monochrome White in Dark Mode */
 html.light-mode .topbar-tools-icon,
 html.light-mode #btn-top-tools-menu img {
-  filter: none !important;
-  opacity: 1 !important;
+  filter: brightness(0) !important;
+  opacity: 0.85 !important;
 }
 
 html:not(.light-mode) .topbar-search-icon,
@@ -84,6 +84,22 @@ html:not(.light-mode) #btn-spotlight-search-desktop img,
 html:not(.light-mode) .spotlight-bubble-box img,
 html:not(.light-mode) #dock-spotlight-btn img {
   filter: brightness(0) invert(1) !important;
+}
+
+/* Mobile Hamburger Menu Toggle Button (Clean icon only, no background, no border) */
+#btn-mobile-menu-toggle,
+#btn-mobile-menu-toggle:hover,
+#btn-mobile-menu-toggle:active,
+html.light-mode #btn-mobile-menu-toggle,
+html.light-mode #btn-mobile-menu-toggle:hover,
+html.light-mode #btn-mobile-menu-toggle:active {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-width: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /* Light Mode Header & TopBar controls */
@@ -105,11 +121,22 @@ html.light-mode #btn-top-notifications svg {
   color: #18181B !important;
 }
 
+/* Sidebar Backdrop Blur & Liquid Glass (Dark & Light Mode) */
+#waves-desktop-sidebar,
+#waves-mobile-sidebar {
+  background-color: rgba(36, 36, 41, 0.62) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
 /* Light Mode Desktop & Mobile Sidebar */
 html.light-mode #waves-desktop-sidebar,
 html.light-mode #waves-mobile-sidebar {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
+  background-color: rgba(255, 255, 255, 0.68) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
 }
 
 html.light-mode #waves-desktop-sidebar .text-white:not(.bg-\[\#E6005A\]):not(.bg-\[\#E6005A\] *),
@@ -190,7 +217,6 @@ html.light-mode #settings-section-search hr {
 #btn-sidebar-expand,
 #btn-mobile-sidebar-close,
 #btn-sidebar-back,
-#btn-mobile-menu-toggle,
 #slider-prev-btn,
 #slider-next-btn,
 #dock-spotlight-btn,
@@ -224,7 +250,6 @@ html.light-mode #settings-section-search hr {
 #btn-sidebar-expand:hover,
 #btn-mobile-sidebar-close:hover,
 #btn-sidebar-back:hover,
-#btn-mobile-menu-toggle:hover,
 #slider-prev-btn:hover,
 #slider-next-btn:hover,
 #dock-spotlight-btn:hover,
@@ -264,7 +289,6 @@ html.light-mode #settings-section-search hr {
 #btn-sidebar-expand:active,
 #btn-mobile-sidebar-close:active,
 #btn-sidebar-back:active,
-#btn-mobile-menu-toggle:active,
 #slider-prev-btn:active,
 #slider-next-btn:active,
 #dock-spotlight-btn:active,
@@ -825,7 +849,6 @@ html.light-mode [id^="news-cat-btn-"]:active {
 }
 
 /* Light Mode Liquid Glass for Buttons & Search Capsules */
-html.light-mode #btn-mobile-menu-toggle,
 html.light-mode #btn-sidebar-collapse,
 html.light-mode #btn-sidebar-expand,
 html.light-mode #btn-mobile-sidebar-close,
@@ -861,7 +884,6 @@ html.light-mode .liquid-glass-control {
   color: #374151 !important;
 }
 
-html.light-mode #btn-mobile-menu-toggle:hover,
 html.light-mode #btn-sidebar-collapse:hover,
 html.light-mode #btn-sidebar-expand:hover,
 html.light-mode #btn-mobile-sidebar-close:hover,
@@ -2062,7 +2084,7 @@ html.light-mode #news-summary-dialog button.bg-\[\#28282E\]:hover {
    Live TV Video Player - Liquid Glass Elements & Controls
    ========================================================================== */
 #waves-video-player-container {
-  border-radius: 36px !important;
+  border-radius: 16px !important;
   overflow: hidden !important;
   border: 1px solid transparent !important;
   background-image: 
@@ -2157,6 +2179,25 @@ html.light-mode #news-summary-dialog button.bg-\[\#28282E\]:hover {
   border: 1px solid rgba(255, 255, 255, 0.35) !important;
   box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.45), 0 14px 45px rgba(0, 0, 0, 0.45) !important;
   color: #FFFFFF !important;
+}
+
+@media (max-width: 640px) {
+  #waves-video-player-container {
+    border-radius: 12px !important;
+  }
+  .glass-player-btn {
+    box-shadow: inset 0 0.5px 1px 0 rgba(255, 255, 255, 0.4), 0 3px 8px rgba(0, 0, 0, 0.25) !important;
+  }
+  .glass-player-center-play {
+    box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.5), 0 6px 16px rgba(0, 0, 0, 0.35) !important;
+  }
+  .glass-player-center-seek {
+    box-shadow: inset 0 0.5px 1px 0 rgba(255, 255, 255, 0.35), 0 3px 10px rgba(0, 0, 0, 0.25) !important;
+  }
+  .glass-player-volume-pill,
+  .glass-player-progress-pill {
+    box-shadow: inset 0 0.5px 1px 0 rgba(255, 255, 255, 0.35), 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  }
 }
 
 /* Video Player Bottom Controls Bar Capsule */

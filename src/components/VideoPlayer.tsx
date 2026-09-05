@@ -5,15 +5,15 @@ import {
   VolumeX, 
   Maximize, 
   Minimize, 
-  Settings, 
+  Heart, 
   AlertCircle, 
   Sparkles, 
   RotateCcw, 
-  PictureInPicture2,
-  X
+  PictureInPicture2
 } from 'lucide-react';
 import { Channel } from '../types';
 import { useHLS } from '../hooks/useHLS';
+import { useFavorites } from '../hooks/useFavorites';
 
 interface VideoPlayerProps {
   channel: Channel;
@@ -34,8 +34,10 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
-  const [showQualityMenu, setShowQualityMenu] = useState(false);
   const controlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const { isChannelFavorite, toggleFavoriteChannel } = useFavorites();
+  const isFav = isChannelFavorite(channel.id);
 
   const {
     videoRef,
@@ -45,14 +47,11 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     error,
     volume,
     isMuted,
-    qualities,
-    currentQuality,
     duration,
     currentTime,
     togglePlay,
     changeVolume,
     toggleMute,
-    setQuality,
     retry
   } = useHLS(channel.streamUrl, true);
 
@@ -65,7 +64,6 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     controlsTimeoutRef.current = setTimeout(() => {
       if (isPlaying) {
         setShowControls(false);
-        setShowQualityMenu(false);
       }
     }, 3500);
   };
@@ -208,17 +206,6 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     resetControlsTimeout();
   };
 
-  const handleClose = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (isFullscreen) {
-      handleFullscreenToggle();
-    } else if (onClose) {
-      onClose();
-    } else if (isPlaying) {
-      togglePlay();
-    }
-  };
-
   return (
     <div
       ref={containerRef}
@@ -227,7 +214,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       onPointerMove={resetControlsTimeout}
       onTouchStart={resetControlsTimeout}
       onMouseLeave={() => isPlaying && setShowControls(false)}
-      className={`relative w-full rounded-[32px] sm:rounded-[36px] md:rounded-[40px] overflow-hidden bg-black shadow-2xl transition-all duration-300 select-none ${
+      className={`relative w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black shadow-2xl transition-all duration-300 select-none ${
         isTheaterMode ? 'aspect-[21/9] max-h-[75vh]' : 'aspect-video'
       } ${!showControls && isPlaying ? 'cursor-none' : ''}`}
       style={{
@@ -238,7 +225,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       <video
         ref={videoRef}
         playsInline
-        className="w-full h-full object-contain bg-black cursor-pointer rounded-[32px] sm:rounded-[36px] md:rounded-[40px]"
+        className="w-full h-full object-contain bg-black cursor-pointer rounded-xl sm:rounded-2xl"
         onClick={togglePlay}
       />
 
@@ -249,87 +236,45 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         }`} 
       />
 
-      {/* TOP BAR: [X] on Left, and Volume Pill + Secondary actions on Right */}
+      {/* TOP BAR: Channel Badge on Left, and Favorite + Volume Pill + Auxiliary controls on Right */}
       <div 
-        className={`absolute top-3 sm:top-5 md:top-6 left-3 right-3 sm:left-5 sm:right-5 md:left-7 md:right-7 flex items-center justify-between z-20 pointer-events-none transition-opacity duration-300 ${
+        className={`absolute top-2 sm:top-5 md:top-6 left-2 right-2 sm:left-5 sm:right-5 md:left-7 md:right-7 flex items-center justify-between z-20 pointer-events-none transition-opacity duration-300 ${
           showControls || !isPlaying ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* Top-Left: Circular Glass X (Close / Minimize) Button */}
-        <div className="flex items-center gap-2.5 pointer-events-auto">
-          <button
-            id="video-player-close-btn"
-            type="button"
-            onClick={handleClose}
-            className="glass-player-btn w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer shadow-md"
-            title="Đóng / Thoát"
-            aria-label="Đóng hoặc thu nhỏ"
-          >
-            <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-white stroke-[2.2]" />
-          </button>
-
-          {/* Subtle Channel Badge */}
-          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-black/25 backdrop-blur-md border border-white/15 text-white">
-            <span className="text-[11px] font-semibold drop-shadow-sm truncate max-w-[140px]">
+        {/* Top-Left: Channel Badge */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 pointer-events-auto">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/15 text-white shadow-sm">
+            <span className="text-[10.5px] sm:text-xs font-semibold drop-shadow-sm truncate max-w-[130px] sm:max-w-[200px]">
               {channel.name}
             </span>
-            <span className="px-1.5 py-0.5 text-[8.5px] font-extrabold bg-white/20 rounded-full uppercase tracking-wider">
+            <span className="px-1.5 py-0.5 text-[8px] sm:text-[8.5px] font-extrabold bg-white/20 rounded-full uppercase tracking-wider">
               {channel.quality}
             </span>
           </div>
         </div>
 
         {/* Top-Right: Auxiliary controls & Volume Pill */}
-        <div className="flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
-          {/* Quality Selector */}
-          <div className="relative">
-            <button
-              id="video-player-quality-btn"
-              type="button"
-              onClick={() => setShowQualityMenu(!showQualityMenu)}
-              className="glass-player-btn w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center cursor-pointer"
-              title="Chất lượng phát sóng"
-              aria-label="Cài đặt chất lượng"
-            >
-              <Settings className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
-            </button>
-
-            {showQualityMenu && qualities.length > 0 && (
-              <div
-                id="video-player-quality-menu"
-                className="video-player-quality-menu absolute top-full right-0 mt-2 w-36 rounded-2xl p-1.5 shadow-2xl z-30 pointer-events-auto backdrop-blur-2xl"
-              >
-                <div className="text-[10px] uppercase font-bold text-white/70 px-2 py-1">
-                  Chất lượng phát
-                </div>
-                <button
-                  onClick={() => {
-                    setQuality(-1);
-                    setShowQualityMenu(false);
-                  }}
-                  className={`w-full text-left px-2.5 py-1.5 rounded-xl text-xs flex items-center justify-between ${
-                    currentQuality === -1 ? 'bg-[#E6005A] text-white font-bold' : 'text-white/80 hover:bg-white/10'
-                  }`}
-                >
-                  <span>Tự động (Auto)</span>
-                </button>
-                {qualities.map((q) => (
-                  <button
-                    key={q.id}
-                    onClick={() => {
-                      setQuality(q.id);
-                      setShowQualityMenu(false);
-                    }}
-                    className={`w-full text-left px-2.5 py-1.5 rounded-xl text-xs flex items-center justify-between ${
-                      currentQuality === q.id ? 'bg-[#E6005A] text-white font-bold' : 'text-white/80 hover:bg-white/10'
-                    }`}
-                  >
-                    <span>{q.label}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+        <div className="flex items-center gap-1 sm:gap-2 pointer-events-auto">
+          {/* Favorite Button (Yêu thích) */}
+          <button
+            id="video-player-favorite-btn"
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleFavoriteChannel(channel.id);
+              resetControlsTimeout();
+            }}
+            className={`w-7 h-7 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 ${
+              isFav
+                ? 'video-player-fav-active text-white'
+                : 'glass-player-btn text-white hover:text-red-400'
+            }`}
+            title={isFav ? 'Bỏ thích kênh này' : 'Yêu thích kênh này'}
+            aria-label={isFav ? 'Đã yêu thích' : 'Yêu thích'}
+          >
+            <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform active:scale-125 ${isFav ? 'fill-white text-white drop-shadow-sm' : 'text-white'}`} />
+          </button>
 
           {/* Picture-in-Picture */}
           <button
@@ -348,7 +293,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             id="video-player-fullscreen-btn"
             type="button"
             onClick={handleFullscreenToggle}
-            className="glass-player-btn w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center cursor-pointer"
+            className="glass-player-btn w-7 h-7 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center cursor-pointer"
             title="Toàn màn hình"
             aria-label="Toàn màn hình"
           >
@@ -358,12 +303,12 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           {/* The Volume Pill (Slider on Left, Speaker on Right) */}
           <div
             id="video-player-volume-pill"
-            className="glass-player-volume-pill rounded-full px-2.5 sm:px-3 py-1.5 sm:py-2 flex items-center gap-2 sm:gap-2.5 shadow-md"
+            className="glass-player-volume-pill rounded-full px-2 sm:px-3 py-1 sm:py-2 flex items-center gap-1.5 sm:gap-2.5 shadow-md"
           >
             {/* Volume Track */}
             <div
               onClick={handleVolumeSliderClick}
-              className="w-12 sm:w-16 md:w-20 h-1.5 bg-white/35 hover:bg-white/45 rounded-full relative cursor-pointer overflow-hidden transition-colors"
+              className="w-10 sm:w-16 md:w-20 h-1 sm:h-1.5 bg-white/35 hover:bg-white/45 rounded-full relative cursor-pointer overflow-hidden transition-colors"
               title={`Âm lượng: ${Math.round((isMuted ? 0 : volume) * 100)}%`}
             >
               <div
@@ -397,11 +342,11 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Buffering & Loading Spinner */}
       {(isLoading || isBuffering) && !error && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] z-10 pointer-events-none">
-          <div className="w-12 h-12 rounded-full border-3 border-[#E50914]/20 border-t-[#E50914] animate-spin mb-3 glow-purple" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] z-10 pointer-events-none p-4">
+          <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border-2 sm:border-3 border-[#E50914]/20 border-t-[#E50914] animate-spin mb-2 sm:mb-3 glow-purple" />
           <span
             id="video-player-buffering-badge"
-            className="video-player-glass-badge text-xs font-medium text-white/90 tracking-wide px-3.5 py-1.5 rounded-full"
+            className="video-player-glass-badge text-[10px] sm:text-xs font-medium text-white/90 tracking-wide px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full"
           >
             {isLoading ? 'Đang kết nối luồng phát sóng HLS...' : 'Đang nạp bộ đệm (Buffering)...'}
           </span>
@@ -410,25 +355,25 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Error Overlay UI if Stream fails */}
       {error && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#17171A]/95 p-6 z-20 text-center animate-in fade-in duration-200">
-          <div className="w-14 h-14 rounded-full bg-[#FF2020]/15 border border-[#FF2020]/30 flex items-center justify-center text-[#FF4D4D] mb-4">
-            <AlertCircle className="w-7 h-7" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#17171A]/95 p-3 sm:p-6 z-20 text-center animate-in fade-in duration-200">
+          <div className="w-9 h-9 sm:w-14 sm:h-14 rounded-full bg-[#FF2020]/15 border border-[#FF2020]/30 flex items-center justify-center text-[#FF4D4D] mb-2 sm:mb-4">
+            <AlertCircle className="w-4 h-4 sm:w-7 sm:h-7" />
           </div>
-          <h3 className="text-lg md:text-xl font-bold text-white mb-1">
+          <h3 className="text-sm sm:text-lg md:text-xl font-bold text-white mb-0.5 sm:mb-1">
             Không thể phát kênh này
           </h3>
-          <p className="text-xs md:text-sm text-[#9CA3AF] max-w-md mb-6 leading-relaxed">
+          <p className="text-[11px] sm:text-xs md:text-sm text-[#9CA3AF] max-w-xs sm:max-w-md mb-3 sm:mb-6 leading-relaxed line-clamp-2 sm:line-clamp-none">
             Luồng trực tiếp của <span className="text-white font-semibold">{channel.name}</span> đang tạm thời bảo trì hoặc địa chỉ M3U8 nguồn thay đổi.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <button
               id="video-player-retry-btn"
               type="button"
               onClick={retry}
-              className="video-player-accent-btn flex items-center gap-2 px-6 py-2.5 rounded-full text-white text-xs font-bold transition-all shadow-lg cursor-pointer"
+              className="video-player-accent-btn flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-1.5 sm:py-2.5 rounded-full text-white text-[11px] sm:text-xs font-bold transition-all shadow-lg cursor-pointer"
             >
-              <RotateCcw className="w-4 h-4" />
+              <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Thử lại</span>
             </button>
 
@@ -437,10 +382,10 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
                 id="video-player-custom-stream-btn"
                 type="button"
                 onClick={onOpenCustomStreamModal}
-                className="video-player-glass-btn flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-xs font-medium transition-colors cursor-pointer"
+                className="video-player-glass-btn flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-white text-[11px] sm:text-xs font-medium transition-colors cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#E6005A]" />
-                <span>Dán URL M3U8 Khác</span>
+                <span>Dán URL M3U8</span>
               </button>
             )}
           </div>
@@ -449,7 +394,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* CENTER CONTROLS: [Rewind 10s] [Play/Pause] [Forward 10s] */}
       <div
-        className={`absolute inset-0 flex items-center justify-center gap-3.5 sm:gap-5 md:gap-6 z-20 pointer-events-none transition-opacity duration-300 ${
+        className={`absolute inset-0 flex items-center justify-center gap-2.5 sm:gap-5 md:gap-6 z-20 pointer-events-none transition-opacity duration-300 ${
           showControls || !isPlaying ? 'opacity-100' : 'opacity-0'
         }`}
       >
@@ -458,12 +403,12 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           id="video-player-rewind-btn"
           type="button"
           onClick={handleRewind10}
-          className="glass-player-center-seek pointer-events-auto w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer group shadow-lg"
+          className="glass-player-center-seek pointer-events-auto w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer group shadow-lg"
           title="Lùi 10 giây"
           aria-label="Lùi 10 giây"
         >
           <svg
-            className="w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6 text-white transition-transform group-hover:-rotate-12 group-active:-rotate-20"
+            className="w-4 h-4 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6 text-white transition-transform group-hover:-rotate-12 group-active:-rotate-20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -497,17 +442,17 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
             togglePlay();
             resetControlsTimeout();
           }}
-          className="glass-player-center-play pointer-events-auto w-13 h-13 sm:w-15 sm:h-15 md:w-16 md:h-16 rounded-full flex items-center justify-center cursor-pointer group shadow-xl"
+          className="glass-player-center-play pointer-events-auto w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center cursor-pointer group shadow-xl"
           title={isPlaying ? 'Tạm dừng' : 'Phát'}
           aria-label={isPlaying ? 'Tạm dừng' : 'Phát'}
         >
           {isPlaying ? (
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-1.5 sm:w-2 h-4 sm:h-5.5 bg-white rounded-full shadow-sm" />
-              <div className="w-1.5 sm:w-2 h-4 sm:h-5.5 bg-white rounded-full shadow-sm" />
+            <div className="flex items-center gap-1 sm:gap-2">
+              <div className="w-1 sm:w-2 h-3.5 sm:h-5.5 bg-white rounded-full shadow-sm" />
+              <div className="w-1 sm:w-2 h-3.5 sm:h-5.5 bg-white rounded-full shadow-sm" />
             </div>
           ) : (
-            <Play className="w-5.5 h-5.5 sm:w-6.5 sm:h-6.5 fill-white text-white ml-0.5 sm:ml-1 drop-shadow-md" />
+            <Play className="w-4.5 h-4.5 sm:w-6.5 sm:h-6.5 fill-white text-white ml-0.5 sm:ml-1 drop-shadow-md" />
           )}
         </button>
 
@@ -516,12 +461,12 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           id="video-player-forward-btn"
           type="button"
           onClick={handleForward10}
-          className="glass-player-center-seek pointer-events-auto w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer group shadow-lg"
+          className="glass-player-center-seek pointer-events-auto w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full flex items-center justify-center cursor-pointer group shadow-lg"
           title="Tua tới 10 giây"
           aria-label="Tua tới 10 giây"
         >
           <svg
-            className="w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6 text-white transition-transform group-hover:rotate-12 group-active:rotate-20"
+            className="w-4 h-4 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6 text-white transition-transform group-hover:rotate-12 group-active:rotate-20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -549,23 +494,23 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* BOTTOM PROGRESS BAR CAPSULE: [3:58] [=================---------] [-0:36] */}
       <div
-        className={`absolute bottom-3 sm:bottom-4 md:bottom-5 left-3 right-3 sm:left-6 sm:right-6 md:left-10 md:right-10 max-w-2xl sm:max-w-3xl mx-auto z-20 pointer-events-none transition-opacity duration-300 ${
+        className={`absolute bottom-2 sm:bottom-4 md:bottom-5 left-2 right-2 sm:left-6 sm:right-6 md:left-10 md:right-10 max-w-2xl sm:max-w-3xl mx-auto z-20 pointer-events-none transition-opacity duration-300 ${
           showControls || !isPlaying ? 'opacity-100' : 'opacity-0'
         }`}
       >
         <div
           id="video-player-progress-pill"
-          className="glass-player-progress-pill pointer-events-auto rounded-full px-3.5 sm:px-5 py-2 sm:py-2.5 flex items-center gap-2.5 sm:gap-3.5 select-none shadow-xl"
+          className="glass-player-progress-pill pointer-events-auto rounded-full px-2.5 sm:px-5 py-1.5 sm:py-2.5 flex items-center gap-2 sm:gap-3.5 select-none shadow-xl"
         >
           {/* Current Time Stamp */}
-          <span className="text-[11px] sm:text-xs font-medium text-white/95 font-mono select-none tracking-tight whitespace-nowrap min-w-[30px] text-right">
+          <span className="text-[10px] sm:text-xs font-medium text-white/95 font-mono select-none tracking-tight whitespace-nowrap min-w-[24px] sm:min-w-[30px] text-right">
             {displayCurrent}
           </span>
 
           {/* Horizontal Scrubber Track */}
           <div
             onClick={handleScrubberClick}
-            className="relative flex-1 h-1.5 sm:h-1.5 bg-white/35 hover:bg-white/45 rounded-full cursor-pointer overflow-hidden group/bar transition-colors"
+            className="relative flex-1 h-1 sm:h-1.5 bg-white/35 hover:bg-white/45 rounded-full cursor-pointer overflow-hidden group/bar transition-colors"
           >
             <div
               className="h-full bg-white rounded-full transition-all duration-75 shadow-sm"
@@ -574,7 +519,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           </div>
 
           {/* Remaining Time Stamp */}
-          <span className="text-[11px] sm:text-xs font-medium text-white/95 font-mono select-none tracking-tight whitespace-nowrap min-w-[34px] text-left">
+          <span className="text-[10px] sm:text-xs font-medium text-white/95 font-mono select-none tracking-tight whitespace-nowrap min-w-[28px] sm:min-w-[34px] text-left">
             {displayRemaining}
           </span>
         </div>
