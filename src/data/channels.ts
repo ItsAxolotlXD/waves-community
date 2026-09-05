@@ -9,6 +9,15 @@ interface RawChannelItem {
 }
 
 const RAW_CHANNELS: RawChannelItem[] = [
+  // Kênh WTV (Nhóm kênh WTV)
+  { 
+    id: 'wtv1', 
+    name: 'WTV1 (Thử nghiệm)', 
+    logo: 'data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80"%3E%3Crect width="200" height="80" rx="18" fill="%23E6005A"/%3E%3Ctext x="70" y="54" fill="%23ffffff" font-family="sans-serif" font-size="42" font-weight="900" letter-spacing="1"%3EWTV%3C/text%3E%3Crect x="138" y="16" width="44" height="48" rx="10" fill="%23ffffff"/%3E%3Ctext x="160" y="52" fill="%23E6005A" font-family="sans-serif" font-size="36" font-weight="900" text-anchor="middle"%3E1%3C/text%3E%3C/svg%3E', 
+    category: 'Kênh WTV', 
+    streamUrl: 'https://live.tdv.dpdns.org/hls/wtv1.m3u8' 
+  },
+
   // Kênh VTV
   { id: 'vtv1', name: 'VTV1 HD', logo: 'https://static.wikia.nocookie.net/ftv/images/a/ac/1vv.png/revision/latest/scale-to-width-down/1000?cb=20260604052331&path-prefix=vi', category: 'Kênh VTV', streamUrl: 'https://live.fptplay53.net/live/media/vtv1/live247-hls-avc/vtv1-avc1_5600000=10000-mp4a_131600=20000.m3u8' },
   { id: 'vtv2', name: 'VTV2 HD', logo: 'https://static.wikia.nocookie.net/ftv/images/5/5b/2f.png/revision/latest/scale-to-width-down/1000?cb=20260604052625&path-prefix=vi', category: 'Kênh VTV', streamUrl: 'https://live.fptplay53.net/live/media/v2abr/live247-hls-avc/v2abr-avc1_5600000=10000-mp4a_131600=20000.m3u8' },
@@ -212,11 +221,15 @@ export const CHANNELS_DATA: Channel[] = RAW_CHANNELS.map((item, idx) => {
     description: `Kênh ${item.name} (${item.category}).`,
     resolution: item.category === 'Kênh phát thanh' ? 'Audio Stream' : '1080p Full HD',
     bitrate: item.category === 'Kênh phát thanh' ? '128 - 320 kbps' : '6.5 - 9.0 Mbps HLS',
-    tags: [item.category, item.name, chCode, String(chNum)]
+    tags: [item.category, item.name, chCode, String(chNum), 'wtv', 'wtv1', 'nhóm kênh wtv', 'kênh wtv']
   };
 });
 
 export const SCHEDULE_DATA: Record<string, ProgramScheduleItem[]> = {
+  wtv1: [
+    { id: 'wtv1-1', channelId: 'wtv1', startTime: '18:00', endTime: '20:00', title: 'Phát sóng thử nghiệm WTV1', category: 'Thử nghiệm', description: 'Luồng phát sóng trực tuyến thử nghiệm kênh WTV1.', isLive: true },
+    { id: 'wtv1-2', channelId: 'wtv1', startTime: '20:00', endTime: '22:00', title: 'Tiếp sóng chương trình WTV1', category: 'Tổng hợp', description: 'Bản tin và nội dung giải trí tiếp nối trên kênh WTV1.' }
+  ],
   vtv1: [
     { id: 'v1-1', channelId: 'vtv1', startTime: '18:30', endTime: '19:00', title: 'Việt Nam hôm nay', category: 'Chính luận', description: 'Phân tích các vấn đề kinh tế xã hội.' },
     { id: 'v1-2', channelId: 'vtv1', startTime: '19:00', endTime: '19:50', title: 'Thời sự 19h Quốc gia', category: 'Thời sự', description: 'Bản tin chính luận trọng điểm quốc gia.', isLive: true },

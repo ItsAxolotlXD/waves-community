@@ -94,14 +94,37 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
             {/* Description & Changelogs */}
             <div
               id="welcome-modal-description"
-              className="text-xs sm:text-sm text-[#D1D5DB] leading-relaxed mb-5 font-normal space-y-2.5"
+              className="text-xs sm:text-sm text-[#D1D5DB] leading-relaxed mb-5 font-normal space-y-2.5 max-h-[48vh] overflow-y-auto pr-1"
             >
               <p className="font-semibold text-white/95 text-xs sm:text-sm tracking-wide">
                 Changelogs:
               </p>
-              <p className="text-[#C4C4CC] text-xs sm:text-[13px] leading-relaxed">
-                Update changelogs are being updated... Stay tuned.
-              </p>
+              <ul className="space-y-2 text-[#C4C4CC] text-xs sm:text-[13px] pl-1">
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <span>Đã áp dụng Liquid Glass thêm lên nhiều khu vực và element hơn như toggle switches, checkboxes, tab buttons...</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <span>Đã update UI channel player và áp dụng Liquid Glass</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <span>Đã thêm 1 lớp progressive blur ở phía trên đầu</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <span>Đã thêm quick search settings vào menu Spotlight Search</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <span>Spotlight Search menu giờ tự động căn giữa thay vì chệch như trước</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <span>Đã update icon và animation cho Tools</span>
+                </li>
+              </ul>
             </div>
 
             {/* Action Buttons */}
