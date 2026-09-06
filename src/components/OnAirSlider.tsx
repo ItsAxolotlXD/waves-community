@@ -75,12 +75,16 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
             title={ch.name}
             aria-label={ch.name}
           >
-            <div className="w-full h-full flex items-center justify-center p-1.5">
+            <div className="w-full h-full flex items-center justify-center p-1">
               <img
                 src={ch.logo}
                 alt={ch.name}
                 referrerPolicy="no-referrer"
-                className="max-w-full max-h-full object-contain filter drop-shadow-md group-hover:scale-110 transition-transform duration-300"
+                className={`w-full h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300 ${
+                  ch.id === 'vtv1' || ch.id === 'vtv3'
+                    ? 'scale-[0.90] max-h-[90%] max-w-[90%]'
+                    : ''
+                }`}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}

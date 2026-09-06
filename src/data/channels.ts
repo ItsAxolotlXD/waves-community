@@ -9,17 +9,8 @@ interface RawChannelItem {
 }
 
 const RAW_CHANNELS: RawChannelItem[] = [
-  // Kênh WTV (Nhóm kênh WTV)
-  { 
-    id: 'wtv1', 
-    name: 'WTV1 (Thử nghiệm)', 
-    logo: 'data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80"%3E%3Crect width="200" height="80" rx="18" fill="%23E6005A"/%3E%3Ctext x="70" y="54" fill="%23ffffff" font-family="sans-serif" font-size="42" font-weight="900" letter-spacing="1"%3EWTV%3C/text%3E%3Crect x="138" y="16" width="44" height="48" rx="10" fill="%23ffffff"/%3E%3Ctext x="160" y="52" fill="%23E6005A" font-family="sans-serif" font-size="36" font-weight="900" text-anchor="middle"%3E1%3C/text%3E%3C/svg%3E', 
-    category: 'Kênh WTV', 
-    streamUrl: 'https://live.tdv.dpdns.org/hls/wtv1.m3u8' 
-  },
-
   // Kênh VTV
-  { id: 'vtv1', name: 'VTV1 HD', logo: 'https://static.wikia.nocookie.net/ftv/images/a/ac/1vv.png/revision/latest/scale-to-width-down/1000?cb=20260604052331&path-prefix=vi', category: 'Kênh VTV', streamUrl: 'https://live.fptplay53.net/live/media/vtv1/live247-hls-avc/vtv1-avc1_5600000=10000-mp4a_131600=20000.m3u8' },
+  { id: 'vtv1', name: 'VTV1 HD', logo: 'https://static.wikia.nocookie.net/ep-deo/images/c/c5/Ne.png/revision/latest/scale-to-width-down/1000?cb=20260906030049', category: 'Kênh VTV', streamUrl: 'https://live.fptplay53.net/live/media/vtv1/live247-hls-avc/vtv1-avc1_5600000=10000-mp4a_131600=20000.m3u8' },
   { id: 'vtv2', name: 'VTV2 HD', logo: 'https://static.wikia.nocookie.net/ftv/images/5/5b/2f.png/revision/latest/scale-to-width-down/1000?cb=20260604052625&path-prefix=vi', category: 'Kênh VTV', streamUrl: 'https://live.fptplay53.net/live/media/v2abr/live247-hls-avc/v2abr-avc1_5600000=10000-mp4a_131600=20000.m3u8' },
   { id: 'vtv3', name: 'VTV3 HD', logo: 'https://static.wikia.nocookie.net/logos/images/0/05/VTV3_logo_%282013-nay%29.png/revision/latest?cb=20201228131947&path-prefix=vi', category: 'Kênh VTV', streamUrl: 'https://live.fptplay53.net/live/media/v3abr/live247-hls-avc/v3abr-avc1_5600000=10000-mp4a_131600=20000.m3u8' },
   { id: 'vtv4', name: 'VTV4 HD', logo: 'https://static.wikia.nocookie.net/ftv/images/0/02/Imagei4.png/revision/latest/scale-to-width-down/1000?cb=20260601093135&path-prefix=vi', category: 'Kênh VTV', streamUrl: 'https://live.fptplay53.net/live/media/vtv4/live247-hls-avc/vtv4-avc1_5600000=10000-mp4a_131600=20000.m3u8' },
@@ -184,10 +175,24 @@ const RAW_CHANNELS: RawChannelItem[] = [
   { id: 'vov_gt_mekong', name: 'VOV Giao Thông Mê Kông', logo: 'https://static.wikia.nocookie.net/ep-deo/images/6/6a/VOV_GT.png/revision/latest/scale-to-width-down/1000?cb=20260622072341', category: 'Kênh phát thanh', streamUrl: 'https://play.vovgiaothong.vn/live/mekong/playlist.m3u8' },
   { id: 'vov_gt_duyenhai', name: 'VOV Giao Thông Duyên Hải', logo: 'https://static.wikia.nocookie.net/ep-deo/images/6/6a/VOV_GT.png/revision/latest/scale-to-width-down/1000?cb=20260622072341', category: 'Kênh phát thanh', streamUrl: 'https://play.vovgiaothong.vn/live/duyenhai2/playlist.m3u8' },
   { id: 'hanoi_fm90', name: 'Hà Nội FM90', logo: 'https://static.wikia.nocookie.net/ep-deo/images/1/11/Fm90.png/revision/latest/scale-to-width-down/1000?cb=20260622073617', category: 'Kênh phát thanh', streamUrl: 'http://14.162.146.90:8000/HANOI90' },
-  { id: 'hanoi_fm96', name: 'Hà Nội FM96', logo: 'https://static.wikia.nocookie.net/ep-deo/images/5/55/FM96.png/revision/latest/scale-to-width-down/1000?cb=20260622073735', category: 'Kênh phát thanh', streamUrl: 'http://222.252.21.96:8000/HANOI96' }
+  { id: 'hanoi_fm96', name: 'Hà Nội FM96', logo: 'https://static.wikia.nocookie.net/ep-deo/images/5/55/FM96.png/revision/latest/scale-to-width-down/1000?cb=20260622073735', category: 'Kênh phát thanh', streamUrl: 'http://222.252.21.96:8000/HANOI96' },
+
+  // Kênh WTV (Luôn luôn nằm ở vị trí kênh cuối cùng)
+  { 
+    id: 'wtv1', 
+    name: 'WTV1 (Thử nghiệm)', 
+    logo: 'data:image/svg+xml;utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80"%3E%3Crect width="200" height="80" rx="18" fill="%23E6005A"/%3E%3Ctext x="70" y="54" fill="%23ffffff" font-family="sans-serif" font-size="42" font-weight="900" letter-spacing="1"%3EWTV%3C/text%3E%3Crect x="138" y="16" width="44" height="48" rx="10" fill="%23ffffff"/%3E%3Ctext x="160" y="52" fill="%23E6005A" font-family="sans-serif" font-size="36" font-weight="900" text-anchor="middle"%3E1%3C/text%3E%3C/svg%3E', 
+    category: 'Kênh WTV', 
+    streamUrl: 'https://live.tdv.dpdns.org/hls/wtv1.m3u8' 
+  }
 ];
 
-export const CHANNELS_DATA: Channel[] = RAW_CHANNELS.map((item, idx) => {
+// Helper ensuring WTV1 is strictly at the very last position
+const nonWtvList = RAW_CHANNELS.filter(item => item.id !== 'wtv1');
+const wtvItem = RAW_CHANNELS.find(item => item.id === 'wtv1');
+const SORTED_RAW_CHANNELS = wtvItem ? [...nonWtvList, wtvItem] : nonWtvList;
+
+export const CHANNELS_DATA: Channel[] = SORTED_RAW_CHANNELS.map((item, idx) => {
   const chNum = idx + 1;
   const chCode = String(chNum).padStart(3, '0');
   return {

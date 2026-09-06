@@ -50,12 +50,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-[#111827] dark:text-white tracking-tight flex items-center gap-2">
-            <span>{currentChannel.name}</span>
-            {currentChannel.channelCode && (
-              <span className="px-1.5 py-0.5 text-[11px] sm:text-xs font-mono font-bold bg-[#E50914]/15 text-[#E50914] dark:bg-[#E50914]/25 dark:text-[#FF4D4D] rounded-md border border-[#E50914]/30">
-                {currentChannel.channelCode}
-              </span>
-            )}
+            <span>{`${String(currentChannel.channelNumber || 1).padStart(3, '0')} | ${currentChannel.name}`}</span>
           </h1>
         </div>
         <p className="text-xs sm:text-sm text-[#4B5563] dark:text-[#9CA3AF] mt-0.5 font-medium flex items-center gap-2">
@@ -141,26 +136,26 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                         key={ch.id}
                         id={`livetv-channel-card-${ch.id}`}
                         onClick={() => onSelectChannel(ch)}
-                        className={`group relative rounded-xl sm:rounded-2xl transition-all duration-200 cursor-pointer overflow-hidden flex flex-col p-2.5 sm:p-3.5 select-none ${
+                        className={`group relative rounded-xl sm:rounded-2xl transition-all duration-200 cursor-pointer overflow-hidden flex items-center justify-center p-2.5 sm:p-3 select-none ${
                           isSelected ? 'is-selected' : ''
                         }`}
+                        title={ch.name}
                       >
-                        {/* Channel Logo Box without background (transparent background, strictly only logo) */}
-                        <div className="w-full h-16 sm:h-20 flex items-center justify-center p-1.5 mb-1.5 sm:mb-2 relative">
+                        {/* Channel Logo Box without background (strictly only logo) */}
+                        <div className="w-full h-16 sm:h-20 flex items-center justify-center p-1 relative">
                           <img
                             src={ch.logo}
                             alt={ch.name}
                             referrerPolicy="no-referrer"
-                            className="max-w-full max-h-full object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-200"
+                            className={`w-full h-full object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-200 ${
+                              ch.id === 'vtv1' || ch.id === 'vtv3'
+                                ? 'scale-[0.90] max-h-[90%] max-w-[90%]'
+                                : ''
+                            }`}
                             onError={(e) => {
                               (e.target as HTMLElement).style.display = 'none';
                             }}
                           />
-                          
-                          {/* Fallback Text if image fails */}
-                          <span className="text-[11px] font-extrabold text-neutral-400 absolute pointer-events-none -z-10 uppercase tracking-tighter">
-                            {ch.channelCode || String(ch.channelNumber || 1).padStart(3, '0')}
-                          </span>
 
                           {/* Favorite Heart Button */}
                           <button
@@ -186,17 +181,6 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                               <span className="hidden sm:inline">Đang phát</span>
                             </div>
                           )}
-                        </div>
-
-                        {/* Channel Number Only Underneath (e.g. 001, 002) */}
-                        <div className="min-w-0 text-center">
-                          <span className={`text-xs sm:text-sm font-mono font-bold tracking-wider transition-colors ${
-                            isSelected 
-                              ? 'text-[#E6005A]' 
-                              : 'text-[#4B5563] dark:text-[#9CA3AF] group-hover:text-black dark:group-hover:text-white'
-                          }`}>
-                            {ch.channelCode || String(ch.channelNumber || 1).padStart(3, '0')}
-                          </span>
                         </div>
                       </div>
                     );

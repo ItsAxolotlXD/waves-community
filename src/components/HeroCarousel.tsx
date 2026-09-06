@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, ChevronLeft, ChevronRight, Clapperboard } from 'lucide-react';
+import { Play, ChevronLeft, ChevronRight, Clapperboard, ExternalLink } from 'lucide-react';
 import { HERO_SLIDES } from '../data/heroSlides';
 import { HeroSlide, Channel } from '../types';
 import { CHANNELS_DATA } from '../data/channels';
@@ -43,6 +43,10 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   }, [isHovered, settings.autoScrollBanner]);
 
   const handleWatchNow = () => {
+    if (currentSlide.externalUrl) {
+      window.open(currentSlide.externalUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
     const targetChannel = CHANNELS_DATA.find((c) => c.id === currentSlide.channelId) || CHANNELS_DATA[0];
     onSelectChannel(targetChannel);
     navigate(`/live-tv?channel=${targetChannel.slug}`);
@@ -132,33 +136,75 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         {/* CTA Button Row + Channel Logo + Navigation Arrows */}
         <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 mt-6">
           {/* Main Colored CTA Button */}
-          <button
-            id="btn-hero-watch-now"
-            onClick={handleWatchNow}
-            className="flex items-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none"
-          >
-            <Play className="w-4.5 h-4.5 fill-white text-white ml-0.5 group-hover/btn:scale-110 transition-transform" />
-            <span className="font-bold text-white">{currentSlide.ctaText || 'Xem'}</span>
-          </button>
+          {currentSlide.externalUrl ? (
+            <a
+              id="btn-hero-watch-now"
+              href={currentSlide.externalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none inline-flex"
+            >
+              <span className="font-bold text-white">{currentSlide.ctaText || 'Learn more'}</span>
+              <ExternalLink className="w-4 h-4 text-white group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+            </a>
+          ) : (
+            <button
+              id="btn-hero-watch-now"
+              onClick={handleWatchNow}
+              className="flex items-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none"
+            >
+              <Play className="w-4.5 h-4.5 fill-white text-white ml-0.5 group-hover/btn:scale-110 transition-transform" />
+              <span className="font-bold text-white">{currentSlide.ctaText || 'Xem'}</span>
+            </button>
+          )}
 
           {/* Pure Banner Logo placed directly next to the Watch button */}
           {currentSlide.channelLogo && (
-            <div 
-              onClick={handleWatchNow}
-              className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
-              title={currentSlide.channelName || 'Xem'}
-            >
-              <img
-                src={currentSlide.channelLogo}
-                alt={currentSlide.channelName || 'Logo banner'}
-                referrerPolicy="no-referrer"
-                className="hero-banner-channel-logo h-8 sm:h-9 w-auto object-contain brightness-110 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  target.style.display = 'none';
-                }}
-              />
-            </div>
+            currentSlide.externalUrl ? (
+              <a 
+                href={currentSlide.externalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
+                title={currentSlide.channelName || 'Xem thêm'}
+              >
+                <img
+                  src={currentSlide.channelLogo}
+                  alt={currentSlide.channelName || 'Logo banner'}
+                  referrerPolicy="no-referrer"
+                  className={`hero-banner-channel-logo w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] ${
+                    currentSlide.id === 'vtv-56-nam'
+                      ? 'h-9 sm:h-10 md:h-11 max-h-12'
+                      : 'h-8 sm:h-9'
+                  }`}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                  }}
+                />
+              </a>
+            ) : (
+              <div 
+                onClick={handleWatchNow}
+                className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
+                title={currentSlide.channelName || 'Xem'}
+              >
+                <img
+                  src={currentSlide.channelLogo}
+                  alt={currentSlide.channelName || 'Logo banner'}
+                  referrerPolicy="no-referrer"
+                  className={`hero-banner-channel-logo w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] ${
+                    currentSlide.id === 'vtv-56-nam'
+                      ? 'h-9 sm:h-10 md:h-11 max-h-12'
+                      : 'h-8 sm:h-9'
+                  }`}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+            )
           )}
 
           {/* Previous & Next circular arrow buttons if multiple slides */}
@@ -167,7 +213,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               <button
                 id="btn-hero-prev"
                 onClick={prevSlide}
-                className="w-10 h-10 rounded-full bg-[#26262C]/80 hover:bg-[#34343E] border border-[#3E3E48] flex items-center justify-center text-[#D1D5DB] hover:text-white transition-colors cursor-pointer"
+                className="w-10 h-10 rounded-full bg-[#18181D]/60 hover:bg-[#282830]/80 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white/90 hover:text-white transition-all cursor-pointer shadow-lg active:scale-95"
                 aria-label="Slide trước"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -175,7 +221,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
               <button
                 id="btn-hero-next"
                 onClick={nextSlide}
-                className="w-10 h-10 rounded-full bg-[#26262C]/80 hover:bg-[#34343E] border border-[#3E3E48] flex items-center justify-center text-[#D1D5DB] hover:text-white transition-colors cursor-pointer"
+                className="w-10 h-10 rounded-full bg-[#18181D]/60 hover:bg-[#282830]/80 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white/90 hover:text-white transition-all cursor-pointer shadow-lg active:scale-95"
                 aria-label="Slide tiếp theo"
               >
                 <ChevronRight className="w-4 h-4" />

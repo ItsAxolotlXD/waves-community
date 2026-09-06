@@ -97,10 +97,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           >
             {!logoError ? (
               <img 
-                src={settings.theme === 'light'
-                  ? "https://static.wikia.nocookie.net/ep-deo/images/f/f3/Vplay_light_mode.png/revision/latest/scale-to-width-down/1000?cb=20260829062448"
-                  : "https://static.wikia.nocookie.net/ep-deo/images/f/f8/Vpla.png/revision/latest/scale-to-width-down/1000?cb=20260829062528"
-                } 
+                src="https://static.wikia.nocookie.net/ep-deo/images/e/ed/New_Vplay.png/revision/latest?cb=20260906031000"
                 alt="Vplay Logo" 
                 referrerPolicy="no-referrer"
                 className="h-8 max-w-[125px] w-auto object-contain shrink-0"
@@ -238,7 +235,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   }}
                   className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors cursor-pointer"
                 >
-                  <span className="truncate">{ch.shortName || ch.name}</span>
+                  <span className="truncate">{`${String(ch.channelNumber || 1).padStart(3, '0')} | ${ch.shortName || ch.name}`}</span>
                   <span className="px-1.5 py-0.2 text-[9px] bg-[#E6005A]/20 text-[#FF4D8B] border border-[#E6005A]/40 rounded-full font-bold">
                     HD
                   </span>
@@ -317,7 +314,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }}
                     className="w-full flex items-center justify-between px-3 py-2 rounded-[12px] text-xs text-[#A1A1AA] hover:text-white hover:bg-[#2E2E35] transition-colors group cursor-pointer"
                   >
-                    <span className="truncate">{ch.shortName || ch.name}</span>
+                    <span className="truncate">{`${String(ch.channelNumber || 1).padStart(3, '0')} | ${ch.shortName || ch.name}`}</span>
                     <span className="px-2 py-0.5 text-[9px] bg-[#3E3E48] text-[#E0E0E6] group-hover:bg-[#E6005A] group-hover:text-white rounded-full font-semibold transition-colors">
                       Phát
                     </span>
@@ -438,7 +435,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   {!logoError ? (
                     <img 
-                      src="https://static.wikia.nocookie.net/ep-deo/images/4/4b/Vplay_no_wordmark.png/revision/latest/scale-to-width-down/1000?cb=20260829062616" 
+                      src="https://static.wikia.nocookie.net/ep-deo/images/e/ed/New_Vplay.png/revision/latest?cb=20260906031000" 
                       alt="Vplay Logo - Mở rộng menu" 
                       referrerPolicy="no-referrer"
                       className="w-8 h-8 object-contain shrink-0 drop-shadow-sm hover:drop-shadow-[0_0_8px_rgba(230,0,90,0.5)] transition-all"

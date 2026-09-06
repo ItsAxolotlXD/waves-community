@@ -92,10 +92,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           <div className="h-8 flex items-center justify-center overflow-hidden">
             {!logoError ? (
               <img 
-                src={isLightMode 
-                  ? "https://static.wikia.nocookie.net/ep-deo/images/f/f3/Vplay_light_mode.png/revision/latest/scale-to-width-down/1000?cb=20260829062448"
-                  : "https://static.wikia.nocookie.net/ep-deo/images/f/f8/Vpla.png/revision/latest/scale-to-width-down/1000?cb=20260829062528"
-                } 
+                src="https://static.wikia.nocookie.net/ep-deo/images/e/ed/New_Vplay.png/revision/latest?cb=20260906031000"
                 alt="Vplay Logo" 
                 referrerPolicy="no-referrer"
                 className="h-7 w-auto max-w-[120px] object-contain"

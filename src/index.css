@@ -1226,18 +1226,39 @@ html.light-mode #hero-carousel-container .hero-badge-channel span {
   color: #111827 !important;
 }
 
+#hero-carousel-container #btn-hero-prev,
+#hero-carousel-container #btn-hero-next {
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+}
+
 html.light-mode #hero-carousel-container #btn-hero-prev,
 html.light-mode #hero-carousel-container #btn-hero-next {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
+  background-color: rgba(255, 255, 255, 0.65) !important;
+  border-color: rgba(255, 255, 255, 0.75) !important;
   color: #1F2937 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
 }
 
 html.light-mode #hero-carousel-container #btn-hero-prev:hover,
 html.light-mode #hero-carousel-container #btn-hero-next:hover {
-  background-color: #F3F4F6 !important;
+  background-color: rgba(255, 255, 255, 0.9) !important;
   color: #111827 !important;
+}
+
+html:not(.light-mode) #hero-carousel-container #btn-hero-prev,
+html:not(.light-mode) #hero-carousel-container #btn-hero-next {
+  background-color: rgba(24, 24, 30, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+}
+
+html:not(.light-mode) #hero-carousel-container #btn-hero-prev:hover,
+html:not(.light-mode) #hero-carousel-container #btn-hero-next:hover {
+  background-color: rgba(40, 40, 50, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: #FFFFFF !important;
 }
 
 html.light-mode #btn-hero-watch-now {

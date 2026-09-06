@@ -2,6 +2,21 @@ import { HeroSlide } from '../types';
 
 export const HERO_SLIDES: HeroSlide[] = [
   {
+    id: 'vtv-56-nam',
+    title: '07.09.1970 - 07.09.2026',
+    subtitle: 'VTV - 56 năm đồng hành cùng khán giả',
+    description: 'Từ một căn nhà nhỏ tại 58 Quán Sứ (Hà Nội) đến một tòa nhà chọc trời lan tỏa nhiều nhịp sóng tại 43 Nguyễn Chí Thanh (Hà Nội)...',
+    category: 'KỶ NIỆM',
+    quality: '56 NĂM VTV',
+    badge: 'KỶ NIỆM 56 NĂM PHÁT SÓNG',
+    channelId: 'vtv1',
+    channelName: 'VTV • ĐÀI TRUYỀN HÌNH VIỆT NAM',
+    channelLogo: 'https://static.wikia.nocookie.net/ep-deo/images/4/4f/New_vtv.png/revision/latest?cb=20260906025720',
+    backgroundImage: 'https://vstatic.vietnam.vn/vietnam/resource/IMAGE/2026/09/05/1788582767553_vtv11-08707794986488739942384.webp',
+    ctaText: 'Learn more',
+    externalUrl: 'https://vtv.vn/dai-thvn-ron-rang-nhieu-hoat-dong-huong-den-ky-niem-56-nam-ngay-phat-song-chuong-trinh-truyen-hinh-dau-tien-100260902175745328.htm'
+  },
+  {
     id: 'mua-he-nam-ay',
     title: 'Mùa hè năm ấy',
     subtitle: 'Phim truyền hình VFC • VTV3',

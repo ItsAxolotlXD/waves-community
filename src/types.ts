@@ -97,6 +97,7 @@ export interface HeroSlide {
   backgroundImage: string;
   ctaText: string;
   director?: string;
+  externalUrl?: string;
 }
 
 export interface UserSettings {

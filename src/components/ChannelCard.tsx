@@ -38,20 +38,21 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
         )}
 
         {/* Center Channel Logo */}
-        <div className="relative w-16 h-16 rounded-2xl bg-[#141416]/90 border border-white/15 flex items-center justify-center p-1.5 overflow-hidden shadow-md group-hover:scale-110 transition-transform duration-300">
+        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#141416]/90 border border-white/15 flex items-center justify-center p-1.5 overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300">
           <img
             src={channel.logo}
             alt={channel.name}
             referrerPolicy="no-referrer"
-            className="max-w-full max-h-full object-contain"
+            className={`w-full h-full object-contain filter drop-shadow-sm ${
+              channel.id === 'vtv1' || channel.id === 'vtv3'
+                ? 'scale-[0.90] max-h-[90%] max-w-[90%]'
+                : ''
+            }`}
             onError={(e) => {
               // Graceful fallback to stylish initial badge if image link has network issues
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-          <span className="text-xs font-black text-white/70 absolute pointer-events-none -z-10 uppercase tracking-tighter">
-            {channel.name.slice(0, 4)}
-          </span>
         </div>
 
         {/* Live Status Badge */}
@@ -96,11 +97,6 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
             <h3 className="text-sm font-bold text-white group-hover:text-[#E50914] transition-colors truncate">
               {channel.shortName || channel.name}
             </h3>
-            {channel.channelCode && (
-              <span className="text-[10px] font-mono font-bold text-[#FF4D4D] bg-[#FF2020]/15 px-1.5 py-0.2 rounded shrink-0">
-                {channel.channelCode}
-              </span>
-            )}
           </div>
           <span className="text-[11px] font-medium text-[#8E8E93] shrink-0">
             {channel.category}

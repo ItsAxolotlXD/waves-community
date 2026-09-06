@@ -584,19 +584,16 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                                   src={ch.logo}
                                   alt={ch.name}
                                   referrerPolicy="no-referrer"
-                                  className="max-w-full max-h-full object-contain"
+                                  className={`max-w-full max-h-full object-contain ${
+                                    ch.id === 'vtv1' || ch.id === 'vtv3' ? 'scale-[0.90]' : ''
+                                  }`}
                                 />
                               </div>
                               <div className="min-w-0 flex-1">
                                 <div className="flex items-center gap-1.5">
                                   <span className="text-xs font-bold text-white group-hover:text-[#E6005A] truncate">
-                                    {ch.name}
+                                    {`${String(ch.channelNumber || 1).padStart(3, '0')} | ${ch.name}`}
                                   </span>
-                                  {ch.channelCode && (
-                                    <span className="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-[#E6005A]/20 text-[#FF4D8B] tracking-wider shrink-0">
-                                      {ch.channelCode}
-                                    </span>
-                                  )}
                                 </div>
                                 <div className="text-[10px] text-[#9CA3AF] truncate">
                                   {ch.category}

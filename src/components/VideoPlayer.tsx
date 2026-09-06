@@ -242,16 +242,16 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
           showControls || !isPlaying ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        {/* Top-Left: Channel Badge */}
+        {/* Top-Left: Live / Quality indicator (No channel name) */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 pointer-events-auto">
-          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/15 text-white shadow-sm">
-            <span className="text-[10.5px] sm:text-xs font-semibold drop-shadow-sm truncate max-w-[130px] sm:max-w-[200px]">
-              {channel.name}
-            </span>
-            <span className="px-1.5 py-0.5 text-[8px] sm:text-[8.5px] font-extrabold bg-white/20 rounded-full uppercase tracking-wider">
-              {channel.quality}
-            </span>
-          </div>
+          {channel.quality && (
+            <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-black/35 backdrop-blur-md border border-white/15 text-white shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E50914] animate-pulse" />
+              <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider">
+                {channel.quality}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Top-Right: Auxiliary controls & Volume Pill */}
