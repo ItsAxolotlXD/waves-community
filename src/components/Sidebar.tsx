@@ -192,12 +192,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <span className="truncate">Home</span>
         </button>
 
-        {/* 2. Live TV with Accordion */}
+        {/* 2. Truyền hình with Accordion */}
         <div className="w-full">
           <button
             id={isMobile ? 'mobile-nav-item-live-tv' : 'nav-item-live-tv'}
             onClick={() => handleNavClick('/live-tv')}
-            title="Live TV"
+            title="Truyền hình"
             className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
               isActive('/live-tv')
                 ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
@@ -205,8 +205,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
             }`}
           >
             <div className="flex items-center gap-3.5 truncate">
-              <Tv className="w-5 h-5 shrink-0" />
-              <span className="truncate">Live TV</span>
+              <img
+                src="https://vtvgo-next-assets.vtvdigital.vn/prod/images/menu/20260905/2026090508/b467d7552a-tv-1.webp"
+                alt="Truyền hình"
+                referrerPolicy="no-referrer"
+                className={`w-[26px] h-[26px] object-contain shrink-0 ${
+                  isActive('/live-tv') ? 'brightness-0 invert' : 'sidebar-nav-tv-icon'
+                }`}
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
+              <span className="truncate">Truyền hình</span>
             </div>
             <div
               onClick={(e) => {
@@ -489,15 +499,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   />
                 </button>
 
-                {/* 2. Live TV */}
+                {/* 2. Truyền hình */}
                 <button
                   onClick={() => handleNavClick('/live-tv')}
-                  title="Live TV"
+                  title="Truyền hình"
                   className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 shrink-0 transition-all cursor-pointer ${
                     isActive('/live-tv') ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20' : 'text-[#D1D5DB] hover:text-white hover:bg-[#2F2F36]'
                   }`}
                 >
-                  <Tv className="w-5 h-5 shrink-0" />
+                  <img
+                    src="https://vtvgo-next-assets.vtvdigital.vn/prod/images/menu/20260905/2026090508/b467d7552a-tv-1.webp"
+                    alt="Truyền hình"
+                    referrerPolicy="no-referrer"
+                    className={`w-[26px] h-[26px] object-contain shrink-0 ${
+                      isActive('/live-tv') ? 'brightness-0 invert' : 'sidebar-nav-tv-icon'
+                    }`}
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
                 </button>
 
                 {/* 3. News */}

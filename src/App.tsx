@@ -19,6 +19,7 @@ import { Channels } from './pages/Channels';
 import { Favorites } from './pages/Favorites';
 import { About } from './pages/About';
 import { Settings } from './pages/Settings';
+import { ImmersiveSearch } from './pages/ImmersiveSearch';
 import { CHANNELS_DATA } from './data/channels';
 import { NEWS_DATA } from './data/news';
 import { Channel, NewsArticle } from './types';
@@ -57,6 +58,7 @@ export default function App() {
     return window.location.pathname === '/' ? '/' : window.location.pathname;
   });
   const [routeState, setRouteState] = useState<any>(null);
+  const previousRouteRef = useRef<string>('/');
 
   // Channels State (base channels + imported channels from localStorage)
   const [channels, setChannels] = useState<Channel[]>(() => {
@@ -143,6 +145,10 @@ export default function App() {
       }
     }
 
+    if (currentRoute !== '/search') {
+      previousRouteRef.current = currentRoute;
+    }
+
     setRouteState(state);
     
     // Parse query params if any
@@ -164,6 +170,30 @@ export default function App() {
     // Scroll to top on navigation
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Open search handler (respects immersive search experiment)
+  const handleOpenSearch = useCallback(() => {
+    if (settings.immersiveSearch) {
+      if (currentRoute !== '/search') {
+        previousRouteRef.current = currentRoute;
+      }
+      navigate('/search');
+    } else {
+      setIsSpotlightOpen(true);
+    }
+  }, [settings.immersiveSearch, currentRoute]);
+
+  // Global search shortcut (Cmd+K / Ctrl+K)
+  useEffect(() => {
+    const handleGlobalSearchKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        handleOpenSearch();
+      }
+    };
+    window.addEventListener('keydown', handleGlobalSearchKey);
+    return () => window.removeEventListener('keydown', handleGlobalSearchKey);
+  }, [handleOpenSearch]);
 
   // Handle browser back / forward navigation
   useEffect(() => {
@@ -284,6 +314,18 @@ export default function App() {
       case '/settings':
         return <Settings />;
 
+      case '/search':
+        return (
+          <ImmersiveSearch
+            navigate={navigate}
+            onSelectChannel={setCurrentChannel}
+            onClose={() => {
+              const target = previousRouteRef.current && previousRouteRef.current !== '/search' ? previousRouteRef.current : '/';
+              navigate(target);
+            }}
+          />
+        );
+
       default:
         return (
           <Home
@@ -296,12 +338,12 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#141416] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative">
+    <div className="min-h-screen bg-[#140718] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative">
       {/* Sidebar Navigation (Desktop + Mobile Drawer) */}
       <Sidebar
         currentRoute={currentRoute}
         navigate={navigate}
-        onOpenSearch={() => setIsSpotlightOpen(true)}
+        onOpenSearch={handleOpenSearch}
         onSelectChannel={setCurrentChannel}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={toggleSidebarCollapse}
@@ -321,7 +363,7 @@ export default function App() {
         <TopBar
           currentRoute={currentRoute}
           navigate={navigate}
-          onOpenSearch={() => setIsSpotlightOpen(true)}
+          onOpenSearch={handleOpenSearch}
           onOpenMobileMenu={() => setIsMobileSidebarOpen(true)}
           currentChannel={currentChannel}
           channels={channels}
@@ -373,7 +415,7 @@ export default function App() {
         <BottomDock
           currentRoute={currentRoute}
           navigate={navigate}
-          onOpenSearch={() => setIsSpotlightOpen(true)}
+          onOpenSearch={handleOpenSearch}
         />
       )}
 

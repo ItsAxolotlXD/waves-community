@@ -23,7 +23,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
 
   const navItems = [
     { id: 'dock-home', label: 'Trang chủ', isCustomHome: true, route: '/' },
-    { id: 'dock-tv', label: 'Truyền hình', icon: Tv, route: '/live-tv' },
+    { id: 'dock-tv', label: 'Truyền hình', isCustomTv: true, route: '/live-tv' },
     { id: 'dock-news', label: 'Tin tức', icon: Megaphone, route: '/news' },
   ];
 
@@ -66,6 +66,18 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                   referrerPolicy="no-referrer"
                   className={`w-6 h-6 object-contain shrink-0 ${
                     active ? 'brightness-0 invert' : 'sidebar-nav-home-icon'
+                  }`}
+                  onError={(e) => {
+                    (e.target as HTMLElement).style.display = 'none';
+                  }}
+                />
+              ) : item.isCustomTv ? (
+                <img
+                  src="https://vtvgo-next-assets.vtvdigital.vn/prod/images/menu/20260905/2026090508/b467d7552a-tv-1.webp"
+                  alt="Truyền hình"
+                  referrerPolicy="no-referrer"
+                  className={`w-6 h-6 object-contain shrink-0 ${
+                    active ? 'brightness-0 invert' : 'sidebar-nav-tv-icon'
                   }`}
                   onError={(e) => {
                     (e.target as HTMLElement).style.display = 'none';

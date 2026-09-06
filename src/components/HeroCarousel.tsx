@@ -77,7 +77,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   return (
     <div 
       id="hero-carousel-container"
-      className="relative w-full overflow-hidden bg-[#141416] min-h-[520px] md:min-h-[600px] lg:min-h-[660px] flex items-end group transition-all"
+      className="relative w-full overflow-hidden bg-[#140718] min-h-[520px] md:min-h-[600px] lg:min-h-[660px] flex items-end group transition-all"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -96,8 +96,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-10000 group-hover:scale-100"
           />
           {/* Refined subtle cinematic gradient overlays for high background clarity */}
-          <div className="absolute inset-0 hero-overlay-t bg-gradient-to-t from-[#141416] via-[#141416]/30 to-transparent" />
-          <div className="absolute inset-0 hero-overlay-r bg-gradient-to-r from-[#141416]/75 via-[#141416]/20 to-transparent w-full md:w-3/5" />
+          <div className="absolute inset-0 hero-overlay-t bg-gradient-to-t from-[#140718] via-[#140718]/30 to-transparent" />
+          <div className="absolute inset-0 hero-overlay-r bg-gradient-to-r from-[#140718]/75 via-[#140718]/20 to-transparent w-full md:w-3/5" />
         </div>
       ))}
 

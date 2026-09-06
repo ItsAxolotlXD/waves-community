@@ -76,7 +76,7 @@ export const Channels: React.FC<ChannelsProps> = ({
         </div>
 
         {/* Search */}
-        <div className="relative w-full md:w-72">
+        <div id="channels-search-container" className="relative w-full md:w-72">
           <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-[#8E8E93]" />
           <input
             type="text"

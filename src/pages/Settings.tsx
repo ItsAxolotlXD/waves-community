@@ -11,7 +11,8 @@ import {
   Sliders,
   Mic,
   MicOff,
-  Wrench
+  Wrench,
+  FlaskConical
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSettings, FONT_SCALE_CONFIG, SystemSettings } from '../hooks/useSettings';
@@ -93,6 +94,7 @@ export const Settings: React.FC = () => {
         <div className="pt-2">
           {/* Search Bar Capsule with Spotlight Search Centering & Styling */}
           <div 
+            id="settings-search-container"
             onClick={() => {
               setIsFocused(true);
               inputRef.current?.focus();
@@ -832,6 +834,70 @@ export const Settings: React.FC = () => {
                 </button>
               </div>
             )}
+          </div>
+        </section>
+      )}
+
+      {/* Experimental Features Section */}
+      {(matchesSearch('Experimental') ||
+        matchesSearch('Experimental Features') ||
+        matchesSearch('Immersive') ||
+        matchesSearch('Immersive search experience') ||
+        matchesSearch('Search UI that looks immersive') ||
+        matchesSearch('Thử nghiệm') ||
+        matchesSearch('Tính năng thử nghiệm')) && (
+        <section 
+          id="settings-section-experimental"
+          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+        >
+          {/* Section Header with triangle lab flask icon */}
+          <div className="flex items-start gap-3">
+            <FlaskConical className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <div>
+              <h2 className="text-base font-bold text-white leading-tight flex items-center gap-2">
+                <span>Experimental Features</span>
+                <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-full bg-[#E6005A]/20 text-[#FF4D8B] border border-[#E6005A]/30">
+                  Lab
+                </span>
+              </h2>
+              <p className="text-xs text-[#9CA3AF] mt-1 leading-relaxed">
+                Các tính năng và giao diện trải nghiệm mới đang trong giai đoạn thử nghiệm
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-3 pt-1">
+            {/* Toggle: Immersive search experience */}
+            <div 
+              id="setting-experimental-immersive-search"
+              onClick={() => updateDraft('immersiveSearch', !draftSettings.immersiveSearch)}
+              className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+            >
+              <div>
+                <div className="font-semibold text-white text-sm">
+                  Immersive search experience
+                </div>
+                <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                  Search UI that looks immersive
+                </div>
+              </div>
+
+              <button
+                id="toggle-immersive-search"
+                type="button"
+                role="switch"
+                aria-checked={draftSettings.immersiveSearch}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateDraft('immersiveSearch', !draftSettings.immersiveSearch);
+                }}
+                className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                  draftSettings.immersiveSearch ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                }`}
+              >
+                <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+              </button>
+            </div>
           </div>
         </section>
       )}

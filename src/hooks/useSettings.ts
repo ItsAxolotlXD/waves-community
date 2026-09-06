@@ -16,6 +16,7 @@ export interface SystemSettings {
   animateSidebar: boolean;
   animateModals: boolean;
   animatePageTransitions: boolean;
+  immersiveSearch: boolean;
 }
 
 export const DEFAULT_SETTINGS: SystemSettings = {
@@ -34,6 +35,7 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   animateSidebar: true,
   animateModals: true,
   animatePageTransitions: true,
+  immersiveSearch: false,
 };
 
 export const FONT_SCALE_CONFIG = [

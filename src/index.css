@@ -28,9 +28,9 @@
     --solid-red: #E6005A;
     --accent-red: #FF267A;
     --dark-red: #B30046;
-    --dark-bg: #141416;
-    --sidebar-bg: #222227;
-    --card-bg: #222226;
+    --dark-bg: #140718;
+    --sidebar-bg: #1f0b26;
+    --card-bg: #280e32;
     --waves-font-scale: 1;
   }
 
@@ -43,7 +43,7 @@
   }
 
   body {
-    background-color: #141416;
+    background-color: #150718;
     color: #F3F4F6;
     overflow-x: hidden;
   }
@@ -58,6 +58,7 @@ html.light-mode body {
 /* Header & Search Monochrome Filter */
 html.light-mode .topbar-search-icon,
 html.light-mode .sidebar-nav-home-icon,
+html.light-mode .sidebar-nav-tv-icon,
 html.light-mode #btn-top-search img,
 html.light-mode #btn-spotlight-search-mini img,
 html.light-mode #btn-spotlight-search-desktop img,
@@ -76,6 +77,7 @@ html.light-mode #btn-top-tools-menu img {
 
 html:not(.light-mode) .topbar-search-icon,
 html:not(.light-mode) .sidebar-nav-home-icon,
+html:not(.light-mode) .sidebar-nav-tv-icon,
 html:not(.light-mode) .topbar-tools-icon,
 html:not(.light-mode) #btn-top-tools-menu img,
 html:not(.light-mode) #btn-top-search img,
@@ -183,6 +185,7 @@ html.light-mode #settings-section-interface,
 html.light-mode #settings-section-accessibility,
 html.light-mode #settings-section-motion,
 html.light-mode #settings-section-search,
+html.light-mode #settings-section-experimental,
 html.light-mode #settings-section-other {
   background-color: #FFFFFF !important;
   border-color: #E5E7EB !important;
@@ -192,6 +195,7 @@ html.light-mode #settings-section-interface .text-white,
 html.light-mode #settings-section-accessibility .text-white,
 html.light-mode #settings-section-motion .text-white,
 html.light-mode #settings-section-search .text-white,
+html.light-mode #settings-section-experimental .text-white,
 html.light-mode #settings-section-other .text-white {
   color: #111827 !important;
 }
@@ -199,6 +203,7 @@ html.light-mode #settings-section-interface .bg-\[\#28272E\],
 html.light-mode #settings-section-accessibility .bg-\[\#28272E\],
 html.light-mode #settings-section-motion .bg-\[\#28272E\],
 html.light-mode #settings-section-search .bg-\[\#28272E\],
+html.light-mode #settings-section-experimental .bg-\[\#28272E\],
 html.light-mode #settings-section-other .bg-\[\#28272E\] {
   background-color: #F8FAFC !important;
   border-color: #E2E8F0 !important;
@@ -206,6 +211,161 @@ html.light-mode #settings-section-other .bg-\[\#28272E\] {
 html.light-mode #settings-section-motion hr,
 html.light-mode #settings-section-search hr {
   border-color: #E2E8F0 !important;
+}
+
+/* Dark Purple Theme Surface Overrides in Dark Mode (Rich balanced dark purple) */
+html:not(.light-mode) body,
+html:not(.light-mode) .bg-\[\#141416\],
+html:not(.light-mode) .bg-\[\#141418\],
+html:not(.light-mode) .bg-\[\#150718\],
+html:not(.light-mode) .bg-\[\#0c020e\] {
+  background-color: #140718 !important;
+}
+
+html:not(.light-mode) .bg-\[\#1E1D22\],
+html:not(.light-mode) .bg-\[\#1E1E22\],
+html:not(.light-mode) .bg-\[\#1E1E24\],
+html:not(.light-mode) .bg-\[\#210d26\],
+html:not(.light-mode) .bg-\[\#140417\] {
+  background-color: #1f0b26 !important;
+}
+
+html:not(.light-mode) .bg-\[\#28272E\],
+html:not(.light-mode) .bg-\[\#26262C\],
+html:not(.light-mode) .bg-\[\#2A2A32\],
+html:not(.light-mode) .bg-\[\#2c1132\],
+html:not(.light-mode) .bg-\[\#1b0620\] {
+  background-color: #290e32 !important;
+}
+
+html:not(.light-mode) #waves-desktop-sidebar,
+html:not(.light-mode) #waves-mobile-sidebar {
+  background-color: rgba(24, 8, 30, 0.85) !important;
+  border-color: rgba(230, 0, 90, 0.16) !important;
+}
+
+/* Search Bars: Clean Liquid Glass capsule border with 30% translucent background and 100% crisp text/icons */
+.spotlight-bubble-box,
+.spotlight-input-container,
+.search-box-capsule,
+#btn-spotlight-search,
+#btn-mobile-spotlight-search,
+#btn-spotlight-search-desktop,
+#btn-spotlight-search-mini,
+#settings-search-container,
+#spotlight-search-container,
+#immersive-search-capsule,
+#btn-close-immersive-search {
+  opacity: 1 !important;
+  background-image: none !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  background-origin: padding-box !important;
+  background-clip: border-box !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 2px 8px rgba(0, 0, 0, 0.20) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.spotlight-bubble-box:hover,
+.spotlight-input-container:hover,
+.search-box-capsule:hover,
+#btn-spotlight-search:hover,
+#btn-mobile-spotlight-search:hover,
+#btn-spotlight-search-desktop:hover,
+#btn-spotlight-search-mini:hover,
+#settings-search-container:hover,
+#spotlight-search-container:hover,
+#immersive-search-capsule:hover,
+#btn-close-immersive-search:hover {
+  opacity: 1 !important;
+  background-image: none !important;
+  background-color: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.20), 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+  transform: none !important;
+}
+
+#immersive-search-capsule:focus-within,
+#settings-search-container:focus-within,
+#spotlight-search-container:focus-within,
+.spotlight-input-container:focus-within {
+  border-color: rgba(230, 0, 90, 0.70) !important;
+  box-shadow: 0 0 16px rgba(230, 0, 90, 0.32), inset 0 1px 0 0 rgba(255, 255, 255, 0.16) !important;
+}
+
+#btn-close-immersive-search:hover {
+  background-color: rgba(230, 0, 90, 0.85) !important;
+  border-color: #E6005A !important;
+  color: #FFFFFF !important;
+}
+
+#channels-search-container input {
+  background-color: rgba(35, 14, 42, 0.30) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #FFFFFF !important;
+  opacity: 1 !important;
+}
+#channels-search-container input:focus {
+  background-color: rgba(55, 22, 65, 0.50) !important;
+  border-color: #E6005A !important;
+}
+
+/* Ensure icons, placeholders, text inside search bars are strictly 100% opacity */
+.spotlight-bubble-box input,
+.spotlight-bubble-box img,
+.spotlight-bubble-box svg,
+.spotlight-bubble-box span,
+.spotlight-input-container input,
+.spotlight-input-container img,
+.spotlight-input-container svg,
+.spotlight-input-container span,
+#channels-search-container svg,
+#btn-top-search img {
+  opacity: 1 !important;
+}
+
+/* Light mode adaptation for clean liquid glass search capsules */
+html.light-mode .spotlight-bubble-box,
+html.light-mode .spotlight-input-container,
+html.light-mode .search-box-capsule,
+html.light-mode #immersive-search-capsule,
+html.light-mode #btn-close-immersive-search {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.70), 0 1px 4px rgba(0, 0, 0, 0.05) !important;
+}
+html.light-mode .spotlight-bubble-box:hover,
+html.light-mode .spotlight-input-container:hover,
+html.light-mode #immersive-search-capsule:hover,
+html.light-mode #btn-close-immersive-search:hover {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.22) !important;
+}
+
+/* Immersive Search Light Mode adaptation */
+html.light-mode #immersive-search-page {
+  color: #111827 !important;
+}
+html.light-mode #immersive-search-page .bg-\[\#200d23\]\/80,
+html.light-mode #immersive-search-page .bg-\[\#200d23\] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #111827 !important;
+}
+html.light-mode #immersive-search-page input {
+  color: #111827 !important;
+}
+html.light-mode #immersive-search-page input::placeholder {
+  color: #6B7280 !important;
+}
+html.light-mode #immersive-search-page .text-white {
+  color: #111827 !important;
+}
+html.light-mode #immersive-search-page .text-\[\#D4CAD6\],
+html.light-mode #immersive-search-page .text-\[\#E0D8E2\] {
+  color: #374151 !important;
 }
 
 /* ==========================================================================
@@ -231,8 +391,6 @@ html.light-mode #settings-section-search hr {
 #news-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]),
 #btn-theme-light:not(.bg-\[\#E6005A\]),
 #btn-theme-dark:not(.bg-\[\#E6005A\]),
-.spotlight-bubble-box,
-.search-box-capsule,
 .liquid-glass-control {
   border: 1px solid transparent;
   background-image: 
