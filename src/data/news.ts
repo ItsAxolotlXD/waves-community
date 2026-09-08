@@ -2,6 +2,66 @@ import { NewsArticle } from '../types';
 
 export const NEWS_DATA: NewsArticle[] = [
   {
+    id: 'news-vtv-brand-evolution-2026',
+    slug: 'nghe-thuat-cua-su-tien-hoa-tinh-te-vtv-xiaomi',
+    title: 'Nghệ thuật của sự "tiến hóa tinh tế" - Từ câu chuyện của Xiaomi đến bước chuyển mình mạnh mẽ của VTV',
+    subtitle: 'Nhìn lại cuộc cách mạng nhận diện thương hiệu của Đài Truyền hình Việt Nam nhân kỷ niệm 56 năm phát sóng',
+    coverImage: 'https://scontent.fhan5-2.fna.fbcdn.net/v/t39.99422-6/798743397_3555041954661364_2407440721366901646_n.png?stp=dst-jpg_tt6&cstp=mx2048x2048&ctp=s2048x2048&_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=cDj_vYYwo-UQ7kNvwFXmeWL&_nc_oc=AdqWZZcntklp8YC2lllUnuiUFa7c-vHS2WoqryEI_UBEhzBlJUHflWv8RqLDvci3enepJwx89BliC2GOn7yN8XyK&_nc_zt=14&_nc_ht=scontent.fhan5-2.fna&_nc_gid=3BjYJlzUiYFUO_QKl-6SMQ&_nc_ss=7b2a8&oh=00_AQIUY4X1XpGOSd_8wazApjDggoY5XmFHfcdjBCHcbJLjFg&oe=6AA609AB',
+    category: 'Đồ hoạ & Nhận diện',
+    publishedAt: '07 Tháng 9, 2026',
+    readingTime: '8 phút đọc',
+    author: {
+      name: 'Ban Biên tập VTV / Waves Media',
+      role: 'Phân tích Thương hiệu & Đồ hoạ',
+      avatar: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Logo_VTV1_-_%C4%90%C3%A0i_Truy%E1%BB%81n_h%C3%ACnh_Vi%E1%BB%87t_Nam.svg/1920px-Logo_VTV1_-_%C4%90%C3%A0i_Truy%E1%BB%81n_h%C3%ACnh_Vi%E1%BB%87t_Nam.svg.png?utm_source=vi.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail'
+    },
+    excerpt: 'Bài viết nhìn nhận sự thay đổi logo và nhận diện thương hiệu mới của VTV như một quá trình “tiến hóa tinh tế”, tương tự cách Xiaomi từng làm: không phá bỏ những giá trị quen thuộc mà cải tiến từng lớp để phù hợp với tương lai.',
+    summary: {
+      lead: 'Bài viết nhìn nhận sự thay đổi logo và nhận diện thương hiệu mới của VTV như một quá trình “tiến hóa tinh tế”, tương tự cách Xiaomi từng làm: không phá bỏ những giá trị quen thuộc mà cải tiến từng lớp để phù hợp với tương lai.',
+      points: [
+        'Giữ lại di sản: VTV vẫn duy trì chữ VTV và hệ màu đỏ – xanh lá – xanh dương, giúp khán giả nhận ra thương hiệu ngay lập tức.',
+        'Hiện đại hóa hình ảnh: Loại bỏ cảm giác 3D, đổ bóng và những chi tiết cũ; chuyển sang thiết kế phẳng, sắc nét, linh hoạt và phù hợp với môi trường số, từ TV đến smartphone và mạng xã hội.',
+        'Gradient và cấu trúc mới: Những thay đổi về màu sắc, hình học và các dải tam giác tạo nên diện mạo hiện đại hơn nhưng vẫn giữ “DNA” VTV.',
+        'Triết lý “Chắt lọc và Kết nối giá trị”: VTV muốn chuyển từ vai trò đơn thuần “phát sóng thông tin” sang chắt lọc, kiểm chứng và kết nối những thông tin có giá trị giữa một thế giới đầy dữ liệu, tin giả và nội dung ngắn.',
+        'Hình tượng tam giác: Các tam giác phát triển từ chữ V, tượng trưng cho quá trình thu nhận thông tin đa chiều rồi chắt lọc thành những giá trị tinh túy, đáng tin cậy.',
+        'DNA thương hiệu mới: VTV kết hợp hai hình mẫu Sage (Nhà hiền triết) – uy tín, tri thức, đáng tin; và Everyman (Người bạn đồng hành) – gần gũi, thấu hiểu và dễ tiếp cận.',
+        'Định hướng ONE VTV: Hợp nhất hệ sinh thái VTV, với ba nguyên tắc OPEN – NEAR – ESSENTIAL: cởi mở hơn, gần gũi hơn và trở thành nguồn thông tin thiết yếu.',
+        'Thông điệp lớn: VTV chọn con đường cân bằng giữa truyền thống và đổi mới – giữ sự chính thống, uy tín của một định chế truyền thông quốc gia nhưng đồng thời trẻ trung, hiện đại và phù hợp với kỷ nguyên số.'
+      ],
+      conclusion: 'Nói ngắn gọn: Bài viết cho rằng logo mới không phải là một cuộc “đập đi làm lại”, mà là sự tiến hóa của VTV: giữ những gì người Việt đã quen thuộc, đồng thời tái cấu trúc hình ảnh và chiến lược thương hiệu để VTV trở thành một nền tảng truyền thông uy tín, hiện đại, gần gũi và đa nền tảng.'
+    },
+    featured: true,
+    tags: ['VTV', 'Logo mới', 'Nhận diện thương hiệu', '56 năm VTV', 'ONE VTV', 'Xiaomi', 'Kenya Hara', 'Đồ hoạ truyền hình'],
+    content: [
+      'Tháng 3/2021, khi Xiaomi công bố logo mới được thiết kế bởi bậc thầy Kenya Hara với chi phí tương đương 7 tỷ đồng Việt Nam sau 3 năm ròng rã nghiên cứu, mạng xã hội toàn cầu bùng nổ tranh cãi. Với đại chúng, đó dường như chỉ là một trò đùa: một khối vuông màu cam quen thuộc được bo tròn bốn góc thành hình siêu elip. Nhưng dưới con mắt của những nhà chiến lược thương hiệu, đó là một cuộc cách mạng trong sự tiến hóa (evolutionary revolution). Xiaomi không phá vỡ di sản nhận diện vốn có; họ hiệu chỉnh năng lượng thị giác từ “cơ học vô hồn” sang “hữu cơ sống động” (Alive), chuẩn bị không gian cho sự vươn mình lên phân khúc cao cấp mà không làm đứt gãy một pixel niềm tin nào của hàng trăm triệu khách hàng.',
+      'Câu chuyện của Xiaomi là minh chứng kinh điển cho một quy luật trong xây dựng thương hiệu hiện đại: Đôi khi, sự thay đổi lớn nhất và bản lĩnh nhất lại là sự thay đổi được che giấu dưới lớp vỏ của sự quen thuộc.',
+      'Nếu bạn để ý, từ mấy hôm nay, người nhà Đài Truyền hình Việt Nam (VTV) đã chuyển trạng thái avatar với biểu tượng logo VTV mới để kỷ niệm 56 năm ngày phát sóng đầu tiên. Và hôm nay, 7/9/2026, VTV chính thức sử dụng biểu tượng mới. Sự thay đổi nhận diện thương hiệu này của VTV cũng nằm trọn vẹn trong quy luật tiếp biến đầy bản lĩnh ấy.',
+      'TƯỞNG NHƯ KHÔNG ĐỔI, NHƯNG ĐÃ ĐỔI THAY RẤT NHIỀU',
+      'Nếu chỉ lướt qua góc phải màn hình vô tuyến, nhiều khán giả có thể cảm thấy: VTV vẫn là VTV. Vẫn ba chữ cái ấy, vẫn ba dải màu Đỏ – Xanh lá – Xanh dương (RGB) kinh điển đã in sâu vào ký ức của nhiều thế hệ người Việt từ thời vô tuyến màu sơ khai.',
+      'Thậm chí, ở quyết định màu sắc cuối cùng, VTV đã quyết định chọn giữ lại sắc độ đậm đà, vững chãi – đặc biệt là sắc đỏ sẫm giàu tính biểu tượng của Cờ đỏ quốc gia – thay vì chạy theo những dải màu tươi sáng hay hiệu ứng bắt mắt kiểu ứng dụng di động đơn thuần. Quyết định đó xuất phát từ sự tính toán chi li về “vật lý hiển thị” trên hàng chục triệu chiếc TV với đủ loại tấm nền khắp mọi miền đất nước, bảo đảm logo luôn là điểm neo thị giác tương phản sắc nét trên mọi hậu cảnh phát sóng phức tạp. Nhưng sâu xa hơn, đó là sự trung thành tuyệt đối với tính Đảng, tính chính thống và sự uy nghiêm của một cơ quan truyền thông chủ lực quốc gia.',
+      'Nhưng nhìn sâu vào từng đường nét hình học, ta thấy một sự giải phóng cấu trúc ngoạn mục. Toàn bộ các hiệu ứng 3D đổ bóng, các góc bo cơ học của kỷ nguyên truyền hình analog đã được gọt giũa hoàn toàn. Thay vào đó là một cấu trúc phẳng (flat design), sắc sảo, liền mạch và tối ưu hóa tuyệt đối cho môi trường số – nơi logo có thể hiển thị hoàn hảo ở kích thước siêu nhỏ chỉ 35 pixel trên smartphone, ứng dụng số hay mạng xã hội. Sự liền mạch giữa các nét chữ "V - T - V" tạo cảm giác chuyển động không ngừng. Nó xóa bỏ cảm giác nặng nề, cơ học của một cỗ máy phát sóng truyền thống, thay bằng sự linh hoạt của một nền tảng số.',
+      'Nhưng, điểm khác biệt chính là ứng dụng dải gradient tinh tế, đội ngũ thiết kế đã đạt được mục tiêu kép: Người xem bình thường cảm thấy logo vẫn là VTV thân quen của họ, không bị “lạ lẫm” hay xa cách. Nhưng nhìn kỹ, logo đã thoát hẳn khỏi dáng dấp công nghệ cũ, trở nên sắc sảo, dứt khoát và hiện đại hơn rất nhiều.',
+      'VTV không “đập đi xây mới” để chứng tỏ mình khác biệt. Họ chọn cách tiến hóa tinh tế: bảo tồn trọn vẹn di sản thị giác (visual equity) để gắn kết thế hệ cũ, nhưng tái cấu trúc toàn bộ mã gen đồ họa để sẵn sàng cho một hệ sinh thái số hiện đại, đa nền tảng.',
+      '<image> https://cdn-images.vtv.vn/66349b6076cb4dee98746cf1/2026/09/05/screenshot-2026-09-05-at-15-18-06-71542301124374812066276-42091214516949257410750-99953242804103574099159.png',
+      '“CHẮT LỌC VÀ KẾT NỐI GIÁ TRỊ”: TRIẾT LÝ DẪN DẮT CỦA MỘT "CURATOR" QUỐC GIA',
+      'Điểm cốt lõi và giàu chiều sâu nhất trong chiến lược tái định vị lần này của VTV không nằm ở nét vẽ, mà nằm ở triết lý dẫn dắt: CHẮT LỌC VÀ KẾT NỐI GIÁ TRỊ (thể hiện qua ý niệm chủ đạo BREW). Và đây mới chính là “evolution” mà đội ngũ tái định vị thương hiệu VTV hướng đến.',
+      'Trong thế giới truyền thông hiện đại, nhân loại đang sống trong một cơn ngộ độc dữ liệu. Thông tin “tua nhanh”, video ngắn giật gân, thuật toán định kiến và tin giả xuyên biên giới khiến con người bội thực thông tin nhưng lại đói khát sự thật. Trước đây, nhiệm vụ của đài truyền hình là phát sóng (broadcasting) – đưa thật nhiều tin tức một chiều ra xã hội. Nhưng trong kỷ nguyên mới, nhiệm vụ của một đài truyền hình quốc gia phải là “Chắt lọc” (Curate) để tạo niềm tin.',
+      'Từ “chắt lọc” ở đây mang trọn vẹn hàm nghĩa của một Curator trong nghệ thuật – người giám tuyển không gian văn hóa. Người giám tuyển không nhồi nhét tất cả tranh vào phòng tranh, mà chọn lọc bằng nhãn quan uyên bác, đặt từng tác phẩm vào đúng ánh sáng và bối cảnh để làm bật lên giá trị cốt lõi. VTV tự định vị mình như một người chắt lọc nội dung, một “Content Barista” tận tụy: đứng giữa biển dữ liệu hỗn loạn để đãi cát tìm vàng, kiểm chứng bằng trách nhiệm, soi chiếu bằng lý trí, và “pha chế” nên những sản phẩm thông tin chuẩn mực, đúng khẩu vị, giàu giá trị nhân văn cho xã hội.',
+      'Hình khối tam giác ngược – yếu tố đồ họa phái sinh từ tâm điểm chữ “V” – chính là hiện thân hình học của triết lý này. Đáy rộng phía trên tiếp nhận hàng triệu chuyển động của đời sống thực tế, thu nhỏ dần về đỉnh duy nhất phía dưới: nơi chỉ giữ lại những gì tinh túy, xác thực và đáng tin cậy nhất. Bên trong những tam giác ấy là sự đan cài giữa sóng truyền hình vô tuyến, các điểm ảnh pixel kỹ thuật số và lưới kết nối đa nền tảng; đi từ mờ sang đặc, từ phân mảnh thành nhất quán – giống như hành trình của thông tin từ khi còn nhiễu loạn cho đến khi được kiểm chứng rõ ràng.',
+      'BỘ DNA MỚI: SỰ GIAO THOA GIỮA “NHÀ HIỀN TRIẾT” VÀ “NGƯỜI BÌNH ĐẲNG”',
+      'Sự chuyển dịch của VTV được cụ thể hóa bằng một bản đồ DNA thương hiệu rất rõ ràng, giải quyết tận gốc rễ “điểm đau” trong cảm nhận của công chúng: đáng tin nhưng còn xa cách, uy tín nhưng còn mang tính hành chính.',
+      'Những người xây dựng chiến lược tái định vị thương hiệu VTV đã đưa ra một quyết định mang tính chiến lược về cặp hình mẫu thương hiệu (Archetype): Sage và Everyman.',
+      'The Sage (Nhà hiền triết): Đại diện cho trí tuệ, tri thức sâu sắc, sự thật và tính định hướng dư luận bằng dữ kiện kiểm chứng. Đây là bản chất không thể thay thế của cơ quan ngôn luận quốc gia. The Everyman (Người bình đẳng / Bạn đồng hành): Kéo Nhà hiền triết bước xuống khỏi bục giảng đạo để hòa vào nhịp sống thường nhật. VTV không áp đặt hay độc thoại thể chế, mà học cách lắng nghe, thấu cảm, nói tiếng nói của người dân từ phố thị đến nông thôn, từ doanh nhân đến bạn trẻ Gen Z. Sự song hành này biến VTV thành một người dẫn đường thông thái nhưng có trái tim ấm áp, gần gũi như một người bạn tri kỷ.',
+      'Bộ nhận diện mới khắc họa chân dung một VTV vừa Chính thống, Uy tín, Trách nhiệm – nhưng đồng thời cũng phải Trẻ trung, Hiện đại, Thân thiện và Sáng tạo. Điều này trả lời cho định hướng chỉ đạo mang tầm chiến lược: làm truyền hình không chỉ phục vụ mọi người, mọi lúc, mọi nơi, mà còn phải sắc sảo và hấp dẫn.',
+      'Chúng tôi đặc biệt ấn tượng với định hướng chiến lược mới của Đài – ONE VTV (MỘT VTV) – hội tụ các nguồn lực trong hệ sinh thái. Nó trở thành cảm hứng cho chúng tôi khi chuyển hoá thành khung hành động Open – Near – Essential cho tư duy phát triển chiến lược thương hiệu: OPEN (Mở): Cởi mở tư duy, đa dạng góc nhìn, mở rộng không gian tương tác hai chiều và đồng sáng tạo cùng khán giả trên nền tảng số. NEAR (Gần): Kể những câu chuyện chạm đến cảm xúc con người, hiện diện thời gian thực trên mọi thiết bị di động, đưa giọng điệu từ “tuyên truyền một chiều” sang “đối thoại văn minh”. ESSENTIAL (Thiết yếu): Trở thành điểm tựa thông tin không thể thiếu mỗi ngày, nơi người dân tìm đến khi cần sự thật vững chắc giữa những cơn bão tin giả.',
+      'BẢN LĨNH CỦA MỘT ĐỊNH CHẾ TRUYỀN THÔNG QUỐC GIA',
+      'Tái định vị một thương hiệu công nghệ đã khó, tái định vị một cơ quan truyền thông quốc gia với hơn nửa thế kỷ lịch sử, chịu trách nhiệm trước Đảng, Nhà nước và hơn 100 triệu người dân lại càng là một bài toán cân não bội phần. Nếu chạy theo sự phá cách cực đoan, thương hiệu sẽ đánh mất bản sắc chính trị và sự tôn nghiêm của quyền lực mềm quốc gia. Nhưng nếu co cụm trong sự bảo thủ, thương hiệu sẽ tự biến mình thành một viện bảo tàng cũ kỹ, đứng ngoài nhịp đập của thế hệ trẻ.',
+      'Bằng chiến lược nhận diện mới, VTV đã chọn con đường khó khăn nhất nhưng cũng vững chãi nhất: giữ vững cái neo truyền thống nhưng căng buồm đón gió công nghệ số.',
+      'Chiếc logo mới – với cấu trúc tối giản sắc sảo, dải màu chuyển đậm đà nguyên bản và hệ sinh thái đồ họa xoay quanh triết lý chắt lọc – không chỉ là sự thay đổi về mặt mỹ thuật. Đó là lời khẳng định đầy tự tin của VTV: Trong thời đại số phân mảnh và đầy biến động, người kể chuyện quốc gia vẫn ở đây – vừa vững vàng, chính thống như một Nhà hiền triết, vừa thân quen, thấu hiểu như một người bạn đồng hành trong từng nhịp thở của người Việt Nam.',
+      'Chúc mừng hành trình mới của VTV!'
+    ]
+  },
+  {
     id: 'news-waves-1-year-journey',
     slug: 'hanh-trinh-1-nam-vuot-song-cua-waves',
     title: 'Hành trình 1 năm "vượt sóng" của The Waves',

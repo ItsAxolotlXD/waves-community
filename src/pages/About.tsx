@@ -73,7 +73,7 @@ export const About: React.FC = () => {
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#F3F4F6] hover:bg-[#E5E7EB] dark:bg-[#24242A] dark:hover:bg-[#2F2F36] text-[#111827] dark:text-white text-xs font-bold border border-[#E5E7EB] dark:border-[#3A3A44] transition-all"
+            className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#F3F4F6] hover:bg-[#E5E7EB] dark:bg-[#27121d] dark:hover:bg-[#331726] text-[#111827] dark:text-white text-xs font-bold border border-[#E5E7EB] dark:border-white/10 transition-all"
           >
             <span>Facebook Group Truyền Hình</span>
             <ExternalLink className="w-3.5 h-3.5" />

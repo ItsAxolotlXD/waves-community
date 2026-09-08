@@ -155,7 +155,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
               </div>
               <button
                 onClick={onClose}
-                className="w-7 h-7 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
+                className="w-7 h-7 rounded-full bg-[#27121d] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -230,7 +230,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                           setStreamUrl('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8');
                           setChannelName('Mux HLS Test Multi-Rate');
                         }}
-                        className="px-3.5 py-1.5 rounded-full bg-[#28282E] text-[11px] text-[#C5C5CE] hover:text-white hover:bg-[#34343E] border border-[#383842] cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-full bg-[#27121d] text-[11px] text-[#C5C5CE] hover:text-white hover:bg-[#331726] border border-white/10 cursor-pointer"
                       >
                         Mux HLS HD
                       </button>
@@ -240,7 +240,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                           setStreamUrl('https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8');
                           setChannelName('Akamai Live Master HLS');
                         }}
-                        className="px-3.5 py-1.5 rounded-full bg-[#28282E] text-[11px] text-[#C5C5CE] hover:text-white hover:bg-[#34343E] border border-[#383842] cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-full bg-[#27121d] text-[11px] text-[#C5C5CE] hover:text-white hover:bg-[#331726] border border-white/10 cursor-pointer"
                       >
                         Akamai Live HD
                       </button>

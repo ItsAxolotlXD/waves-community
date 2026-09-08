@@ -28,8 +28,8 @@
     --solid-red: #E6005A;
     --accent-red: #FF267A;
     --dark-red: #B30046;
-    --dark-bg: #140718;
-    --sidebar-bg: #1f0b26;
+    --dark-bg: #1B0912;
+    --sidebar-bg: #250F1A;
     --card-bg: #280e32;
     --waves-font-scale: 1;
   }
@@ -43,7 +43,7 @@
   }
 
   body {
-    background-color: #150718;
+    background-color: #1B0912;
     color: #F3F4F6;
     overflow-x: hidden;
   }
@@ -213,38 +213,48 @@ html.light-mode #settings-section-search hr {
   border-color: #E2E8F0 !important;
 }
 
-/* Dark Purple Theme Surface Overrides in Dark Mode (Rich balanced dark purple) */
+/* Theme Surface Overrides in Dark Mode */
 html:not(.light-mode) body,
 html:not(.light-mode) .bg-\[\#141416\],
 html:not(.light-mode) .bg-\[\#141418\],
 html:not(.light-mode) .bg-\[\#150718\],
+html:not(.light-mode) .bg-\[\#140718\],
+html:not(.light-mode) .bg-\[\#1B0912\],
 html:not(.light-mode) .bg-\[\#0c020e\] {
-  background-color: #140718 !important;
+  background-color: #1B0912 !important;
 }
 
 html:not(.light-mode) .bg-\[\#1E1D22\],
 html:not(.light-mode) .bg-\[\#1E1E22\],
 html:not(.light-mode) .bg-\[\#1E1E24\],
 html:not(.light-mode) .bg-\[\#210d26\],
-html:not(.light-mode) .bg-\[\#140417\] {
-  background-color: #1f0b26 !important;
-}
-
+html:not(.light-mode) .bg-\[\#140417\],
 html:not(.light-mode) .bg-\[\#28272E\],
 html:not(.light-mode) .bg-\[\#26262C\],
+html:not(.light-mode) .bg-\[\#28282E\],
+html:not(.light-mode) .bg-\[\#24242A\],
 html:not(.light-mode) .bg-\[\#2A2A32\],
 html:not(.light-mode) .bg-\[\#2c1132\],
-html:not(.light-mode) .bg-\[\#1b0620\] {
-  background-color: #290e32 !important;
+html:not(.light-mode) .bg-\[\#1b0620\],
+html:not(.light-mode) .bg-\[\#222127\] {
+  background-color: #27121d !important;
+}
+
+html:not(.light-mode) button.bg-\[\#28272E\]:hover,
+html:not(.light-mode) button.bg-\[\#26262C\]:hover,
+html:not(.light-mode) button.bg-\[\#28282E\]:hover,
+html:not(.light-mode) button.bg-\[\#24242A\]:hover,
+html:not(.light-mode) button.bg-\[\#2A2A32\]:hover {
+  background-color: #331726 !important;
 }
 
 html:not(.light-mode) #waves-desktop-sidebar,
 html:not(.light-mode) #waves-mobile-sidebar {
-  background-color: rgba(24, 8, 30, 0.85) !important;
-  border-color: rgba(230, 0, 90, 0.16) !important;
+  background-color: #250F1A !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Search Bars: Clean Liquid Glass capsule border with 30% translucent background and 100% crisp text/icons */
+/* Search Bars: Specular Liquid Glass border effect with #27121d background and 100% opacity */
 .spotlight-bubble-box,
 .spotlight-input-container,
 .search-box-capsule,
@@ -257,15 +267,17 @@ html:not(.light-mode) #waves-mobile-sidebar {
 #immersive-search-capsule,
 #btn-close-immersive-search {
   opacity: 1 !important;
-  background-image: none !important;
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  background-origin: padding-box !important;
-  background-clip: border-box !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 2px 8px rgba(0, 0, 0, 0.20) !important;
+  background-color: #27121d !important;
+  background-image: 
+    linear-gradient(#27121d, #27121d), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(160, 160, 175, 0.20) 25%, rgba(160, 160, 175, 0.05) 50%, rgba(160, 160, 175, 0.20) 75%, rgba(255, 255, 255, 0.45) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  border: 1px solid transparent !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.18), 0 4px 14px rgba(0, 0, 0, 0.35) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
-  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
 }
 
 .spotlight-bubble-box:hover,
@@ -280,10 +292,14 @@ html:not(.light-mode) #waves-mobile-sidebar {
 #immersive-search-capsule:hover,
 #btn-close-immersive-search:hover {
   opacity: 1 !important;
-  background-image: none !important;
-  background-color: rgba(255, 255, 255, 0.14) !important;
-  border-color: rgba(255, 255, 255, 0.28) !important;
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.20), 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+  background-color: #331726 !important;
+  background-image: 
+    linear-gradient(#331726, #331726), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(160, 160, 175, 0.28) 25%, rgba(160, 160, 175, 0.08) 50%, rgba(160, 160, 175, 0.28) 75%, rgba(255, 255, 255, 0.65) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  border: 1px solid transparent !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 5px 18px rgba(0, 0, 0, 0.40) !important;
   transform: none !important;
 }
 
@@ -291,8 +307,14 @@ html:not(.light-mode) #waves-mobile-sidebar {
 #settings-search-container:focus-within,
 #spotlight-search-container:focus-within,
 .spotlight-input-container:focus-within {
-  border-color: rgba(230, 0, 90, 0.70) !important;
-  box-shadow: 0 0 16px rgba(230, 0, 90, 0.32), inset 0 1px 0 0 rgba(255, 255, 255, 0.16) !important;
+  background-color: #27121d !important;
+  background-image: 
+    linear-gradient(#27121d, #27121d), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.90) 0%, rgba(230, 0, 90, 0.65) 30%, rgba(230, 0, 90, 0.25) 70%, rgba(255, 255, 255, 0.70) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 0 18px rgba(230, 0, 90, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25) !important;
 }
 
 #btn-close-immersive-search:hover {
@@ -302,13 +324,13 @@ html:not(.light-mode) #waves-mobile-sidebar {
 }
 
 #channels-search-container input {
-  background-color: rgba(35, 14, 42, 0.30) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
+  background-color: #27121d !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
   color: #FFFFFF !important;
   opacity: 1 !important;
 }
 #channels-search-container input:focus {
-  background-color: rgba(55, 22, 65, 0.50) !important;
+  background-color: #331726 !important;
   border-color: #E6005A !important;
 }
 
@@ -391,11 +413,19 @@ html.light-mode #immersive-search-page .text-\[\#E0D8E2\] {
 #news-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]),
 #btn-theme-light:not(.bg-\[\#E6005A\]),
 #btn-theme-dark:not(.bg-\[\#E6005A\]),
-.liquid-glass-control {
+.liquid-glass-control,
+.btn-normal,
+.glass-player-btn,
+.video-player-glass-btn,
+.tools-font-btn,
+#btn-welcome-close,
+#btn-under-construction-close,
+#btn-changelogs-read {
   border: 1px solid transparent;
+  background-color: #27121d !important;
   background-image: 
-    linear-gradient(#2F2F36, #2F2F36), 
-    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(160, 160, 175, 0.18) 15%, rgba(160, 160, 175, 0.05) 35%, rgba(160, 160, 175, 0.05) 65%, rgba(160, 160, 175, 0.18) 85%, rgba(255, 255, 255, 0.45) 100%);
+    linear-gradient(#27121d, #27121d), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(160, 160, 175, 0.18) 15%, rgba(160, 160, 175, 0.05) 35%, rgba(160, 160, 175, 0.05) 65%, rgba(160, 160, 175, 0.18) 85%, rgba(255, 255, 255, 0.45) 100%) !important;
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
   box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 2px 8px rgba(0, 0, 0, 0.22);
@@ -419,11 +449,19 @@ html.light-mode #immersive-search-page .text-\[\#E0D8E2\] {
 #btn-welcome-close-icon:hover,
 #btn-under-construction-close-icon:hover,
 #btn-theme-light:hover,
-#btn-theme-dark:hover {
+#btn-theme-dark:hover,
+.btn-normal:hover,
+.glass-player-btn:hover,
+.video-player-glass-btn:hover,
+.tools-font-btn:hover,
+#btn-welcome-close:hover,
+#btn-under-construction-close:hover,
+#btn-changelogs-read:hover {
   border: 1px solid transparent;
+  background-color: #331726 !important;
   background-image: 
-    linear-gradient(#3E3E48, #3E3E48), 
-    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(160, 160, 175, 0.28) 15%, rgba(160, 160, 175, 0.10) 35%, rgba(160, 160, 175, 0.10) 65%, rgba(160, 160, 175, 0.28) 85%, rgba(255, 255, 255, 0.65) 100%);
+    linear-gradient(#331726, #331726), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(160, 160, 175, 0.28) 15%, rgba(160, 160, 175, 0.10) 35%, rgba(160, 160, 175, 0.10) 65%, rgba(160, 160, 175, 0.28) 85%, rgba(255, 255, 255, 0.65) 100%) !important;
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
   box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 0 5px 16px rgba(0, 0, 0, 0.32);
@@ -433,8 +471,9 @@ html.light-mode #immersive-search-page .text-\[\#E0D8E2\] {
 #livetv-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]):hover,
 #news-category-tabs button:not(.bg-\[\#E50914\]):not(.bg-\[\#E6005A\]):hover {
   border: 1px solid transparent !important;
+  background-color: #331726 !important;
   background-image: 
-    linear-gradient(#3E3E48, #3E3E48), 
+    linear-gradient(#331726, #331726), 
     linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(160, 160, 175, 0.28) 15%, rgba(160, 160, 175, 0.10) 35%, rgba(160, 160, 175, 0.10) 65%, rgba(160, 160, 175, 0.28) 85%, rgba(255, 255, 255, 0.65) 100%) !important;
   background-origin: padding-box, border-box !important;
   background-clip: padding-box, border-box !important;
@@ -664,10 +703,10 @@ html.light-mode .settings-unsaved-tooltip-card {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(20, 20, 22, 0.72) 0%,
-    rgba(20, 20, 22, 0.42) 45%,
-    rgba(20, 20, 22, 0.12) 75%,
-    rgba(20, 20, 22, 0) 100%
+    rgba(27, 9, 18, 0.75) 0%,
+    rgba(27, 9, 18, 0.45) 45%,
+    rgba(27, 9, 18, 0.15) 75%,
+    rgba(27, 9, 18, 0) 100%
   );
 }
 
@@ -685,9 +724,10 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 .spotlight-bubble-box:hover,
 .search-box-capsule:hover {
   border: 1px solid transparent;
+  background-color: #331726 !important;
   background-image: 
-    linear-gradient(#3E3E48, #3E3E48), 
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.18) 35%, rgba(255, 255, 255, 0.18) 65%, rgba(255, 255, 255, 0.60) 100%);
+    linear-gradient(#331726, #331726), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.18) 35%, rgba(255, 255, 255, 0.18) 65%, rgba(255, 255, 255, 0.60) 100%) !important;
   background-origin: padding-box, border-box;
   background-clip: padding-box, border-box;
   box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2), 0 5px 16px rgba(0, 0, 0, 0.28);
@@ -704,8 +744,9 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 [id^="recommended-channel-"],
 [id^="livetv-channel-card-"]:not(.is-selected) {
   border: 1px solid transparent !important;
+  background-color: #27121d !important;
   background-image: 
-    linear-gradient(#2F2F36, #2F2F36), 
+    linear-gradient(#27121d, #27121d), 
     linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(160, 160, 175, 0.18) 15%, rgba(160, 160, 175, 0.05) 35%, rgba(160, 160, 175, 0.05) 65%, rgba(160, 160, 175, 0.18) 85%, rgba(255, 255, 255, 0.45) 100%) !important;
   background-origin: padding-box, border-box !important;
   background-clip: padding-box, border-box !important;
@@ -718,8 +759,9 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 [id^="recommended-channel-"]:hover,
 [id^="livetv-channel-card-"]:not(.is-selected):hover {
   border: 1px solid transparent !important;
+  background-color: #331726 !important;
   background-image: 
-    linear-gradient(#3E3E48, #3E3E48), 
+    linear-gradient(#331726, #331726), 
     linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(160, 160, 175, 0.28) 15%, rgba(160, 160, 175, 0.10) 35%, rgba(160, 160, 175, 0.10) 65%, rgba(160, 160, 175, 0.28) 85%, rgba(255, 255, 255, 0.65) 100%) !important;
   background-origin: padding-box, border-box !important;
   background-clip: padding-box, border-box !important;
@@ -986,7 +1028,7 @@ html.light-mode [id^="news-cat-btn-"]:active {
 .spotlight-input-container:focus-within,
 .search-box-capsule:focus-within {
   background-image: none !important;
-  background-color: #2F2F36 !important;
+  background-color: #27121d !important;
   border: 3px solid #E6005A !important;
   outline: none !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;

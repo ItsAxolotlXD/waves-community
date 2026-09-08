@@ -14,7 +14,8 @@ import {
   DownloadCloud, 
   Minus, 
   Plus, 
-  Check
+  Check,
+  Volume2
 } from 'lucide-react';
 import { Channel, NewsArticle } from '../types';
 import { useFavorites } from '../hooks/useFavorites';
@@ -26,11 +27,12 @@ interface ToolsMenuProps {
   currentRoute: string;
   currentChannel?: Channel;
   channels: Channel[];
-  isLightMode: boolean;
+  isLightMode?: boolean;
   onNavigate: (route: string) => void;
   onOpenHelp: () => void;
   onOpenDiscord: () => void;
   onOpenSummarize: (article: NewsArticle) => void;
+  onOpenTextToSpeech?: (article: NewsArticle) => void;
   onOpenFindWords: () => void;
   onOpenAddStream: () => void;
   onImportChannels: (newChannels: Channel[]) => void;
@@ -47,6 +49,7 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
   onOpenHelp,
   onOpenDiscord,
   onOpenSummarize,
+  onOpenTextToSpeech,
   onOpenFindWords,
   onOpenAddStream,
   onImportChannels,
@@ -296,6 +299,21 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
                 </div>
                 <span className="text-[#1F2937] dark:text-[#E5E7EB]">Join our Discord</span>
               </button>
+
+              <button
+                id="tool-home-text-to-speech"
+                type="button"
+                onClick={() => {
+                  setIsOpen(false);
+                  onOpenTextToSpeech?.(NEWS_DATA[0]);
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#F3F4F6] dark:hover:bg-[#2A2A32] text-sm font-medium transition-colors text-left cursor-default group"
+              >
+                <div className="w-5 h-5 flex items-center justify-center text-[#18181B] dark:text-white shrink-0">
+                  <Volume2 className="w-[18px] h-[18px]" />
+                </div>
+                <span className="text-[#1F2937] dark:text-[#E5E7EB]">Text to speech</span>
+              </button>
             </div>
           )}
 
@@ -309,6 +327,7 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
                 disabled={isCurrentArticleLocked}
                 onClick={() => {
                   if (isCurrentArticleLocked) return;
+                  setIsClickSpinning(true);
                   setIsOpen(false);
                   onOpenSummarize(currentNewsArticle);
                 }}
@@ -327,7 +346,32 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
                 </span>
               </button>
 
-              {/* 2. Find words */}
+              {/* 2. Text to speech */}
+              <button
+                id="tool-news-text-to-speech"
+                type="button"
+                disabled={isCurrentArticleLocked}
+                onClick={() => {
+                  if (isCurrentArticleLocked) return;
+                  setIsOpen(false);
+                  onOpenTextToSpeech?.(currentNewsArticle);
+                }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-left cursor-default group ${
+                  isCurrentArticleLocked 
+                    ? 'opacity-40 cursor-not-allowed hover:bg-transparent' 
+                    : 'hover:bg-[#F3F4F6] dark:hover:bg-[#2A2A32]'
+                }`}
+                title={isCurrentArticleLocked ? 'Bài viết đang bị khóa, hãy mở khóa để nghe đọc' : 'Đọc bài viết (Text to speech)'}
+              >
+                <div className="w-5 h-5 flex items-center justify-center text-[#18181B] dark:text-white shrink-0">
+                  <Volume2 className="w-[18px] h-[18px]" />
+                </div>
+                <span className="text-[#1F2937] dark:text-[#E5E7EB]">
+                  {isCurrentArticleLocked ? 'Text to speech (Khóa)' : 'Text to speech'}
+                </span>
+              </button>
+
+              {/* 3. Find words */}
               <button
                 id="tool-news-find-words"
                 type="button"

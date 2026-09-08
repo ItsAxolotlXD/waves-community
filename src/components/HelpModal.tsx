@@ -54,7 +54,7 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
               </div>
               <button
                 onClick={onClose}
-                className="w-7 h-7 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
+                className="w-7 h-7 rounded-full bg-[#27121d] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>

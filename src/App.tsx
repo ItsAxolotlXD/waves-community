@@ -11,6 +11,7 @@ import { HelpModal } from './components/HelpModal';
 import { NewsSummaryModal } from './components/NewsSummaryModal';
 import { FindWordsBar } from './components/FindWordsBar';
 import { AddStreamModal } from './components/AddStreamModal';
+import { TextToSpeechPlayer } from './components/TextToSpeechPlayer';
 import { Home } from './pages/Home';
 import { LiveTV } from './pages/LiveTV';
 import { News } from './pages/News';
@@ -94,6 +95,8 @@ export default function App() {
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [isNewsSummaryOpen, setIsNewsSummaryOpen] = useState(false);
   const [summarizeArticle, setSummarizeArticle] = useState<NewsArticle>(NEWS_DATA[0]);
+  const [isTtsOpen, setIsTtsOpen] = useState(false);
+  const [ttsArticle, setTtsArticle] = useState<NewsArticle>(NEWS_DATA[0]);
   const [isFindWordsOpen, setIsFindWordsOpen] = useState(false);
   const [isAddStreamOpen, setIsAddStreamOpen] = useState(false);
   const [articleFontSize, setArticleFontSize] = useState<number>(() => {
@@ -338,7 +341,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#140718] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative">
+    <div className="min-h-screen bg-[#1B0912] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative">
       {/* Sidebar Navigation (Desktop + Mobile Drawer) */}
       <Sidebar
         currentRoute={currentRoute}
@@ -372,6 +375,10 @@ export default function App() {
           onOpenSummarize={(art) => {
             setSummarizeArticle(art);
             setIsNewsSummaryOpen(true);
+          }}
+          onOpenTextToSpeech={(art) => {
+            setTtsArticle(art);
+            setIsTtsOpen(true);
           }}
           onOpenFindWords={() => setIsFindWordsOpen(true)}
           onOpenAddStream={() => setIsAddStreamOpen(true)}
@@ -445,6 +452,13 @@ export default function App() {
         isOpen={isNewsSummaryOpen}
         onClose={() => setIsNewsSummaryOpen(false)}
         article={summarizeArticle}
+      />
+
+      {/* Text to Speech Floating Player */}
+      <TextToSpeechPlayer
+        isOpen={isTtsOpen}
+        onClose={() => setIsTtsOpen(false)}
+        article={ttsArticle}
       />
 
       {/* In-Article / News Word Finder */}

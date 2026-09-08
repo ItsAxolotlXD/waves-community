@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Bell, Sun, Moon } from 'lucide-react';
+import { Menu, Bell } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSettings } from '../hooks/useSettings';
 import { ToolsMenu } from './ToolsMenu';
@@ -16,6 +16,7 @@ interface TopBarProps {
   onOpenHelp?: () => void;
   onOpenDiscord?: () => void;
   onOpenSummarize?: (article: NewsArticle) => void;
+  onOpenTextToSpeech?: (article: NewsArticle) => void;
   onOpenFindWords?: () => void;
   onOpenAddStream?: () => void;
   onImportChannels?: (channels: Channel[]) => void;
@@ -36,6 +37,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   onOpenHelp = () => {},
   onOpenDiscord = () => {},
   onOpenSummarize = () => {},
+  onOpenTextToSpeech = () => {},
   onOpenFindWords = () => {},
   onOpenAddStream = () => {},
   onImportChannels = () => {},
@@ -45,14 +47,8 @@ export const TopBar: React.FC<TopBarProps> = ({
   showUnsavedTooltip = false,
   onDismissUnsavedTooltip = () => {}
 }) => {
-  const { settings, updateSetting, hasChanges, applyDraftSettings } = useSettings();
+  const { hasChanges, applyDraftSettings } = useSettings();
   const [logoError, setLogoError] = useState(false);
-
-  const isLightMode = settings.theme === 'light';
-
-  const toggleTheme = () => {
-    updateSetting('theme', isLightMode ? 'dark' : 'light');
-  };
 
   const handleApplySettings = () => {
     applyDraftSettings();
@@ -133,11 +129,11 @@ export const TopBar: React.FC<TopBarProps> = ({
           currentRoute={currentRoute}
           currentChannel={currentChannel}
           channels={channels}
-          isLightMode={isLightMode}
           onNavigate={navigate}
           onOpenHelp={onOpenHelp}
           onOpenDiscord={onOpenDiscord}
           onOpenSummarize={onOpenSummarize}
+          onOpenTextToSpeech={onOpenTextToSpeech}
           onOpenFindWords={onOpenFindWords}
           onOpenAddStream={onOpenAddStream}
           onImportChannels={onImportChannels}
@@ -201,22 +197,7 @@ export const TopBar: React.FC<TopBarProps> = ({
               )}
             </AnimatePresence>
           </div>
-        ) : (
-          /* Other tabs: Light Mode / Dark Mode Toggle button */
-          <button
-            id="btn-top-light-mode"
-            onClick={toggleTheme}
-            className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-[#FBBF24] transition-all drop-shadow-sm cursor-pointer"
-            title={isLightMode ? 'Chuyển sang Dark Mode' : 'Chuyển sang Light Mode'}
-            aria-label="Chuyển chế độ sáng/tối"
-          >
-            {isLightMode ? (
-              <Moon className="w-5 h-5 text-[#18181B]" />
-            ) : (
-              <Sun className="w-5 h-5 text-white hover:rotate-45 transition-transform duration-300" />
-            )}
-          </button>
-        )}
+        ) : null}
       </div>
     </header>
   );

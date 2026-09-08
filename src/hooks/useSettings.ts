@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react';
 
 export interface SystemSettings {
-  theme: 'light' | 'dark';
+  theme: 'dark';
   dockToSidebar: boolean;
   fontScale: number; // 0: Cực nhỏ, 1: Nhỏ, 2: Trung bình, 3: Lớn, 4: Cực lớn
   fontScaleVersion?: number;
@@ -20,7 +20,7 @@ export interface SystemSettings {
 }
 
 export const DEFAULT_SETTINGS: SystemSettings = {
-  theme: 'light',
+  theme: 'dark',
   dockToSidebar: true,
   fontScale: 2, // Mặc định là "Trung bình" (quy chuẩn chuẩn cho cả desktop nhỏ và mobile)
   fontScaleVersion: 2,
@@ -49,7 +49,6 @@ export const FONT_SCALE_CONFIG = [
 export const getStoredSettings = (): SystemSettings => {
   try {
     const saved = localStorage.getItem('waves_system_settings');
-    const legacyTheme = localStorage.getItem('waves_theme');
     
     if (saved) {
       const parsed = JSON.parse(saved);
@@ -73,12 +72,7 @@ export const getStoredSettings = (): SystemSettings => {
         ...parsed,
         fontScale,
         fontScaleVersion: 2,
-        theme: parsed.theme || (legacyTheme === 'dark' ? 'dark' : 'light')
-      };
-    } else if (legacyTheme) {
-      return {
-        ...DEFAULT_SETTINGS,
-        theme: legacyTheme === 'dark' ? 'dark' : 'light'
+        theme: 'dark'
       };
     }
   } catch {}
@@ -89,14 +83,9 @@ export const getStoredSettings = (): SystemSettings => {
 export const applySystemSettings = (settings: SystemSettings) => {
   if (typeof document === 'undefined') return;
 
-  // Apply theme
-  if (settings.theme === 'light') {
-    document.documentElement.classList.add('light-mode');
-    document.documentElement.classList.remove('dark');
-  } else {
-    document.documentElement.classList.remove('light-mode');
-    document.documentElement.classList.add('dark');
-  }
+  // App is strictly dark mode only
+  document.documentElement.classList.remove('light-mode');
+  document.documentElement.classList.add('dark');
 
   // Apply font scale
   const scaleVal = FONT_SCALE_CONFIG[settings.fontScale]?.scale || '1';

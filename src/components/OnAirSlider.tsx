@@ -53,7 +53,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
       {/* Horizontal Cards Scroll: strictly only channel logos, no text, nothing else */}
       <div
         ref={scrollContainerRef}
-        className="flex gap-3.5 sm:gap-4 overflow-x-auto pb-4 pt-1 no-scrollbar scroll-smooth"
+        className="flex gap-2.5 sm:gap-3 overflow-x-auto pb-3 pt-1 no-scrollbar scroll-smooth"
       >
         {channels.map((ch) => (
           <div
@@ -71,11 +71,11 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 navigate(`/live-tv?channel=${ch.slug}`);
               }
             }}
-            className="min-w-[150px] sm:min-w-[180px] md:min-w-[200px] h-[95px] sm:h-[105px] md:h-[115px] shrink-0 rounded-[22px] sm:rounded-[26px] p-3 sm:p-4 flex items-center justify-center cursor-pointer group select-none"
+            className="min-w-[105px] sm:min-w-[125px] md:min-w-[140px] h-[66px] sm:h-[74px] md:h-[82px] shrink-0 rounded-[16px] sm:rounded-[20px] p-2 sm:p-2.5 flex items-center justify-center cursor-pointer group select-none"
             title={ch.name}
             aria-label={ch.name}
           >
-            <div className="w-full h-full flex items-center justify-center p-1">
+            <div className="w-full h-full flex items-center justify-center p-0.5">
               <img
                 src={ch.logo}
                 alt={ch.name}

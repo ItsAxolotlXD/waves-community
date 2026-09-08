@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="vi" class="light-mode">
+<html lang="vi" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,13 +7,10 @@
       (function() {
         try {
           var saved = localStorage.getItem('waves_system_settings');
-          var legacy = localStorage.getItem('waves_theme');
-          var theme = 'light';
           var fontScaleMap = ['0.78', '0.88', '1', '1.12', '1.24'];
           var scaleIdx = 2; // Default: Trung bình (1)
           if (saved) {
             var parsed = JSON.parse(saved);
-            if (parsed.theme) theme = parsed.theme;
             if (typeof parsed.fontScale === 'number') {
               scaleIdx = parsed.fontScale;
               if (parsed.fontScaleVersion !== 2) {
@@ -24,21 +21,16 @@
                 else scaleIdx = 2;
               }
             }
-          } else if (legacy) {
-            theme = legacy;
           }
           var scaleVal = fontScaleMap[scaleIdx] || '1';
           document.documentElement.style.setProperty('--waves-font-scale', scaleVal);
 
-          if (theme === 'dark') {
-            document.documentElement.classList.remove('light-mode');
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.add('light-mode');
-            document.documentElement.classList.remove('dark');
-          }
+          // Force dark mode exclusively
+          document.documentElement.classList.remove('light-mode');
+          document.documentElement.classList.add('dark');
         } catch(e) {
-          document.documentElement.classList.add('light-mode');
+          document.documentElement.classList.remove('light-mode');
+          document.documentElement.classList.add('dark');
         }
       })();
     </script>

@@ -92,7 +92,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                 className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer select-none ${
                   selectedCategory === cat
                     ? 'bg-[#E50914] text-white shadow-sm'
-                    : 'bg-[#F1F3F5] hover:bg-[#E5E7EB] text-[#4B5563] hover:text-[#111827] dark:bg-[#26262C] dark:hover:bg-[#32323A] dark:text-[#A1A1AA] dark:hover:text-white border border-[#E5E7EB] dark:border-[#383842]'
+                    : 'bg-[#F1F3F5] hover:bg-[#E5E7EB] text-[#4B5563] hover:text-[#111827] dark:bg-[#27121d] dark:hover:bg-[#331726] dark:text-[#A1A1AA] dark:hover:text-white border border-[#E5E7EB] dark:border-white/10'
                 }`}
               >
                 {cat}

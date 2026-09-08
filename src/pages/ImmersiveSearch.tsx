@@ -370,7 +370,7 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
                           }}
                           className="group relative p-3 rounded-2xl bg-[#200d23] hover:bg-[#2e1233] border border-[#3b1540] hover:border-[#E6005A]/60 flex flex-col items-center text-center cursor-pointer transition-all shadow-md hover:scale-[1.02]"
                         >
-                          <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center p-2 rounded-xl bg-[#140718] border border-white/5 mb-2 overflow-hidden">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center p-2 rounded-xl bg-[#1B0912] border border-white/5 mb-2 overflow-hidden">
                             <img
                               src={ch.logo}
                               alt={ch.name}
@@ -415,7 +415,7 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
                           onClick={() => navigate(`/news/${news.slug}`)}
                           className="group p-3.5 rounded-2xl bg-[#200d23] hover:bg-[#2e1233] border border-[#3b1540] hover:border-[#E6005A]/60 flex gap-3.5 cursor-pointer transition-all shadow-md"
                         >
-                          <div className="w-24 h-20 sm:w-28 sm:h-22 rounded-xl overflow-hidden bg-[#140718] shrink-0 relative">
+                          <div className="w-24 h-20 sm:w-28 sm:h-22 rounded-xl overflow-hidden bg-[#1B0912] shrink-0 relative">
                             <img
                               src={news.coverImage}
                               alt={news.title}

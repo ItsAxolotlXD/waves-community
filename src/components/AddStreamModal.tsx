@@ -85,7 +85,7 @@ export const AddStreamModal: React.FC<AddStreamModalProps> = ({
               </div>
               <button
                 onClick={onClose}
-                className="w-7 h-7 rounded-full bg-[#28282E] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
+                className="w-7 h-7 rounded-full bg-[#27121d] flex items-center justify-center text-[#9CA3AF] hover:text-white cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -134,7 +134,7 @@ export const AddStreamModal: React.FC<AddStreamModalProps> = ({
                       className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                         streamQuality === q
                           ? 'bg-[#E6005A] text-white shadow-md'
-                          : 'bg-[#141318] text-[#8E8E93] hover:text-white border border-[#2D2D36]'
+                          : 'bg-[#27121d] text-[#8E8E93] hover:text-white border border-white/10'
                       }`}
                     >
                       {q}

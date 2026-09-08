@@ -43,7 +43,6 @@ const CATEGORY_ITEMS = [
 ];
 
 const SETTINGS_SHORTCUTS = [
-  { id: 'set-ui', title: 'Cài đặt: Chế độ sáng/tối / Giao diện', keyword: 'chế độ sáng tối theme giao diện' },
   { id: 'set-font', title: 'Cài đặt: Tỷ lệ cỡ chữ ứng dụng', keyword: 'cỡ chữ font chữ zoom tỷ lệ' },
   { id: 'set-banner', title: 'Cài đặt: Tự động trượt banner', keyword: 'banner trượt auto scroll' },
   { id: 'set-autohide', title: 'Cài đặt: Tự động ẩn Sidebar', keyword: 'tự động ẩn sidebar collapse' },

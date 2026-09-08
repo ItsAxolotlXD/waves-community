@@ -74,6 +74,11 @@ export interface NewsArticle {
   excerpt: string;
   content: string[];
   tags: string[];
+  summary?: {
+    lead: string;
+    points: string[];
+    conclusion: string;
+  };
   relatedChannelId?: string;
   featured?: boolean;
   isLocked?: boolean;
@@ -98,6 +103,7 @@ export interface HeroSlide {
   ctaText: string;
   director?: string;
   externalUrl?: string;
+  internalUrl?: string;
 }
 
 export interface UserSettings {

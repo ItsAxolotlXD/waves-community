@@ -5,8 +5,6 @@ import {
   Search, 
   Type, 
   X,
-  Sun,
-  Moon,
   Sparkles,
   Sliders,
   Mic,
@@ -229,50 +227,6 @@ export const Settings: React.FC = () => {
           </div>
 
           <div className="space-y-3 pt-1">
-            {/* Card 0: Chế độ giao diện (Light / Dark) - Placed at the very top of Interface section */}
-            {(matchesSearch('Chế độ giao diện') || matchesSearch('Giao diện') || matchesSearch('Sáng') || matchesSearch('Tối') || matchesSearch('Theme') || matchesSearch('Light') || matchesSearch('Dark')) && (
-              <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] flex flex-col gap-3.5 transition-colors">
-                <div>
-                  <div className="font-semibold text-white text-sm sm:text-base">
-                    Chế độ giao diện
-                  </div>
-                  <div className="text-xs sm:text-sm text-[#9CA3AF] mt-1 leading-normal">
-                    Chuyển đổi giao diện Sáng (Light mode) và Tối (Dark mode)
-                  </div>
-                </div>
-
-                {/* 2 Theme Action Buttons Placed Below (Full rounded & Compact size) */}
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-3 pt-1">
-                  <button
-                    id="btn-theme-light"
-                    type="button"
-                    onClick={() => updateDraft('theme', 'light')}
-                    className={`flex items-center justify-center gap-2 py-2 sm:py-2.5 px-4 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer select-none ${
-                      draftSettings.theme === 'light'
-                        ? 'bg-[#E6005A] text-white shadow-md'
-                        : 'text-[#D1D5DB] dark:text-[#9CA3AF] hover:text-white'
-                    }`}
-                  >
-                    <Sun className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
-                    <span>Sáng</span>
-                  </button>
-                  <button
-                    id="btn-theme-dark"
-                    type="button"
-                    onClick={() => updateDraft('theme', 'dark')}
-                    className={`flex items-center justify-center gap-2 py-2 sm:py-2.5 px-4 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer select-none ${
-                      draftSettings.theme === 'dark'
-                        ? 'bg-[#E6005A] text-white shadow-md'
-                        : 'text-[#D1D5DB] dark:text-[#9CA3AF] hover:text-white'
-                    }`}
-                  >
-                    <Moon className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
-                    <span>Tối</span>
-                  </button>
-                </div>
-              </div>
-            )}
-
             {/* Card 1: Cỡ chữ ứng dụng (Liquid Glass Pill Slider Style) */}
             {matchesSearch('Cỡ chữ ứng dụng') && (
               <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-4">

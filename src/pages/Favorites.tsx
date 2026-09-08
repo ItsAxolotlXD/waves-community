@@ -47,7 +47,7 @@ export const Favorites: React.FC<FavoritesProps> = ({
                 clearAllFavorites();
               }
             }}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#26262C] hover:bg-[#FF2020]/20 text-[#A1A1AA] hover:text-[#FF4D4D] border border-[#34343C] text-xs font-semibold transition-colors shrink-0"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#27121d] hover:bg-[#FF2020]/20 text-[#A1A1AA] hover:text-[#FF4D4D] border border-white/10 text-xs font-semibold transition-colors shrink-0 cursor-pointer"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Xóa tất cả</span>
