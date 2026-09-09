@@ -11,7 +11,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     badge: 'BỘ NHẬN DIỆN MỚI 07/09/2026',
     channelId: 'vtv1',
     channelName: 'VTV • ĐÀI TRUYỀN HÌNH VIỆT NAM',
-    channelLogo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Logo_VTV1_-_%C4%90%C3%A0i_Truy%E1%BB%81n_h%C3%ACnh_Vi%E1%BB%87t_Nam.svg/1920px-Logo_VTV1_-_%C4%90%C3%A0i_Truy%E1%BB%81n_h%C3%ACnh_Vi%E1%BB%87t_Nam.svg.png?utm_source=vi.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail',
+    channelLogo: 'https://img.vtvprime.vn/CK-rS1WbUz0mcRIodGxvvpqXiQB6XhphIkl2z7F_S_4/rs:fit:836:468/czM6Ly9wcmQtc24taW1hZ2VzL2NoYW5uZWwvM2ZlMDdhZmQtYzIyZS00M2QwLTgyZTgtOWNkMGUyYTc3ZTRkLnBuZw==.png',
     backgroundImage: 'https://cdn-images.vtv.vn/66349b6076cb4dee98746cf1/2026/09/05/screenshot-2026-09-05-at-15-18-06-71542301124374812066276-42091214516949257410750-99953242804103574099159.png',
     ctaText: 'Đọc bài viết phân tích',
     internalUrl: '/news/nghe-thuat-cua-su-tien-hoa-tinh-te-vtv-xiaomi'
@@ -26,7 +26,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     badge: 'PHÁT SÓNG 20H00 THỨ HAI, THỨ BA, THỨ TƯ',
     channelId: 'vtv3',
     channelName: 'VTV3 • TRUYỀN HÌNH VIỆT NAM',
-    channelLogo: 'https://upload.wikimedia.org/wikipedia/commons/d/d8/VTV3_logo_07-09-2026.png?utm_source=vi.wikipedia.org&utm_campaign=imageinfo&utm_content=original',
+    channelLogo: 'https://img.vtvprime.vn/Urelv182xNl1mSeAyngHOYs6Ux6EXdkeaM7NPpTVxxQ/rs:fit:836:468/czM6Ly9wcmQtc24taW1hZ2VzL2NoYW5uZWwvZWJjNDJiMzAtN2ZjNS00Mjg1LThlOTUtY2VhNmVjMjkxMjI2LnBuZw==.png',
     backgroundImage: 'https://i.ytimg.com/vi/StNK-YndWIo/maxresdefault.jpg',
     ctaText: 'Xem trên VTV3',
     director: 'LÊ ĐỖ NGỌC LINH'

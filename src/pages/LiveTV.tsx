@@ -142,16 +142,16 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                         title={ch.name}
                       >
                         {/* Channel Logo Box without background (strictly only logo) */}
-                        <div className="w-full h-16 sm:h-20 flex items-center justify-center p-1 relative">
+                        <div className="w-full h-14 sm:h-16 flex items-center justify-center p-1 relative">
                           <img
                             src={ch.logo}
                             alt={ch.name}
                             referrerPolicy="no-referrer"
-                            className={`w-full h-full object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-200 ${
-                              ch.id === 'vtv1' || ch.id === 'vtv3'
-                                ? 'scale-[0.90] max-h-[90%] max-w-[90%]'
-                                : ''
-                            }`}
+                            className={`${
+                              ch.category === 'Kênh VTV'
+                                ? 'max-h-6 sm:max-h-7.5 max-w-[72%] scale-90'
+                                : 'max-h-8 sm:max-h-10 max-w-[85%]'
+                            } w-auto object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-200`}
                             onError={(e) => {
                               (e.target as HTMLElement).style.display = 'none';
                             }}

@@ -71,20 +71,20 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 navigate(`/live-tv?channel=${ch.slug}`);
               }
             }}
-            className="min-w-[105px] sm:min-w-[125px] md:min-w-[140px] h-[66px] sm:h-[74px] md:h-[82px] shrink-0 rounded-[16px] sm:rounded-[20px] p-2 sm:p-2.5 flex items-center justify-center cursor-pointer group select-none"
+            className="min-w-[70px] sm:min-w-[80px] md:min-w-[88px] h-[42px] sm:h-[46px] md:h-[50px] shrink-0 rounded-xl sm:rounded-2xl p-1.5 flex items-center justify-center cursor-pointer group select-none"
             title={ch.name}
             aria-label={ch.name}
           >
-            <div className="w-full h-full flex items-center justify-center p-0.5">
+            <div className="w-full h-full flex items-center justify-center">
               <img
                 src={ch.logo}
                 alt={ch.name}
                 referrerPolicy="no-referrer"
-                className={`w-full h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300 ${
-                  ch.id === 'vtv1' || ch.id === 'vtv3'
-                    ? 'scale-[0.90] max-h-[90%] max-w-[90%]'
-                    : ''
-                }`}
+                className={`${
+                  ch.category === 'Kênh VTV'
+                    ? 'max-h-5 sm:max-h-5.5 md:max-h-[24px] max-w-[72%] scale-90'
+                    : 'max-h-6 sm:max-h-7 md:max-h-[30px] max-w-[84%]'
+                } w-auto object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-200`}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}

@@ -88,7 +88,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
               id="welcome-modal-title"
               className="text-xl sm:text-[23px] font-bold text-white tracking-tight mb-2.5 font-sans leading-tight"
             >
-              Welcome to Vplay 26.9 - Developer Beta 5
+              Welcome to Vplay 26.9 - Developer Beta 6
             </h1>
 
             {/* Description & Changelogs */}
@@ -99,30 +99,22 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
               <p className="font-semibold text-white/95 text-xs sm:text-sm tracking-wide">
                 Changelogs:
               </p>
-              <ul className="space-y-2 text-[#C4C4CC] text-xs sm:text-[13px] pl-1">
-                <li className="flex items-start gap-2">
+              <ul className="space-y-2.5 text-[#C4C4CC] text-xs sm:text-[13px] pl-1">
+                <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã áp dụng Liquid Glass thêm lên nhiều khu vực và element hơn như toggle switches, checkboxes, tab buttons...</span>
+                  <span>Đã cập nhật màu nền mới và nhận diện mới cho Vplay</span>
                 </li>
-                <li className="flex items-start gap-2">
+                <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã update UI channel player và áp dụng Liquid Glass</span>
+                  <span>Đã cập nhật biểu trưng, bộ nhận diện gradient mới cho toàn bộ 12 kênh VTV nhân kỷ niệm 56 năm ngày phát sóng chương trình truyền hình đầu tiên</span>
                 </li>
-                <li className="flex items-start gap-2">
+                <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã thêm 1 lớp progressive blur ở phía trên đầu</span>
+                  <span>Đã thêm các công cụ AI summarize, find words và TTS vào các bài viết</span>
                 </li>
-                <li className="flex items-start gap-2">
+                <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã thêm quick search settings vào menu Spotlight Search</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Spotlight Search menu giờ tự động căn giữa thay vì chệch như trước</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã update icon và animation cho Tools</span>
+                  <span>Đã xóa chế độ ban ngày, ứng dụng sẽ được thống nhất và trực quan về phần giao diện hơn</span>
                 </li>
               </ul>
             </div>
