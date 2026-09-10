@@ -17,6 +17,8 @@ export interface SystemSettings {
   animateModals: boolean;
   animatePageTransitions: boolean;
   immersiveSearch: boolean;
+  immersiveSidebar: boolean;
+  sidebarPosition: 'left' | 'right';
 }
 
 export const DEFAULT_SETTINGS: SystemSettings = {
@@ -36,6 +38,8 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   animateModals: true,
   animatePageTransitions: true,
   immersiveSearch: false,
+  immersiveSidebar: false,
+  sidebarPosition: 'left',
 };
 
 export const FONT_SCALE_CONFIG = [
@@ -86,6 +90,8 @@ export const applySystemSettings = (settings: SystemSettings) => {
   // App is strictly dark mode only
   document.documentElement.classList.remove('light-mode');
   document.documentElement.classList.add('dark');
+  document.documentElement.dataset.immersiveSidebar = String(settings.immersiveSidebar);
+  document.documentElement.dataset.sidebarPosition = settings.sidebarPosition;
 
   // Apply font scale
   const scaleVal = FONT_SCALE_CONFIG[settings.fontScale]?.scale || '1';

@@ -341,7 +341,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1B0912] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative">
+    <div
+      data-immersive-sidebar={settings.immersiveSidebar}
+      data-sidebar-position={settings.sidebarPosition}
+      className="min-h-screen bg-[#1B0912] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative"
+    >
       {/* Sidebar Navigation (Desktop + Mobile Drawer) */}
       <Sidebar
         currentRoute={currentRoute}
@@ -356,11 +360,17 @@ export default function App() {
 
       {/* Main App Container */}
       <div className={`flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ${
-        !settings.dockToSidebar 
-          ? 'md:pl-0 pb-20' 
-          : isEffectiveCollapsed 
-            ? 'md:pl-[80px]' 
-            : 'md:pl-[290px]'
+        !settings.dockToSidebar
+          ? 'md:pl-0 pb-20'
+          : settings.immersiveSidebar
+            ? 'md:pl-0 md:pr-0'
+            : settings.sidebarPosition === 'right'
+              ? isEffectiveCollapsed
+                ? 'md:pr-[80px]'
+                : 'md:pr-[290px]'
+              : isEffectiveCollapsed
+                ? 'md:pl-[80px]'
+                : 'md:pl-[290px]'
       }`}>
         {/* TopBar Header */}
         <TopBar

@@ -208,7 +208,12 @@ export const Settings: React.FC = () => {
         matchesSearch('Sáng') ||
         matchesSearch('Tối') ||
         matchesSearch('Theme') ||
-        matchesSearch('Cỡ chữ ứng dụng')) && (
+        matchesSearch('Cỡ chữ ứng dụng') ||
+        matchesSearch('Immersive sidebar') ||
+        matchesSearch('Sidebar position') ||
+        matchesSearch('thanh bên') ||
+        matchesSearch('trái') ||
+        matchesSearch('phải')) && (
         <section 
           id="settings-section-interface"
           className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
@@ -302,6 +307,57 @@ export const Settings: React.FC = () => {
                     })}
                   </div>
                 </div>
+              </div>
+            )}
+
+            {(matchesSearch('Immersive sidebar') || matchesSearch('Sidebar position') || matchesSearch('thanh bên') || matchesSearch('trái') || matchesSearch('phải')) && (
+              <div
+                id="setting-immersive-sidebar"
+                className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-4"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <div className="font-semibold text-white text-sm">Immersive sidebar</div>
+                    <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                      Sidebar sạch hơn với progressive blur và nội dung tràn vào khu vực thanh bên
+                    </div>
+                  </div>
+                  <button
+                    id="toggle-immersive-sidebar"
+                    type="button"
+                    role="switch"
+                    aria-checked={draftSettings.immersiveSidebar}
+                    onClick={() => updateDraft('immersiveSidebar', !draftSettings.immersiveSidebar)}
+                    className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                      draftSettings.immersiveSidebar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                    }`}
+                  >
+                    <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
+                  </button>
+                </div>
+
+                {draftSettings.immersiveSidebar && (
+                  <div className="flex items-center justify-between gap-4 pt-1">
+                    <div>
+                      <div className="font-semibold text-white text-sm">Sidebar position</div>
+                      <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">Chọn bên hiển thị của thanh sidebar</div>
+                    </div>
+                    <div className="flex rounded-full bg-[#1E1D24] p-1 shrink-0" role="group" aria-label="Sidebar position">
+                      {(['left', 'right'] as const).map((position) => (
+                        <button
+                          key={position}
+                          type="button"
+                          onClick={() => updateDraft('sidebarPosition', position)}
+                          className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
+                            draftSettings.sidebarPosition === position ? 'bg-[#E6005A] text-white' : 'text-[#9CA3AF] hover:text-white'
+                          }`}
+                        >
+                          {position === 'left' ? 'Trái' : 'Phải'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
