@@ -469,10 +469,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
           } ${
             shouldAnimateSidebar ? 'transition-all duration-300 ease-in-out' : 'transition-none'
           } ${
-            effectiveCollapsed ? 'w-[80px]' : 'w-[290px]'
+            settings.immersiveSidebar ? 'w-[290px]' : effectiveCollapsed ? 'w-[80px]' : 'w-[290px]'
           }`}
         >
-          {!effectiveCollapsed ? (
+          {!effectiveCollapsed || settings.immersiveSidebar ? (
             renderSidebarBody(false)
           ) : (
             <div className="flex flex-col h-full select-none">
