@@ -54,6 +54,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [isLiveTvExpanded, setIsLiveTvExpanded] = useState(false);
   const [isFavoritesExpanded, setIsFavoritesExpanded] = useState(false);
   const [isHelpExpanded, setIsHelpExpanded] = useState(false);
+  const [isMoreExpanded, setIsMoreExpanded] = useState(false);
   const [logoError, setLogoError] = useState(false);
   const [isDiscordModalOpen, setIsDiscordModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -63,9 +64,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const shouldAnimateSidebar = !settings.reduceAllMotion && settings.animateSidebar;
 
   // Determine actual collapsed state based on settings
-  const effectiveCollapsed = settings.autoHideSidebar 
-    ? !isHovered 
-    : isCollapsed;
+  const effectiveCollapsed = settings.immersiveSidebar
+    ? true
+    : settings.autoHideSidebar
+      ? !isHovered
+      : isCollapsed;
 
   const isActive = (route: string) => {
     if (route === '/' && currentRoute === '/') return true;
@@ -166,7 +169,45 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Scrollable Navigation Menu (Scrollbar hidden) */}
-      <div className="flex-1 overflow-y-auto pb-6 text-sm font-medium sidebar-visible-scroller no-scrollbar px-4 pt-1 space-y-2.5">
+      <div className={`flex-1 overflow-y-auto pb-6 text-sm font-medium sidebar-visible-scroller no-scrollbar px-4 pt-1 space-y-2.5 ${settings.immersiveSidebar ? 'immersive-sidebar-menu' : ''}`}>
+        {settings.immersiveSidebar && (
+          <div className="immersive-sidebar-nav space-y-2">
+            <div className="immersive-primary-pill flex items-center gap-1 rounded-full bg-white/10 p-1">
+              {[
+                { label: 'Home', route: '/', icon: Home },
+                { label: 'TV', route: '/live-tv', icon: Tv },
+                { label: 'News', route: '/news', icon: Megaphone },
+                { label: 'Cài đặt', route: '/settings', icon: Settings },
+              ].map(({ label, route, icon: Icon }) => (
+                <button key={route} type="button" onClick={() => handleNavClick(route)} title={label}
+                  className={`flex min-w-0 flex-1 items-center justify-center rounded-full px-2 py-2 text-[11px] transition-colors ${isActive(route) ? 'bg-[#E6005A] text-white' : 'text-[#D1D5DB] hover:bg-white/10 hover:text-white'}`}>
+                  <Icon className="h-4 w-4 shrink-0" />
+                  <span className="ml-1 truncate">{label === 'Cài đặt' ? 'Cài đặt' : label}</span>
+                </button>
+              ))}
+            </div>
+            <button type="button" onClick={() => setIsMoreExpanded((value) => !value)} title="More"
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-[#D1D5DB] transition-colors hover:bg-white/10 hover:text-white">
+              <Layers className="h-4 w-4" />
+              <span>More</span>
+              <ChevronDown className={`h-4 w-4 transition-transform ${isMoreExpanded ? 'rotate-180' : ''}`} />
+            </button>
+            {isMoreExpanded && (
+              <div className="space-y-1 rounded-2xl bg-black/10 p-1">
+                {[
+                  { label: 'Favorites', route: '/favorites', icon: Heart },
+                  { label: 'Giới thiệu', route: '/about', icon: Info },
+                  { label: 'Channels', route: '/channels', icon: Radio },
+                ].map(({ label, route, icon: Icon }) => (
+                  <button key={route} type="button" onClick={() => handleNavClick(route)} className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm ${isActive(route) ? 'bg-[#E6005A] text-white' : 'text-[#D1D5DB] hover:bg-white/10 hover:text-white'}`}>
+                    <Icon className="h-4 w-4" /><span>{label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* 1. Home */}
         <button
           id={isMobile ? 'mobile-nav-item-home' : 'nav-item-home'}
