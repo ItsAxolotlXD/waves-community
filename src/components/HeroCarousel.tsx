@@ -17,21 +17,18 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   const { settings } = useSettings();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [direction, setDirection] = useState(1);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentSlide: HeroSlide = HERO_SLIDES[currentIndex] || HERO_SLIDES[0];
 
   const nextSlide = () => {
     if (HERO_SLIDES.length > 1) {
-      setDirection(1);
       setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
     }
   };
 
   const prevSlide = () => {
     if (HERO_SLIDES.length > 1) {
-      setDirection(-1);
       setCurrentIndex((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
     }
   };
@@ -92,12 +89,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
       {HERO_SLIDES.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute inset-0 transition-[opacity,transform] duration-700 ease-out ${
-            index === currentIndex
-              ? 'opacity-100 translate-x-0 z-0'
-              : index < currentIndex
-                ? `opacity-0 ${direction > 0 ? '-translate-x-full' : 'translate-x-full'} -z-10`
-                : `opacity-0 ${direction > 0 ? 'translate-x-full' : '-translate-x-full'} -z-10`
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            index === currentIndex ? 'opacity-100 z-0' : 'opacity-0 -z-10'
           }`}
         >
           <img

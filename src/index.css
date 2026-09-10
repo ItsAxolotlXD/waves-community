@@ -280,15 +280,6 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
   background: linear-gradient(270deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.72) 58%, rgba(255, 255, 255, 0.08) 100%) !important;
 }
 
-/* Immersive mode uses a compact navigation surface instead of the full menu. */
-html[data-immersive-sidebar="true"] .immersive-sidebar-menu > :not(.immersive-sidebar-nav) {
-  display: none !important;
-}
-
-html[data-immersive-sidebar="true"] .immersive-sidebar-nav {
-  display: block !important;
-}
-
 /* Search Bars: Specular Liquid Glass border effect with #27121d background and 100% opacity */
 .spotlight-bubble-box,
 .spotlight-input-container,
