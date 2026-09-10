@@ -423,7 +423,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           id="waves-desktop-sidebar"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className={`hidden md:flex flex-col h-screen bg-[#250F1A]/85 backdrop-blur-xl border-r border-white/10 select-none shrink-0 fixed top-0 left-0 z-40 overflow-hidden ${
+          className={`hidden md:flex flex-col h-screen bg-[#250F1A]/85 backdrop-blur-xl border-r border-white/10 select-none shrink-0 fixed top-0 z-40 overflow-hidden ${
+            settings.sidebarPosition === 'right' ? 'right-0 border-l border-r-0' : 'left-0'
+          } ${
             shouldAnimateSidebar ? 'transition-all duration-300 ease-in-out' : 'transition-none'
           } ${
             effectiveCollapsed ? 'w-[80px]' : 'w-[290px]'
