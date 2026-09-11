@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { VideoPlayer } from '../components/VideoPlayer';
 import { Channel } from '../types';
-import { useFavorites } from '../hooks/useFavorites';
-import { 
-  Tv, 
+import {
+  Tv,
   ChevronRight,
   Hash,
-  Heart
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -25,7 +23,6 @@ export const LiveTV: React.FC<LiveTVProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
   const [isTheaterMode, setIsTheaterMode] = useState(false);
-  const { isChannelFavorite, toggleFavoriteChannel } = useFavorites();
 
   // Distinct category list maintaining natural broadcast order
   const distinctCategories = Array.from(new Set(channels.map((c) => c.category)));
@@ -129,7 +126,6 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                 <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3.5 md:gap-4">
                   {group.channels.map((ch) => {
                     const isSelected = ch.id === currentChannel.id;
-                    const isChFav = isChannelFavorite(ch.id);
 
                     return (
                       <div
@@ -142,7 +138,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                         title={ch.name}
                       >
                         {/* Channel Logo Box without background (strictly only logo) */}
-                        <div className="w-full h-12 sm:h-14 flex items-center justify-center p-1 relative">
+                        <div className="w-full h-10 sm:h-12 flex items-center justify-center p-1 relative">
                           <img
                             src={ch.logo}
                             alt={ch.name}
@@ -157,30 +153,6 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                             }}
                           />
 
-                          {/* Favorite Heart Button */}
-                          <button
-                            id={`btn-fav-card-${ch.id}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleFavoriteChannel(ch.id);
-                            }}
-                            className={`absolute top-0 right-0 p-1 rounded-full backdrop-blur-sm transition-colors cursor-pointer ${
-                              isChFav 
-                                ? 'bg-[#E50914] text-white shadow-sm' 
-                                : 'bg-black/5 hover:bg-[#E50914]/15 text-[#9CA3AF] hover:text-[#E50914] dark:bg-black/40 dark:text-white/80 dark:hover:text-white dark:hover:bg-black/60'
-                            }`}
-                            title={isChFav ? 'Bỏ thích' : 'Yêu thích'}
-                          >
-                            <Heart className={`w-3 h-3 ${isChFav ? 'fill-current' : ''}`} />
-                          </button>
-
-                          {/* Playing indicator */}
-                          {isSelected && (
-                            <div className="absolute bottom-0 right-0 flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#E6005A] text-white text-[8px] font-bold shadow-sm">
-                              <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-                              <span className="hidden sm:inline">Đang phát</span>
-                            </div>
-                          )}
                         </div>
                       </div>
                     );
