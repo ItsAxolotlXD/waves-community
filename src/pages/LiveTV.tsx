@@ -149,7 +149,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                             referrerPolicy="no-referrer"
                             className={`${
                               ch.category === 'Kênh VTV'
-                                ? 'max-h-6 sm:max-h-7.5 max-w-[72%] scale-90'
+                                ? 'max-h-7 sm:max-h-8 max-w-[78%] scale-100'
                                 : 'max-h-8 sm:max-h-10 max-w-[85%]'
                             } w-auto object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-200`}
                             onError={(e) => {
