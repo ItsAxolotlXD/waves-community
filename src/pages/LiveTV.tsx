@@ -142,7 +142,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                         title={ch.name}
                       >
                         {/* Channel Logo Box without background (strictly only logo) */}
-                        <div className="w-full h-14 sm:h-16 flex items-center justify-center p-1 relative">
+                        <div className="w-full h-12 sm:h-14 flex items-center justify-center p-1 relative">
                           <img
                             src={ch.logo}
                             alt={ch.name}
