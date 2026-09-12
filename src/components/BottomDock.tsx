@@ -32,7 +32,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, 
 
   return (
     <nav className="floaty-bar fixed bottom-5 left-1/2 -translate-x-1/2 z-40 select-none" aria-label="Floaty bar">
-      <div className="floaty-bar__surface flex items-center gap-3 px-3 py-2 rounded-full">
+      <div className="floaty-bar__surface flex items-center gap-2 px-3 py-2 rounded-full">
         <button type="button" aria-label="Trang dock trước" onClick={() => setPage(0)} disabled={page === 0} className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer disabled:cursor-default"><ChevronLeft /></button>
         <div className="flex items-center gap-2">
           {pages[page].map((item) => {

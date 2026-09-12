@@ -1237,7 +1237,7 @@ html.light-mode .sidebar-search-btn:hover svg {
 }
 
 .floaty-bar__surface {
-  min-width: min(32rem, calc(100vw - 2rem));
+  min-width: min(28rem, calc(100vw - 2rem));
   justify-content: space-between;
   background: rgba(24, 23, 31, 0.58) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
