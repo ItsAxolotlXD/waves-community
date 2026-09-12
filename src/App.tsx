@@ -360,8 +360,8 @@ export default function App() {
 
       {/* Main App Container */}
       <div className={`flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ${
-        !settings.dockToSidebar
-          ? 'md:pl-0 pb-20'
+        !settings.dockToSidebar || settings.navigationMode === 'floaty'
+          ? 'md:pl-0 md:pr-0 pb-20'
           : settings.navigationMode === 'immersive' || settings.immersiveSidebar
             ? 'md:pl-0 md:pr-0'
             : settings.sidebarPosition === 'right'

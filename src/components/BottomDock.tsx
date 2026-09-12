@@ -32,13 +32,13 @@ export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, 
 
   return (
     <nav className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 select-none" aria-label="Floaty bar">
-      <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-full bg-[#1E1D24]/95 backdrop-blur-xl border border-white/10 shadow-2xl">
+      <div className="flex items-center gap-1 px-2 py-1.5 rounded-full bg-[#1E1D24]/95 backdrop-blur-xl border border-white/10 shadow-2xl">
         <button type="button" aria-label="Trang dock trước" onClick={() => setPage(0)} disabled={page === 0} className="size-9 rounded-full flex items-center justify-center text-[#9CA3AF] hover:text-white hover:bg-white/10 disabled:opacity-25 transition-colors cursor-pointer disabled:cursor-default"><ChevronLeft /></button>
         <div className="flex items-center gap-1.5 px-1">
           {pages[page].map((item) => {
             const active = item.route ? isActive(item.route) : false;
             const Icon = item.icon;
-            return <button key={item.id} id={item.id} type="button" title={item.label} onClick={() => item.action ? item.action() : item.route && navigate(item.route)} className={`size-11 rounded-full flex items-center justify-center transition-all cursor-pointer ${active ? 'bg-[#E6005A] text-white' : 'text-[#A1A1AA] hover:text-white hover:bg-white/10'}`}>
+            return <button key={item.id} id={item.id} type="button" title={item.label} onClick={() => item.action ? item.action() : item.route && navigate(item.route)} className={`size-11 rounded-full flex items-center justify-center transition-all cursor-pointer ${active ? 'bg-[#E6005A] text-white shadow-sm' : 'bg-transparent border-0 text-[#A1A1AA] hover:text-white'}`}>
               {item.image ? <img src={item.image} alt={item.label} referrerPolicy="no-referrer" className={`size-6 object-contain ${active ? 'brightness-0 invert' : 'sidebar-nav-home-icon'}`} /> : Icon ? <Icon /> : null}
             </button>;
           })}
