@@ -209,8 +209,12 @@ export const Settings: React.FC = () => {
         matchesSearch('Tối') ||
         matchesSearch('Theme') ||
         matchesSearch('Cỡ chữ ứng dụng') ||
-        matchesSearch('Immersive sidebar') ||
-        matchesSearch('Sidebar position') ||
+  matchesSearch('Immersive sidebar') ||
+  matchesSearch('Thanh điều hướng') ||
+  matchesSearch('Sidebar') ||
+  matchesSearch('Immersive') ||
+  matchesSearch('Floaty bar') ||
+  matchesSearch('Sidebar position') ||
         matchesSearch('thanh bên') ||
         matchesSearch('trái') ||
         matchesSearch('phải')) && (
@@ -232,6 +236,24 @@ export const Settings: React.FC = () => {
           </div>
 
           <div className="space-y-3 pt-1">
+            {matchesSearch('Thanh điều hướng') && (
+              <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-3">
+                <div>
+                  <div className="font-semibold text-white text-sm">Thanh điều hướng</div>
+                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">Chọn kiểu điều hướng chính của ứng dụng</div>
+                </div>
+                <div className="grid grid-cols-3 gap-2 rounded-2xl bg-[#1E1D24] p-1" role="group" aria-label="Thanh điều hướng">
+                  {([
+                    ['sidebar', 'Sidebar'],
+                    ['immersive', 'Immersive'],
+                    ['floaty', 'Floaty bar'],
+                  ] as const).map(([value, label]) => (
+                    <button key={value} type="button" onClick={() => { updateDraft('navigationMode', value); updateDraft('immersiveSidebar', value === 'immersive'); }} className={`rounded-xl px-2 py-2.5 text-xs font-semibold transition-colors cursor-pointer ${draftSettings.navigationMode === value ? 'bg-[#E6005A] text-white' : 'text-[#9CA3AF] hover:text-white'}`} aria-pressed={draftSettings.navigationMode === value}>{label}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Card 1: Cỡ chữ ứng dụng (Liquid Glass Pill Slider Style) */}
             {matchesSearch('Cỡ chữ ứng dụng') && (
               <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-4">

@@ -781,8 +781,8 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 
 [id^="recommended-channel-"]:hover,
 [id^="livetv-channel-card-"]:not(.is-selected):hover,
-[id^="channel-card-"]:hover {
-  border: none !important;
+  [id^="channel-card-"]:hover {
+  border: 3px solid #FFFFFF !important;
   background-image: none !important;
   background-color: #482238 !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32) !important;

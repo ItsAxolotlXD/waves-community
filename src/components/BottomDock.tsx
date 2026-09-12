@@ -1,95 +1,52 @@
-import React from 'react';
-import { 
-  Tv, 
-  Megaphone, 
-  Search
-} from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight, HelpCircle, Info, Megaphone, Search, Settings, Tv, MessageCircle } from 'lucide-react';
 
 interface BottomDockProps {
   currentRoute: string;
   navigate: (route: string) => void;
   onOpenSearch: () => void;
+  onOpenHelp?: () => void;
+  onOpenDiscord?: () => void;
 }
 
-export const BottomDock: React.FC<BottomDockProps> = ({
-  currentRoute,
-  navigate,
-  onOpenSearch
-}) => {
-  const isActive = (path: string) => {
-    if (path === '/') return currentRoute === '/' || currentRoute === '/home';
-    return currentRoute.startsWith(path);
-  };
+const HOME_ICON = 'https://static.wikia.nocookie.net/ep-deo/images/6/6e/New_hom.png/revision/latest?cb=20260722124341';
+const TV_ICON = 'https://vtvgo-next-assets.vtvdigital.vn/prod/images/menu/20260905/2026090508/b467d7552a-tv-1.webp';
 
-  const navItems = [
-    { id: 'dock-home', label: 'Trang chủ', isCustomHome: true, route: '/' },
-    { id: 'dock-tv', label: 'Truyền hình', isCustomTv: true, route: '/live-tv' },
-    { id: 'dock-news', label: 'Tin tức', icon: Megaphone, route: '/news' },
+export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, onOpenSearch, onOpenHelp, onOpenDiscord }) => {
+  const [page, setPage] = useState(0);
+  const isActive = (path: string) => path === '/' ? currentRoute === '/' || currentRoute === '/home' : currentRoute.startsWith(path);
+  const pages = [
+    [
+      { id: 'dock-home', label: 'Home', route: '/', image: HOME_ICON },
+      { id: 'dock-tv', label: 'Truyền hình', route: '/live-tv', image: TV_ICON },
+      { id: 'dock-news', label: 'News', route: '/news', icon: Megaphone },
+      { id: 'dock-search', label: 'Search', action: onOpenSearch, icon: Search },
+    ],
+    [
+      { id: 'dock-discord', label: 'Discord', action: onOpenDiscord, icon: MessageCircle },
+      { id: 'dock-help', label: 'Help', action: onOpenHelp, icon: HelpCircle },
+      { id: 'dock-about', label: 'Giới thiệu', route: '/about', icon: Info },
+      { id: 'dock-settings', label: 'Cài đặt', route: '/settings', icon: Settings },
+    ],
   ];
 
   return (
-    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 select-none">
-      <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-[#1E1D24]/95 dark:bg-[#1E1D24]/95 backdrop-blur-xl border border-[#34343E] shadow-2xl">
-        {/* Spotlight Search button */}
-        <button
-          id="dock-spotlight-btn"
-          onClick={onOpenSearch}
-          title="Spotlight Search (⌘K)"
-          className="w-12 h-12 rounded-full flex items-center justify-center text-[#9CA3AF] hover:text-white hover:bg-white/10 transition-all cursor-pointer shrink-0"
-        >
-          <Search className="w-5.5 h-5.5" />
-        </button>
-
-        <div className="w-[1px] h-6 bg-[#3E3E4A] my-auto mx-1" />
-
-        {/* Navigation items - enlarged icons without labels */}
-        {navItems.map((item) => {
-          const active = isActive(item.route);
-          const Icon = item.icon;
-
-          return (
-            <button
-              key={item.id}
-              id={item.id}
-              onClick={() => navigate(item.route)}
-              title={item.label}
-              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all cursor-pointer shrink-0 ${
-                active 
-                  ? 'bg-[#E6005A] text-white shadow-lg shadow-[#E6005A]/30' 
-                  : 'text-[#9CA3AF] hover:text-white hover:bg-white/10'
-              }`}
-            >
-              {item.isCustomHome ? (
-                <img
-                  src="https://static.wikia.nocookie.net/ep-deo/images/6/6e/New_hom.png/revision/latest?cb=20260722124341"
-                  alt="Home"
-                  referrerPolicy="no-referrer"
-                  className={`w-6 h-6 object-contain shrink-0 ${
-                    active ? 'brightness-0 invert' : 'sidebar-nav-home-icon'
-                  }`}
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
-                />
-              ) : item.isCustomTv ? (
-                <img
-                  src="https://vtvgo-next-assets.vtvdigital.vn/prod/images/menu/20260905/2026090508/b467d7552a-tv-1.webp"
-                  alt="Truyền hình"
-                  referrerPolicy="no-referrer"
-                  className={`w-6 h-6 object-contain shrink-0 ${
-                    active ? 'brightness-0 invert' : 'sidebar-nav-tv-icon'
-                  }`}
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
-                />
-              ) : Icon ? (
-                <Icon className="w-6 h-6 shrink-0" />
-              ) : null}
-            </button>
-          );
-        })}
+    <nav className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 select-none" aria-label="Floaty bar">
+      <div className="flex items-center gap-1.5 px-2.5 py-2 rounded-full bg-[#1E1D24]/95 backdrop-blur-xl border border-white/10 shadow-2xl">
+        <button type="button" aria-label="Trang dock trước" onClick={() => setPage(0)} disabled={page === 0} className="size-9 rounded-full flex items-center justify-center text-[#9CA3AF] hover:text-white hover:bg-white/10 disabled:opacity-25 transition-colors cursor-pointer disabled:cursor-default"><ChevronLeft /></button>
+        <div className="flex items-center gap-1.5 px-1">
+          {pages[page].map((item) => {
+            const active = item.route ? isActive(item.route) : false;
+            const Icon = item.icon;
+            return <button key={item.id} id={item.id} type="button" title={item.label} onClick={() => item.action ? item.action() : item.route && navigate(item.route)} className={`size-11 rounded-full flex items-center justify-center transition-all cursor-pointer ${active ? 'bg-[#E6005A] text-white' : 'text-[#A1A1AA] hover:text-white hover:bg-white/10'}`}>
+              {item.image ? <img src={item.image} alt={item.label} referrerPolicy="no-referrer" className={`size-6 object-contain ${active ? 'brightness-0 invert' : 'sidebar-nav-home-icon'}`} /> : Icon ? <Icon /> : null}
+            </button>;
+          })}
+        </div>
+        <button type="button" aria-label="Trang dock tiếp theo" onClick={() => setPage(1)} disabled={page === 1} className="size-9 rounded-full flex items-center justify-center text-[#9CA3AF] hover:text-white hover:bg-white/10 disabled:opacity-25 transition-colors cursor-pointer disabled:cursor-default"><ChevronRight /></button>
       </div>
-    </div>
+    </nav>
   );
 };
+
+export { BottomDock as FloatyBar };

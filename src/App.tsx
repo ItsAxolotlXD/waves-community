@@ -347,8 +347,8 @@ export default function App() {
       className="min-h-screen bg-[#1B0912] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative"
     >
       {/* Sidebar Navigation (Desktop + Mobile Drawer) */}
-      <Sidebar
-        currentRoute={currentRoute}
+        {settings.navigationMode !== 'floaty' && <Sidebar
+          currentRoute={currentRoute}
         navigate={navigate}
         onOpenSearch={handleOpenSearch}
         onSelectChannel={setCurrentChannel}
@@ -356,13 +356,13 @@ export default function App() {
         onToggleCollapse={toggleSidebarCollapse}
         isMobileOpen={isMobileSidebarOpen}
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
-      />
+      />}
 
       {/* Main App Container */}
       <div className={`flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ${
         !settings.dockToSidebar
           ? 'md:pl-0 pb-20'
-          : settings.immersiveSidebar
+          : settings.navigationMode === 'immersive' || settings.immersiveSidebar
             ? 'md:pl-0 md:pr-0'
             : settings.sidebarPosition === 'right'
               ? isEffectiveCollapsed
@@ -427,12 +427,14 @@ export default function App() {
         </main>
       </div>
 
-      {/* Bottom Dock Navigation (When dockToSidebar is false) */}
-      {!settings.dockToSidebar && (
+      {/* Floaty bar navigation */}
+      {settings.navigationMode === 'floaty' && (
         <BottomDock
           currentRoute={currentRoute}
           navigate={navigate}
           onOpenSearch={handleOpenSearch}
+          onOpenHelp={() => setIsHelpModalOpen(true)}
+          onOpenDiscord={() => setIsWelcomeModalOpen(true)}
         />
       )}
 

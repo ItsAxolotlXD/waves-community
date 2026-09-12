@@ -19,6 +19,7 @@ export interface SystemSettings {
   immersiveSearch: boolean;
   immersiveSidebar: boolean;
   sidebarPosition: 'left' | 'right';
+  navigationMode: 'sidebar' | 'immersive' | 'floaty';
 }
 
 export const DEFAULT_SETTINGS: SystemSettings = {
@@ -40,6 +41,7 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   immersiveSearch: false,
   immersiveSidebar: false,
   sidebarPosition: 'left',
+  navigationMode: 'sidebar',
 };
 
 export const FONT_SCALE_CONFIG = [
