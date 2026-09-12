@@ -15,6 +15,7 @@ const TV_ICON = 'https://vtvgo-next-assets.vtvdigital.vn/prod/images/menu/202609
 
 export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, onOpenSearch, onOpenHelp, onOpenDiscord }) => {
   const [page, setPage] = useState(0);
+  const [direction, setDirection] = useState(1);
   const isActive = (path: string) => path === '/' ? currentRoute === '/' || currentRoute === '/home' : currentRoute.startsWith(path);
   const pages = [
     [
@@ -34,15 +35,15 @@ export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, 
   return (
     <nav className="floaty-bar fixed bottom-5 left-1/2 -translate-x-1/2 z-40 select-none" aria-label="Floaty bar">
       <div className="floaty-bar__surface flex items-center gap-2 px-3 py-2 rounded-full">
-        <button type="button" aria-label="Trang dock trước" onClick={() => setPage(0)} disabled={page === 0} className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer disabled:cursor-default"><ChevronLeft /></button>
+        <button type="button" aria-label="Trang dock trước" onClick={() => { setDirection(-1); setPage((current) => (current + pages.length - 1) % pages.length); }} className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer"><ChevronLeft /></button>
         <div className="floaty-bar__items">
           <AnimatePresence initial={false} mode="popLayout">
             <motion.div
               key={page}
-              initial={{ opacity: 0, x: page === 0 ? -12 : 12 }}
+              initial={{ opacity: 0, x: direction > 0 ? 28 : -28 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: page === 0 ? 12 : -12 }}
-              transition={{ duration: 0.14, ease: 'easeOut' }}
+              exit={{ opacity: 0, x: direction > 0 ? -28 : 28 }}
+              transition={{ duration: 0.28, ease: 'easeInOut' }}
               className="floaty-bar__page"
             >
               {pages[page].map((item) => {
@@ -55,7 +56,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, 
             </motion.div>
           </AnimatePresence>
         </div>
-        <button type="button" aria-label="Trang dock tiếp theo" onClick={() => setPage(1)} disabled={page === 1} className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer disabled:cursor-default"><ChevronRight /></button>
+        <button type="button" aria-label="Trang dock tiếp theo" onClick={() => { setDirection(1); setPage((current) => (current + 1) % pages.length); }} className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer"><ChevronRight /></button>
       </div>
     </nav>
   );

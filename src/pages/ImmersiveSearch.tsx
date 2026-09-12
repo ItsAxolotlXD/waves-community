@@ -254,8 +254,8 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Tìm kiếm kênh truyền hình, thể thao, bản tin..."
-                className="w-full bg-transparent text-white text-sm placeholder-[#9CA3AF] focus:outline-none"
+placeholder="Tìm kiếm kênh truyền hình, thể thao, bản tin,..."
+  className="w-full bg-transparent text-white text-base placeholder-[#9CA3AF] focus:outline-none"
               />
               {query && (
                 <button

@@ -1269,7 +1269,7 @@ html.light-mode .immersive-search-input input {
   min-width: min(28rem, calc(100vw - 2rem));
   justify-content: space-between;
   overflow: hidden;
-  background: rgba(24, 23, 31, 0.58) !important;
+  background: rgba(24, 23, 31, 0.42) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(24px) saturate(135%) !important;
@@ -2852,6 +2852,46 @@ html.light-mode #about-community-card {
   background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Keep Floaty active tabs at the requested subtle white pill, above global control rules. */
+.floaty-bar .floaty-bar__item.is-active,
+.floaty-bar .floaty-bar__item.is-active:hover,
+.floaty-bar .floaty-bar__item.is-active:focus-visible,
+.floaty-bar #dock-home.is-active,
+.floaty-bar #dock-tv.is-active,
+.floaty-bar #dock-news.is-active,
+.floaty-bar #dock-search.is-active,
+.floaty-bar #dock-discord.is-active,
+.floaty-bar #dock-help.is-active,
+.floaty-bar #dock-about.is-active,
+.floaty-bar #dock-settings.is-active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.floaty-bar__surface {
+  background: rgba(24, 23, 31, 0.42) !important;
+}
+
+#immersive-search-capsule {
+  height: 4.1rem !important;
+  border-radius: 1.15rem !important;
+  background: #1f1e27 !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#immersive-search-capsule input {
+  font-size: 1rem !important;
+}
+
+html.light-mode #immersive-search-capsule {
+  background: #F1F2F6 !important;
 }
 
 
