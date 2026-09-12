@@ -1231,6 +1231,35 @@ html.light-mode .sidebar-search-btn:hover svg {
   color: #111827 !important;
 }
 
+/* Immersive Search Experience: spacious rounded search field matching the reference. */
+.immersive-search-input {
+  height: 4.1rem !important;
+  padding-inline: 1.25rem !important;
+  border-radius: 1.15rem !important;
+  background: rgba(31, 30, 39, 0.94) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.immersive-search-input input {
+  font-size: 1rem !important;
+  color: #F3F4F6 !important;
+}
+
+.immersive-search-input input::placeholder {
+  color: #A1A1AA !important;
+}
+
+html.light-mode .immersive-search-input {
+  background: #F1F2F6 !important;
+}
+
+html.light-mode .immersive-search-input input {
+  color: #111827 !important;
+}
+
 /* Floaty bar: translucent pill with backdrop blur matching the reference dock. */
 .floaty-bar {
   isolation: isolate;
@@ -1239,6 +1268,7 @@ html.light-mode .sidebar-search-btn:hover svg {
 .floaty-bar__surface {
   min-width: min(28rem, calc(100vw - 2rem));
   justify-content: space-between;
+  overflow: hidden;
   background: rgba(24, 23, 31, 0.58) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
@@ -1266,12 +1296,29 @@ html.light-mode .sidebar-search-btn:hover svg {
   color: rgba(255, 255, 255, 0.92) !important;
 }
 
+.floaty-bar__items {
+  position: relative;
+  display: flex;
+  min-width: 12rem;
+  overflow: hidden;
+  }
+
+.floaty-bar__page {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  }
+
+.floaty-bar__items .floaty-bar__page {
+  will-change: transform, opacity;
+  }
+
 .floaty-bar__item.is-active {
-  background: transparent !important;
+  background: rgba(255, 255, 255, 0.2) !important;
   color: #FFFFFF !important;
   border: 0 !important;
   box-shadow: none !important;
-}
+  }
 
 .floaty-bar #dock-home,
 .floaty-bar #dock-tv,

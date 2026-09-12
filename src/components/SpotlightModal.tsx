@@ -436,7 +436,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                     setIsFocused(true);
                     inputRef.current?.focus();
                   }}
-                  className="relative w-full h-[46px] flex items-center px-4 rounded-full spotlight-bubble-box text-sm transition-all spotlight-input-container overflow-hidden cursor-text select-none"
+                  className={`relative w-full h-[46px] flex items-center px-4 rounded-full spotlight-bubble-box text-sm transition-all spotlight-input-container overflow-hidden cursor-text select-none ${settings.immersiveSearch ? 'immersive-search-input' : ''}`}
                 >
                   <motion.div 
                     animate={{

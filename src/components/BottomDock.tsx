@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import { ChevronLeft, ChevronRight, HelpCircle, Info, Megaphone, Search, Settings, Tv, MessageCircle } from 'lucide-react';
 
 interface BottomDockProps {
@@ -34,14 +35,25 @@ export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, 
     <nav className="floaty-bar fixed bottom-5 left-1/2 -translate-x-1/2 z-40 select-none" aria-label="Floaty bar">
       <div className="floaty-bar__surface flex items-center gap-2 px-3 py-2 rounded-full">
         <button type="button" aria-label="Trang dock trước" onClick={() => setPage(0)} disabled={page === 0} className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer disabled:cursor-default"><ChevronLeft /></button>
-        <div className="flex items-center gap-2">
-          {pages[page].map((item) => {
-            const active = item.route ? isActive(item.route) : false;
-            const Icon = item.icon;
-            return <button key={item.id} id={item.id} type="button" title={item.label} onClick={() => item.action ? item.action() : item.route && navigate(item.route)} className={`floaty-bar__item size-12 rounded-full flex items-center justify-center cursor-pointer ${active ? 'is-active' : ''}`}>
-              {item.image ? <img src={item.image} alt={item.label} referrerPolicy="no-referrer" className={`size-7 object-contain ${active ? 'brightness-0 invert' : 'sidebar-nav-home-icon'}`} /> : Icon ? <Icon /> : null}
-            </button>;
-          })}
+        <div className="floaty-bar__items">
+          <AnimatePresence initial={false} mode="popLayout">
+            <motion.div
+              key={page}
+              initial={{ opacity: 0, x: page === 0 ? -12 : 12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: page === 0 ? 12 : -12 }}
+              transition={{ duration: 0.14, ease: 'easeOut' }}
+              className="floaty-bar__page"
+            >
+              {pages[page].map((item) => {
+                const active = item.route ? isActive(item.route) : false;
+                const Icon = item.icon;
+                return <button key={item.id} id={item.id} type="button" title={item.label} onClick={() => item.action ? item.action() : item.route && navigate(item.route)} className={`floaty-bar__item size-12 rounded-full flex items-center justify-center cursor-pointer ${active ? 'is-active' : ''}`}>
+                  {item.image ? <img src={item.image} alt={item.label} referrerPolicy="no-referrer" className={`size-7 object-contain ${active ? 'brightness-0 invert' : 'sidebar-nav-home-icon'}`} /> : Icon ? <Icon /> : null}
+                </button>;
+              })}
+            </motion.div>
+          </AnimatePresence>
         </div>
         <button type="button" aria-label="Trang dock tiếp theo" onClick={() => setPage(1)} disabled={page === 1} className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer disabled:cursor-default"><ChevronRight /></button>
       </div>
