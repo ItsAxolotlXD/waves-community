@@ -772,7 +772,7 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 [id^="channel-card-"] {
   border: none !important;
   background-image: none !important;
-  background-color: #27121d !important;
+  background-color: #351a29 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
   transform: scale(1);
   transition: transform 0.25s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.2s ease-out, background-color 0.18s ease-in-out !important;
@@ -781,10 +781,10 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 
 [id^="recommended-channel-"]:hover,
 [id^="livetv-channel-card-"]:not(.is-selected):hover,
-[id^="channel-card-"]:hover {
-  border: none !important;
+  [id^="channel-card-"]:hover {
+  border: 3px solid #FFFFFF !important;
   background-image: none !important;
-  background-color: #331726 !important;
+  background-color: #482238 !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32) !important;
   transform: scale(1.03) !important;
 }
@@ -814,7 +814,7 @@ img[src*="vtvgo-next-assets"],
 [id^="livetv-channel-card-"].is-selected {
   border: 3px solid #FFFFFF !important;
   background-image: none !important;
-  background-color: #2F2028 !important;
+  background-color: #4a2a3b !important;
   box-shadow: none !important;
   transform: scale(1.02);
 }
@@ -1229,6 +1229,124 @@ html.light-mode .sidebar-search-btn svg {
 html.light-mode .sidebar-search-btn:hover span,
 html.light-mode .sidebar-search-btn:hover svg {
   color: #111827 !important;
+}
+
+/* Immersive Search Experience: spacious rounded search field matching the reference. */
+.immersive-search-input {
+  height: 4.1rem !important;
+  padding-inline: 1.25rem !important;
+  border-radius: 1.15rem !important;
+  background: rgba(31, 30, 39, 0.94) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.immersive-search-input input {
+  font-size: 1rem !important;
+  color: #F3F4F6 !important;
+}
+
+.immersive-search-input input::placeholder {
+  color: #A1A1AA !important;
+}
+
+html.light-mode .immersive-search-input {
+  background: #F1F2F6 !important;
+}
+
+html.light-mode .immersive-search-input input {
+  color: #111827 !important;
+}
+
+/* Floaty bar: translucent pill with backdrop blur matching the reference dock. */
+.floaty-bar {
+  isolation: isolate;
+}
+
+.floaty-bar__surface {
+  min-width: min(28rem, calc(100vw - 2rem));
+  justify-content: space-between;
+  overflow: hidden;
+  background: rgba(24, 23, 31, 0.42) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(24px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+}
+
+.floaty-bar__arrow,
+.floaty-bar__item {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
+}
+
+.floaty-bar__arrow:hover,
+.floaty-bar__item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #FFFFFF !important;
+}
+
+.floaty-bar__arrow:disabled {
+  opacity: 1 !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.floaty-bar__items {
+  position: relative;
+  display: flex;
+  min-width: 12rem;
+  overflow: hidden;
+  }
+
+.floaty-bar__page {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  }
+
+.floaty-bar__items .floaty-bar__page {
+  will-change: transform, opacity;
+  }
+
+.floaty-bar__item.is-active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  }
+
+.floaty-bar #dock-home,
+.floaty-bar #dock-tv,
+.floaty-bar #dock-news,
+.floaty-bar #dock-settings,
+.floaty-bar #dock-home:hover,
+.floaty-bar #dock-tv:hover,
+.floaty-bar #dock-news:hover,
+.floaty-bar #dock-settings:hover,
+.floaty-bar #dock-home:active,
+.floaty-bar #dock-tv:active,
+.floaty-bar #dock-news:active,
+.floaty-bar #dock-settings:active,
+.floaty-bar #dock-home:focus-visible,
+.floaty-bar #dock-tv:focus-visible,
+.floaty-bar #dock-news:focus-visible,
+.floaty-bar #dock-settings:focus-visible {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.floaty-bar__item svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 2;
 }
 
 /* Sidebar tabs hover and active states */
@@ -2734,6 +2852,46 @@ html.light-mode #about-community-card {
   background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Keep Floaty active tabs at the requested subtle white pill, above global control rules. */
+.floaty-bar .floaty-bar__item.is-active,
+.floaty-bar .floaty-bar__item.is-active:hover,
+.floaty-bar .floaty-bar__item.is-active:focus-visible,
+.floaty-bar #dock-home.is-active,
+.floaty-bar #dock-tv.is-active,
+.floaty-bar #dock-news.is-active,
+.floaty-bar #dock-search.is-active,
+.floaty-bar #dock-discord.is-active,
+.floaty-bar #dock-help.is-active,
+.floaty-bar #dock-about.is-active,
+.floaty-bar #dock-settings.is-active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.floaty-bar__surface {
+  background: rgba(24, 23, 31, 0.42) !important;
+}
+
+#immersive-search-capsule {
+  height: 4.1rem !important;
+  border-radius: 1.15rem !important;
+  background: #1f1e27 !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#immersive-search-capsule input {
+  font-size: 1rem !important;
+}
+
+html.light-mode #immersive-search-capsule {
+  background: #F1F2F6 !important;
 }
 
 
