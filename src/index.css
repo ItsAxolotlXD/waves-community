@@ -1231,6 +1231,51 @@ html.light-mode .sidebar-search-btn:hover svg {
   color: #111827 !important;
 }
 
+/* Floaty bar: translucent pill with backdrop blur matching the reference dock. */
+.floaty-bar {
+  isolation: isolate;
+}
+
+.floaty-bar__surface {
+  background: rgba(24, 23, 31, 0.58) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(24px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+}
+
+.floaty-bar__arrow,
+.floaty-bar__item {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
+}
+
+.floaty-bar__arrow:hover,
+.floaty-bar__item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #FFFFFF !important;
+}
+
+.floaty-bar__arrow:disabled {
+  opacity: 1 !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.floaty-bar__item.is-active {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #FFFFFF !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13) !important;
+}
+
+.floaty-bar__item svg {
+  width: 25px;
+  height: 25px;
+  stroke-width: 2;
+}
+
 /* Sidebar tabs hover and active states */
 html.light-mode #waves-desktop-sidebar button:not(.bg-\[\#E6005A\]):hover,
 html.light-mode #waves-mobile-sidebar button:not(.bg-\[\#E6005A\]):hover {
