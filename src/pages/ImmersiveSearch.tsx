@@ -237,7 +237,7 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
             onClick={() => {
               inputRef.current?.focus();
             }}
-            className="relative flex-1 h-[46px] md:h-[48px] flex items-center px-4 md:px-5 rounded-full spotlight-bubble-box spotlight-input-container overflow-hidden cursor-text select-none"
+            className="relative flex-1 h-[42px] md:h-[44px] flex items-center px-4 md:px-5 rounded-full spotlight-bubble-box spotlight-input-container overflow-hidden cursor-text select-none"
           >
             <div className="flex items-center gap-3 w-full">
               <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
@@ -254,36 +254,21 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-placeholder="Tìm kiếm kênh truyền hình, thể thao, bản tin,..."
-  className="w-full bg-transparent text-white text-base placeholder-[#9CA3AF] focus:outline-none"
+placeholder="Find and search"
+                className="w-full bg-transparent text-white text-base placeholder-[#9CA3AF] focus:outline-none"
               />
-              {query && (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setQuery('');
-                    inputRef.current?.focus();
-                  }}
-                  className="p-1 rounded-full text-[#9CA3AF] hover:text-white transition-colors cursor-pointer shrink-0"
-                  title="Xóa nội dung"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
+              <button
+                id="btn-close-immersive-search"
+                type="button"
+                onClick={handleClose}
+                className="shrink-0 rounded-full p-1 text-[#D4CAD6] transition-colors hover:text-white cursor-pointer"
+                title="Đóng tìm kiếm (Esc)"
+                aria-label="Đóng tìm kiếm"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
           </div>
-
-          {/* Dedicated Circular Close Button with matching spotlight liquid glass style */}
-          <button
-            id="btn-close-immersive-search"
-            type="button"
-            onClick={handleClose}
-            className="w-[46px] h-[46px] md:w-[48px] md:h-[48px] rounded-full spotlight-bubble-box flex items-center justify-center text-[#D4CAD6] hover:text-white transition-all shrink-0 cursor-pointer active:scale-95 shadow-md"
-            title="Đóng tìm kiếm (Esc)"
-          >
-            <X className="w-5 h-5 transition-transform group-hover:rotate-90" />
-          </button>
         </div>
 
         {/* Dynamic Display: Search Results or Default Sections */}

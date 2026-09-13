@@ -1310,7 +1310,7 @@ html.light-mode .immersive-search-input input {
   }
 
 .floaty-bar__items .floaty-bar__page {
-  will-change: transform, opacity;
+  will-change: transform;
   }
 
 .floaty-bar__item.is-active {
@@ -2878,7 +2878,7 @@ html.light-mode #about-community-card {
 }
 
 #immersive-search-capsule {
-  height: 4.1rem !important;
+  height: 3.6rem !important;
   border-radius: 1.15rem !important;
   background: #1f1e27 !important;
   background-image: none !important;
@@ -2888,6 +2888,17 @@ html.light-mode #about-community-card {
 
 #immersive-search-capsule input {
   font-size: 1rem !important;
+}
+
+#immersive-search-capsule > #btn-close-immersive-search,
+#immersive-search-capsule > #btn-close-immersive-search:hover {
+  width: auto !important;
+  height: auto !important;
+  padding: 0.25rem !important;
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 html.light-mode #immersive-search-capsule {

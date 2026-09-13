@@ -40,10 +40,10 @@ export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, 
           <AnimatePresence initial={false} mode="popLayout">
             <motion.div
               key={page}
-              initial={{ opacity: 0, x: direction > 0 ? 28 : -28 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction > 0 ? -28 : 28 }}
-              transition={{ duration: 0.28, ease: 'easeInOut' }}
+              initial={{ x: direction > 0 ? 28 : -28 }}
+              animate={{ x: 0 }}
+              exit={{ x: direction > 0 ? -28 : 28 }}
+              transition={{ duration: 0.34, ease: 'easeInOut' }}
               className="floaty-bar__page"
             >
               {pages[page].map((item) => {
