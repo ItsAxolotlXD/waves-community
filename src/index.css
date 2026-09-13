@@ -50,6 +50,57 @@
   }
 }
 
+@keyframes hero-banner-content-next {
+  from { opacity: 0; transform: translateX(42px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes hero-banner-content-prev {
+  from { opacity: 0; transform: translateX(-42px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes hero-banner-background-next {
+  from { opacity: 0; transform: translateX(2.5%) scale(1.05); }
+  to { opacity: 1; transform: translateX(0) scale(1.05); }
+}
+
+@keyframes hero-banner-background-prev {
+  from { opacity: 0; transform: translateX(-2.5%) scale(1.05); }
+  to { opacity: 1; transform: translateX(0) scale(1.05); }
+}
+
+.hero-banner-content-next,
+.hero-banner-content-prev {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.22, 0.8, 0.28, 1);
+  animation-fill-mode: both;
+  will-change: transform, opacity;
+}
+
+.hero-banner-content-next { animation-name: hero-banner-content-next; }
+.hero-banner-content-prev { animation-name: hero-banner-content-prev; }
+
+.hero-banner-background-next,
+.hero-banner-background-prev {
+  animation-duration: 700ms;
+  animation-timing-function: cubic-bezier(0.22, 0.8, 0.28, 1);
+  animation-fill-mode: both;
+  will-change: transform, opacity;
+}
+
+.hero-banner-background-next { animation-name: hero-banner-background-next; }
+.hero-banner-background-prev { animation-name: hero-banner-background-prev; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-banner-content-next,
+  .hero-banner-content-prev,
+  .hero-banner-background-next,
+  .hero-banner-background-prev {
+    animation-duration: 1ms;
+  }
+}
+
 /* Light Mode Global Overrides */
 html.light-mode body {
   background-color: #E2E4EA !important;

@@ -16,21 +16,24 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 }) => {
   const { settings } = useSettings();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentSlide: HeroSlide = HERO_SLIDES[currentIndex] || HERO_SLIDES[0];
 
+  const goToSlide = (nextIndex: number, direction: 'next' | 'prev') => {
+    if (nextIndex === currentIndex || HERO_SLIDES.length <= 1) return;
+    setSlideDirection(direction);
+    setCurrentIndex(nextIndex);
+  };
+
   const nextSlide = () => {
-    if (HERO_SLIDES.length > 1) {
-      setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }
+    goToSlide((currentIndex + 1) % HERO_SLIDES.length, 'next');
   };
 
   const prevSlide = () => {
-    if (HERO_SLIDES.length > 1) {
-      setCurrentIndex((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
-    }
+    goToSlide((currentIndex - 1 + HERO_SLIDES.length) % HERO_SLIDES.length, 'prev');
   };
 
   useEffect(() => {
@@ -90,7 +93,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         <div
           key={slide.id}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === currentIndex ? 'opacity-100 z-0' : 'opacity-0 -z-10'
+            index === currentIndex
+              ? `opacity-100 z-0 hero-banner-background hero-banner-background-${slideDirection}`
+              : 'opacity-0 -z-10'
           }`}
         >
           <img
@@ -106,7 +111,10 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
       ))}
 
       {/* Content Container (Bottom/Left aligned) */}
-      <div className="relative z-10 w-full p-6 sm:p-10 md:p-14 lg:p-16 pb-12 md:pb-16 max-w-5xl flex flex-col justify-end">
+      <div
+        key={`${currentSlide.id}-${slideDirection}`}
+        className={`relative z-10 w-full p-6 sm:p-10 md:p-14 lg:p-16 pb-12 md:pb-16 max-w-5xl flex flex-col justify-end hero-banner-content hero-banner-content-${slideDirection}`}
+      >
         {/* Main Title */}
         <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase drop-shadow-md leading-tight">
           {currentSlide.title}
@@ -240,7 +248,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             {HERO_SLIDES.map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => setCurrentIndex(idx)}
+                onClick={() => goToSlide(idx, idx > currentIndex ? 'next' : 'prev')}
                 className={`transition-all duration-300 rounded-full h-2 cursor-pointer ${
                   idx === currentIndex
                     ? 'w-7 bg-[#FF2020] shadow-[0_0_8px_#FF2020]'
