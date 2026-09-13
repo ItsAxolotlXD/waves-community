@@ -797,18 +797,18 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
   transition: transform 0.1s ease-out, box-shadow 0.1s ease-out !important;
 }
 
-/* Channel logos anti-blur, high-DPI crisp rendering */
-[id^="recommended-channel-"] img,
-[id^="livetv-channel-card-"] img,
-[id^="channel-card-"] img,
-img[src*="vtvdigital.org"],
-img[src*="vtvgo-next-assets"],
-.hero-banner-channel-logo {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  /* Keep channel artwork smooth at its rendered size; crisp-edges makes logos pixelated. */
+  [id^="recommended-channel-"] img,
+  [id^="livetv-channel-card-"] img,
+  [id^="channel-card-"] img,
+  img[src*="vtvdigital.org"],
+  img[src*="vtvgo-next-assets"],
+  .hero-banner-channel-logo {
+  image-rendering: auto;
   backface-visibility: hidden;
-  filter: contrast(1.05) brightness(1.02) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
-}
+  transform: translateZ(0);
+  filter: contrast(1.02) brightness(1.02) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  }
 
 /* Selected Live TV Channel Card in Dark Mode */
 [id^="livetv-channel-card-"].is-selected {
@@ -1296,17 +1296,33 @@ html.light-mode .immersive-search-input input {
   color: rgba(255, 255, 255, 0.92) !important;
 }
 
-.floaty-bar__items {
+  .floaty-bar__items {
   position: relative;
   display: flex;
-  min-width: 12rem;
+  width: 13.5rem;
+  min-width: 13.5rem;
   overflow: hidden;
   }
-
-.floaty-bar__page {
+  
+  .floaty-bar__page {
   display: flex;
+  width: 13.5rem;
+  min-width: 13.5rem;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
+  gap: 0;
+  }
+
+  .floaty-bar__page .floaty-bar__item {
+  flex: 1 1 0;
+  }
+
+  @media (max-width: 520px) {
+  .floaty-bar__items,
+  .floaty-bar__page {
+  width: 12rem;
+  min-width: 12rem;
+  }
   }
 
 .floaty-bar__items .floaty-bar__page {
