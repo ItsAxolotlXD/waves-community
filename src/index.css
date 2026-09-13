@@ -1455,66 +1455,6 @@ html.light-mode #waves-mobile-sidebar .bg-\[\#E6005A\] * {
   fill: none;
 }
 
-/* Final navigation and channel-card treatment. */
-html,
-body {
-  background: linear-gradient(180deg, #2D1720 0%, #1f2124 100%) !important;
-  background-attachment: fixed;
-}
-
-.floaty-bar__page {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: center;
-  width: 13.5rem;
-  min-width: 13.5rem;
-}
-
-.floaty-bar__page .floaty-bar__item {
-  width: 100%;
-  min-width: 0;
-}
-
-.floaty-bar__item#dock-search:hover,
-.floaty-bar__item#dock-search.is-active,
-.floaty-bar__item#dock-search:active,
-.floaty-bar__item#dock-search:focus-visible {
-  background: transparent !important;
-  background-color: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-[id^="recommended-channel-"],
-[id^="livetv-channel-card-"],
-[id^="channel-card-"] {
-  background: rgba(255, 255, 255, 0.3) !important;
-}
-
-[id^="recommended-channel-"]:hover,
-[id^="recommended-channel-"]:active,
-[id^="livetv-channel-card-"]:hover,
-[id^="livetv-channel-card-"]:active,
-[id^="channel-card-"]:hover,
-[id^="channel-card-"]:active,
-[id^="livetv-channel-card-"].is-selected {
-  background: rgba(255, 255, 255, 0.3) !important;
-}
-
-@media (min-width: 521px) {
-  .floaty-bar__page {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 520px) {
-  .floaty-bar__page {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    width: 12rem;
-    min-width: 12rem;
-  }
-}
-
 #waves-desktop-sidebar .bg-\[\#E6005A\] img,
 #waves-mobile-sidebar .bg-\[\#E6005A\] img,
 html.light-mode #waves-desktop-sidebar .bg-\[\#E6005A\] img,
