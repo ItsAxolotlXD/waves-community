@@ -43,7 +43,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({ currentRoute, navigate, 
               initial={{ x: direction > 0 ? 28 : -28 }}
               animate={{ x: 0 }}
               exit={{ x: direction > 0 ? -28 : 28 }}
-              transition={{ duration: 0.34, ease: 'easeInOut' }}
+              transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
               className="floaty-bar__page"
             >
               {pages[page].map((item) => {

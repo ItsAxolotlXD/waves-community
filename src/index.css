@@ -43,7 +43,8 @@
   }
 
   body {
-    background-color: #1B0912;
+    background: linear-gradient(180deg, #2D1720 0%, #1f2124 100%);
+    background-attachment: fixed;
     color: #F3F4F6;
     overflow-x: hidden;
   }
@@ -214,7 +215,6 @@ html.light-mode #settings-section-search hr {
 }
 
 /* Theme Surface Overrides in Dark Mode */
-html:not(.light-mode) body,
 html:not(.light-mode) .bg-\[\#141416\],
 html:not(.light-mode) .bg-\[\#141418\],
 html:not(.light-mode) .bg-\[\#150718\],
@@ -2943,14 +2943,31 @@ html.light-mode #about-community-card {
   box-shadow: none !important;
   }
 
+  .floaty-bar__items,
   .floaty-bar__page {
-  width: 12rem;
-  justify-content: space-evenly;
+  width: 13.5rem !important;
+  min-width: 13.5rem !important;
+  }
+  
+  .floaty-bar__page {
+  justify-content: stretch;
   gap: 0 !important;
   }
-
+  
   .floaty-bar__item {
-  flex: 1 1 0;
+  flex: 1 1 0 !important;
+  width: 25% !important;
+  min-width: 0 !important;
+  }
+
+  .floaty-bar .floaty-bar__item:hover,
+  .floaty-bar .floaty-bar__item:focus-visible,
+  .floaty-bar .floaty-bar__item.is-active {
+  background: rgba(255, 255, 255, 0.2) !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
   }
 
   #livetv-channel-card img {
