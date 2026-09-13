@@ -21,7 +21,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
     <div
       id={`channel-card-${channel.id}`}
       onClick={() => onSelect(channel)}
-      className={`group relative rounded-[28px] bg-[#1E1E22] border transition-all duration-300 overflow-hidden cursor-pointer hover:scale-[1.02] ${
+      className={`group relative rounded-[28px] bg-[#1E1E22] border transition-none overflow-hidden cursor-pointer ${
         isActive
           ? 'border-[#E50914] glow-purple bg-[#25252C]'
           : 'border-[#2D2D35] hover:border-[#E50914]/60 hover:bg-[#26262D]'
@@ -33,12 +33,12 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
           <img
             src={channel.bannerImage}
             alt={channel.name}
-            className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-35 transition-opacity duration-300"
+            className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-35"
           />
         )}
 
         {/* Center Channel Logo */}
-        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#141416]/90 border border-white/15 flex items-center justify-center p-1.5 overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300">
+        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#141416]/90 border border-white/15 flex items-center justify-center p-1.5 overflow-hidden shadow-md">
           <img
             src={channel.logo}
             alt={channel.name}
@@ -70,7 +70,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
             e.stopPropagation();
             toggleFavoriteChannel(channel.id);
           }}
-          className={`absolute top-2.5 right-2.5 w-7 h-7 rounded-full flex items-center justify-center transition-colors ${
+          className={`absolute top-2.5 right-2.5 w-7 h-7 rounded-full flex items-center justify-center ${
             isFav 
               ? 'bg-[#FF2020] text-white shadow-md' 
               : 'bg-black/60 text-[#A1A1AA] hover:text-white border border-white/10'
@@ -80,9 +80,9 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
           <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-current' : ''}`} />
         </button>
 
-        {/* Hover Play Button Overlay */}
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <div className="w-11 h-11 rounded-full bg-gradient-purple-active flex items-center justify-center text-white shadow-xl glow-purple transform scale-90 group-hover:scale-100 transition-transform">
+        {/* Hover Play Button Overlay without fade/cross-dissolve */}
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 flex items-center justify-center">
+          <div className="w-11 h-11 rounded-full bg-gradient-purple-active flex items-center justify-center text-white shadow-xl glow-purple">
             <Play className="w-5 h-5 fill-current ml-0.5" />
           </div>
         </div>
@@ -92,7 +92,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
       <div className="p-4 pt-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5 min-w-0">
-            <h3 className="text-sm font-bold text-white group-hover:text-[#E50914] transition-colors truncate">
+            <h3 className="text-sm font-bold text-white group-hover:text-[#E50914] truncate">
               {channel.shortName || channel.name}
             </h3>
           </div>

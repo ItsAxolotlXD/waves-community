@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Play, ChevronLeft, ChevronRight, Clapperboard, ExternalLink } from 'lucide-react';
 import { HERO_SLIDES } from '../data/heroSlides';
 import { HeroSlide, Channel } from '../types';
@@ -16,6 +17,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 }) => {
   const { settings } = useSettings();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -23,19 +25,27 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
   const nextSlide = () => {
     if (HERO_SLIDES.length > 1) {
+      setDirection(1);
       setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
     }
   };
 
   const prevSlide = () => {
     if (HERO_SLIDES.length > 1) {
+      setDirection(-1);
       setCurrentIndex((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
     }
   };
 
+  const goToSlide = (idx: number) => {
+    if (idx === currentIndex) return;
+    setDirection(idx > currentIndex ? 1 : -1);
+    setCurrentIndex(idx);
+  };
+
   useEffect(() => {
     if (settings.autoScrollBanner && !isHovered && HERO_SLIDES.length > 1) {
-      timerRef.current = setInterval(nextSlide, 5000);
+      timerRef.current = setInterval(nextSlide, 6500);
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -81,138 +91,208 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   return (
     <div 
       id="hero-carousel-container"
-      className="relative w-full overflow-hidden bg-[#1B0912] min-h-[520px] md:min-h-[600px] lg:min-h-[660px] flex items-end group transition-all"
+      className="relative w-full overflow-hidden bg-transparent min-h-[520px] md:min-h-[600px] lg:min-h-[660px] flex items-end group transition-all select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background Image with Cinematic Overlay */}
-      {HERO_SLIDES.map((slide, index) => (
-        <div
-          key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === currentIndex ? 'opacity-100 z-0' : 'opacity-0 -z-10'
-          }`}
-        >
-          <img
-            src={slide.backgroundImage}
-            alt={slide.title}
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-10000 group-hover:scale-100"
-          />
-          {/* Refined subtle cinematic gradient overlays for high background clarity */}
-          <div className="absolute inset-0 hero-overlay-t bg-gradient-to-t from-[#1B0912] via-[#1B0912]/30 to-transparent" />
-          <div className="absolute inset-0 hero-overlay-r bg-gradient-to-r from-[#1B0912]/75 via-[#1B0912]/20 to-transparent w-full md:w-3/5" />
-        </div>
-      ))}
+      {/* Background Image with Cinematic Slide & Dissolve Overlay */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={currentSlide.id}
+            custom={direction}
+            variants={{
+              enter: (dir: number) => ({
+                x: dir > 0 ? '100%' : '-100%',
+                opacity: 0,
+                scale: 1.05,
+              }),
+              center: {
+                x: '0%',
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  x: { duration: 1.15, ease: [0.22, 1, 0.36, 1] },
+                  opacity: { duration: 0.85, ease: 'easeOut' },
+                  scale: { duration: 1.25, ease: [0.22, 1, 0.36, 1] },
+                },
+              },
+              exit: (dir: number) => ({
+                x: dir > 0 ? '-100%' : '100%',
+                opacity: 0,
+                scale: 0.98,
+                transition: {
+                  x: { duration: 1.15, ease: [0.22, 1, 0.36, 1] },
+                  opacity: { duration: 0.75, ease: 'easeIn' },
+                  scale: { duration: 1.15, ease: 'easeIn' },
+                },
+              }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="absolute inset-0 w-full h-full"
+          >
+            <img
+              src={currentSlide.backgroundImage}
+              alt={currentSlide.title}
+              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-center"
+            />
+            {/* Cinematic gradient overlays blending seamlessly into app background #2D1720 */}
+            <div className="absolute inset-0 hero-overlay-t bg-gradient-to-t from-[#2D1720] via-[#2D1720]/40 to-transparent" />
+            <div className="absolute inset-0 hero-overlay-r bg-gradient-to-r from-[#2D1720]/85 via-[#2D1720]/30 to-transparent w-full md:w-3/5" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       {/* Content Container (Bottom/Left aligned) */}
       <div className="relative z-10 w-full p-6 sm:p-10 md:p-14 lg:p-16 pb-12 md:pb-16 max-w-5xl flex flex-col justify-end">
-        {/* Main Title */}
-        <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase drop-shadow-md leading-tight">
-          {currentSlide.title}
-        </h1>
-
-        {/* Subtitle with Red to Magenta gradient */}
-        {currentSlide.subtitle && (
-          <div className="mt-1 md:mt-2">
-            <span className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-[#FF2020] via-[#FF3366] to-[#F000FF] bg-clip-text text-transparent drop-shadow">
-              {currentSlide.subtitle}
-            </span>
-          </div>
-        )}
-
-        {/* Director credits */}
-        {currentSlide.director && (
-          <div className="flex items-center gap-2.5 mt-3.5">
-            <div className="hero-director-badge flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2A2A32]/90 border border-white/15 text-xs text-white">
-              <Clapperboard className="w-3.5 h-3.5 text-[#FF3366]" />
-              <span className="hero-director-label text-[#9CA3AF] uppercase text-[10px] font-bold tracking-wider">ĐẠO DIỄN:</span>
-              <span className="hero-director-name font-extrabold text-white tracking-wide">{currentSlide.director}</span>
-            </div>
-          </div>
-        )}
-
-        {/* Rich Description with formatted gradient text */}
-        <p className="mt-4 text-xs sm:text-sm md:text-base text-[#D1D5DB] leading-relaxed max-w-3xl font-normal">
-          {renderFormattedDescription(currentSlide.description)}
-        </p>
-
-        {/* CTA Button Row + Channel Logo + Navigation Arrows */}
-        <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 mt-6">
-          {/* Main Colored CTA Button */}
-          {currentSlide.externalUrl ? (
-            <a
-              id="btn-hero-watch-now"
-              href={currentSlide.externalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none inline-flex"
+        {/* Animated Slide for Title, Subtitle, Director, Description & CTA */}
+        <div className="overflow-hidden">
+          <AnimatePresence initial={false} mode="wait" custom={direction}>
+            <motion.div
+              key={currentSlide.id}
+              custom={direction}
+              variants={{
+                enter: (dir: number) => ({
+                  x: dir > 0 ? 70 : -70,
+                  opacity: 0,
+                }),
+                center: {
+                  x: 0,
+                  opacity: 1,
+                  transition: {
+                    x: { duration: 0.85, ease: [0.22, 1, 0.36, 1] },
+                    opacity: { duration: 0.7, ease: 'easeOut' },
+                  },
+                },
+                exit: (dir: number) => ({
+                  x: dir > 0 ? -50 : 50,
+                  opacity: 0,
+                  transition: {
+                    x: { duration: 0.45, ease: [0.32, 0, 0.67, 0] },
+                    opacity: { duration: 0.35, ease: 'easeIn' },
+                  },
+                }),
+              }}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="flex flex-col"
             >
-              <span className="font-bold text-white">{currentSlide.ctaText || 'Learn more'}</span>
-              <ExternalLink className="w-4 h-4 text-white group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-            </a>
-          ) : (
-            <button
-              id="btn-hero-watch-now"
-              onClick={handleWatchNow}
-              className="flex items-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none"
-            >
-              <Play className="w-4.5 h-4.5 fill-white text-white ml-0.5 group-hover/btn:scale-110 transition-transform" />
-              <span className="font-bold text-white">{currentSlide.ctaText || 'Xem'}</span>
-            </button>
-          )}
+              {/* Main Title */}
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase drop-shadow-md leading-tight">
+                {currentSlide.title}
+              </h1>
 
-          {/* Pure Banner Logo placed directly next to the Watch button */}
-          {currentSlide.channelLogo && (
-            currentSlide.externalUrl ? (
-              <a 
-                href={currentSlide.externalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
-                title={currentSlide.channelName || 'Xem thêm'}
-              >
-                <img
-                  src={currentSlide.channelLogo}
-                  alt={currentSlide.channelName || 'Logo banner'}
-                  referrerPolicy="no-referrer"
-                  className={`hero-banner-channel-logo w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] ${
-                    currentSlide.id === 'vtv-56-nam'
-                      ? 'h-9 sm:h-10 md:h-11 max-h-12'
-                      : 'h-8 sm:h-9'
-                  }`}
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.style.display = 'none';
-                  }}
-                />
-              </a>
-            ) : (
-              <div 
-                onClick={handleWatchNow}
-                className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
-                title={currentSlide.channelName || 'Xem'}
-              >
-                <img
-                  src={currentSlide.channelLogo}
-                  alt={currentSlide.channelName || 'Logo banner'}
-                  referrerPolicy="no-referrer"
-                  className={`hero-banner-channel-logo w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] ${
-                    currentSlide.id === 'vtv-56-nam'
-                      ? 'h-9 sm:h-10 md:h-11 max-h-12'
-                      : 'h-8 sm:h-9'
-                  }`}
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.style.display = 'none';
-                  }}
-                />
+              {/* Subtitle with Red to Magenta gradient */}
+              {currentSlide.subtitle && (
+                <div className="mt-1 md:mt-2">
+                  <span className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-[#FF2020] via-[#FF3366] to-[#F000FF] bg-clip-text text-transparent drop-shadow">
+                    {currentSlide.subtitle}
+                  </span>
+                </div>
+              )}
+
+              {/* Director credits */}
+              {currentSlide.director && (
+                <div className="flex items-center gap-2.5 mt-3.5">
+                  <div className="hero-director-badge flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2A2A32]/90 border border-white/15 text-xs text-white">
+                    <Clapperboard className="w-3.5 h-3.5 text-[#FF3366]" />
+                    <span className="hero-director-label text-[#9CA3AF] uppercase text-[10px] font-bold tracking-wider">ĐẠO DIỄN:</span>
+                    <span className="hero-director-name font-extrabold text-white tracking-wide">{currentSlide.director}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Rich Description with formatted gradient text */}
+              <p className="mt-4 text-xs sm:text-sm md:text-base text-[#D1D5DB] leading-relaxed max-w-3xl font-normal">
+                {renderFormattedDescription(currentSlide.description)}
+              </p>
+
+              {/* CTA Button Row + Channel Logo */}
+              <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 mt-6">
+                {/* Main Colored CTA Button */}
+                {currentSlide.externalUrl ? (
+                  <a
+                    id="btn-hero-watch-now"
+                    href={currentSlide.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none inline-flex"
+                  >
+                    <span className="font-bold text-white">{currentSlide.ctaText || 'Learn more'}</span>
+                    <ExternalLink className="w-4 h-4 text-white group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                  </a>
+                ) : (
+                  <button
+                    id="btn-hero-watch-now"
+                    onClick={handleWatchNow}
+                    className="flex items-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none"
+                  >
+                    <Play className="w-4.5 h-4.5 fill-white text-white ml-0.5 group-hover/btn:scale-110 transition-transform" />
+                    <span className="font-bold text-white">{currentSlide.ctaText || 'Xem'}</span>
+                  </button>
+                )}
+
+                {/* Pure Banner Logo placed directly next to the Watch button */}
+                {currentSlide.channelLogo && (
+                  currentSlide.externalUrl ? (
+                    <a 
+                      href={currentSlide.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
+                      title={currentSlide.channelName || 'Xem thêm'}
+                    >
+                      <img
+                        src={currentSlide.channelLogo}
+                        alt={currentSlide.channelName || 'Logo banner'}
+                        referrerPolicy="no-referrer"
+                        className={`hero-banner-channel-logo w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] ${
+                          currentSlide.id === 'vtv-56-nam'
+                            ? 'h-9 sm:h-10 md:h-11 max-h-12'
+                            : 'h-8 sm:h-9'
+                        }`}
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.style.display = 'none';
+                        }}
+                      />
+                    </a>
+                  ) : (
+                    <div 
+                      onClick={handleWatchNow}
+                      className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
+                      title={currentSlide.channelName || 'Xem'}
+                    >
+                      <img
+                        src={currentSlide.channelLogo}
+                        alt={currentSlide.channelName || 'Logo banner'}
+                        referrerPolicy="no-referrer"
+                        className={`hero-banner-channel-logo w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] ${
+                          currentSlide.id === 'vtv-56-nam'
+                            ? 'h-9 sm:h-10 md:h-11 max-h-12'
+                            : 'h-8 sm:h-9'
+                        }`}
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )
+                )}
               </div>
-            )
-          )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-          {/* Previous & Next circular arrow buttons if multiple slides */}
-          {HERO_SLIDES.length > 1 && (
+        {/* Stable Controls Row: Arrows + Pagination Dots */}
+        {HERO_SLIDES.length > 1 && (
+          <div className="flex flex-wrap items-center gap-4 mt-6">
+            {/* Previous & Next circular arrow buttons */}
             <div className="flex items-center gap-2">
               <button
                 id="btn-hero-prev"
@@ -231,24 +311,22 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
-          )}
-        </div>
 
-        {/* Pagination indicator: dots if multiple slides */}
-        {HERO_SLIDES.length > 1 && (
-          <div className="flex items-center gap-2 mt-6">
-            {HERO_SLIDES.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`transition-all duration-300 rounded-full h-2 cursor-pointer ${
-                  idx === currentIndex
-                    ? 'w-7 bg-[#FF2020] shadow-[0_0_8px_#FF2020]'
-                    : 'w-2 bg-[#4B4B54] hover:bg-[#6B6B76]'
-                }`}
-                aria-label={`Đi tới slide ${idx + 1}`}
-              />
-            ))}
+            {/* Pagination indicator: dots */}
+            <div className="flex items-center gap-2">
+              {HERO_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => goToSlide(idx)}
+                  className={`transition-all duration-300 rounded-full h-2 cursor-pointer ${
+                    idx === currentIndex
+                      ? 'w-7 bg-[#FF2020] shadow-[0_0_8px_#FF2020]'
+                      : 'w-2 bg-[#4B4B54] hover:bg-[#6B6B76]'
+                  }`}
+                  aria-label={`Đi tới slide ${idx + 1}`}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>

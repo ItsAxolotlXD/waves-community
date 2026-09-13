@@ -48,6 +48,7 @@ const SETTINGS_SHORTCUTS = [
   { id: 'set-autohide', title: 'Cài đặt: Tự động ẩn Sidebar', keyword: 'tự động ẩn sidebar collapse' },
   { id: 'set-motion', title: 'Cài đặt: Motion and Movements / Hiệu ứng chuyển động', keyword: 'motion movements hiệu ứng animation reduce all animation chuyển trang' },
   { id: 'set-search', title: 'Cài đặt: Tùy chỉnh danh mục tìm kiếm', keyword: 'tìm kiếm search spotlight' },
+  { id: 'set-keybinds', title: 'Cài đặt: Customize keybinds / Phím tắt tùy chỉnh', keyword: 'phím tắt customize keybinds shortcut keyboard alt 1 2 3 4 5' },
 ];
 
 export const SpotlightModal: React.FC<SpotlightModalProps> = ({

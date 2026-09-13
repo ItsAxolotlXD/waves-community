@@ -14,6 +14,7 @@ import { AddStreamModal } from './components/AddStreamModal';
 import { TextToSpeechPlayer } from './components/TextToSpeechPlayer';
 import { Home } from './pages/Home';
 import { LiveTV } from './pages/LiveTV';
+import { TestChannels } from './pages/TestChannels';
 import { News } from './pages/News';
 import { Article } from './pages/Article';
 import { Channels } from './pages/Channels';
@@ -25,6 +26,7 @@ import { CHANNELS_DATA } from './data/channels';
 import { NEWS_DATA } from './data/news';
 import { Channel, NewsArticle } from './types';
 import { useSettings } from './hooks/useSettings';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 
 export default function App() {
   const { settings, hasChanges } = useSettings();
@@ -84,8 +86,24 @@ export default function App() {
       const matched = CHANNELS_DATA.find((c) => c.slug === channelSlug);
       if (matched) return matched;
     }
+    try {
+      const savedRecentId = localStorage.getItem('vplay_recent_channel_id');
+      if (savedRecentId) {
+        const found = CHANNELS_DATA.find((c) => c.id === savedRecentId);
+        if (found) return found;
+      }
+    } catch {}
     return CHANNELS_DATA[0];
   });
+
+  // Track recent channel in localStorage
+  useEffect(() => {
+    if (currentChannel?.id) {
+      try {
+        localStorage.setItem('vplay_recent_channel_id', currentChannel.id);
+      } catch {}
+    }
+  }, [currentChannel]);
 
   // Modals state
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(true);
@@ -198,6 +216,36 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleGlobalSearchKey);
   }, [handleOpenSearch]);
 
+  // Global Customizable Keybinds (Alt+1: Home, Alt+2: Search, Alt+3: Tools menu, Alt+4: Settings, Alt+5: Recent Channel)
+  useKeyboardShortcuts({
+    onHome: useCallback(() => {
+      navigate('/');
+    }, [navigate]),
+    onSearch: useCallback(() => {
+      handleOpenSearch();
+    }, [handleOpenSearch]),
+    onTools: useCallback(() => {
+      window.dispatchEvent(new CustomEvent('vplay:toggle-tools'));
+    }, []),
+    onSettings: useCallback(() => {
+      navigate('/settings');
+    }, [navigate]),
+    onRecentChannel: useCallback(() => {
+      let targetChannel = currentChannel;
+      try {
+        const savedId = localStorage.getItem('vplay_recent_channel_id');
+        if (savedId) {
+          const found = channels.find((c) => c.id === savedId);
+          if (found) targetChannel = found;
+        }
+      } catch {}
+      if (targetChannel) {
+        setCurrentChannel(targetChannel);
+        navigate(`/live-tv?channel=${targetChannel.slug}`);
+      }
+    }, [currentChannel, channels, navigate])
+  });
+
   // Handle browser back / forward navigation
   useEffect(() => {
     const handlePopState = () => {
@@ -289,6 +337,16 @@ export default function App() {
           />
         );
 
+      case '/test':
+        return (
+          <TestChannels
+            currentChannel={currentChannel}
+            onSelectChannel={setCurrentChannel}
+            channels={channels}
+            onOpenCustomStreamModal={() => setIsCustomStreamModalOpen(true)}
+          />
+        );
+
       case '/news':
         return <News navigate={navigate} />;
 
@@ -344,33 +402,40 @@ export default function App() {
     <div
       data-immersive-sidebar={settings.immersiveSidebar}
       data-sidebar-position={settings.sidebarPosition}
-      className="min-h-screen bg-[#1B0912] text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative"
+      className="min-h-screen bg-transparent text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative"
     >
+      {/* Fixed background solid color without gradient */}
+      <div 
+        id="fixed-app-background-solid" 
+        className="fixed inset-0 pointer-events-none -z-50 bg-[#2D1720]" 
+        aria-hidden="true" 
+      />
+
       {/* Sidebar Navigation (Desktop + Mobile Drawer) */}
-        {settings.navigationMode !== 'floaty' && <Sidebar
+      {settings.navigationMode === 'sidebar' && (
+        <Sidebar
           currentRoute={currentRoute}
-        navigate={navigate}
-        onOpenSearch={handleOpenSearch}
-        onSelectChannel={setCurrentChannel}
-        isCollapsed={isSidebarCollapsed}
-        onToggleCollapse={toggleSidebarCollapse}
-        isMobileOpen={isMobileSidebarOpen}
-        onCloseMobile={() => setIsMobileSidebarOpen(false)}
-      />}
+          navigate={navigate}
+          onOpenSearch={handleOpenSearch}
+          onSelectChannel={setCurrentChannel}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={toggleSidebarCollapse}
+          isMobileOpen={isMobileSidebarOpen}
+          onCloseMobile={() => setIsMobileSidebarOpen(false)}
+        />
+      )}
 
       {/* Main App Container */}
       <div className={`flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ${
-        !settings.dockToSidebar || settings.navigationMode === 'floaty'
+        !settings.dockToSidebar || settings.navigationMode !== 'sidebar'
           ? 'md:pl-0 md:pr-0 pb-20'
-          : settings.navigationMode === 'immersive' || settings.immersiveSidebar
-            ? 'md:pl-0 md:pr-0'
-            : settings.sidebarPosition === 'right'
-              ? isEffectiveCollapsed
-                ? 'md:pr-[80px]'
-                : 'md:pr-[290px]'
-              : isEffectiveCollapsed
-                ? 'md:pl-[80px]'
-                : 'md:pl-[290px]'
+          : settings.sidebarPosition === 'right'
+            ? isEffectiveCollapsed
+              ? 'md:pr-[80px]'
+              : 'md:pr-[290px]'
+            : isEffectiveCollapsed
+              ? 'md:pl-[80px]'
+              : 'md:pl-[290px]'
       }`}>
         {/* TopBar Header */}
         <TopBar
@@ -427,14 +492,15 @@ export default function App() {
         </main>
       </div>
 
-      {/* Floaty bar navigation */}
-      {settings.navigationMode === 'floaty' && (
+      {/* Floaty bar navigation (Standard or Immersive) */}
+      {(settings.navigationMode === 'floaty' || settings.navigationMode === 'immersive_floaty') && (
         <BottomDock
           currentRoute={currentRoute}
           navigate={navigate}
           onOpenSearch={handleOpenSearch}
           onOpenHelp={() => setIsHelpModalOpen(true)}
           onOpenDiscord={() => setIsWelcomeModalOpen(true)}
+          isImmersive={settings.navigationMode === 'immersive_floaty'}
         />
       )}
 

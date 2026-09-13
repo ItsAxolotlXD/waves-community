@@ -117,3 +117,19 @@ export interface UserSettings {
   enableNoiseFilter: boolean;
   theme: 'dark' | 'oled';
 }
+
+export type KeybindAction = 
+  | 'home'
+  | 'search'
+  | 'tools'
+  | 'settings'
+  | 'recentChannel';
+
+export interface KeybindDefinition {
+  id: KeybindAction;
+  label: string;
+  description: string;
+  defaultKey: string; // e.g. "Alt+1"
+}
+
+export type CustomKeybinds = Record<KeybindAction, string>;

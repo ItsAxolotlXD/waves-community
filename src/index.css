@@ -28,7 +28,7 @@
     --solid-red: #E6005A;
     --accent-red: #FF267A;
     --dark-red: #B30046;
-    --dark-bg: #1B0912;
+    --dark-bg: #2D1720;
     --sidebar-bg: #250F1A;
     --card-bg: #280e32;
     --waves-font-scale: 1;
@@ -43,9 +43,11 @@
   }
 
   body {
-    background-color: #1B0912;
+    background-color: #2D1720;
+    background-image: none;
     color: #F3F4F6;
     overflow-x: hidden;
+    min-height: 100vh;
   }
 }
 
@@ -214,14 +216,19 @@ html.light-mode #settings-section-search hr {
 }
 
 /* Theme Surface Overrides in Dark Mode */
-html:not(.light-mode) body,
+html:not(.light-mode) body {
+  background: #2D1720 !important;
+  background-color: #2D1720 !important;
+  background-image: none !important;
+}
+
 html:not(.light-mode) .bg-\[\#141416\],
 html:not(.light-mode) .bg-\[\#141418\],
 html:not(.light-mode) .bg-\[\#150718\],
 html:not(.light-mode) .bg-\[\#140718\],
 html:not(.light-mode) .bg-\[\#1B0912\],
 html:not(.light-mode) .bg-\[\#0c020e\] {
-  background-color: #1B0912 !important;
+  background-color: #2D1720 !important;
 }
 
 html:not(.light-mode) .bg-\[\#1E1D22\],
@@ -427,11 +434,6 @@ html.light-mode #immersive-search-page .text-\[\#E0D8E2\] {
 #btn-sidebar-back,
 #slider-prev-btn,
 #slider-next-btn,
-#dock-spotlight-btn,
-#dock-home,
-#dock-tv,
-#dock-news,
-#dock-settings,
 #btn-discord-close,
 #btn-welcome-close-icon,
 #btn-under-construction-close-icon,
@@ -466,11 +468,6 @@ html.light-mode #immersive-search-page .text-\[\#E0D8E2\] {
 #btn-sidebar-back:hover,
 #slider-prev-btn:hover,
 #slider-next-btn:hover,
-#dock-spotlight-btn:hover,
-#dock-home:hover,
-#dock-tv:hover,
-#dock-news:hover,
-#dock-settings:hover,
 #btn-discord-close:hover,
 #btn-welcome-close-icon:hover,
 #btn-under-construction-close-icon:hover,
@@ -514,11 +511,6 @@ html.light-mode #immersive-search-page .text-\[\#E0D8E2\] {
 #btn-sidebar-back:active,
 #slider-prev-btn:active,
 #slider-next-btn:active,
-#dock-spotlight-btn:active,
-#dock-home:active,
-#dock-tv:active,
-#dock-news:active,
-#dock-settings:active,
 #btn-discord-close:active,
 #btn-welcome-close-icon:active,
 #btn-under-construction-close-icon:active,
@@ -766,57 +758,66 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
   transition: transform 0.1s ease-out !important;
 }
 
-/* Channel Cards: No border effect, clean subtle background, smooth hover */
+/* Channel Cards: Stable geometry, strictly no width/height changes on hover or select, no fade/cross-dissolve transitions */
 [id^="recommended-channel-"],
 [id^="livetv-channel-card-"]:not(.is-selected),
 [id^="channel-card-"] {
-  border: none !important;
+  box-sizing: border-box !important;
+  border: 2px solid transparent !important;
   background-image: none !important;
   background-color: #351a29 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
-  transform: scale(1);
-  transition: transform 0.25s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.2s ease-out, background-color 0.18s ease-in-out !important;
-  will-change: transform;
+  transform: none !important;
+  transition: none !important;
+  will-change: auto;
 }
 
 [id^="recommended-channel-"]:hover,
 [id^="livetv-channel-card-"]:not(.is-selected):hover,
-  [id^="channel-card-"]:hover {
-  border: 3px solid #FFFFFF !important;
+[id^="channel-card-"]:hover {
+  box-sizing: border-box !important;
+  border: 2px solid rgba(255, 255, 255, 0.75) !important;
   background-image: none !important;
   background-color: #482238 !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32) !important;
-  transform: scale(1.03) !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 [id^="recommended-channel-"]:active,
 [id^="livetv-channel-card-"]:not(.is-selected):active,
 [id^="channel-card-"]:active {
-  transform: scale(0.97) !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
-  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out !important;
+  box-sizing: border-box !important;
+  border: 2px solid rgba(255, 255, 255, 0.9) !important;
+  background-color: #3d1a2f !important;
+  transform: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
+  transition: none !important;
 }
 
-/* Channel logos anti-blur, high-DPI crisp rendering */
+/* Channel logos: smooth high-quality anti-aliased scaling, no pixelation */
 [id^="recommended-channel-"] img,
 [id^="livetv-channel-card-"] img,
 [id^="channel-card-"] img,
 img[src*="vtvdigital.org"],
 img[src*="vtvgo-next-assets"],
+img[src*="vtvprime.vn"],
 .hero-banner-channel-logo {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  image-rendering: auto !important;
+  image-rendering: smooth !important;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  filter: contrast(1.05) brightness(1.02) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+  transform: translateZ(0);
 }
 
-/* Selected Live TV Channel Card in Dark Mode */
+/* Selected Live TV Channel Card in Dark Mode - exact same 2px border, perfectly stable */
 [id^="livetv-channel-card-"].is-selected {
-  border: 3px solid #FFFFFF !important;
+  box-sizing: border-box !important;
+  border: 2px solid #FFFFFF !important;
   background-image: none !important;
   background-color: #4a2a3b !important;
-  box-shadow: none !important;
-  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15) !important;
+  transform: none !important;
 }
 
 /* Primary / Accent Pink Liquid Glass Action Buttons */
@@ -825,10 +826,6 @@ img[src*="vtvgo-next-assets"],
 #btn-under-construction-close,
 #btn-changelogs-read,
 #btn-hero-watch-now,
-#dock-home.bg-\[\#E6005A\],
-#dock-tv.bg-\[\#E6005A\],
-#dock-news.bg-\[\#E6005A\],
-#dock-settings.bg-\[\#E6005A\],
 #livetv-category-tabs button.bg-\[\#E50914\],
 #livetv-category-tabs button.bg-\[\#E6005A\],
 #news-category-tabs button.bg-\[\#E50914\],
@@ -851,10 +848,6 @@ img[src*="vtvgo-next-assets"],
 #btn-under-construction-close:hover,
 #btn-changelogs-read:hover,
 #btn-hero-watch-now:hover,
-#dock-home.bg-\[\#E6005A\]:hover,
-#dock-tv.bg-\[\#E6005A\]:hover,
-#dock-news.bg-\[\#E6005A\]:hover,
-#dock-settings.bg-\[\#E6005A\]:hover,
 #btn-theme-light.bg-\[\#E6005A\]:hover,
 #btn-theme-dark.bg-\[\#E6005A\]:hover {
   border: 1px solid transparent !important;
@@ -1089,11 +1082,6 @@ html.light-mode #btn-mobile-spotlight-search,
 html.light-mode #btn-spotlight-search-mini,
 html.light-mode #slider-prev-btn,
 html.light-mode #slider-next-btn,
-html.light-mode #dock-spotlight-btn,
-html.light-mode #dock-home:not(.bg-\[\#E6005A\]),
-html.light-mode #dock-tv:not(.bg-\[\#E6005A\]),
-html.light-mode #dock-news:not(.bg-\[\#E6005A\]),
-html.light-mode #dock-settings:not(.bg-\[\#E6005A\]),
 html.light-mode #btn-discord-close,
 html.light-mode #btn-welcome-close-icon,
 html.light-mode #btn-under-construction-close-icon,
@@ -1124,11 +1112,6 @@ html.light-mode #btn-mobile-spotlight-search:hover,
 html.light-mode #btn-spotlight-search-mini:hover,
 html.light-mode #slider-prev-btn:hover,
 html.light-mode #slider-next-btn:hover,
-html.light-mode #dock-spotlight-btn:hover,
-html.light-mode #dock-home:not(.bg-\[\#E6005A\]):hover,
-html.light-mode #dock-tv:not(.bg-\[\#E6005A\]):hover,
-html.light-mode #dock-news:not(.bg-\[\#E6005A\]):hover,
-html.light-mode #dock-settings:not(.bg-\[\#E6005A\]):hover,
 html.light-mode #btn-discord-close:hover,
 html.light-mode #btn-welcome-close-icon:hover,
 html.light-mode #btn-under-construction-close-icon:hover,
@@ -1154,10 +1137,6 @@ html.light-mode #btn-welcome-close,
 html.light-mode #btn-under-construction-close,
 html.light-mode #btn-changelogs-read,
 html.light-mode #btn-hero-watch-now,
-html.light-mode #dock-home.bg-\[\#E6005A\],
-html.light-mode #dock-tv.bg-\[\#E6005A\],
-html.light-mode #dock-news.bg-\[\#E6005A\],
-html.light-mode #dock-settings.bg-\[\#E6005A\],
 html.light-mode #livetv-category-tabs button.bg-\[\#E50914\],
 html.light-mode #livetv-category-tabs button.bg-\[\#E6005A\],
 html.light-mode #news-category-tabs button.bg-\[\#E50914\],
@@ -1179,10 +1158,6 @@ html.light-mode #btn-welcome-close:hover,
 html.light-mode #btn-under-construction-close:hover,
 html.light-mode #btn-changelogs-read:hover,
 html.light-mode #btn-hero-watch-now:hover,
-html.light-mode #dock-home.bg-\[\#E6005A\]:hover,
-html.light-mode #dock-tv.bg-\[\#E6005A\]:hover,
-html.light-mode #dock-news.bg-\[\#E6005A\]:hover,
-html.light-mode #dock-settings.bg-\[\#E6005A\]:hover,
 html.light-mode #btn-theme-light.bg-\[\#E6005A\]:hover,
 html.light-mode #btn-theme-dark.bg-\[\#E6005A\]:hover {
   border: 1px solid transparent !important;
@@ -1282,13 +1257,15 @@ html.light-mode .immersive-search-input input {
   background: transparent !important;
   box-shadow: none !important;
   color: rgba(255, 255, 255, 0.92) !important;
-  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease !important;
+  transition: background-color 180ms ease, color 180ms ease !important;
+  transform: none !important;
 }
 
 .floaty-bar__arrow:hover,
 .floaty-bar__item:hover {
   background: rgba(255, 255, 255, 0.1) !important;
   color: #FFFFFF !important;
+  transform: none !important;
 }
 
 .floaty-bar__arrow:disabled {
@@ -1299,53 +1276,29 @@ html.light-mode .immersive-search-input input {
 .floaty-bar__items {
   position: relative;
   display: flex;
-  min-width: 12rem;
+  min-width: 0;
+  height: 48px;
   overflow: hidden;
-  }
+  align-items: center;
+  justify-content: center;
+}
 
 .floaty-bar__page {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  }
+  justify-content: space-between;
+  width: 100%;
+  height: 48px;
+  flex-shrink: 0;
+}
 
 .floaty-bar__items .floaty-bar__page {
-  will-change: transform, opacity;
-  }
-
-.floaty-bar__item.is-active {
-  background: rgba(255, 255, 255, 0.2) !important;
-  color: #FFFFFF !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  }
-
-.floaty-bar #dock-home,
-.floaty-bar #dock-tv,
-.floaty-bar #dock-news,
-.floaty-bar #dock-settings,
-.floaty-bar #dock-home:hover,
-.floaty-bar #dock-tv:hover,
-.floaty-bar #dock-news:hover,
-.floaty-bar #dock-settings:hover,
-.floaty-bar #dock-home:active,
-.floaty-bar #dock-tv:active,
-.floaty-bar #dock-news:active,
-.floaty-bar #dock-settings:active,
-.floaty-bar #dock-home:focus-visible,
-.floaty-bar #dock-tv:focus-visible,
-.floaty-bar #dock-news:focus-visible,
-.floaty-bar #dock-settings:focus-visible {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-  border: 0 !important;
-  box-shadow: none !important;
+  will-change: transform, opacity, filter;
 }
 
 .floaty-bar__item svg {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   stroke-width: 2;
 }
 
@@ -1624,7 +1577,8 @@ html.light-mode #btn-hero-watch-now svg {
 /* Recommended Channel Cards & Live TV Channel Cards in Light Mode */
 html.light-mode [id^="recommended-channel-"],
 html.light-mode [id^="livetv-channel-card-"]:not(.is-selected) {
-  border: 1px solid transparent !important;
+  box-sizing: border-box !important;
+  border: 2px solid transparent !important;
   background-image: 
     linear-gradient(#FFFFFF, #FFFFFF), 
     linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.45) 100%) !important;
@@ -1632,11 +1586,14 @@ html.light-mode [id^="livetv-channel-card-"]:not(.is-selected) {
   background-clip: padding-box, border-box !important;
   box-shadow: inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95), 0 0 0 1px rgba(0, 0, 0, 0.08), 0 0 14px rgba(0, 0, 0, 0.18), 0 3px 8px rgba(0, 0, 0, 0.12) !important;
   color: #374151 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 html.light-mode [id^="recommended-channel-"]:hover,
 html.light-mode [id^="livetv-channel-card-"]:not(.is-selected):hover {
-  border: 1px solid transparent !important;
+  box-sizing: border-box !important;
+  border: 2px solid rgba(0, 0, 0, 0.2) !important;
   background-image: 
     linear-gradient(#FFFFFF, #FFFFFF), 
     linear-gradient(180deg, rgba(71, 85, 105, 0.65) 0%, rgba(100, 116, 139, 0) 25%, rgba(100, 116, 139, 0) 75%, rgba(71, 85, 105, 0.65) 100%) !important;
@@ -1644,13 +1601,17 @@ html.light-mode [id^="livetv-channel-card-"]:not(.is-selected):hover {
   background-clip: padding-box, border-box !important;
   box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 1), 0 0 0 1px rgba(0, 0, 0, 0.12), 0 0 20px rgba(0, 0, 0, 0.28), 0 6px 14px rgba(0, 0, 0, 0.16) !important;
   color: #111827 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 html.light-mode [id^="livetv-channel-card-"].is-selected {
-  border: 3px solid #FFFFFF !important;
+  box-sizing: border-box !important;
+  border: 2px solid #E6005A !important;
   background-image: none !important;
   background-color: #FFF0F5 !important;
   box-shadow: none !important;
+  transform: none !important;
 }
 
 /* Spotlight Compact Popover in Light Mode */
@@ -2854,23 +2815,70 @@ html.light-mode #about-community-card {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Keep Floaty active tabs at the requested subtle white pill, above global control rules. */
+/* Keep Floaty tabs transparent by default, and active/hovered tabs at pill background */
+.floaty-bar .floaty-bar__item {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  border-radius: 9999px !important;
+}
+
 .floaty-bar .floaty-bar__item.is-active,
 .floaty-bar .floaty-bar__item.is-active:hover,
 .floaty-bar .floaty-bar__item.is-active:focus-visible,
+.floaty-bar .floaty-bar__item:hover,
 .floaty-bar #dock-home.is-active,
+.floaty-bar #dock-home:hover,
 .floaty-bar #dock-tv.is-active,
+.floaty-bar #dock-tv:hover,
+.floaty-bar #dock-test.is-active,
+.floaty-bar #dock-test:hover,
 .floaty-bar #dock-news.is-active,
+.floaty-bar #dock-news:hover,
 .floaty-bar #dock-search.is-active,
+.floaty-bar #dock-search:hover,
 .floaty-bar #dock-discord.is-active,
+.floaty-bar #dock-discord:hover,
 .floaty-bar #dock-help.is-active,
+.floaty-bar #dock-help:hover,
 .floaty-bar #dock-about.is-active,
-.floaty-bar #dock-settings.is-active {
+.floaty-bar #dock-about:hover,
+.floaty-bar #dock-settings.is-active,
+.floaty-bar #dock-settings:hover {
   background: rgba(255, 255, 255, 0.2) !important;
   background-color: rgba(255, 255, 255, 0.2) !important;
   background-image: none !important;
   border: 0 !important;
   box-shadow: none !important;
+  border-radius: 9999px !important;
+  transform: none !important;
+}
+
+html.light-mode .floaty-bar .floaty-bar__item.is-active,
+html.light-mode .floaty-bar .floaty-bar__item:hover,
+html.light-mode .floaty-bar #dock-home.is-active,
+html.light-mode .floaty-bar #dock-home:hover,
+html.light-mode .floaty-bar #dock-tv.is-active,
+html.light-mode .floaty-bar #dock-tv:hover,
+html.light-mode .floaty-bar #dock-news.is-active,
+html.light-mode .floaty-bar #dock-news:hover,
+html.light-mode .floaty-bar #dock-search.is-active,
+html.light-mode .floaty-bar #dock-search:hover,
+html.light-mode .floaty-bar #dock-discord.is-active,
+html.light-mode .floaty-bar #dock-discord:hover,
+html.light-mode .floaty-bar #dock-help.is-active,
+html.light-mode .floaty-bar #dock-help:hover,
+html.light-mode .floaty-bar #dock-about.is-active,
+html.light-mode .floaty-bar #dock-about:hover,
+html.light-mode .floaty-bar #dock-settings.is-active,
+html.light-mode .floaty-bar #dock-settings:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  color: #111827 !important;
+  border-radius: 9999px !important;
 }
 
 .floaty-bar__surface {
@@ -2878,8 +2886,10 @@ html.light-mode #about-community-card {
 }
 
 #immersive-search-capsule {
-  height: 4.1rem !important;
-  border-radius: 1.15rem !important;
+  max-width: 480px !important;
+  width: 100% !important;
+  height: 3.25rem !important;
+  border-radius: 9999px !important;
   background: #1f1e27 !important;
   background-image: none !important;
   border: 0 !important;

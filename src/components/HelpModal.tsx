@@ -13,12 +13,16 @@ export const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose }) => {
   const shouldAnimate = !settings.reduceAllMotion && settings.animateModals;
 
   const shortcuts = [
-    { key: '⌘ + K / Ctrl + K', desc: 'Mở Spotlight tìm kiếm nhanh toàn ứng dụng' },
+    { key: 'Alt + 1', desc: 'Trang chủ (Home)' },
+    { key: 'Alt + 2', desc: 'Tìm kiếm (Spotlight Search)' },
+    { key: 'Alt + 3', desc: 'Menu tiện ích (Tools menu)' },
+    { key: 'Alt + 4', desc: 'Cài đặt (Settings)' },
+    { key: 'Alt + 5', desc: 'Kênh xem gần nhất' },
+    { key: '⌘ + K / Ctrl + K', desc: 'Mở Spotlight tìm kiếm nhanh' },
     { key: 'Space', desc: 'Tạm dừng / Tiếp tục phát luồng Live TV' },
     { key: 'M', desc: 'Bật / Tắt âm thanh (Mute / Unmute)' },
     { key: 'F', desc: 'Xem toàn màn hình (Fullscreen Player)' },
     { key: 'T', desc: 'Chế độ Rạp chiếu (Theater Mode)' },
-    { key: '↑ / ↓', desc: 'Tăng / Giảm âm lượng' },
   ];
 
   return (

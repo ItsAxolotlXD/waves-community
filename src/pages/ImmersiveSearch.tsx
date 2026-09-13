@@ -229,33 +229,26 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
       className="w-full min-h-[calc(100vh-80px)] text-white px-3 sm:px-6 md:px-10 py-4 sm:py-6 select-none"
     >
       <div className="max-w-6xl mx-auto space-y-7 sm:space-y-9">
-        {/* Top Search Bar Row with exact sidebar/settings liquid glass spotlight style */}
+        {/* Top Search Bar Row */}
         <div className="flex items-center gap-3 w-full">
-          {/* Capsule Pill Search Input Bar */}
+          {/* Capsule Pill Search Input Bar - Shortened */}
           <div 
             id="immersive-search-capsule"
             onClick={() => {
               inputRef.current?.focus();
             }}
-            className="relative flex-1 h-[46px] md:h-[48px] flex items-center px-4 md:px-5 rounded-full spotlight-bubble-box spotlight-input-container overflow-hidden cursor-text select-none"
+            className="relative w-full max-w-md sm:max-w-lg h-[44px] md:h-[48px] flex items-center px-4 md:px-5 rounded-full spotlight-bubble-box spotlight-input-container overflow-hidden cursor-text select-none"
           >
             <div className="flex items-center gap-3 w-full">
-              <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
-                <img
-                  src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
-                  alt="Search"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full aspect-square object-contain brightness-0 invert opacity-85 topbar-search-icon"
-                />
-              </div>
+              <Search className="w-5 h-5 text-[#9CA3AF] shrink-0" />
               <input
                 ref={inputRef}
                 id="immersive-search-input"
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-placeholder="Tìm kiếm kênh truyền hình, thể thao, bản tin,..."
-  className="w-full bg-transparent text-white text-base placeholder-[#9CA3AF] focus:outline-none"
+                placeholder="Find and search"
+                className="w-full bg-transparent text-white text-base placeholder-[#9CA3AF] focus:outline-none"
               />
               {query && (
                 <button
@@ -273,17 +266,6 @@ placeholder="Tìm kiếm kênh truyền hình, thể thao, bản tin,..."
               )}
             </div>
           </div>
-
-          {/* Dedicated Circular Close Button with matching spotlight liquid glass style */}
-          <button
-            id="btn-close-immersive-search"
-            type="button"
-            onClick={handleClose}
-            className="w-[46px] h-[46px] md:w-[48px] md:h-[48px] rounded-full spotlight-bubble-box flex items-center justify-center text-[#D4CAD6] hover:text-white transition-all shrink-0 cursor-pointer active:scale-95 shadow-md"
-            title="Đóng tìm kiếm (Esc)"
-          >
-            <X className="w-5 h-5 transition-transform group-hover:rotate-90" />
-          </button>
         </div>
 
         {/* Dynamic Display: Search Results or Default Sections */}

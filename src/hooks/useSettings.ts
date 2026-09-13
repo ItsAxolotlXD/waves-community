@@ -1,4 +1,6 @@
 import { useSyncExternalStore } from 'react';
+import { CustomKeybinds } from '../types';
+import { DEFAULT_KEYBINDS } from '../utils/keybinds';
 
 export interface SystemSettings {
   theme: 'dark';
@@ -19,7 +21,9 @@ export interface SystemSettings {
   immersiveSearch: boolean;
   immersiveSidebar: boolean;
   sidebarPosition: 'left' | 'right';
-  navigationMode: 'sidebar' | 'immersive' | 'floaty';
+  navigationMode: 'sidebar' | 'floaty' | 'immersive_floaty';
+  developerMode: boolean;
+  customKeybinds: CustomKeybinds;
 }
 
 export const DEFAULT_SETTINGS: SystemSettings = {
@@ -42,6 +46,8 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   immersiveSidebar: false,
   sidebarPosition: 'left',
   navigationMode: 'sidebar',
+  developerMode: false,
+  customKeybinds: DEFAULT_KEYBINDS,
 };
 
 export const FONT_SCALE_CONFIG = [
@@ -73,9 +79,18 @@ export const getStoredSettings = (): SystemSettings => {
           fontScale = 2;
         }
       }
+      let navigationMode = parsed.navigationMode;
+      if (navigationMode === 'immersive') {
+        navigationMode = 'immersive_floaty';
+      }
       return { 
         ...DEFAULT_SETTINGS, 
         ...parsed,
+        navigationMode: navigationMode || DEFAULT_SETTINGS.navigationMode,
+        customKeybinds: {
+          ...DEFAULT_KEYBINDS,
+          ...(parsed.customKeybinds || {})
+        },
         fontScale,
         fontScaleVersion: 2,
         theme: 'dark'

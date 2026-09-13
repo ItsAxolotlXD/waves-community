@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   BookOpen, 
@@ -71,13 +71,23 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
     setIsOpen((prev) => !prev);
   };
 
+  useEffect(() => {
+    const handleToggleTools = () => {
+      setSpinCount((prev) => prev + 1);
+      setIsClickSpinning(true);
+      setIsOpen((prev) => !prev);
+    };
+    window.addEventListener('vplay:toggle-tools', handleToggleTools);
+    return () => window.removeEventListener('vplay:toggle-tools', handleToggleTools);
+  }, []);
+
   const { isChannelFavorite, toggleFavoriteChannel } = useFavorites();
   const isFav = currentChannel ? isChannelFavorite(currentChannel.id) : false;
 
   // Determine current active section & whether Tools is relevant for this page
   const isHome = currentRoute === '/' || currentRoute === '/home';
   const isNews = currentRoute.startsWith('/news');
-  const isLiveTV = currentRoute.startsWith('/live-tv') || currentRoute.startsWith('/channels');
+  const isLiveTV = currentRoute.startsWith('/live-tv') || currentRoute.startsWith('/channels') || currentRoute.startsWith('/test');
   const isRelevant = isHome || isNews || isLiveTV;
 
   // Find active article if on news

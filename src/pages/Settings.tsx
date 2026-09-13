@@ -10,13 +10,19 @@ import {
   Mic,
   MicOff,
   Wrench,
-  FlaskConical
+  FlaskConical,
+  Keyboard,
+  RotateCcw,
+  AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSettings, FONT_SCALE_CONFIG, SystemSettings } from '../hooks/useSettings';
 import { useVoiceSearch } from '../hooks/useVoiceSearch';
 import { WelcomeModal } from '../components/WelcomeModal';
+import { DeveloperModeModal } from '../components/DeveloperModeModal';
 import { SfCheckmark } from '../components/SfCheckmark';
+import { KEYBIND_DEFINITIONS, DEFAULT_KEYBINDS, eventToKeyString, validateKeybind } from '../utils/keybinds';
+import { KeybindAction } from '../types';
 
 export const Settings: React.FC = () => {
   const { 
@@ -33,6 +39,9 @@ export const Settings: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
+  const [isDevModalOpen, setIsDevModalOpen] = useState(false);
+  const [editingKeybindId, setEditingKeybindId] = useState<KeybindAction | null>(null);
+  const [keybindError, setKeybindError] = useState<{ id: KeybindAction; message: string } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const updateDraft = <K extends keyof SystemSettings>(key: K, value: SystemSettings[K]) => {
@@ -245,10 +254,24 @@ export const Settings: React.FC = () => {
                 <div className="grid grid-cols-3 gap-2 rounded-2xl bg-[#1E1D24] p-1" role="group" aria-label="Thanh điều hướng">
                   {([
                     ['sidebar', 'Sidebar'],
-                    ['immersive', 'Immersive'],
                     ['floaty', 'Floaty bar'],
+                    ['immersive_floaty', 'Immersive Floaty bar'],
                   ] as const).map(([value, label]) => (
-                    <button key={value} type="button" onClick={() => { updateDraft('navigationMode', value); updateDraft('immersiveSidebar', value === 'immersive'); }} className={`rounded-xl px-2 py-2.5 text-xs font-semibold transition-colors cursor-pointer ${draftSettings.navigationMode === value ? 'bg-[#E6005A] text-white' : 'text-[#9CA3AF] hover:text-white'}`} aria-pressed={draftSettings.navigationMode === value}>{label}</button>
+                    <button 
+                      key={value} 
+                      type="button" 
+                      onClick={() => { 
+                        updateDraft('navigationMode', value); 
+                        updateDraft('immersiveSidebar', false); 
+                      }} 
+                      className={`rounded-xl px-2 py-2.5 text-xs font-semibold transition-colors cursor-pointer text-center truncate ${
+                        draftSettings.navigationMode === value ? 'bg-[#E6005A] text-white' : 'text-[#9CA3AF] hover:text-white'
+                      }`} 
+                      aria-pressed={draftSettings.navigationMode === value}
+                      title={label}
+                    >
+                      {label}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -332,54 +355,31 @@ export const Settings: React.FC = () => {
               </div>
             )}
 
-            {(matchesSearch('Immersive sidebar') || matchesSearch('Sidebar position') || matchesSearch('thanh bên') || matchesSearch('trái') || matchesSearch('phải')) && (
+            {draftSettings.navigationMode === 'sidebar' && (matchesSearch('Sidebar position') || matchesSearch('Vị trí sidebar') || matchesSearch('thanh bên') || matchesSearch('trái') || matchesSearch('phải')) && (
               <div
-                id="setting-immersive-sidebar"
+                id="setting-sidebar-position"
                 className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-4"
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <div className="font-semibold text-white text-sm">Immersive sidebar</div>
-                    <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
-                      Sidebar sạch hơn với progressive blur và nội dung tràn vào khu vực thanh bên
-                    </div>
+                    <div className="font-semibold text-white text-sm">Vị trí thanh bên (Sidebar position)</div>
+                    <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">Chọn vị trí hiển thị thanh bên trái hoặc phải</div>
                   </div>
-                  <button
-                    id="toggle-immersive-sidebar"
-                    type="button"
-                    role="switch"
-                    aria-checked={draftSettings.immersiveSidebar}
-                    onClick={() => updateDraft('immersiveSidebar', !draftSettings.immersiveSidebar)}
-                    className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                      draftSettings.immersiveSidebar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
-                    }`}
-                  >
-                    <span className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none" />
-                  </button>
+                  <div className="flex rounded-full bg-[#1E1D24] p-1 shrink-0" role="group" aria-label="Sidebar position">
+                    {(['left', 'right'] as const).map((position) => (
+                      <button
+                        key={position}
+                        type="button"
+                        onClick={() => updateDraft('sidebarPosition', position)}
+                        className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
+                          draftSettings.sidebarPosition === position ? 'bg-[#E6005A] text-white' : 'text-[#9CA3AF] hover:text-white'
+                        }`}
+                      >
+                        {position === 'left' ? 'Trái' : 'Phải'}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-
-                {draftSettings.immersiveSidebar && (
-                  <div className="flex items-center justify-between gap-4 pt-1">
-                    <div>
-                      <div className="font-semibold text-white text-sm">Sidebar position</div>
-                      <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">Chọn bên hiển thị của thanh sidebar</div>
-                    </div>
-                    <div className="flex rounded-full bg-[#1E1D24] p-1 shrink-0" role="group" aria-label="Sidebar position">
-                      {(['left', 'right'] as const).map((position) => (
-                        <button
-                          key={position}
-                          type="button"
-                          onClick={() => updateDraft('sidebarPosition', position)}
-                          className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer ${
-                            draftSettings.sidebarPosition === position ? 'bg-[#E6005A] text-white' : 'text-[#9CA3AF] hover:text-white'
-                          }`}
-                        >
-                          {position === 'left' ? 'Trái' : 'Phải'}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             )}
           </div>
@@ -934,12 +934,221 @@ export const Settings: React.FC = () => {
         </section>
       )}
 
+      {/* 4. Section: Customize keybinds (Tùy chỉnh phím tắt) */}
+      {(matchesSearch('Customize keybinds') ||
+        matchesSearch('Phím tắt') ||
+        matchesSearch('Keybinds') ||
+        matchesSearch('Keyboard') ||
+        matchesSearch('Shortcut') ||
+        matchesSearch('Home') ||
+        matchesSearch('Search') ||
+        matchesSearch('Tools') ||
+        matchesSearch('Settings') ||
+        matchesSearch('Kênh xem gần nhất')) && (
+        <section 
+          id="settings-section-keybinds"
+          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+        >
+          {/* Section Header */}
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <Keyboard className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+              <div>
+                <h2 className="text-base font-bold text-white leading-tight flex items-center gap-2">
+                  <span>Customize keybinds</span>
+                </h2>
+                <p className="text-xs text-[#9CA3AF] mt-1 leading-relaxed">
+                  Thiết lập phím tắt nhanh để điều hướng ứng dụng (hệ thống tự động bảo vệ tránh xung đột với phím tắt của trình duyệt)
+                </p>
+              </div>
+            </div>
+
+            {/* Reset all to default button */}
+            <button
+              type="button"
+              id="btn-reset-keybinds"
+              onClick={() => {
+                updateDraft('customKeybinds', { ...DEFAULT_KEYBINDS });
+                setEditingKeybindId(null);
+                setKeybindError(null);
+              }}
+              title="Đặt lại tất cả phím tắt về mặc định"
+              className="px-3 py-1.5 rounded-full text-xs font-semibold text-[#A1A1AA] hover:text-white bg-white/5 hover:bg-white/10 transition-colors flex items-center gap-1.5 shrink-0 cursor-pointer"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Mặc định</span>
+            </button>
+          </div>
+
+          {/* Keybind items list */}
+          <div className="space-y-2.5 pt-1">
+            {KEYBIND_DEFINITIONS.map((def) => {
+              const currentKey = draftSettings.customKeybinds?.[def.id] || def.defaultKey;
+              const isEditing = editingKeybindId === def.id;
+              const error = keybindError?.id === def.id ? keybindError.message : null;
+
+              if (
+                searchQuery &&
+                !matchesSearch(def.label) &&
+                !matchesSearch(def.description) &&
+                !matchesSearch(currentKey) &&
+                !matchesSearch('Customize keybinds')
+              ) {
+                return null;
+              }
+
+              return (
+                <div
+                  key={def.id}
+                  id={`keybind-row-${def.id}`}
+                  className="p-3.5 sm:p-4 rounded-[20px] bg-[#28272E] flex flex-col gap-2 transition-colors"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-white text-sm flex items-center gap-2">
+                        <span>{def.label}</span>
+                        {currentKey !== def.defaultKey && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#E6005A]/20 text-[#FF4D8B] font-medium border border-[#E6005A]/30">
+                            Đã đổi
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs text-[#9CA3AF] mt-0.5 leading-normal">
+                        {def.description}
+                      </div>
+                    </div>
+
+                    {/* Key assignment control */}
+                    <div className="flex items-center gap-2 shrink-0">
+                      {isEditing ? (
+                        <div className="flex items-center gap-1.5">
+                          <input
+                            type="text"
+                            autoFocus
+                            readOnly
+                            data-keybind-recording="true"
+                            value="Nhấn tổ hợp phím..."
+                            onKeyDown={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+
+                              if (e.key === 'Escape') {
+                                setEditingKeybindId(null);
+                                setKeybindError(null);
+                                return;
+                              }
+
+                              const keyStr = eventToKeyString(e.nativeEvent);
+                              if (!keyStr) return; // modifier alone
+
+                              const validation = validateKeybind(keyStr);
+                              if (!validation.valid) {
+                                setKeybindError({ id: def.id, message: validation.reason || 'Phím tắt không hợp lệ.' });
+                                return;
+                              }
+
+                              // Check if duplicate with another action
+                              const existingAction = Object.entries(draftSettings.customKeybinds || {}).find(
+                                ([act, key]) => act !== def.id && typeof key === 'string' && key.toLowerCase() === keyStr.toLowerCase()
+                              );
+
+                              if (existingAction) {
+                                const targetDef = KEYBIND_DEFINITIONS.find(d => d.id === existingAction[0]);
+                                setKeybindError({
+                                  id: def.id,
+                                  message: `Tổ hợp này đã gán cho mục "${targetDef?.label || existingAction[0]}".`
+                                });
+                                return;
+                              }
+
+                              // Save
+                              const updated = {
+                                ...(draftSettings.customKeybinds || DEFAULT_KEYBINDS),
+                                [def.id]: keyStr
+                              };
+                              updateDraft('customKeybinds', updated);
+                              setEditingKeybindId(null);
+                              setKeybindError(null);
+                            }}
+                            onBlur={() => {
+                              setEditingKeybindId(null);
+                            }}
+                            className="px-3 py-1.5 text-xs rounded-xl bg-[#E6005A]/20 border-2 border-[#E6005A] text-white font-mono animate-pulse text-center w-36 cursor-pointer outline-none select-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingKeybindId(null);
+                              setKeybindError(null);
+                            }}
+                            className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-white bg-white/5 hover:bg-white/10 text-xs transition-colors"
+                            title="Hủy"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            id={`btn-edit-keybind-${def.id}`}
+                            onClick={() => {
+                              setEditingKeybindId(def.id);
+                              setKeybindError(null);
+                            }}
+                            className="px-3 py-1.5 rounded-xl bg-[#1F1E24] hover:bg-[#34333C] border border-white/10 hover:border-[#E6005A]/60 text-white font-mono text-xs font-bold transition-all shadow-inner active:scale-95 cursor-pointer"
+                            title="Nhấp để thay đổi phím tắt"
+                          >
+                            {currentKey}
+                          </button>
+
+                          {currentKey !== def.defaultKey && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const updated = {
+                                  ...(draftSettings.customKeybinds || DEFAULT_KEYBINDS),
+                                  [def.id]: def.defaultKey
+                                };
+                                updateDraft('customKeybinds', updated);
+                                setKeybindError(null);
+                              }}
+                              className="p-1.5 rounded-lg text-[#9CA3AF] hover:text-white bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+                              title="Khôi phục mặc định"
+                            >
+                              <RotateCcw className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Inline Error Message */}
+                  {error && (
+                    <div className="flex items-start gap-1.5 text-xs text-[#FF4D8B] bg-[#E6005A]/10 border border-[#E6005A]/30 p-2 rounded-xl">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+                      <span>{error}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       {/* 5. Section 5: Khác */}
+
       {(matchesSearch('Khác') ||
         matchesSearch('Changelogs') ||
         matchesSearch('Nhật ký thay đổi') ||
         matchesSearch('Cập nhật') ||
         matchesSearch('Release Notes') ||
+        matchesSearch('Developer Mode') ||
+        matchesSearch('Developer') ||
+        matchesSearch('Nhà phát triển') ||
+        matchesSearch('Test') ||
         matchesSearch('Vplay')) && (
         <section 
           id="settings-section-other"
@@ -959,6 +1168,51 @@ export const Settings: React.FC = () => {
           </div>
 
           <div className="space-y-3 pt-1">
+            {/* Developer Mode Toggle Option Card */}
+            {(matchesSearch('Developer Mode') || matchesSearch('Developer') || matchesSearch('Khác') || matchesSearch('Nhà phát triển') || matchesSearch('Test')) && (
+              <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
+                <div>
+                  <div className="font-semibold text-white text-sm flex items-center gap-2">
+                    <span>Developer Mode</span>
+                    {draftSettings.developerMode && (
+                      <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                        Đang bật
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                    Kích hoạt chế độ nhà phát triển để mở tab Test kiểm thử nội bộ các luồng phát kênh.
+                  </div>
+                </div>
+
+                {/* Magenta Toggle Switch */}
+                <button
+                  id="toggle-developer-mode"
+                  type="button"
+                  role="switch"
+                  aria-checked={draftSettings.developerMode}
+                  onClick={() => {
+                    if (!draftSettings.developerMode) {
+                      setIsDevModalOpen(true);
+                    } else {
+                      updateDraft('developerMode', false);
+                      applyDraftSettings();
+                      setToastMessage('Đã tắt Developer Mode');
+                      setShowApplyToast(true);
+                      setTimeout(() => setShowApplyToast(false), 2200);
+                    }
+                  }}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.developerMode ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                  }`}
+                >
+                  <span
+                    className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none"
+                  />
+                </button>
+              </div>
+            )}
+
             {/* Changelogs Option Card */}
             {(matchesSearch('Changelogs') || matchesSearch('Khác') || matchesSearch('Nhật ký thay đổi') || matchesSearch('Cập nhật') || matchesSearch('Release Notes') || matchesSearch('Vplay')) && (
               <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
@@ -985,6 +1239,19 @@ export const Settings: React.FC = () => {
           </div>
         </section>
       )}
+
+      {/* Developer Mode Activation Modal */}
+      <DeveloperModeModal
+        isOpen={isDevModalOpen}
+        onClose={() => setIsDevModalOpen(false)}
+        onActivate={() => {
+          updateDraft('developerMode', true);
+          applyDraftSettings();
+          setToastMessage('Đã kích hoạt Developer Mode thành công!');
+          setShowApplyToast(true);
+          setTimeout(() => setShowApplyToast(false), 2600);
+        }}
+      />
 
       {/* Welcome to Vplay 26.9 / Changelogs Modal Dialog */}
       <WelcomeModal

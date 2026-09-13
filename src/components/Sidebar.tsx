@@ -16,7 +16,8 @@ import {
   Radio,
   Palette,
   Film,
-  Layers
+  Layers,
+  FlaskConical
 } from 'lucide-react';
 import { useClock } from '../hooks/useClock';
 import { useFavorites } from '../hooks/useFavorites';
@@ -260,6 +261,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
           )}
         </div>
+
+        {/* Tab Test (khi Developer Mode bật - đặt dưới tab Truyền hình) */}
+        {settings.developerMode && (
+          <button
+            id={isMobile ? 'mobile-nav-item-test' : 'nav-item-test'}
+            onClick={() => handleNavClick('/test')}
+            title="Test"
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
+              isActive('/test')
+                ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
+                : 'text-[#D1D5DB] hover:text-white hover:bg-white/10'
+            }`}
+          >
+            <div className="flex items-center gap-3.5 truncate">
+              <FlaskConical className={`w-[22px] h-[22px] shrink-0 ${isActive('/test') ? 'text-white' : 'text-[#FF4D8B]'}`} />
+              <span className="truncate">Test</span>
+            </div>
+            <span className="px-1.5 py-0.5 text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full font-bold uppercase">
+              DEV
+            </span>
+          </button>
+        )}
 
         {/* 3. News */}
         <button
@@ -521,6 +544,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }}
                   />
                 </button>
+
+                {/* Tab Test (khi Developer Mode bật) */}
+                {settings.developerMode && (
+                  <button
+                    onClick={() => handleNavClick('/test')}
+                    title="Test"
+                    className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 shrink-0 transition-all cursor-pointer ${
+                      isActive('/test') ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20' : 'text-[#D1D5DB] hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <FlaskConical className={`w-5 h-5 shrink-0 ${isActive('/test') ? 'text-white' : 'text-[#FF4D8B]'}`} />
+                  </button>
+                )}
 
                 {/* 3. News */}
                 <button

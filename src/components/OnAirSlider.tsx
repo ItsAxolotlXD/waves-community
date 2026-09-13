@@ -17,7 +17,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const offset = direction === 'left' ? -360 : 360;
+      const offset = direction === 'left' ? -420 : 420;
       scrollContainerRef.current.scrollBy({ left: offset, behavior: 'smooth' });
     }
   };
@@ -53,7 +53,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
       {/* Horizontal Cards Scroll: strictly only channel logos, no text, nothing else */}
       <div
         ref={scrollContainerRef}
-        className="flex gap-2.5 sm:gap-3 overflow-x-auto pb-3 pt-1 no-scrollbar scroll-smooth"
+        className="flex gap-2.5 sm:gap-3.5 overflow-x-auto pb-3 pt-1 no-scrollbar scroll-smooth"
       >
         {channels.map((ch) => (
           <div
@@ -71,7 +71,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 navigate(`/live-tv?channel=${ch.slug}`);
               }
             }}
-            className="min-w-[70px] sm:min-w-[80px] md:min-w-[88px] h-[42px] sm:h-[46px] md:h-[50px] shrink-0 rounded-xl sm:rounded-2xl p-1.5 flex items-center justify-center cursor-pointer group select-none"
+            className="min-w-[84px] sm:min-w-[96px] md:min-w-[106px] h-[48px] sm:h-[54px] md:h-[58px] shrink-0 rounded-xl sm:rounded-2xl p-2 flex items-center justify-center cursor-pointer group select-none"
             title={ch.name}
             aria-label={ch.name}
           >
@@ -82,9 +82,9 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 referrerPolicy="no-referrer"
                 className={`${
                   ch.category === 'Kênh VTV'
-                    ? 'max-h-5 sm:max-h-5.5 md:max-h-[24px] max-w-[72%] scale-90'
-                    : 'max-h-6 sm:max-h-7 md:max-h-[30px] max-w-[84%]'
-                } w-auto object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-200`}
+                    ? 'max-h-6 sm:max-h-[26px] md:max-h-[28px] max-w-[76%] scale-95'
+                    : 'max-h-7 sm:max-h-8 md:max-h-[34px] max-w-[86%]'
+                } w-auto object-contain filter drop-shadow-sm`}
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}
