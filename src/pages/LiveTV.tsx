@@ -122,8 +122,8 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                   </div>
                 </div>
 
-                {/* Channel Grid: Mobile 3 cols / Desktop 5 cols */}
-                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-3.5 md:gap-4">
+                {/* Channel Grid: Mobile 3 cols / Desktop 6 cols */}
+                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3.5 md:gap-4">
                   {group.channels.map((ch) => {
                     const isSelected = ch.id === currentChannel.id;
 
