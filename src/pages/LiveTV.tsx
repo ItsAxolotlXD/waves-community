@@ -147,7 +147,7 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                               ch.category === 'Kênh VTV'
                                 ? 'max-h-7 sm:max-h-8 max-w-[78%] scale-100'
                                 : 'max-h-8 sm:max-h-10 max-w-[85%]'
-                            } w-auto object-contain filter drop-shadow-sm group-hover:scale-105 transition-transform duration-200`}
+                            } w-auto object-contain filter drop-shadow-sm transition-opacity duration-200`}
                             onError={(e) => {
                               (e.target as HTMLElement).style.display = 'none';
                             }}

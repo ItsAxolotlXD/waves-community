@@ -2901,8 +2901,50 @@ html.light-mode #about-community-card {
   box-shadow: none !important;
 }
 
-html.light-mode #immersive-search-capsule {
+  html.light-mode #immersive-search-capsule {
   background: #F1F2F6 !important;
-}
+  }
+
+  /* Compact immersive search focus and crisp channel logos. */
+  #immersive-search-capsule {
+  width: min(100%, 46rem) !important;
+  flex: 0 1 46rem !important;
+  }
+
+  #immersive-search-capsule:hover,
+  #immersive-search-capsule:focus-within {
+  border: 1px solid #E6005A !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  }
+
+  #immersive-search-capsule > #btn-close-immersive-search,
+  #immersive-search-capsule > #btn-close-immersive-search:hover,
+  #immersive-search-capsule > #btn-close-immersive-search:focus-visible {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  }
+
+  .floaty-bar__page {
+  width: 12rem;
+  justify-content: space-evenly;
+  gap: 0 !important;
+  }
+
+  .floaty-bar__item {
+  flex: 1 1 0;
+  }
+
+  #livetv-channel-card img {
+  image-rendering: auto;
+  backface-visibility: hidden;
+  }
+
+  [id^="livetv-channel-card-"] img {
+  image-rendering: auto;
+  backface-visibility: hidden;
+  }
 
 
