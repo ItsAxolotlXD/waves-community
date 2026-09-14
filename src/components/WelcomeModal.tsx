@@ -64,7 +64,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
                 ease: [0.25, 0.1, 0.25, 1]
               }
             }}
-            className="relative z-10 w-full max-w-[450px] bg-[#1E1D22] rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 shadow-2xl border border-white/5"
+            className="relative z-10 w-full max-w-[450px] bg-[#27282D] rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 shadow-2xl border border-white/10"
           >
             {/* Top Badge */}
             <div className="flex items-center justify-between mb-3">
@@ -88,7 +88,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
               id="welcome-modal-title"
               className="text-xl sm:text-[23px] font-bold text-white tracking-tight mb-2.5 font-sans leading-tight"
             >
-              Welcome to Vplay 26.9 - Developer Beta 6
+              Welcome to Vplay 26.9 - Developer Beta 9
             </h1>
 
             {/* Description & Changelogs */}
@@ -102,19 +102,23 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
               <ul className="space-y-2.5 text-[#C4C4CC] text-xs sm:text-[13px] pl-1">
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã cập nhật màu nền mới và nhận diện mới cho Vplay</span>
+                  <span>Đã cập nhật kiểu hiển thị banner mới ở trang chủ</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã cập nhật biểu trưng, bộ nhận diện gradient mới cho toàn bộ 12 kênh VTV nhân kỷ niệm 56 năm ngày phát sóng chương trình truyền hình đầu tiên</span>
+                  <span>Đã cập nhật background mới cho ứng dụng</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã thêm các công cụ AI summarize, find words và TTS vào các bài viết</span>
+                  <span>Đã cập nhật giao diện tìm kiếm mới, trực quan hơn</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã xóa chế độ ban ngày, ứng dụng sẽ được thống nhất và trực quan về phần giao diện hơn</span>
+                  <span>Đã thêm lại luồng kênh VTV5 Tây Nam Bộ và VTV5 Tây Nguyên</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <span>Đã cập nhật biểu trưng mới cho toàn bộ 12 kênh VTV ở độ phân giải nét hơn</span>
                 </li>
               </ul>
             </div>

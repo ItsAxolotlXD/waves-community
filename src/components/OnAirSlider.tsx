@@ -27,7 +27,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
       {/* Header with Title & Slider Controls */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white">
-          Đề xuất cho bạn
+          Kênh truyền hình
         </h2>
 
         <div className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
         </div>
       </div>
 
-      {/* Horizontal Cards Scroll: strictly only channel logos, no text, nothing else */}
+      {/* Horizontal Cards Scroll: rounded cards matching the screenshot */}
       <div
         ref={scrollContainerRef}
         className="flex gap-2.5 sm:gap-3.5 overflow-x-auto pb-3 pt-1 no-scrollbar scroll-smooth"
@@ -71,7 +71,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 navigate(`/live-tv?channel=${ch.slug}`);
               }
             }}
-            className="min-w-[84px] sm:min-w-[96px] md:min-w-[106px] h-[48px] sm:h-[54px] md:h-[58px] shrink-0 rounded-xl sm:rounded-2xl p-2 flex items-center justify-center cursor-pointer group select-none"
+            className="min-w-[96px] sm:min-w-[110px] md:min-w-[124px] h-[54px] sm:h-[62px] md:h-[68px] shrink-0 rounded-2xl p-2.5 flex items-center justify-center cursor-pointer group select-none bg-white/10 hover:bg-white/10 border-[3.5px] border-transparent hover:border-white backdrop-blur-md transition-none shadow-none active:scale-95"
             title={ch.name}
             aria-label={ch.name}
           >
@@ -80,11 +80,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 src={ch.logo}
                 alt={ch.name}
                 referrerPolicy="no-referrer"
-                className={`${
-                  ch.category === 'Kênh VTV'
-                    ? 'max-h-6 sm:max-h-[26px] md:max-h-[28px] max-w-[76%] scale-95'
-                    : 'max-h-7 sm:max-h-8 md:max-h-[34px] max-w-[86%]'
-                } w-auto object-contain filter drop-shadow-sm`}
+                className="max-h-7 sm:max-h-8 md:max-h-9 max-w-[85%] w-auto object-contain filter drop-shadow-sm transition-none"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Calendar, ArrowRight, Bookmark, Lock } from 'lucide-react';
 import { NewsArticle } from '../types';
 import { useFavorites } from '../hooks/useFavorites';
+import { DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
 
 interface NewsCardProps {
   article: NewsArticle;
@@ -20,9 +21,16 @@ export const NewsCard: React.FC<NewsCardProps> = ({ article, onClick }) => {
       {/* Cover Image */}
       <div className="relative h-44 sm:h-48 overflow-hidden">
         <img
-          src={article.coverImage}
+          src={article.coverImage || DEFAULT_BANNER_PLACEHOLDER}
           alt={article.title}
+          referrerPolicy="no-referrer"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src !== DEFAULT_BANNER_PLACEHOLDER) {
+              target.src = DEFAULT_BANNER_PLACEHOLDER;
+            }
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
 

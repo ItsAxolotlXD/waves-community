@@ -268,19 +268,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
             id={isMobile ? 'mobile-nav-item-test' : 'nav-item-test'}
             onClick={() => handleNavClick('/test')}
             title="Test"
-            className={`w-full flex items-center justify-between px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
+            className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
               isActive('/test')
                 ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
                 : 'text-[#D1D5DB] hover:text-white hover:bg-white/10'
             }`}
           >
-            <div className="flex items-center gap-3.5 truncate">
-              <FlaskConical className={`w-[22px] h-[22px] shrink-0 ${isActive('/test') ? 'text-white' : 'text-[#FF4D8B]'}`} />
-              <span className="truncate">Test</span>
-            </div>
-            <span className="px-1.5 py-0.5 text-[9px] bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full font-bold uppercase">
-              DEV
-            </span>
+            <FlaskConical className="w-5 h-5 shrink-0" />
+            <span className="truncate">Test</span>
           </button>
         )}
 
@@ -446,7 +441,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           id="waves-desktop-sidebar"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          className={`hidden md:flex flex-col h-screen bg-[#250F1A]/85 backdrop-blur-xl border-r border-white/10 select-none shrink-0 fixed top-0 z-40 overflow-hidden ${
+          className={`hidden md:flex flex-col h-screen bg-[#180a1c]/30 backdrop-blur-2xl border-r border-white/10 select-none shrink-0 fixed top-0 z-40 overflow-hidden ${
             settings.sidebarPosition === 'right' ? 'right-0 border-l border-r-0' : 'left-0'
           } ${
             shouldAnimateSidebar ? 'transition-all duration-300 ease-in-out' : 'transition-none'
@@ -554,7 +549,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       isActive('/test') ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20' : 'text-[#D1D5DB] hover:text-white hover:bg-white/10'
                     }`}
                   >
-                    <FlaskConical className={`w-5 h-5 shrink-0 ${isActive('/test') ? 'text-white' : 'text-[#FF4D8B]'}`} />
+                    <FlaskConical className="w-5 h-5 shrink-0" />
                   </button>
                 )}
 
@@ -659,7 +654,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               animate={{ x: 0 }}
               exit={{ x: shouldAnimateSidebar ? '-100%' : 0 }}
               transition={{ duration: shouldAnimateSidebar ? 0.38 : 0, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-[290px] sm:w-[320px] max-w-[85vw] h-full bg-[#250F1A]/90 backdrop-blur-2xl border-r border-white/10 flex flex-col shadow-2xl z-10 overflow-hidden"
+              className="relative w-[290px] sm:w-[320px] max-w-[85vw] h-full bg-[#180a1c]/30 backdrop-blur-2xl border-r border-white/10 flex flex-col shadow-2xl z-10 overflow-hidden"
             >
               {renderSidebarBody(true)}
             </motion.div>

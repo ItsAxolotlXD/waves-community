@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { VideoPlayer } from '../components/VideoPlayer';
 import { Channel } from '../types';
 import {
@@ -16,6 +16,26 @@ interface TestChannelsProps {
   onOpenCustomStreamModal: () => void;
 }
 
+// Danh mục bị loại trừ khỏi Tab Test
+const EXCLUDED_CATEGORIES = new Set(['Kênh SCTV', 'Kênh quốc tế', 'Kênh thiết yếu']);
+
+const isExcludedCategory = (category: string) => {
+  if (EXCLUDED_CATEGORIES.has(category)) return true;
+  const lower = category.toLowerCase();
+  return (
+    lower.includes('sctv') ||
+    lower.includes('quốc tế') ||
+    lower.includes('thiết yếu') ||
+    lower.includes('nước ngoài')
+  );
+};
+
+// Logo riêng biệt cho các kênh trong Tab Test
+const TEST_LOGO_OVERRIDES: Record<string, string> = {
+  vtv2: 'https://static.wikia.nocookie.net/ep-deo/images/4/45/Vtv2_front.png/revision/latest?cb=20260913100152',
+  vtv6: 'https://static.wikia.nocookie.net/ep-deo/images/3/31/Vtv6_front.png/revision/latest?cb=20260913100008',
+};
+
 export const TestChannels: React.FC<TestChannelsProps> = ({
   currentChannel,
   onSelectChannel,
@@ -25,12 +45,45 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
   const [isTheaterMode, setIsTheaterMode] = useState(false);
 
+  // Lọc bỏ nhóm kênh SCTV, Nước ngoài (Kênh quốc tế) và Thiết yếu; đồng thời cập nhật logo chỉ định cho Tab Test
+  const testBaseChannels = useMemo(() => {
+    return channels
+      .filter((c) => !isExcludedCategory(c.category))
+      .map((c) => {
+        if (TEST_LOGO_OVERRIDES[c.id]) {
+          return {
+            ...c,
+            logo: TEST_LOGO_OVERRIDES[c.id]
+          };
+        }
+        return c;
+      });
+  }, [channels]);
+
+  // Nếu kênh hiện tại thuộc nhóm bị loại trừ trong tab test, chuyển về kênh đầu tiên hợp lệ
+  useEffect(() => {
+    if (testBaseChannels.length > 0 && !testBaseChannels.some((c) => c.id === currentChannel.id)) {
+      onSelectChannel(testBaseChannels[0]);
+    }
+  }, [testBaseChannels, currentChannel.id, onSelectChannel]);
+
+  // Logo cập nhật cho kênh hiện tại đang phát trong tab test
+  const effectiveCurrentChannel = useMemo(() => {
+    if (TEST_LOGO_OVERRIDES[currentChannel.id]) {
+      return {
+        ...currentChannel,
+        logo: TEST_LOGO_OVERRIDES[currentChannel.id]
+      };
+    }
+    return currentChannel;
+  }, [currentChannel]);
+
   // Distinct category list maintaining natural broadcast order
-  const distinctCategories = Array.from(new Set(channels.map((c) => c.category)));
+  const distinctCategories = Array.from(new Set(testBaseChannels.map((c) => c.category)));
   const categoryTabs = ['Tất cả', ...distinctCategories];
 
   // Filter channels by tab
-  const filteredChannels = channels.filter((c) => {
+  const filteredChannels = testBaseChannels.filter((c) => {
     return selectedCategory === 'Tất cả' || c.category === selectedCategory;
   });
 
@@ -49,7 +102,7 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
         <div>
           <div className="flex items-center gap-2 flex-wrap">
             <h1 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-[#111827] dark:text-white tracking-tight flex items-center gap-2">
-              <span>{`${String(currentChannel.channelNumber || 1).padStart(3, '0')} | ${currentChannel.name}`}</span>
+              <span>{`${String(effectiveCurrentChannel.channelNumber || 1).padStart(3, '0')} | ${effectiveCurrentChannel.name}`}</span>
             </h1>
             <span className="px-2 py-0.5 text-[10px] sm:text-xs font-bold rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1">
               <FlaskConical className="w-3 h-3 text-amber-400" />
@@ -57,7 +110,7 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
             </span>
           </div>
           <p className="text-xs sm:text-sm text-[#4B5563] dark:text-[#9CA3AF] mt-0.5 font-medium flex items-center gap-2">
-            <span>{currentChannel.category}</span>
+            <span>{effectiveCurrentChannel.category}</span>
             <span className="text-white/20">•</span>
             <span className="text-emerald-400 flex items-center gap-1">
               <Wifi className="w-3 h-3" />
@@ -82,7 +135,7 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
       {/* Video Player Section */}
       <div className="w-full">
         <VideoPlayer
-          channel={currentChannel}
+          channel={effectiveCurrentChannel}
           onOpenCustomStreamModal={onOpenCustomStreamModal}
           isTheaterMode={isTheaterMode}
           onToggleTheaterMode={() => setIsTheaterMode(!isTheaterMode)}
@@ -154,9 +207,9 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
                     return (
                       <div
                         key={ch.id}
-                        id={`test-channel-card-${ch.id}`}
+                        id={`livetv-channel-card-${ch.id}`}
                         onClick={() => onSelectChannel(ch)}
-                        className={`group relative rounded-xl sm:rounded-2xl transition-none cursor-pointer overflow-hidden flex items-center justify-center p-2.5 sm:p-3 select-none ${
+                        className={`group relative rounded-xl sm:rounded-2xl transition-none cursor-pointer overflow-hidden flex items-center justify-center p-2.5 sm:p-3 select-none bg-white/10 backdrop-blur-md ${
                           isSelected ? 'is-selected' : ''
                         }`}
                         title={ch.name}
@@ -168,12 +221,20 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
                             alt={ch.name}
                             referrerPolicy="no-referrer"
                             className={`${
-                              ch.category === 'Kênh VTV'
-                                ? 'max-h-7 sm:max-h-8 max-w-[78%] scale-100'
-                                : 'max-h-8 sm:max-h-10 max-w-[85%]'
+                              ch.id === 'vtv6'
+                                ? 'max-h-11 sm:max-h-13 max-w-[95%] scale-135'
+                                : ch.category === 'Kênh VTV'
+                                  ? 'max-h-7 sm:max-h-8 max-w-[78%] scale-100'
+                                  : 'max-h-8 sm:max-h-10 max-w-[85%]'
                             } w-auto object-contain filter drop-shadow-sm`}
                             onError={(e) => {
-                              (e.target as HTMLElement).style.display = 'none';
+                              const target = e.target as HTMLImageElement;
+                              const orig = channels.find((origCh) => origCh.id === ch.id)?.logo;
+                              if (orig && target.src !== orig) {
+                                target.src = orig;
+                              } else {
+                                target.style.display = 'none';
+                              }
                             }}
                           />
                         </div>

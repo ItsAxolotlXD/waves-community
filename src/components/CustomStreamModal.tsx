@@ -136,7 +136,7 @@ export const CustomStreamModal: React.FC<CustomStreamModalProps> = ({
                 ease: [0.25, 0.1, 0.25, 1]
               }
             } : { opacity: 0 }}
-            className="relative w-full max-w-[480px] bg-[#1E1D22] border border-white/10 rounded-[28px] shadow-2xl overflow-hidden z-10"
+            className="relative w-full max-w-[480px] bg-[#27282D] border border-white/10 rounded-[28px] shadow-2xl overflow-hidden z-10"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-5 pb-3.5 border-b border-[#2C2C34]">

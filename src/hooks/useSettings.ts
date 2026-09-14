@@ -42,7 +42,7 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   animateSidebar: true,
   animateModals: true,
   animatePageTransitions: true,
-  immersiveSearch: false,
+  immersiveSearch: true,
   immersiveSidebar: false,
   sidebarPosition: 'left',
   navigationMode: 'sidebar',
@@ -83,9 +83,14 @@ export const getStoredSettings = (): SystemSettings => {
       if (navigationMode === 'immersive') {
         navigationMode = 'immersive_floaty';
       }
+      const immersiveSearch = parsed.immersiveSearchVersion === 2
+        ? parsed.immersiveSearch
+        : true;
       return { 
         ...DEFAULT_SETTINGS, 
         ...parsed,
+        immersiveSearch,
+        immersiveSearchVersion: 2,
         navigationMode: navigationMode || DEFAULT_SETTINGS.navigationMode,
         customKeybinds: {
           ...DEFAULT_KEYBINDS,

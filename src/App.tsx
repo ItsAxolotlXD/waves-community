@@ -404,10 +404,10 @@ export default function App() {
       data-sidebar-position={settings.sidebarPosition}
       className="min-h-screen bg-transparent text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative"
     >
-      {/* Fixed background solid color without gradient */}
+      {/* Fixed atmospheric cosmic background matching custom nebula gradient */}
       <div 
         id="fixed-app-background-solid" 
-        className="fixed inset-0 pointer-events-none -z-50 bg-[#2D1720]" 
+        className="fixed inset-0 pointer-events-none -z-50" 
         aria-hidden="true" 
       />
 
@@ -468,7 +468,7 @@ export default function App() {
         {/* Dynamic Page Content with smooth slide-up transition */}
         <main className={`flex-1 w-full mx-auto ${
           currentRoute === '/' || currentRoute === '/home' 
-            ? 'p-0 max-w-none -mt-16' 
+            ? 'p-0 max-w-none pt-1 sm:pt-2' 
             : 'px-4 sm:px-6 md:px-8 py-5 max-w-7xl'
         }`}>
           {!settings.reduceAllMotion && settings.animatePageTransitions ? (

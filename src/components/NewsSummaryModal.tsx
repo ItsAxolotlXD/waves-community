@@ -89,7 +89,7 @@ export const NewsSummaryModal: React.FC<NewsSummaryModalProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             exit={shouldAnimate ? { opacity: 0, scale: 1.05 } : { opacity: 0 }}
             transition={{ duration: shouldAnimate ? 0.25 : 0, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-[480px] bg-[#1E1D22] border border-white/10 rounded-[24px] p-5 sm:p-6 shadow-2xl z-10 text-white"
+            className="relative w-full max-w-[480px] bg-[#27282D] border border-white/10 rounded-[24px] p-5 sm:p-6 shadow-2xl z-10 text-white"
           >
             {/* Header */}
             <div className="flex items-center justify-between pb-3.5 border-b border-[#2C2C34]">

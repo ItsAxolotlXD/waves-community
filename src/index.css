@@ -28,7 +28,7 @@
     --solid-red: #E6005A;
     --accent-red: #FF267A;
     --dark-red: #B30046;
-    --dark-bg: #2D1720;
+    --dark-bg: #0f0712;
     --sidebar-bg: #250F1A;
     --card-bg: #280e32;
     --waves-font-scale: 1;
@@ -43,8 +43,16 @@
   }
 
   body {
-    background-color: #2D1720;
-    background-image: none;
+    background-color: #08030a;
+    background-image: 
+      radial-gradient(ellipse 55% 55% at 7% 18%, rgba(120, 12, 55, 0.55) 0%, rgba(75, 10, 36, 0.30) 30%, rgba(32, 6, 18, 0.10) 60%, transparent 75%),
+      radial-gradient(ellipse 50% 48% at 38% 32%, rgba(105, 26, 170, 0.30) 0%, rgba(70, 16, 115, 0.15) 38%, transparent 70%),
+      radial-gradient(ellipse 46% 46% at 12% 82%, rgba(90, 22, 105, 0.45) 0%, rgba(52, 12, 62, 0.20) 38%, transparent 70%),
+      radial-gradient(ellipse 55% 52% at 91% 72%, rgba(20, 38, 88, 0.55) 0%, rgba(14, 24, 58, 0.30) 30%, rgba(9, 14, 32, 0.10) 60%, transparent 78%),
+      linear-gradient(180deg, #0c040e 0%, #050207 100%);
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
     color: #F3F4F6;
     overflow-x: hidden;
     min-height: 100vh;
@@ -128,7 +136,7 @@ html.light-mode #btn-top-notifications svg {
 /* Sidebar Backdrop Blur & Liquid Glass (Dark & Light Mode) */
 #waves-desktop-sidebar,
 #waves-mobile-sidebar {
-  background-color: rgba(36, 36, 41, 0.62) !important;
+  background-color: rgba(18, 10, 24, 0.30) !important;
   backdrop-filter: blur(28px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
@@ -137,7 +145,7 @@ html.light-mode #btn-top-notifications svg {
 /* Light Mode Desktop & Mobile Sidebar */
 html.light-mode #waves-desktop-sidebar,
 html.light-mode #waves-mobile-sidebar {
-  background-color: rgba(255, 255, 255, 0.68) !important;
+  background-color: rgba(255, 255, 255, 0.30) !important;
   backdrop-filter: blur(28px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
   border-color: rgba(0, 0, 0, 0.08) !important;
@@ -217,9 +225,33 @@ html.light-mode #settings-section-search hr {
 
 /* Theme Surface Overrides in Dark Mode */
 html:not(.light-mode) body {
-  background: #2D1720 !important;
-  background-color: #2D1720 !important;
-  background-image: none !important;
+  background-color: #0f0712 !important;
+  background-image: 
+    radial-gradient(ellipse 55% 55% at 7% 18%, rgba(142, 18, 68, 0.72) 0%, rgba(98, 14, 48, 0.44) 30%, rgba(46, 10, 26, 0.16) 60%, transparent 75%),
+    radial-gradient(ellipse 50% 48% at 38% 32%, rgba(132, 38, 208, 0.40) 0%, rgba(94, 24, 150, 0.22) 38%, transparent 70%),
+    radial-gradient(ellipse 46% 46% at 12% 82%, rgba(112, 32, 130, 0.62) 0%, rgba(68, 18, 80, 0.30) 38%, transparent 70%),
+    radial-gradient(ellipse 55% 52% at 91% 72%, rgba(28, 50, 110, 0.72) 0%, rgba(20, 34, 76, 0.44) 30%, rgba(14, 21, 46, 0.16) 60%, transparent 78%),
+    linear-gradient(180deg, #120714 0%, #0a040c 100%) !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+#fixed-app-background-solid {
+  background-color: #08030a !important;
+  background-image: 
+    radial-gradient(ellipse 55% 55% at 7% 18%, rgba(120, 12, 55, 0.55) 0%, rgba(75, 10, 36, 0.30) 30%, rgba(32, 6, 18, 0.10) 60%, transparent 75%),
+    radial-gradient(ellipse 50% 48% at 38% 32%, rgba(105, 26, 170, 0.30) 0%, rgba(70, 16, 115, 0.15) 38%, transparent 70%),
+    radial-gradient(ellipse 46% 46% at 12% 82%, rgba(90, 22, 105, 0.45) 0%, rgba(52, 12, 62, 0.20) 38%, transparent 70%),
+    radial-gradient(ellipse 55% 52% at 91% 72%, rgba(20, 38, 88, 0.55) 0%, rgba(14, 24, 58, 0.30) 30%, rgba(9, 14, 32, 0.10) 60%, transparent 78%),
+    linear-gradient(180deg, #0c040e 0%, #050207 100%) !important;
+  background-attachment: fixed !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+html.light-mode #fixed-app-background-solid {
+  display: none !important;
 }
 
 html:not(.light-mode) .bg-\[\#141416\],
@@ -228,7 +260,7 @@ html:not(.light-mode) .bg-\[\#150718\],
 html:not(.light-mode) .bg-\[\#140718\],
 html:not(.light-mode) .bg-\[\#1B0912\],
 html:not(.light-mode) .bg-\[\#0c020e\] {
-  background-color: #2D1720 !important;
+  background-color: #170919 !important;
 }
 
 html:not(.light-mode) .bg-\[\#1E1D22\],
@@ -257,7 +289,7 @@ html:not(.light-mode) button.bg-\[\#2A2A32\]:hover {
 
 html:not(.light-mode) #waves-desktop-sidebar,
 html:not(.light-mode) #waves-mobile-sidebar {
-  background-color: rgba(37, 15, 26, 0.85) !important;
+  background-color: rgba(18, 10, 24, 0.30) !important;
   backdrop-filter: blur(24px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
@@ -265,7 +297,7 @@ html:not(.light-mode) #waves-mobile-sidebar {
 
 /* Experimental Immersive Sidebar: the content remains underneath a soft fading edge. */
 html[data-immersive-sidebar="true"] #waves-desktop-sidebar {
-  background: linear-gradient(90deg, rgba(37, 15, 26, 0.94) 0%, rgba(37, 15, 26, 0.82) 58%, rgba(37, 15, 26, 0.12) 100%) !important;
+  background: linear-gradient(90deg, rgba(18, 10, 24, 0.35) 0%, rgba(18, 10, 24, 0.30) 58%, rgba(18, 10, 24, 0.08) 100%) !important;
   backdrop-filter: blur(22px) saturate(175%) !important;
   -webkit-backdrop-filter: blur(22px) saturate(175%) !important;
   border-color: transparent !important;
@@ -274,17 +306,17 @@ html[data-immersive-sidebar="true"] #waves-desktop-sidebar {
 }
 
 html[data-immersive-sidebar="true"][data-sidebar-position="right"] #waves-desktop-sidebar {
-  background: linear-gradient(270deg, rgba(37, 15, 26, 0.94) 0%, rgba(37, 15, 26, 0.82) 58%, rgba(37, 15, 26, 0.12) 100%) !important;
+  background: linear-gradient(270deg, rgba(18, 10, 24, 0.35) 0%, rgba(18, 10, 24, 0.30) 58%, rgba(18, 10, 24, 0.08) 100%) !important;
   -webkit-mask-image: linear-gradient(270deg, #000 0%, #000 64%, transparent 100%);
   mask-image: linear-gradient(270deg, #000 0%, #000 64%, transparent 100%);
 }
 
 html.light-mode[data-immersive-sidebar="true"] #waves-desktop-sidebar {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.72) 58%, rgba(255, 255, 255, 0.08) 100%) !important;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.40) 0%, rgba(255, 255, 255, 0.30) 58%, rgba(255, 255, 255, 0.08) 100%) !important;
 }
 
 html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #waves-desktop-sidebar {
-  background: linear-gradient(270deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.72) 58%, rgba(255, 255, 255, 0.08) 100%) !important;
+  background: linear-gradient(270deg, rgba(255, 255, 255, 0.40) 0%, rgba(255, 255, 255, 0.30) 58%, rgba(255, 255, 255, 0.08) 100%) !important;
 }
 
 /* Search Bars: Specular Liquid Glass border effect with #27121d background and 100% opacity */
@@ -297,7 +329,6 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
 #btn-spotlight-search-mini,
 #settings-search-container,
 #spotlight-search-container,
-#immersive-search-capsule,
 #btn-close-immersive-search {
   opacity: 1 !important;
   background-color: #27121d !important;
@@ -322,7 +353,6 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
 #btn-spotlight-search-mini:hover,
 #settings-search-container:hover,
 #spotlight-search-container:hover,
-#immersive-search-capsule:hover,
 #btn-close-immersive-search:hover {
   opacity: 1 !important;
   background-color: #331726 !important;
@@ -336,7 +366,6 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
   transform: none !important;
 }
 
-#immersive-search-capsule:focus-within,
 #settings-search-container:focus-within,
 #spotlight-search-container:focus-within,
 .spotlight-input-container:focus-within {
@@ -385,7 +414,6 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
 html.light-mode .spotlight-bubble-box,
 html.light-mode .spotlight-input-container,
 html.light-mode .search-box-capsule,
-html.light-mode #immersive-search-capsule,
 html.light-mode #btn-close-immersive-search {
   background-color: rgba(0, 0, 0, 0.05) !important;
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
@@ -393,7 +421,6 @@ html.light-mode #btn-close-immersive-search {
 }
 html.light-mode .spotlight-bubble-box:hover,
 html.light-mode .spotlight-input-container:hover,
-html.light-mode #immersive-search-capsule:hover,
 html.light-mode #btn-close-immersive-search:hover {
   background-color: rgba(0, 0, 0, 0.08) !important;
   border-color: rgba(0, 0, 0, 0.22) !important;
@@ -676,7 +703,7 @@ html.light-mode .settings-unsaved-tooltip-card {
   top: 0;
   left: 0;
   right: 0;
-  height: 5.5rem;
+  height: 100%;
   pointer-events: none;
   z-index: -10;
   overflow: hidden;
@@ -761,12 +788,15 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 /* Channel Cards: Stable geometry, strictly no width/height changes on hover or select, no fade/cross-dissolve transitions */
 [id^="recommended-channel-"],
 [id^="livetv-channel-card-"]:not(.is-selected),
-[id^="channel-card-"] {
+[id^="channel-card-"]:not(.is-selected),
+[id^="test-channel-card-"]:not(.is-selected) {
   box-sizing: border-box !important;
-  border: 2px solid transparent !important;
+  border: 3.5px solid transparent !important;
   background-image: none !important;
-  background-color: #351a29 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
+  background-color: rgba(255, 255, 255, 0.10) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: none !important;
   transform: none !important;
   transition: none !important;
   will-change: auto;
@@ -774,31 +804,36 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 
 [id^="recommended-channel-"]:hover,
 [id^="livetv-channel-card-"]:not(.is-selected):hover,
-[id^="channel-card-"]:hover {
+[id^="channel-card-"]:not(.is-selected):hover,
+[id^="test-channel-card-"]:not(.is-selected):hover {
   box-sizing: border-box !important;
-  border: 2px solid rgba(255, 255, 255, 0.75) !important;
+  border: 3.5px solid #FFFFFF !important;
   background-image: none !important;
-  background-color: #482238 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32) !important;
+  background-color: rgba(255, 255, 255, 0.10) !important;
+  box-shadow: none !important;
   transform: none !important;
   transition: none !important;
 }
 
 [id^="recommended-channel-"]:active,
 [id^="livetv-channel-card-"]:not(.is-selected):active,
-[id^="channel-card-"]:active {
+[id^="channel-card-"]:not(.is-selected):active,
+[id^="test-channel-card-"]:not(.is-selected):active {
   box-sizing: border-box !important;
-  border: 2px solid rgba(255, 255, 255, 0.9) !important;
-  background-color: #3d1a2f !important;
+  border: 3.5px solid #FFFFFF !important;
+  background-color: rgba(255, 255, 255, 0.10) !important;
   transform: none !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22) !important;
+  box-shadow: none !important;
   transition: none !important;
 }
 
-/* Channel logos: smooth high-quality anti-aliased scaling, no pixelation */
+/* Channel logos: smooth high-quality anti-aliased scaling, no pixelation, no hover zoom */
 [id^="recommended-channel-"] img,
+[id^="recommended-channel-"]:hover img,
 [id^="livetv-channel-card-"] img,
+[id^="livetv-channel-card-"]:hover img,
 [id^="channel-card-"] img,
+[id^="test-channel-card-"] img,
 img[src*="vtvdigital.org"],
 img[src*="vtvgo-next-assets"],
 img[src*="vtvprime.vn"],
@@ -807,17 +842,29 @@ img[src*="vtvprime.vn"],
   image-rendering: smooth !important;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  transform: translateZ(0);
+  transform: none !important;
+  transition: none !important;
 }
 
-/* Selected Live TV Channel Card in Dark Mode - exact same 2px border, perfectly stable */
-[id^="livetv-channel-card-"].is-selected {
+[id^="recommended-channel-"] *,
+[id^="livetv-channel-card-"] *,
+[id^="channel-card-"] *,
+[id^="test-channel-card-"] * {
+  transition: none !important;
+}
+
+/* Selected Live TV & Test Channel Card in Dark Mode - thick white border, no glow, 10% opacity */
+[id^="livetv-channel-card-"].is-selected,
+[id^="test-channel-card-"].is-selected {
   box-sizing: border-box !important;
-  border: 2px solid #FFFFFF !important;
+  border: 3.5px solid #FFFFFF !important;
   background-image: none !important;
-  background-color: #4a2a3b !important;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15) !important;
+  background-color: rgba(255, 255, 255, 0.10) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: none !important;
   transform: none !important;
+  transition: none !important;
 }
 
 /* Primary / Accent Pink Liquid Glass Action Buttons */
@@ -1576,9 +1623,10 @@ html.light-mode #btn-hero-watch-now svg {
 
 /* Recommended Channel Cards & Live TV Channel Cards in Light Mode */
 html.light-mode [id^="recommended-channel-"],
-html.light-mode [id^="livetv-channel-card-"]:not(.is-selected) {
+html.light-mode [id^="livetv-channel-card-"]:not(.is-selected),
+html.light-mode [id^="test-channel-card-"]:not(.is-selected) {
   box-sizing: border-box !important;
-  border: 2px solid transparent !important;
+  border: 3.5px solid transparent !important;
   background-image: 
     linear-gradient(#FFFFFF, #FFFFFF), 
     linear-gradient(180deg, rgba(100, 116, 139, 0.45) 0%, rgba(148, 163, 184, 0) 25%, rgba(148, 163, 184, 0) 75%, rgba(100, 116, 139, 0.45) 100%) !important;
@@ -1591,9 +1639,10 @@ html.light-mode [id^="livetv-channel-card-"]:not(.is-selected) {
 }
 
 html.light-mode [id^="recommended-channel-"]:hover,
-html.light-mode [id^="livetv-channel-card-"]:not(.is-selected):hover {
+html.light-mode [id^="livetv-channel-card-"]:not(.is-selected):hover,
+html.light-mode [id^="test-channel-card-"]:not(.is-selected):hover {
   box-sizing: border-box !important;
-  border: 2px solid rgba(0, 0, 0, 0.2) !important;
+  border: 3.5px solid rgba(0, 0, 0, 0.2) !important;
   background-image: 
     linear-gradient(#FFFFFF, #FFFFFF), 
     linear-gradient(180deg, rgba(71, 85, 105, 0.65) 0%, rgba(100, 116, 139, 0) 25%, rgba(100, 116, 139, 0) 75%, rgba(71, 85, 105, 0.65) 100%) !important;
@@ -1605,9 +1654,10 @@ html.light-mode [id^="livetv-channel-card-"]:not(.is-selected):hover {
   transition: none !important;
 }
 
-html.light-mode [id^="livetv-channel-card-"].is-selected {
+html.light-mode [id^="livetv-channel-card-"].is-selected,
+html.light-mode [id^="test-channel-card-"].is-selected {
   box-sizing: border-box !important;
-  border: 2px solid #E6005A !important;
+  border: 3.5px solid #E6005A !important;
   background-image: none !important;
   background-color: #FFF0F5 !important;
   box-shadow: none !important;
@@ -1689,11 +1739,33 @@ html.light-mode .bg-\[\#1E1E22\].text-\[\#A1A1AA\] {
   border-color: #E5E7EB !important;
 }
 
+/* Modal Dialogs - Gray Background */
+#welcome-modal-dialog,
+#discord-welcome-dialog,
+#under-construction-modal-dialog,
+#developer-mode-modal-dialog,
+#custom-stream-dialog,
+#help-modal-dialog,
+#news-summary-dialog,
+#spotlight-popup-card,
+#add-stream-dialog {
+  background-color: #27282D !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+}
+
 /* Light Mode Modal Dialog Overrides */
-html.light-mode #discord-welcome-dialog {
-  background-color: #FFFFFF !important;
+html.light-mode #discord-welcome-dialog,
+html.light-mode #welcome-modal-dialog,
+html.light-mode #under-construction-modal-dialog,
+html.light-mode #developer-mode-modal-dialog,
+html.light-mode #custom-stream-dialog,
+html.light-mode #help-modal-dialog,
+html.light-mode #news-summary-dialog,
+html.light-mode #spotlight-popup-card,
+html.light-mode #add-stream-dialog {
+  background-color: #E5E7EB !important;
   color: #111827 !important;
-  border-color: #E2E8F0 !important;
+  border-color: #D1D5DB !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18) !important;
 }
 
@@ -1712,8 +1784,8 @@ html.light-mode #custom-stream-backdrop {
 
 /* Custom Stream Modal in Light Mode */
 html.light-mode #custom-stream-dialog {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
+  background-color: #E5E7EB !important;
+  border-color: #D1D5DB !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18) !important;
 }
 
@@ -1759,9 +1831,9 @@ html.light-mode #custom-stream-dialog button.bg-\[\#28282E\]:hover {
 /* Welcome Modal in Light Mode */
 html.light-mode #welcome-modal-dialog,
 html.light-mode #under-construction-modal-dialog {
-  background-color: #FFFFFF !important;
+  background-color: #E5E7EB !important;
   color: #111827 !important;
-  border-color: #E2E8F0 !important;
+  border-color: #D1D5DB !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18) !important;
 }
 
@@ -2890,9 +2962,22 @@ html.light-mode .floaty-bar #dock-settings:hover {
   width: 100% !important;
   height: 3.25rem !important;
   border-radius: 9999px !important;
-  background: #1f1e27 !important;
+  background: rgba(255, 255, 255, 0.10) !important;
+  background-color: rgba(255, 255, 255, 0.10) !important;
   background-image: none !important;
-  border: 0 !important;
+  border: 3.5px solid transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+#immersive-search-capsule:hover,
+#immersive-search-capsule:focus-within {
+  background: rgba(255, 255, 255, 0.10) !important;
+  background-color: rgba(255, 255, 255, 0.10) !important;
+  background-image: none !important;
+  border: 3.5px solid #FFFFFF !important;
   box-shadow: none !important;
 }
 
@@ -2900,8 +2985,19 @@ html.light-mode .floaty-bar #dock-settings:hover {
   font-size: 1rem !important;
 }
 
-html.light-mode #immersive-search-capsule {
-  background: #F1F2F6 !important;
+/* Settings categories white 10% opacity */
+#settings-section-interface,
+#settings-section-accessibility,
+#settings-section-motion,
+#settings-section-search,
+#settings-section-experimental,
+#settings-section-keybinds,
+#settings-section-other {
+  background: rgba(255, 255, 255, 0.10) !important;
+  background-color: rgba(255, 255, 255, 0.10) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
 }
 
 

@@ -229,7 +229,7 @@ export const Settings: React.FC = () => {
         matchesSearch('phải')) && (
         <section 
           id="settings-section-interface"
-          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
@@ -388,11 +388,10 @@ export const Settings: React.FC = () => {
 
       {/* 3. Section 2: Trợ năng */}
       {(matchesSearch('Trợ năng') ||
-        matchesSearch('Tự động trượt hình Banner') ||
         matchesSearch('Tự động ẩn Sidebar')) && (
         <section 
           id="settings-section-accessibility"
-          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
@@ -402,43 +401,13 @@ export const Settings: React.FC = () => {
                 Trợ năng
               </h2>
               <p className="text-xs text-[#9CA3AF] mt-1 leading-relaxed">
-                Điều chỉnh tự động trượt banner và tương tác menu
+                Điều chỉnh tương tác hiển thị và thanh điều hướng
               </p>
             </div>
           </div>
 
           <div className="space-y-3 pt-1">
-            {/* Card 1: Tự động trượt hình Banner (No Border) */}
-            {matchesSearch('Tự động trượt hình Banner') && (
-              <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
-                <div>
-                  <div className="font-semibold text-white text-sm">
-                    Tự động trượt hình Banner
-                  </div>
-                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
-                    Banner hình ảnh ở trang chủ tự động trượt sau mỗi 5 giây
-                  </div>
-                </div>
-
-                {/* Magenta Toggle Switch */}
-                <button
-                  id="toggle-autoscroll-banner"
-                  type="button"
-                  role="switch"
-                  aria-checked={draftSettings.autoScrollBanner}
-                  onClick={() => updateDraft('autoScrollBanner', !draftSettings.autoScrollBanner)}
-                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                    draftSettings.autoScrollBanner ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
-                  }`}
-                >
-                  <span
-                    className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none"
-                  />
-                </button>
-              </div>
-            )}
-
-            {/* Card 2: Tự động ẩn Sidebar (No Border) */}
+            {/* Card: Tự động ẩn Sidebar (No Border) */}
             {matchesSearch('Tự động ẩn Sidebar') && (
               <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
                 <div>
@@ -480,7 +449,7 @@ export const Settings: React.FC = () => {
         matchesSearch('Chuyển trang')) && (
         <section 
           id="settings-section-motion"
-          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
         >
           {/* Section Header */}
           <div className="flex items-start gap-3">
@@ -668,7 +637,7 @@ export const Settings: React.FC = () => {
         matchesSearch('Cài đặt')) && (
         <section 
           id="settings-section-search"
-          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
@@ -880,7 +849,7 @@ export const Settings: React.FC = () => {
         matchesSearch('Tính năng thử nghiệm')) && (
         <section 
           id="settings-section-experimental"
-          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
         >
           {/* Section Header with triangle lab flask icon */}
           <div className="flex items-start gap-3">
@@ -947,7 +916,7 @@ export const Settings: React.FC = () => {
         matchesSearch('Kênh xem gần nhất')) && (
         <section 
           id="settings-section-keybinds"
-          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
         >
           {/* Section Header */}
           <div className="flex items-start justify-between gap-3">
@@ -1152,7 +1121,7 @@ export const Settings: React.FC = () => {
         matchesSearch('Vplay')) && (
         <section 
           id="settings-section-other"
-          className="p-5 sm:p-6 rounded-[28px] bg-[#1E1D22] shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
         >
           {/* Section Header */}
           <div className="flex items-start gap-3">

@@ -64,7 +64,7 @@ export const UnderConstructionModal: React.FC<UnderConstructionModalProps> = ({
                 ease: [0.25, 0.1, 0.25, 1]
               }
             }}
-            className="relative z-10 w-full max-w-[420px] sm:max-w-[440px] bg-[#1E1D22] rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 shadow-2xl border border-white/5"
+            className="relative z-10 w-full max-w-[420px] sm:max-w-[440px] bg-[#27282D] rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 shadow-2xl border border-white/10"
           >
             {/* Title */}
             <h1

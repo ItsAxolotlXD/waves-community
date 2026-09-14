@@ -2,6 +2,7 @@ import React from 'react';
 import { Play, Heart, Radio, Sparkles } from 'lucide-react';
 import { Channel } from '../types';
 import { useFavorites } from '../hooks/useFavorites';
+import { DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
 
 interface ChannelCardProps {
   channel: Channel;
@@ -29,13 +30,18 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
     >
       {/* Top Banner / Logo Area */}
       <div className="relative h-32 bg-gradient-to-b from-[#2A2A32] to-[#1E1E22] flex items-center justify-center p-4 overflow-hidden">
-        {channel.bannerImage && (
-          <img
-            src={channel.bannerImage}
-            alt={channel.name}
-            className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-35"
-          />
-        )}
+        <img
+          src={channel.bannerImage || DEFAULT_BANNER_PLACEHOLDER}
+          alt={channel.name}
+          referrerPolicy="no-referrer"
+          className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-35 transition-opacity"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src !== DEFAULT_BANNER_PLACEHOLDER) {
+              target.src = DEFAULT_BANNER_PLACEHOLDER;
+            }
+          }}
+        />
 
         {/* Center Channel Logo */}
         <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#141416]/90 border border-white/15 flex items-center justify-center p-1.5 overflow-hidden shadow-md">

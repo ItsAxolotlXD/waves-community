@@ -237,7 +237,7 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
             onClick={() => {
               inputRef.current?.focus();
             }}
-            className="relative w-full max-w-md sm:max-w-lg h-[44px] md:h-[48px] flex items-center px-4 md:px-5 rounded-full spotlight-bubble-box spotlight-input-container overflow-hidden cursor-text select-none"
+            className="relative w-full max-w-md sm:max-w-lg h-[48px] md:h-[52px] flex items-center px-4 md:px-5 rounded-full overflow-hidden cursor-text select-none bg-white/10 backdrop-blur-md border-[3.5px] border-transparent hover:border-white focus-within:border-white transition-colors"
           >
             <div className="flex items-center gap-3 w-full">
               <Search className="w-5 h-5 text-[#9CA3AF] shrink-0" />

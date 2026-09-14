@@ -1,335 +1,214 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Play, ChevronLeft, ChevronRight, Clapperboard, ExternalLink } from 'lucide-react';
-import { HERO_SLIDES } from '../data/heroSlides';
-import { HeroSlide, Channel } from '../types';
-import { CHANNELS_DATA } from '../data/channels';
-import { useSettings } from '../hooks/useSettings';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { HERO_SLIDES, DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
+import { Channel } from '../types';
 
 interface HeroCarouselProps {
-  navigate: (route: string) => void;
-  onSelectChannel: (channel: Channel) => void;
+  navigate?: (route: string) => void;
+  onSelectChannel?: (channel: Channel) => void;
 }
 
-export const HeroCarousel: React.FC<HeroCarouselProps> = ({
-  navigate,
-  onSelectChannel
-}) => {
-  const { settings } = useSettings();
+export const HeroCarousel: React.FC<HeroCarouselProps> = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const currentSlide: HeroSlide = HERO_SLIDES[currentIndex] || HERO_SLIDES[0];
+  const totalSlides = HERO_SLIDES.length;
 
   const nextSlide = () => {
-    if (HERO_SLIDES.length > 1) {
-      setDirection(1);
-      setCurrentIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+    if (totalSlides > 1) {
+      setCurrentIndex((prev) => (prev + 1) % totalSlides);
     }
   };
 
   const prevSlide = () => {
-    if (HERO_SLIDES.length > 1) {
-      setDirection(-1);
-      setCurrentIndex((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+    if (totalSlides > 1) {
+      setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
     }
   };
 
   const goToSlide = (idx: number) => {
-    if (idx === currentIndex) return;
-    setDirection(idx > currentIndex ? 1 : -1);
     setCurrentIndex(idx);
   };
 
+  // Tự động trượt banner luôn enable
   useEffect(() => {
-    if (settings.autoScrollBanner && !isHovered && HERO_SLIDES.length > 1) {
-      timerRef.current = setInterval(nextSlide, 6500);
+    if (totalSlides > 1 && !isHovered) {
+      timerRef.current = setInterval(nextSlide, 5000);
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isHovered, settings.autoScrollBanner]);
+  }, [isHovered, totalSlides]);
 
-  const handleWatchNow = () => {
-    if (currentSlide.internalUrl) {
-      navigate(currentSlide.internalUrl);
-      return;
+  // Tính khoảng cách vòng tròn (circular diff) giữa index i và currentIndex
+  const getSlidePosition = (i: number) => {
+    let diff = (i - currentIndex) % totalSlides;
+    if (diff < -Math.floor(totalSlides / 2)) {
+      diff += totalSlides;
+    } else if (diff > Math.floor(totalSlides / 2)) {
+      diff -= totalSlides;
     }
-    if (currentSlide.externalUrl) {
-      window.open(currentSlide.externalUrl, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    const targetChannel = CHANNELS_DATA.find((c) => c.id === currentSlide.channelId) || CHANNELS_DATA[0];
-    onSelectChannel(targetChannel);
-    navigate(`/live-tv?channel=${targetChannel.slug}`);
+    return diff;
   };
 
-  // Helper function to render text with gradient highlighting for phrases wrapped in <gradient>...</gradient>
-  const renderFormattedDescription = (text: string) => {
-    if (!text) return null;
-
-    const normalizedText = text.replace(/<gradient\s*text[^>]*:\s*([^>]+)>/gi, '<gradient>$1</gradient>');
-    const parts = normalizedText.split(/(<gradient>.*?<\/gradient>)/g);
-    return parts.map((part, index) => {
-      if (part.startsWith('<gradient>') && part.endsWith('</gradient>')) {
-        const highlightedText = part.replace('<gradient>', '').replace('</gradient>', '');
-        return (
-          <span
-            key={index}
-            className="font-extrabold bg-gradient-to-r from-[#FF2020] via-[#FF3366] to-[#F000FF] bg-clip-text text-transparent inline-block"
-          >
-            {highlightedText}
-          </span>
-        );
-      }
-      return <span key={index}>{part}</span>;
-    });
-  };
+  const currentSlide = HERO_SLIDES[currentIndex] || HERO_SLIDES[0];
 
   return (
     <div 
-      id="hero-carousel-container"
-      className="relative w-full overflow-hidden bg-transparent min-h-[520px] md:min-h-[600px] lg:min-h-[660px] flex items-end group transition-all select-none"
+      id="hero-3d-coverflow-carousel"
+      className="relative w-full overflow-hidden select-none pt-1 sm:pt-2 pb-0"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background Image with Cinematic Slide & Dissolve Overlay */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.div
-            key={currentSlide.id}
-            custom={direction}
-            variants={{
-              enter: (dir: number) => ({
-                x: dir > 0 ? '100%' : '-100%',
-                opacity: 0,
-                scale: 1.05,
-              }),
-              center: {
-                x: '0%',
-                opacity: 1,
-                scale: 1,
-                transition: {
-                  x: { duration: 1.15, ease: [0.22, 1, 0.36, 1] },
-                  opacity: { duration: 0.85, ease: 'easeOut' },
-                  scale: { duration: 1.25, ease: [0.22, 1, 0.36, 1] },
-                },
-              },
-              exit: (dir: number) => ({
-                x: dir > 0 ? '-100%' : '100%',
-                opacity: 0,
-                scale: 0.98,
-                transition: {
-                  x: { duration: 1.15, ease: [0.22, 1, 0.36, 1] },
-                  opacity: { duration: 0.75, ease: 'easeIn' },
-                  scale: { duration: 1.15, ease: 'easeIn' },
-                },
-              }),
-            }}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            className="absolute inset-0 w-full h-full"
-          >
-            <img
-              src={currentSlide.backgroundImage}
-              alt={currentSlide.title}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center"
-            />
-            {/* Cinematic gradient overlays blending seamlessly into app background #2D1720 */}
-            <div className="absolute inset-0 hero-overlay-t bg-gradient-to-t from-[#2D1720] via-[#2D1720]/40 to-transparent" />
-            <div className="absolute inset-0 hero-overlay-r bg-gradient-to-r from-[#2D1720]/85 via-[#2D1720]/30 to-transparent w-full md:w-3/5" />
-          </motion.div>
-        </AnimatePresence>
+      {/* Background phía sau banner chính: lấy chính banner hiện tại và làm mờ (ambient blurred background) */}
+      <div 
+        className="absolute inset-0 -top-8 -bottom-8 overflow-hidden pointer-events-none z-0 select-none"
+        aria-hidden="true"
+      >
+        <img
+          key={currentSlide?.id || currentIndex}
+          src={currentSlide?.backgroundImage || DEFAULT_BANNER_PLACEHOLDER}
+          alt=""
+          referrerPolicy="no-referrer"
+          className="w-full h-full object-cover scale-150 blur-3xl opacity-40 dark:opacity-35 transition-all duration-1000 ease-out"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src !== DEFAULT_BANNER_PLACEHOLDER) {
+              target.src = DEFAULT_BANNER_PLACEHOLDER;
+            }
+          }}
+        />
+        {/* Gradient mờ viền giúp hòa vào nền giao diện */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#141416]/50 via-transparent to-[#141416]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#141416]/40 via-transparent to-[#141416]/40" />
       </div>
 
-      {/* Content Container (Bottom/Left aligned) */}
-      <div className="relative z-10 w-full p-6 sm:p-10 md:p-14 lg:p-16 pb-12 md:pb-16 max-w-5xl flex flex-col justify-end">
-        {/* Animated Slide for Title, Subtitle, Director, Description & CTA */}
-        <div className="overflow-hidden">
-          <AnimatePresence initial={false} mode="wait" custom={direction}>
-            <motion.div
-              key={currentSlide.id}
-              custom={direction}
-              variants={{
-                enter: (dir: number) => ({
-                  x: dir > 0 ? 70 : -70,
-                  opacity: 0,
-                }),
-                center: {
-                  x: 0,
-                  opacity: 1,
-                  transition: {
-                    x: { duration: 0.85, ease: [0.22, 1, 0.36, 1] },
-                    opacity: { duration: 0.7, ease: 'easeOut' },
-                  },
-                },
-                exit: (dir: number) => ({
-                  x: dir > 0 ? -50 : 50,
-                  opacity: 0,
-                  transition: {
-                    x: { duration: 0.45, ease: [0.32, 0, 0.67, 0] },
-                    opacity: { duration: 0.35, ease: 'easeIn' },
-                  },
-                }),
-              }}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              className="flex flex-col"
+      {/* 3D Stage Container */}
+      <div 
+        className="relative z-10 w-full flex items-center justify-center"
+        style={{ perspective: '1200px', transformStyle: 'preserve-3d' }}
+      >
+        {/* Aspect ratio spacer so stage height strictly matches the banner height without dead gap */}
+        <div 
+          className="w-[88%] sm:w-[74%] md:w-[65%] lg:w-[62%] max-w-[840px] aspect-[16/9] pointer-events-none invisible" 
+          aria-hidden="true" 
+        />
+
+        {HERO_SLIDES.map((slide, i) => {
+          const diff = getSlidePosition(i);
+          const isCenter = diff === 0;
+          const isLeft = diff === -1;
+          const isRight = diff === 1;
+          const isVisible = Math.abs(diff) <= 1;
+
+          // Xây dựng style 3D tương ứng theo phong cách Coverflow
+          let transformStyle: React.CSSProperties = {
+            transition: 'all 0.65s cubic-bezier(0.25, 1, 0.5, 1)',
+          };
+
+          if (isCenter) {
+            transformStyle = {
+              ...transformStyle,
+              transform: 'translateX(0%) translateZ(0px) rotateY(0deg) scale(1)',
+              zIndex: 30,
+              opacity: 1,
+            };
+          } else if (isLeft) {
+            transformStyle = {
+              ...transformStyle,
+              transform: 'translateX(-54%) translateZ(-90px) rotateY(24deg) scale(0.85)',
+              zIndex: 20,
+              opacity: 0.65,
+            };
+          } else if (isRight) {
+            transformStyle = {
+              ...transformStyle,
+              transform: 'translateX(54%) translateZ(-90px) rotateY(-24deg) scale(0.85)',
+              zIndex: 20,
+              opacity: 0.65,
+            };
+          } else {
+            transformStyle = {
+              ...transformStyle,
+              transform: `translateX(${diff > 0 ? 85 : -85}%) translateZ(-250px) rotateY(${diff > 0 ? -35 : 35}deg) scale(0.65)`,
+              zIndex: 10,
+              opacity: 0,
+            };
+          }
+
+          return (
+            <div
+              key={slide.id}
+              style={transformStyle}
+              className={`absolute inset-0 m-auto w-[88%] sm:w-[74%] md:w-[65%] lg:w-[62%] max-w-[840px] aspect-[16/9] rounded-2xl sm:rounded-[24px] overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.85)] cursor-default select-none pointer-events-none ${
+                !isVisible ? 'hidden md:block' : ''
+              }`}
             >
-              {/* Main Title */}
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase drop-shadow-md leading-tight">
-                {currentSlide.title}
-              </h1>
+              {/* Ảnh nền slide - Chỉ xem, không thể bấm */}
+              <img
+                src={slide.backgroundImage || DEFAULT_BANNER_PLACEHOLDER}
+                alt={slide.title}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-center pointer-events-none select-none"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src !== DEFAULT_BANNER_PLACEHOLDER) {
+                    target.src = DEFAULT_BANNER_PLACEHOLDER;
+                  }
+                }}
+              />
 
-              {/* Subtitle with Red to Magenta gradient */}
-              {currentSlide.subtitle && (
-                <div className="mt-1 md:mt-2">
-                  <span className="text-xl sm:text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-[#FF2020] via-[#FF3366] to-[#F000FF] bg-clip-text text-transparent drop-shadow">
-                    {currentSlide.subtitle}
-                  </span>
-                </div>
+              {/* Lớp phủ tối mờ khi slide ở 2 bên */}
+              {!isCenter && (
+                <div className="absolute inset-0 bg-black/40 hover:bg-black/15 transition-colors z-10 pointer-events-none" />
               )}
-
-              {/* Director credits */}
-              {currentSlide.director && (
-                <div className="flex items-center gap-2.5 mt-3.5">
-                  <div className="hero-director-badge flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#2A2A32]/90 border border-white/15 text-xs text-white">
-                    <Clapperboard className="w-3.5 h-3.5 text-[#FF3366]" />
-                    <span className="hero-director-label text-[#9CA3AF] uppercase text-[10px] font-bold tracking-wider">ĐẠO DIỄN:</span>
-                    <span className="hero-director-name font-extrabold text-white tracking-wide">{currentSlide.director}</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Rich Description with formatted gradient text */}
-              <p className="mt-4 text-xs sm:text-sm md:text-base text-[#D1D5DB] leading-relaxed max-w-3xl font-normal">
-                {renderFormattedDescription(currentSlide.description)}
-              </p>
-
-              {/* CTA Button Row + Channel Logo */}
-              <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 mt-6">
-                {/* Main Colored CTA Button */}
-                {currentSlide.externalUrl ? (
-                  <a
-                    id="btn-hero-watch-now"
-                    href={currentSlide.externalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none inline-flex"
-                  >
-                    <span className="font-bold text-white">{currentSlide.ctaText || 'Learn more'}</span>
-                    <ExternalLink className="w-4 h-4 text-white group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                  </a>
-                ) : (
-                  <button
-                    id="btn-hero-watch-now"
-                    onClick={handleWatchNow}
-                    className="flex items-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer tracking-tight shadow-lg shadow-[#E6005A]/30 hover:shadow-xl hover:shadow-[#E6005A]/40 group/btn select-none"
-                  >
-                    <Play className="w-4.5 h-4.5 fill-white text-white ml-0.5 group-hover/btn:scale-110 transition-transform" />
-                    <span className="font-bold text-white">{currentSlide.ctaText || 'Xem'}</span>
-                  </button>
-                )}
-
-                {/* Pure Banner Logo placed directly next to the Watch button */}
-                {currentSlide.channelLogo && (
-                  currentSlide.externalUrl ? (
-                    <a 
-                      href={currentSlide.externalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
-                      title={currentSlide.channelName || 'Xem thêm'}
-                    >
-                      <img
-                        src={currentSlide.channelLogo}
-                        alt={currentSlide.channelName || 'Logo banner'}
-                        referrerPolicy="no-referrer"
-                        className={`hero-banner-channel-logo w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] ${
-                          currentSlide.id === 'vtv-56-nam'
-                            ? 'h-9 sm:h-10 md:h-11 max-h-12'
-                            : 'h-8 sm:h-9'
-                        }`}
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          target.style.display = 'none';
-                        }}
-                      />
-                    </a>
-                  ) : (
-                    <div 
-                      onClick={handleWatchNow}
-                      className="flex items-center cursor-pointer transition-transform hover:scale-105 active:scale-95 select-none"
-                      title={currentSlide.channelName || 'Xem'}
-                    >
-                      <img
-                        src={currentSlide.channelLogo}
-                        alt={currentSlide.channelName || 'Logo banner'}
-                        referrerPolicy="no-referrer"
-                        className={`hero-banner-channel-logo w-auto object-contain brightness-110 drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)] ${
-                          currentSlide.id === 'vtv-56-nam'
-                            ? 'h-9 sm:h-10 md:h-11 max-h-12'
-                            : 'h-8 sm:h-9'
-                        }`}
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          target.style.display = 'none';
-                        }}
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Stable Controls Row: Arrows + Pagination Dots */}
-        {HERO_SLIDES.length > 1 && (
-          <div className="flex flex-wrap items-center gap-4 mt-6">
-            {/* Previous & Next circular arrow buttons */}
-            <div className="flex items-center gap-2">
-              <button
-                id="btn-hero-prev"
-                onClick={prevSlide}
-                className="w-10 h-10 rounded-full bg-[#18181D]/60 hover:bg-[#282830]/80 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white/90 hover:text-white transition-all cursor-pointer shadow-lg active:scale-95"
-                aria-label="Slide trước"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                id="btn-hero-next"
-                onClick={nextSlide}
-                className="w-10 h-10 rounded-full bg-[#18181D]/60 hover:bg-[#282830]/80 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white/90 hover:text-white transition-all cursor-pointer shadow-lg active:scale-95"
-                aria-label="Slide tiếp theo"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
             </div>
+          );
+        })}
 
-            {/* Pagination indicator: dots */}
-            <div className="flex items-center gap-2">
-              {HERO_SLIDES.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => goToSlide(idx)}
-                  className={`transition-all duration-300 rounded-full h-2 cursor-pointer ${
-                    idx === currentIndex
-                      ? 'w-7 bg-[#FF2020] shadow-[0_0_8px_#FF2020]'
-                      : 'w-2 bg-[#4B4B54] hover:bg-[#6B6B76]'
-                  }`}
-                  aria-label={`Đi tới slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-          </div>
+        {/* Nút mũi tên Chevron trái (<) nổi trên slide bên trái */}
+        {totalSlides > 1 && (
+          <button
+            id="btn-coverflow-prev"
+            onClick={prevSlide}
+            aria-label="Slide trước"
+            className="absolute left-[2%] sm:left-[6%] md:left-[10%] lg:left-[13%] top-1/2 -translate-y-1/2 z-40 text-white/90 hover:text-white hover:scale-125 active:scale-95 transition-all p-2 cursor-pointer drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]"
+          >
+            <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 stroke-[2.5]" />
+          </button>
+        )}
+
+        {/* Nút mũi tên Chevron phải (>) nổi trên slide bên phải */}
+        {totalSlides > 1 && (
+          <button
+            id="btn-coverflow-next"
+            onClick={nextSlide}
+            aria-label="Slide tiếp theo"
+            className="absolute right-[2%] sm:right-[6%] md:right-[10%] lg:right-[13%] top-1/2 -translate-y-1/2 z-40 text-white/90 hover:text-white hover:scale-125 active:scale-95 transition-all p-2 cursor-pointer drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]"
+          >
+            <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 stroke-[2.5]" />
+          </button>
         )}
       </div>
+
+      {/* Pagination Indicators (Dạng vạch dài viên thuốc và các chấm tròn nhỏ) */}
+      {totalSlides > 1 && (
+        <div className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2 mt-2.5 sm:mt-3">
+          {HERO_SLIDES.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => goToSlide(idx)}
+              className={`transition-all duration-300 rounded-full cursor-pointer ${
+                idx === currentIndex
+                  ? 'w-7 sm:w-9 h-1 sm:h-1.5 bg-white shadow-[0_0_8px_rgba(255,255,255,0.85)]'
+                  : 'w-1.5 h-1.5 bg-white/25 hover:bg-white/60'
+              }`}
+              aria-label={`Đi tới slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

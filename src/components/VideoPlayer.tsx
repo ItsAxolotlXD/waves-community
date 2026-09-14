@@ -55,6 +55,10 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     retry
   } = useHLS(channel.streamUrl, true);
 
+  // Spinner visibility & UI visibility rule: UI controls only display when the loading circle is gone
+  const isSpinnerVisible = (isLoading || isBuffering) && !error;
+  const canShowControls = !isSpinnerVisible && !error && (showControls || !isPlaying);
+
   // Auto-hide controls after 3.5 seconds of inactivity
   const resetControlsTimeout = () => {
     setShowControls(true);
@@ -67,6 +71,15 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       }
     }, 3500);
   };
+
+  // When loading spinner finishes, reveal controls briefly
+  const prevSpinnerRef = useRef(isSpinnerVisible);
+  useEffect(() => {
+    if (prevSpinnerRef.current && !isSpinnerVisible && !error) {
+      resetControlsTimeout();
+    }
+    prevSpinnerRef.current = isSpinnerVisible;
+  }, [isSpinnerVisible, error]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -210,13 +223,19 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
     <div
       ref={containerRef}
       id="waves-video-player-container"
-      onMouseMove={resetControlsTimeout}
-      onPointerMove={resetControlsTimeout}
-      onTouchStart={resetControlsTimeout}
+      onMouseMove={() => {
+        if (!isSpinnerVisible && !error) resetControlsTimeout();
+      }}
+      onPointerMove={() => {
+        if (!isSpinnerVisible && !error) resetControlsTimeout();
+      }}
+      onTouchStart={() => {
+        if (!isSpinnerVisible && !error) resetControlsTimeout();
+      }}
       onMouseLeave={() => isPlaying && setShowControls(false)}
       className={`relative w-full rounded-xl sm:rounded-2xl overflow-hidden bg-black shadow-2xl transition-all duration-300 select-none ${
         isTheaterMode ? 'aspect-[21/9] max-h-[75vh]' : 'aspect-video'
-      } ${!showControls && isPlaying ? 'cursor-none' : ''}`}
+      } ${(!canShowControls && isPlaying) || isSpinnerVisible ? 'cursor-none' : ''}`}
       style={{
         WebkitMaskImage: '-webkit-radial-gradient(white, black)'
       }}
@@ -226,20 +245,22 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
         ref={videoRef}
         playsInline
         className="w-full h-full object-contain bg-black cursor-pointer rounded-xl sm:rounded-2xl"
-        onClick={togglePlay}
+        onClick={() => {
+          if (!isSpinnerVisible && !error) togglePlay();
+        }}
       />
 
       {/* Subtle Dark Gradient Overlay when controls are active */}
       <div 
         className={`absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-black/50 pointer-events-none transition-opacity duration-300 ${
-          showControls || !isPlaying ? 'opacity-100' : 'opacity-0'
+          canShowControls ? 'opacity-100' : 'opacity-0 pointer-events-none invisible'
         }`} 
       />
 
       {/* TOP BAR: Channel Badge on Left, and Favorite + Volume Pill + Auxiliary controls on Right */}
       <div 
         className={`absolute top-2 sm:top-5 md:top-6 left-2 right-2 sm:left-5 sm:right-5 md:left-7 md:right-7 flex items-center justify-between z-20 pointer-events-none transition-opacity duration-300 ${
-          showControls || !isPlaying ? 'opacity-100' : 'opacity-0'
+          canShowControls ? 'opacity-100' : 'opacity-0 pointer-events-none invisible'
         }`}
       >
         {/* Top-Left: Clean video area without HD tag */}
@@ -333,14 +354,8 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
       {/* Buffering & Loading Spinner */}
       {(isLoading || isBuffering) && !error && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] z-10 pointer-events-none p-4">
-          <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border-2 sm:border-3 border-[#E50914]/20 border-t-[#E50914] animate-spin mb-2 sm:mb-3 glow-purple" />
-          <span
-            id="video-player-buffering-badge"
-            className="video-player-glass-badge text-[10px] sm:text-xs font-medium text-white/90 tracking-wide px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full"
-          >
-            {isLoading ? 'Đang kết nối luồng phát sóng HLS...' : 'Đang nạp bộ đệm (Buffering)...'}
-          </span>
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px] z-10 pointer-events-none p-4">
+          <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full border-4 sm:border-[5px] border-white/25 border-t-white animate-spin shadow-none" />
         </div>
       )}
 
@@ -386,7 +401,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       {/* CENTER CONTROLS: [Rewind 10s] [Play/Pause] [Forward 10s] */}
       <div
         className={`absolute inset-0 flex items-center justify-center gap-2.5 sm:gap-5 md:gap-6 z-20 pointer-events-none transition-opacity duration-300 ${
-          showControls || !isPlaying ? 'opacity-100' : 'opacity-0'
+          canShowControls ? 'opacity-100' : 'opacity-0 pointer-events-none invisible'
         }`}
       >
         {/* Rewind 10s Button */}
@@ -486,7 +501,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
       {/* BOTTOM PROGRESS BAR CAPSULE: [3:58] [=================---------] [-0:36] */}
       <div
         className={`absolute bottom-2 sm:bottom-4 md:bottom-5 left-2 right-2 sm:left-6 sm:right-6 md:left-10 md:right-10 max-w-2xl sm:max-w-3xl mx-auto z-20 pointer-events-none transition-opacity duration-300 ${
-          showControls || !isPlaying ? 'opacity-100' : 'opacity-0'
+          canShowControls ? 'opacity-100' : 'opacity-0 pointer-events-none invisible'
         }`}
       >
         <div

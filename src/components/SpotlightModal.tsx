@@ -44,7 +44,6 @@ const CATEGORY_ITEMS = [
 
 const SETTINGS_SHORTCUTS = [
   { id: 'set-font', title: 'Cài đặt: Tỷ lệ cỡ chữ ứng dụng', keyword: 'cỡ chữ font chữ zoom tỷ lệ' },
-  { id: 'set-banner', title: 'Cài đặt: Tự động trượt banner', keyword: 'banner trượt auto scroll' },
   { id: 'set-autohide', title: 'Cài đặt: Tự động ẩn Sidebar', keyword: 'tự động ẩn sidebar collapse' },
   { id: 'set-motion', title: 'Cài đặt: Motion and Movements / Hiệu ứng chuyển động', keyword: 'motion movements hiệu ứng animation reduce all animation chuyển trang' },
   { id: 'set-search', title: 'Cài đặt: Tùy chỉnh danh mục tìm kiếm', keyword: 'tìm kiếm search spotlight' },
@@ -212,7 +211,7 @@ export const SpotlightModal: React.FC<SpotlightModalProps> = ({
                 ease: [0.25, 0.1, 0.25, 1]
               }
             } : { opacity: 0 }}
-            className="relative w-full max-w-[400px] sm:max-w-[460px] bg-[#1A1A20] rounded-[28px] p-4 sm:p-5 shadow-2xl overflow-hidden z-10 my-auto max-h-[calc(100vh-32px)] flex flex-col"
+            className="relative w-full max-w-[400px] sm:max-w-[460px] bg-[#27282D] border border-white/10 rounded-[28px] p-4 sm:p-5 shadow-2xl overflow-hidden z-10 my-auto max-h-[calc(100vh-32px)] flex flex-col"
           >
             {viewMode === 'settings' ? (
               /* View 2: Search Settings Menu (Without navigating to Settings tab) */

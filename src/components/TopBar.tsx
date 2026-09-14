@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Bell } from 'lucide-react';
+import { Menu, Bell, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSettings } from '../hooks/useSettings';
 import { ToolsMenu } from './ToolsMenu';
@@ -110,18 +110,10 @@ export const TopBar: React.FC<TopBarProps> = ({
         <button
           id="btn-top-search"
           onClick={onOpenSearch}
-          className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] dark:hover:text-white transition-all drop-shadow-sm cursor-pointer"
+          className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-[#D1D5DB] hover:text-white dark:hover:text-white transition-all drop-shadow-sm cursor-pointer"
           title="Spotlight Search (⌘K)"
         >
-          <img
-            src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
-            alt="Search"
-            referrerPolicy="no-referrer"
-            className="w-5 h-5 object-contain topbar-search-icon"
-            onError={(e) => {
-              (e.target as HTMLElement).style.display = 'none';
-            }}
-          />
+          <Search className="w-5 h-5 object-contain topbar-search-icon" strokeWidth={1.5} />
         </button>
 
         {/* Tools Menu Icon (Contextual hover dropdown for each tab) - Placed directly right of search */}

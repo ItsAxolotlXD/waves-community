@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NEWS_DATA } from '../data/news';
 import { NewsCard } from '../components/NewsCard';
 import { TrendingUp, Lock } from 'lucide-react';
+import { DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
 
 interface NewsProps {
   navigate: (route: string) => void;
@@ -47,9 +48,16 @@ export const News: React.FC<NewsProps> = ({ navigate }) => {
             {/* Image */}
             <div className="md:col-span-6 lg:col-span-5 relative h-48 md:h-full overflow-hidden">
               <img
-                src={featured.coverImage}
+                src={featured.coverImage || DEFAULT_BANNER_PLACEHOLDER}
                 alt={featured.title}
+                referrerPolicy="no-referrer"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src !== DEFAULT_BANNER_PLACEHOLDER) {
+                    target.src = DEFAULT_BANNER_PLACEHOLDER;
+                  }
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-transparent via-black/20 to-black/60 md:to-[#1E1E22] hidden dark:block" />
               

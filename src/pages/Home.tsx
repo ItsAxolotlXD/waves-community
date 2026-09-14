@@ -2,6 +2,7 @@ import React from 'react';
 import { HeroCarousel } from '../components/HeroCarousel';
 import { OnAirSlider } from '../components/OnAirSlider';
 import { NEWS_DATA } from '../data/news';
+import { DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
 import { Channel } from '../types';
 import { Megaphone, Sparkles, Radio, ArrowRight, ShieldCheck, Film, Layers } from 'lucide-react';
 
@@ -22,15 +23,15 @@ export const Home: React.FC<HomeProps> = ({
   ) || NEWS_DATA[0];
 
   return (
-    <div className="space-y-12 pb-16">
-      {/* 1. Big Full Page Hero Banner */}
+    <div className="space-y-4 sm:space-y-6 pb-16">
+      {/* 1. 3D Coverflow Hero Banner */}
       <HeroCarousel
         navigate={navigate}
         onSelectChannel={onSelectChannel}
       />
 
-      <div className="px-4 sm:px-6 md:px-8 max-w-7xl mx-auto space-y-12">
-        {/* 2. Đề xuất cho bạn (Recommended Section) */}
+      <div className="px-4 sm:px-6 md:px-8 max-w-7xl mx-auto space-y-8 sm:space-y-10">
+        {/* 2. Kênh truyền hình */}
         <OnAirSlider
           channels={channels}
           onSelectChannel={onSelectChannel}
@@ -77,10 +78,16 @@ export const Home: React.FC<HomeProps> = ({
               {/* Image banner side */}
               <div className="w-full md:w-[42%] lg:w-[40%] relative min-h-[200px] sm:min-h-[230px] md:min-h-[260px] overflow-hidden shrink-0">
                 <img
-                  src={featuredArticle.coverImage}
+                  src={featuredArticle.coverImage || DEFAULT_BANNER_PLACEHOLDER}
                   alt={featuredArticle.title}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src !== DEFAULT_BANNER_PLACEHOLDER) {
+                      target.src = DEFAULT_BANNER_PLACEHOLDER;
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
 

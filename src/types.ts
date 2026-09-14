@@ -100,7 +100,7 @@ export interface HeroSlide {
   channelLogo?: string;
   channelName?: string;
   backgroundImage: string;
-  ctaText: string;
+  ctaText?: string;
   director?: string;
   externalUrl?: string;
   internalUrl?: string;
