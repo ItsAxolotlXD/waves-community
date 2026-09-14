@@ -38,7 +38,6 @@ const CATEGORY_ITEMS = [
   { id: 'cat-livetv', title: 'Truyền hình (Live TV)', route: '/live-tv', icon: Tv, color: '#E6005A' },
   { id: 'cat-news', title: 'Tin tức & Thông báo (News)', route: '/news', icon: Megaphone, color: '#FF4D8B' },
   { id: 'cat-fav', title: 'Kênh yêu thích (Favorites)', route: '/favorites', icon: Heart, color: '#E6005A' },
-  { id: 'cat-about', title: 'Giới thiệu Vplay', route: '/about', icon: Info, color: '#E6005A' },
   { id: 'cat-settings', title: 'Cài đặt hệ thống (Settings)', route: '/settings', icon: SettingsIcon, color: '#E6005A' },
 ];
 

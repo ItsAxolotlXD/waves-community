@@ -57,7 +57,6 @@ export const BottomDock: React.FC<BottomDockProps> = ({
     [
       { id: 'dock-discord', label: 'Discord', action: onOpenDiscord, icon: MessageCircle },
       { id: 'dock-help', label: 'Help', action: onOpenHelp, icon: HelpCircle },
-      { id: 'dock-about', label: 'Giới thiệu', route: '/about', icon: Info },
       { id: 'dock-settings', label: 'Cài đặt', route: '/settings', icon: Settings },
     ],
   ];

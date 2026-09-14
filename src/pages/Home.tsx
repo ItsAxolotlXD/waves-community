@@ -4,7 +4,7 @@ import { OnAirSlider } from '../components/OnAirSlider';
 import { NEWS_DATA } from '../data/news';
 import { DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
 import { Channel } from '../types';
-import { Megaphone, Sparkles, Radio, ArrowRight, ShieldCheck, Film, Layers } from 'lucide-react';
+import { Megaphone, Sparkles, ArrowRight, Shield, ExternalLink } from 'lucide-react';
 
 interface HomeProps {
   navigate: (route: string, state?: any) => void;
@@ -28,10 +28,11 @@ export const Home: React.FC<HomeProps> = ({
       <HeroCarousel
         navigate={navigate}
         onSelectChannel={onSelectChannel}
+        channels={channels}
       />
 
       <div className="px-4 sm:px-6 md:px-8 max-w-7xl mx-auto space-y-8 sm:space-y-10">
-        {/* 2. Kênh truyền hình */}
+        {/* 2. Đề xuất cho bạn */}
         <OnAirSlider
           channels={channels}
           onSelectChannel={onSelectChannel}
@@ -155,78 +156,82 @@ export const Home: React.FC<HomeProps> = ({
           </section>
         )}
 
-        {/* 4. Chuyên mục nổi bật (Featured Topics) */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-              <Sparkles className="w-6 h-6 text-[#E50914]" />
-              <span>Chuyên mục nổi bật</span>
+        {/* 4. Nội dung Giới thiệu Vplay (Chuyển toàn bộ nội dung từ Giới thiệu vào Home) */}
+        <section id="home-about-section" className="space-y-8 pt-4 border-t border-[#26262E]">
+          {/* Hero Intro */}
+          <div className="text-center space-y-4 pt-2">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E6005A]/15 border border-[#E6005A]/30 text-[#E6005A] text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Về Vplay</span>
+            </div>
+
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
+              Vplay -{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF2020] via-[#FF3366] to-[#E6005A]">
+                Gói trọn Việt Nam trong tầm mắt bạn
+              </span>
             </h2>
+
+            <div className="text-sm sm:text-base text-[#9CA3AF] max-w-3xl mx-auto leading-relaxed text-left space-y-3 pt-2">
+              <p className="flex items-start gap-2">
+                <span className="text-[#E6005A] font-bold select-none">•</span>
+                <span>
+                  Vplay là nền tảng xem truyền hình trực tuyến phi lợi nhuận cung cấp cho người dùng trải nghiệm xem chất lượng cao, đa dạng cánh sóng và hoàn toàn miễn phí.
+                </span>
+              </p>
+              <p className="flex items-start gap-2">
+                <span className="text-[#E6005A] font-bold select-none">•</span>
+                <span>
+                  Ngoài ra Vplay còn giữ vai trò cập nhật toàn diện các thông tin về công nghệ phát thanh truyền hình, đồ họa nhận diện và văn hóa truyền thông Việt Nam, các thông báo của Waves nói chung và Vplay nói riêng.
+                </span>
+              </p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Card 1 */}
-            <div 
-              onClick={() => navigate('/live-tv')}
-              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#E50914]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[#E50914]/15 text-[#E50914] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Radio className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-bold text-white group-hover:text-[#E50914] transition-colors">
-                Truyền hình Trực tiếp
+          {/* Disclaimer and Ethics Card */}
+          <div
+            id="home-about-disclaimer-card"
+            className="p-6 sm:p-8 rounded-[28px] bg-gradient-to-br from-[#1E1E24] to-[#161618] border border-[#34343E] shadow-xl space-y-3 transition-all"
+          >
+            <div className="flex items-center gap-3">
+              <Shield className="w-6 h-6 text-[#E6005A] shrink-0" />
+              <h3 id="about-disclaimer-title" className="text-base sm:text-lg font-bold text-white">
+                Tuyên bố bản quyền & Nguồn phát sóng
               </h3>
-              <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
-                Thưởng thức các luồng phát sóng chất lượng cao trực tiếp ổn định và nhanh chóng.
-              </p>
             </div>
+            <p id="about-disclaimer-text" className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed">
+              Tất cả logo, nhãn hiệu truyền hình, hình ảnh trường quay và luồng phát sóng thuộc quyền sở hữu trí tuệ của các Đài Truyền hình (Đài Truyền hình Việt Nam VTV, Đài Truyền hình TP.HCM HTV, Đài Truyền hình Kỹ thuật số VTC và các Đài PT-TH địa phương). Vplay phục vụ mục đích nghiên cứu, học thuật, hỗ trợ kỹ thuật và phi thương mại.
+            </p>
+          </div>
 
-            {/* Card 2 */}
-            <div 
-              onClick={() => navigate('/channels')}
-              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#FF2020]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[#FF2020]/15 text-[#FF2020] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Layers className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-bold text-white group-hover:text-[#FF2020] transition-colors">
-                Danh sách Kênh TV
-              </h3>
-              <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
-                Đầy đủ các đài VTV, HTV, VTC, Truyền hình địa phương và các kênh đặc sắc.
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div 
-              onClick={() => navigate('/news')}
-              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#00E5FF]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[#00E5FF]/15 text-[#00E5FF] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <Film className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-bold text-white group-hover:text-[#00E5FF] transition-colors">
-                Chuyên san & Tư liệu
-              </h3>
-              <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
-                Lịch sử truyền hình, phân tích kỹ thuật phát sóng và các bài viết cộng đồng.
-              </p>
-            </div>
-
-            {/* Card 4 */}
-            <div 
-              onClick={() => navigate('/about')}
-              className="p-6 rounded-[28px] bg-gradient-to-br from-[#24242A] to-[#1A1A1E] border border-[#34343E] hover:border-[#E50914]/60 cursor-pointer group transition-all hover:scale-[1.02] shadow-lg"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-[#E50914]/15 text-[#E50914] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <h3 className="text-base font-bold text-white group-hover:text-[#E50914] transition-colors">
-                Vplay
-              </h3>
-              <p className="text-xs text-[#9CA3AF] mt-2 leading-relaxed">
-                Không gian lưu trữ tư liệu, lịch sử hình hiệu idents và văn hóa truyền hình Việt Nam.
-              </p>
+          {/* Community Connect */}
+          <div
+            id="home-about-community-card"
+            className="text-center p-6 sm:p-8 rounded-[28px] bg-[#1E1E22] border border-[#2D2D35] space-y-4 transition-all"
+          >
+            <h3 className="text-lg sm:text-xl font-bold text-white">Tham gia cùng Vplay</h3>
+            <p className="text-xs sm:text-sm text-[#9CA3AF] max-w-lg mx-auto leading-relaxed">
+              Cùng trao đổi về kỹ thuật trường quay ảo, tần số DVB-T2, đồ họa nhận diện On-Air Graphics và chia sẻ tư liệu truyền hình quý giá.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              <a
+                href="https://discord.gg/wcdjaDDayK"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold shadow-lg transition-all cursor-pointer"
+              >
+                <span>Tham gia Discord Cộng Đồng</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#27121d] hover:bg-[#331726] text-white text-xs font-bold border border-white/10 transition-all cursor-pointer"
+              >
+                <span>Facebook Group Truyền Hình</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
         </section>

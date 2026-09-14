@@ -19,7 +19,6 @@ import { News } from './pages/News';
 import { Article } from './pages/Article';
 import { Channels } from './pages/Channels';
 import { Favorites } from './pages/Favorites';
-import { About } from './pages/About';
 import { Settings } from './pages/Settings';
 import { ImmersiveSearch } from './pages/ImmersiveSearch';
 import { CHANNELS_DATA } from './data/channels';
@@ -370,7 +369,13 @@ export default function App() {
         );
 
       case '/about':
-        return <About />;
+        return (
+          <Home
+            navigate={navigate}
+            onSelectChannel={setCurrentChannel}
+            channels={channels}
+          />
+        );
 
       case '/settings':
         return <Settings />;

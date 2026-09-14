@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { motion } from 'motion/react';
 import { Channel } from '../types';
 
 interface OnAirSliderProps {
@@ -14,53 +15,89 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
   navigate
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  // Hàm cuộn mượt mà có gia tốc animation (smooth kinetic easeInOutCubic scroll)
+  const animatedScroll = (distance: number, duration: number = 600) => {
+    const container = scrollContainerRef.current;
+    if (!container || isScrolling) return;
+
+    setIsScrolling(true);
+    const start = container.scrollLeft;
+    const startTime = performance.now();
+
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+
+    const step = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      container.scrollLeft = start + distance * ease;
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        setIsScrolling(false);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
 
   const scroll = (direction: 'left' | 'right') => {
-    if (scrollContainerRef.current) {
-      const offset = direction === 'left' ? -420 : 420;
-      scrollContainerRef.current.scrollBy({ left: offset, behavior: 'smooth' });
-    }
+    const offset = direction === 'left' ? -460 : 460;
+    animatedScroll(offset, 650);
   };
 
   return (
     <section className="w-full">
       {/* Header with Title & Slider Controls */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white">
-          Kênh truyền hình
+        <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-[#E6005A]" />
+          <span>Đề xuất cho bạn</span>
         </h2>
 
         <div className="flex items-center gap-2">
-          <button
+          <motion.button
             id="slider-prev-btn"
+            whileTap={{ scale: 0.88 }}
+            whileHover={{ scale: 1.1 }}
             onClick={() => scroll('left')}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white bg-white/5 hover:bg-white/10 transition-all cursor-pointer"
             aria-label="Cuộn sang trái"
           >
             <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             id="slider-next-btn"
+            whileTap={{ scale: 0.88 }}
+            whileHover={{ scale: 1.1 }}
             onClick={() => scroll('right')}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white transition-all cursor-pointer"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-[#A1A1AA] hover:text-white bg-white/5 hover:bg-white/10 transition-all cursor-pointer"
             aria-label="Cuộn sang phải"
           >
             <ChevronRight className="w-4 h-4" />
-          </button>
+          </motion.button>
         </div>
       </div>
 
-      {/* Horizontal Cards Scroll: rounded cards matching the screenshot */}
+      {/* Horizontal Cards Scroll với hiệu ứng lướt mượt mà */}
       <div
         ref={scrollContainerRef}
         className="flex gap-2.5 sm:gap-3.5 overflow-x-auto pb-3 pt-1 no-scrollbar scroll-smooth"
       >
-        {channels.map((ch) => (
-          <div
+        {channels.map((ch, idx) => (
+          <motion.div
             key={ch.id}
             id={`recommended-channel-${ch.id}`}
             role="button"
             tabIndex={0}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             onClick={() => {
               onSelectChannel(ch);
               navigate(`/live-tv?channel=${ch.slug}`);
@@ -71,7 +108,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 navigate(`/live-tv?channel=${ch.slug}`);
               }
             }}
-            className="min-w-[96px] sm:min-w-[110px] md:min-w-[124px] h-[54px] sm:h-[62px] md:h-[68px] shrink-0 rounded-2xl p-2.5 flex items-center justify-center cursor-pointer group select-none bg-white/10 hover:bg-white/10 border-[3.5px] border-transparent hover:border-white backdrop-blur-md transition-none shadow-none active:scale-95"
+            className="min-w-[96px] sm:min-w-[110px] md:min-w-[124px] h-[54px] sm:h-[62px] md:h-[68px] shrink-0 rounded-2xl p-2.5 flex items-center justify-center cursor-pointer group select-none bg-white/10 hover:bg-white/15 border-[3px] border-transparent hover:border-white/80 backdrop-blur-md transition-colors shadow-sm"
             title={ch.name}
             aria-label={ch.name}
           >
@@ -80,13 +117,13 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 src={ch.logo}
                 alt={ch.name}
                 referrerPolicy="no-referrer"
-                className="max-h-7 sm:max-h-8 md:max-h-9 max-w-[85%] w-auto object-contain filter drop-shadow-sm transition-none"
+                className="max-h-7 sm:max-h-8 md:max-h-9 max-w-[85%] w-auto object-contain filter drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}
               />
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
