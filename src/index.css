@@ -225,29 +225,38 @@ html.light-mode #settings-section-search hr {
 
 /* Theme Surface Overrides in Dark Mode */
 html:not(.light-mode) body {
-  background-color: #0f0712 !important;
+  background-color: #0e0311 !important;
   background-image: 
-    radial-gradient(ellipse 55% 55% at 7% 18%, rgba(142, 18, 68, 0.72) 0%, rgba(98, 14, 48, 0.44) 30%, rgba(46, 10, 26, 0.16) 60%, transparent 75%),
-    radial-gradient(ellipse 50% 48% at 38% 32%, rgba(132, 38, 208, 0.40) 0%, rgba(94, 24, 150, 0.22) 38%, transparent 70%),
-    radial-gradient(ellipse 46% 46% at 12% 82%, rgba(112, 32, 130, 0.62) 0%, rgba(68, 18, 80, 0.30) 38%, transparent 70%),
-    radial-gradient(ellipse 55% 52% at 91% 72%, rgba(28, 50, 110, 0.72) 0%, rgba(20, 34, 76, 0.44) 30%, rgba(14, 21, 46, 0.16) 60%, transparent 78%),
-    linear-gradient(180deg, #120714 0%, #0a040c 100%) !important;
+    radial-gradient(ellipse 60% 60% at 6% 15%, rgba(230, 0, 122, 0.68) 0%, rgba(185, 0, 105, 0.42) 28%, rgba(95, 8, 55, 0.16) 58%, transparent 76%),
+    radial-gradient(ellipse 52% 52% at 88% 20%, rgba(255, 77, 166, 0.52) 0%, rgba(215, 30, 135, 0.28) 32%, transparent 70%),
+    radial-gradient(ellipse 48% 48% at 42% 34%, rgba(195, 30, 185, 0.40) 0%, rgba(130, 18, 145, 0.22) 36%, transparent 70%),
+    radial-gradient(ellipse 54% 54% at 14% 84%, rgba(245, 35, 150, 0.55) 0%, rgba(160, 15, 95, 0.28) 36%, transparent 72%),
+    radial-gradient(ellipse 55% 52% at 91% 75%, rgba(255, 105, 180, 0.38) 0%, rgba(65, 30, 115, 0.52) 35%, rgba(20, 18, 52, 0.18) 60%, transparent 78%),
+    linear-gradient(180deg, #140518 0%, #0a020e 100%) !important;
   background-attachment: fixed !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
 }
 
 #fixed-app-background-solid {
-  background-color: #08030a !important;
+  background-color: #09020c !important;
   background-image: 
-    radial-gradient(ellipse 55% 55% at 7% 18%, rgba(120, 12, 55, 0.55) 0%, rgba(75, 10, 36, 0.30) 30%, rgba(32, 6, 18, 0.10) 60%, transparent 75%),
-    radial-gradient(ellipse 50% 48% at 38% 32%, rgba(105, 26, 170, 0.30) 0%, rgba(70, 16, 115, 0.15) 38%, transparent 70%),
-    radial-gradient(ellipse 46% 46% at 12% 82%, rgba(90, 22, 105, 0.45) 0%, rgba(52, 12, 62, 0.20) 38%, transparent 70%),
-    radial-gradient(ellipse 55% 52% at 91% 72%, rgba(20, 38, 88, 0.55) 0%, rgba(14, 24, 58, 0.30) 30%, rgba(9, 14, 32, 0.10) 60%, transparent 78%),
-    linear-gradient(180deg, #0c040e 0%, #050207 100%) !important;
+    radial-gradient(ellipse 60% 60% at 6% 15%, rgba(230, 0, 122, 0.55) 0%, rgba(175, 0, 100, 0.32) 28%, rgba(80, 6, 45, 0.12) 58%, transparent 76%),
+    radial-gradient(ellipse 52% 52% at 88% 20%, rgba(255, 77, 166, 0.42) 0%, rgba(200, 25, 125, 0.22) 32%, transparent 70%),
+    radial-gradient(ellipse 48% 48% at 42% 34%, rgba(185, 25, 175, 0.32) 0%, rgba(120, 14, 135, 0.16) 36%, transparent 70%),
+    radial-gradient(ellipse 54% 54% at 14% 84%, rgba(240, 28, 145, 0.45) 0%, rgba(145, 12, 85, 0.22) 36%, transparent 72%),
+    radial-gradient(ellipse 55% 52% at 91% 75%, rgba(255, 105, 180, 0.28) 0%, rgba(55, 22, 100, 0.42) 35%, rgba(15, 14, 42, 0.12) 60%, transparent 78%),
+    linear-gradient(180deg, #100314 0%, #060108 100%) !important;
   background-attachment: fixed !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
+}
+
+#home-about-disclaimer-card,
+#home-about-community-card {
+  background-color: rgba(255, 255, 255, 0.10) !important;
+  background-image: none !important;
+  border: none !important;
 }
 
 html.light-mode #fixed-app-background-solid {

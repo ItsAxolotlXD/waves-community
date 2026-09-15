@@ -52,31 +52,58 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
   const totalSlides = allSlides.length;
 
-  // Randomize 1 kênh mới mỗi lần bấm nút mũi tên
-  const randomizeChannel = () => {
-    setRecommendedChannel((prev) => pickRandomChannel(prev.id));
-  };
+  const [isSliding, setIsSliding] = useState(false);
+
+  // Preload banner images to avoid layout reflow or frame drop during animation
+  useEffect(() => {
+    allSlides.forEach((s) => {
+      const src = s.backgroundImage || s.channel?.logo;
+      if (src) {
+        const img = new Image();
+        img.src = src;
+      }
+    });
+  }, [allSlides]);
 
   const nextSlide = (isManualArrow = false) => {
-    if (isManualArrow) {
-      randomizeChannel();
-    }
     if (totalSlides > 1) {
+      if (isManualArrow && isSliding) return;
+      setIsSliding(true);
       setCurrentIndex((prev) => (prev + 1) % totalSlides);
+      setTimeout(() => {
+        setIsSliding(false);
+      }, 950);
+      if (isManualArrow) {
+        setTimeout(() => {
+          setRecommendedChannel((prev) => pickRandomChannel(prev.id));
+        }, 1150);
+      }
     }
   };
 
   const prevSlide = (isManualArrow = false) => {
-    if (isManualArrow) {
-      randomizeChannel();
-    }
     if (totalSlides > 1) {
+      if (isManualArrow && isSliding) return;
+      setIsSliding(true);
       setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+      setTimeout(() => {
+        setIsSliding(false);
+      }, 950);
+      if (isManualArrow) {
+        setTimeout(() => {
+          setRecommendedChannel((prev) => pickRandomChannel(prev.id));
+        }, 1150);
+      }
     }
   };
 
   const goToSlide = (idx: number) => {
+    if (isSliding) return;
+    setIsSliding(true);
     setCurrentIndex(idx);
+    setTimeout(() => {
+      setIsSliding(false);
+    }, 950);
   };
 
   // Tự động trượt banner luôn enable
@@ -123,13 +150,17 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           const isCenter = diff === 0;
           const isLeft = diff === -1;
           const isRight = diff === 1;
-          const isVisible = Math.abs(diff) <= 1;
+          const isFarLeft = diff === -2;
+          const isFarRight = diff === 2;
+          const isNear = Math.abs(diff) <= 2;
           const isRec = 'isRecommended' in slide && slide.isRecommended;
 
-          // Xây dựng style 3D tương ứng theo phong cách Coverflow - chuyển động chậm, êm dịu và siêu mượt
+          // Xây dựng style 3D Coverflow mượt mà, chuyển động chậm êm ái chuẩn 60fps
           let transformStyle: React.CSSProperties = {
-            transition: 'transform 1.15s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 1.15s cubic-bezier(0.2, 0.9, 0.3, 1)',
-            willChange: 'transform, opacity',
+            transition: isNear
+              ? 'transform 1.15s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1)'
+              : 'none',
+            willChange: isNear ? 'transform, opacity' : 'auto',
             WebkitBackfaceVisibility: 'hidden',
             backfaceVisibility: 'hidden',
           };
@@ -137,30 +168,51 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           if (isCenter) {
             transformStyle = {
               ...transformStyle,
-              transform: 'translateX(0%) translateZ(0px) rotateY(0deg) scale(1)',
+              transform: 'translate3d(0%, 0, 0px) rotateY(0deg) scale(1)',
               zIndex: 30,
               opacity: 1,
+              visibility: 'visible',
             };
           } else if (isLeft) {
             transformStyle = {
               ...transformStyle,
-              transform: 'translateX(-54%) translateZ(-90px) rotateY(24deg) scale(0.85)',
+              transform: 'translate3d(-54%, 0, -80px) rotateY(20deg) scale(0.86)',
               zIndex: 20,
-              opacity: 0.65,
+              opacity: 0.68,
+              visibility: 'visible',
             };
           } else if (isRight) {
             transformStyle = {
               ...transformStyle,
-              transform: 'translateX(54%) translateZ(-90px) rotateY(-24deg) scale(0.85)',
+              transform: 'translate3d(54%, 0, -80px) rotateY(-20deg) scale(0.86)',
               zIndex: 20,
-              opacity: 0.65,
+              opacity: 0.68,
+              visibility: 'visible',
+            };
+          } else if (isFarLeft) {
+            transformStyle = {
+              ...transformStyle,
+              transform: 'translate3d(-85%, 0, -180px) rotateY(28deg) scale(0.72)',
+              zIndex: 10,
+              opacity: 0,
+              visibility: 'visible',
+            };
+          } else if (isFarRight) {
+            transformStyle = {
+              ...transformStyle,
+              transform: 'translate3d(85%, 0, -180px) rotateY(-28deg) scale(0.72)',
+              zIndex: 10,
+              opacity: 0,
+              visibility: 'visible',
             };
           } else {
             transformStyle = {
               ...transformStyle,
-              transform: `translateX(${diff > 0 ? 85 : -85}%) translateZ(-250px) rotateY(${diff > 0 ? -35 : 35}deg) scale(0.65)`,
-              zIndex: 10,
+              transform: 'translate3d(0%, 0, -250px) scale(0.6)',
+              zIndex: 0,
               opacity: 0,
+              visibility: 'hidden',
+              transition: 'none',
             };
           }
 
@@ -168,8 +220,10 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             <div
               key={slide.id}
               style={transformStyle}
-              className={`absolute inset-0 m-auto w-[88%] sm:w-[74%] md:w-[65%] lg:w-[62%] max-w-[840px] aspect-[16/9] rounded-2xl sm:rounded-[24px] overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.85)] cursor-default select-none pointer-events-none ${
-                !isVisible ? 'hidden md:block' : ''
+              className={`absolute inset-0 m-auto w-[88%] sm:w-[74%] md:w-[65%] lg:w-[62%] max-w-[840px] aspect-[16/9] rounded-2xl sm:rounded-[24px] overflow-hidden border border-white/10 cursor-default select-none pointer-events-none transition-shadow duration-500 ${
+                isCenter
+                  ? 'shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_35px_rgba(230,0,90,0.32)] ring-1 ring-white/20'
+                  : 'shadow-[0_16px_40px_rgba(0,0,0,0.7)]'
               }`}
             >
               {isRec ? (

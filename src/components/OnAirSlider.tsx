@@ -108,7 +108,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 navigate(`/live-tv?channel=${ch.slug}`);
               }
             }}
-            className="min-w-[96px] sm:min-w-[110px] md:min-w-[124px] h-[54px] sm:h-[62px] md:h-[68px] shrink-0 rounded-2xl p-2.5 flex items-center justify-center cursor-pointer group select-none bg-white/10 hover:bg-white/15 border-[3px] border-transparent hover:border-white/80 backdrop-blur-md transition-colors shadow-sm"
+            className="min-w-[84px] sm:min-w-[96px] md:min-w-[108px] h-[46px] sm:h-[52px] md:h-[58px] shrink-0 rounded-xl sm:rounded-2xl p-2 flex items-center justify-center cursor-pointer group select-none bg-white/10 hover:bg-white/15 border-[2px] border-transparent hover:border-white/80 backdrop-blur-md transition-colors shadow-sm"
             title={ch.name}
             aria-label={ch.name}
           >
@@ -117,7 +117,7 @@ export const OnAirSlider: React.FC<OnAirSliderProps> = ({
                 src={ch.logo}
                 alt={ch.name}
                 referrerPolicy="no-referrer"
-                className="max-h-7 sm:max-h-8 md:max-h-9 max-w-[85%] w-auto object-contain filter drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
+                className="max-h-6 sm:max-h-7 md:max-h-7.5 max-w-[82%] w-auto object-contain filter drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}
