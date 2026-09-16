@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Home, 
@@ -58,6 +58,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [logoError, setLogoError] = useState(false);
   const [isDiscordModalOpen, setIsDiscordModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Touch swipe to close mobile drawer when swiping left
+  const drawerTouchStartX = useRef<number | null>(null);
+  const drawerTouchStartY = useRef<number | null>(null);
+
+  const handleDrawerTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      drawerTouchStartX.current = e.touches[0].clientX;
+      drawerTouchStartY.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleDrawerTouchEnd = (e: React.TouchEvent) => {
+    if (drawerTouchStartX.current === null || drawerTouchStartY.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - drawerTouchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - drawerTouchStartY.current;
+
+    // Swiped left by at least 35px, predominantly horizontal
+    if (deltaX < -35 && Math.abs(deltaX) > Math.abs(deltaY) * 1.1) {
+      onCloseMobile?.();
+    }
+    drawerTouchStartX.current = null;
+    drawerTouchStartY.current = null;
+  };
 
   const favoriteChannels = CHANNELS_DATA.filter((ch) => favoriteChannelIds.includes(ch.id));
 
@@ -624,6 +648,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {/* Mobile Drawer with smooth deceleration ease */}
             <motion.div
               id="waves-mobile-sidebar"
+              onTouchStart={handleDrawerTouchStart}
+              onTouchEnd={handleDrawerTouchEnd}
               initial={{ x: shouldAnimateSidebar ? '-100%' : 0 }}
               animate={{ x: 0 }}
               exit={{ x: shouldAnimateSidebar ? '-100%' : 0 }}

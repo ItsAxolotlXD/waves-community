@@ -14,8 +14,6 @@ interface HeroCarouselProps {
 export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   channels
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Danh sách kênh hợp lệ có logo
@@ -52,7 +50,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
 
   const totalSlides = allSlides.length;
 
-  const [isSliding, setIsSliding] = useState(false);
+  const [slideState, setSlideState] = useState({ current: 0, prev: 0 });
+  const { current: currentIndex, prev: prevIndex } = slideState;
 
   // Preload banner images to avoid layout reflow or frame drop during animation
   useEffect(() => {
@@ -65,60 +64,69 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     });
   }, [allSlides]);
 
+  const resetTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setSlideState((s) => ({
+        current: (s.current + 1) % totalSlides,
+        prev: s.current,
+      }));
+    }, 5000);
+  };
+
   const nextSlide = (isManualArrow = false) => {
     if (totalSlides > 1) {
-      if (isManualArrow && isSliding) return;
-      setIsSliding(true);
-      setCurrentIndex((prev) => (prev + 1) % totalSlides);
-      setTimeout(() => {
-        setIsSliding(false);
-      }, 950);
+      setSlideState((s) => ({
+        current: (s.current + 1) % totalSlides,
+        prev: s.current,
+      }));
       if (isManualArrow) {
+        resetTimer();
         setTimeout(() => {
           setRecommendedChannel((prev) => pickRandomChannel(prev.id));
-        }, 1150);
+        }, 900);
       }
     }
   };
 
   const prevSlide = (isManualArrow = false) => {
     if (totalSlides > 1) {
-      if (isManualArrow && isSliding) return;
-      setIsSliding(true);
-      setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
-      setTimeout(() => {
-        setIsSliding(false);
-      }, 950);
+      setSlideState((s) => ({
+        current: (s.current - 1 + totalSlides) % totalSlides,
+        prev: s.current,
+      }));
       if (isManualArrow) {
+        resetTimer();
         setTimeout(() => {
           setRecommendedChannel((prev) => pickRandomChannel(prev.id));
-        }, 1150);
+        }, 900);
       }
     }
   };
 
   const goToSlide = (idx: number) => {
-    if (isSliding) return;
-    setIsSliding(true);
-    setCurrentIndex(idx);
-    setTimeout(() => {
-      setIsSliding(false);
-    }, 950);
+    if (idx !== currentIndex) {
+      setSlideState({
+        current: idx,
+        prev: currentIndex,
+      });
+      resetTimer();
+    }
   };
 
-  // Tự động trượt banner luôn enable
+  // Cứ mỗi 5 giây banner sẽ chuyển liên tục không delay
   useEffect(() => {
-    if (totalSlides > 1 && !isHovered) {
-      timerRef.current = setInterval(() => nextSlide(false), 5500);
+    if (totalSlides > 1) {
+      resetTimer();
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isHovered, totalSlides]);
+  }, [totalSlides]);
 
-  // Tính khoảng cách vòng tròn (circular diff) giữa index i và currentIndex
-  const getSlidePosition = (i: number) => {
-    let diff = (i - currentIndex) % totalSlides;
+  // Tính khoảng cách vòng tròn (circular diff) giữa index i và vị trí slide hiện tại
+  const getSlidePosition = (i: number, current: number) => {
+    let diff = (i - current) % totalSlides;
     if (diff < -Math.floor(totalSlides / 2)) {
       diff += totalSlides;
     } else if (diff > Math.floor(totalSlides / 2)) {
@@ -127,12 +135,67 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     return diff;
   };
 
+  // Touch swipe handling for mobile / tablets
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
+  const isSwipingRef = useRef(false);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      touchStartXRef.current = e.touches[0].clientX;
+      touchStartYRef.current = e.touches[0].clientY;
+      isSwipingRef.current = true;
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isSwipingRef.current || touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const deltaX = e.touches[0].clientX - touchStartXRef.current;
+    const deltaY = e.touches[0].clientY - touchStartYRef.current;
+    
+    // If predominantly horizontal movement, pause auto-scroll
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+      if (timerRef.current) clearInterval(timerRef.current);
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!isSwipingRef.current || touchStartXRef.current === null || touchStartYRef.current === null) {
+      isSwipingRef.current = false;
+      return;
+    }
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartXRef.current;
+    const deltaY = touchEndY - touchStartYRef.current;
+
+    // Minimum swipe threshold: 35px horizontal, deltaX > deltaY
+    if (Math.abs(deltaX) > 35 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        // Swiped left -> next slide
+        nextSlide(true);
+      } else {
+        // Swiped right -> prev slide
+        prevSlide(true);
+      }
+    } else {
+      resetTimer();
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+    isSwipingRef.current = false;
+  };
+
   return (
     <div 
       id="hero-3d-coverflow-carousel"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      style={{ touchAction: 'pan-y' }}
       className="relative w-full overflow-hidden select-none pt-1 sm:pt-2 pb-0"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* 3D Stage Container */}
       <div 
@@ -146,7 +209,11 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
         />
 
         {allSlides.map((slide, i) => {
-          const diff = getSlidePosition(i);
+          const diff = getSlidePosition(i, currentIndex);
+          const prevDiff = getSlidePosition(i, prevIndex);
+          const diffDelta = Math.abs(diff - prevDiff);
+          const isWrapJump = diffDelta > 1;
+
           const isCenter = diff === 0;
           const isLeft = diff === -1;
           const isRight = diff === 1;
@@ -155,10 +222,10 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           const isNear = Math.abs(diff) <= 2;
           const isRec = 'isRecommended' in slide && slide.isRecommended;
 
-          // Xây dựng style 3D Coverflow mượt mà, chuyển động chậm êm ái chuẩn 60fps
+          // Xây dựng style 3D Coverflow mượt mà, thời gian 1.08s vừa vặn, trôi êm ái hơn
           let transformStyle: React.CSSProperties = {
-            transition: isNear
-              ? 'transform 1.15s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1)'
+            transition: !isWrapJump && isNear
+              ? 'transform 1.08s cubic-bezier(0.22, 1, 0.36, 1), opacity 1.08s cubic-bezier(0.22, 1, 0.36, 1)'
               : 'none',
             willChange: isNear ? 'transform, opacity' : 'auto',
             WebkitBackfaceVisibility: 'hidden',
@@ -176,23 +243,23 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           } else if (isLeft) {
             transformStyle = {
               ...transformStyle,
-              transform: 'translate3d(-54%, 0, -80px) rotateY(20deg) scale(0.86)',
+              transform: 'translate3d(-50%, 0, -110px) rotateY(38deg) scale(0.78)',
               zIndex: 20,
-              opacity: 0.68,
+              opacity: 0.7,
               visibility: 'visible',
             };
           } else if (isRight) {
             transformStyle = {
               ...transformStyle,
-              transform: 'translate3d(54%, 0, -80px) rotateY(-20deg) scale(0.86)',
+              transform: 'translate3d(50%, 0, -110px) rotateY(-38deg) scale(0.78)',
               zIndex: 20,
-              opacity: 0.68,
+              opacity: 0.7,
               visibility: 'visible',
             };
           } else if (isFarLeft) {
             transformStyle = {
               ...transformStyle,
-              transform: 'translate3d(-85%, 0, -180px) rotateY(28deg) scale(0.72)',
+              transform: 'translate3d(-80%, 0, -230px) rotateY(50deg) scale(0.64)',
               zIndex: 10,
               opacity: 0,
               visibility: 'visible',
@@ -200,7 +267,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           } else if (isFarRight) {
             transformStyle = {
               ...transformStyle,
-              transform: 'translate3d(85%, 0, -180px) rotateY(-28deg) scale(0.72)',
+              transform: 'translate3d(80%, 0, -230px) rotateY(-50deg) scale(0.64)',
               zIndex: 10,
               opacity: 0,
               visibility: 'visible',
@@ -208,7 +275,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           } else {
             transformStyle = {
               ...transformStyle,
-              transform: 'translate3d(0%, 0, -250px) scale(0.6)',
+              transform: 'translate3d(0%, 0, -260px) scale(0.55)',
               zIndex: 0,
               opacity: 0,
               visibility: 'hidden',
@@ -234,16 +301,8 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
                     <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-tr from-[#E6005A]/25 to-[#FF3366]/20 blur-3xl opacity-80" />
                   </div>
 
-                  {/* Top Badge: Đề xuất */}
-                  <div className="relative z-10 inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 border border-white/15 backdrop-blur-md mb-3 sm:mb-4 shadow-sm">
-                    <Sparkles className="w-3.5 h-3.5 text-[#FF3366]" />
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-white">
-                      Kênh đề xuất cho bạn
-                    </span>
-                  </div>
-
                   {/* Logo chính giữa hiển thị nổi bật */}
-                  <div className="relative z-10 w-full max-w-[240px] sm:max-w-[320px] max-h-[85px] sm:max-h-[110px] flex items-center justify-center p-2">
+                  <div className="relative z-10 w-full max-w-[240px] sm:max-w-[320px] max-h-[95px] sm:max-h-[120px] flex items-center justify-center p-2">
                     <img
                       src={recommendedChannel.logo}
                       alt={recommendedChannel.name}

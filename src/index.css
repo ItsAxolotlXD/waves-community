@@ -43,13 +43,14 @@
   }
 
   body {
-    background-color: #08030a;
+    background-color: #0c0309;
     background-image: 
-      radial-gradient(ellipse 55% 55% at 7% 18%, rgba(120, 12, 55, 0.55) 0%, rgba(75, 10, 36, 0.30) 30%, rgba(32, 6, 18, 0.10) 60%, transparent 75%),
-      radial-gradient(ellipse 50% 48% at 38% 32%, rgba(105, 26, 170, 0.30) 0%, rgba(70, 16, 115, 0.15) 38%, transparent 70%),
-      radial-gradient(ellipse 46% 46% at 12% 82%, rgba(90, 22, 105, 0.45) 0%, rgba(52, 12, 62, 0.20) 38%, transparent 70%),
-      radial-gradient(ellipse 55% 52% at 91% 72%, rgba(20, 38, 88, 0.55) 0%, rgba(14, 24, 58, 0.30) 30%, rgba(9, 14, 32, 0.10) 60%, transparent 78%),
-      linear-gradient(180deg, #0c040e 0%, #050207 100%);
+      radial-gradient(ellipse 62% 60% at 8% 12%, rgba(225, 29, 45, 0.52) 0%, rgba(185, 15, 35, 0.30) 28%, rgba(100, 10, 25, 0.12) 58%, transparent 76%),
+      radial-gradient(ellipse 55% 55% at 86% 18%, rgba(255, 112, 10, 0.42) 0%, rgba(220, 75, 5, 0.22) 32%, rgba(120, 35, 5, 0.08) 60%, transparent 72%),
+      radial-gradient(ellipse 50% 50% at 46% 32%, rgba(255, 80, 20, 0.30) 0%, rgba(185, 25, 95, 0.18) 36%, transparent 70%),
+      radial-gradient(ellipse 56% 56% at 14% 82%, rgba(235, 30, 45, 0.44) 0%, rgba(160, 15, 40, 0.22) 36%, transparent 72%),
+      radial-gradient(ellipse 58% 54% at 92% 76%, rgba(255, 125, 25, 0.32) 0%, rgba(195, 60, 15, 0.20) 34%, rgba(55, 18, 65, 0.25) 55%, transparent 78%),
+      linear-gradient(180deg, #11040a 0%, #060105 100%);
     background-attachment: fixed;
     background-size: cover;
     background-repeat: no-repeat;
@@ -225,28 +226,28 @@ html.light-mode #settings-section-search hr {
 
 /* Theme Surface Overrides in Dark Mode */
 html:not(.light-mode) body {
-  background-color: #0e0311 !important;
+  background-color: #0c0309 !important;
   background-image: 
-    radial-gradient(ellipse 60% 60% at 6% 15%, rgba(230, 0, 122, 0.68) 0%, rgba(185, 0, 105, 0.42) 28%, rgba(95, 8, 55, 0.16) 58%, transparent 76%),
-    radial-gradient(ellipse 52% 52% at 88% 20%, rgba(255, 77, 166, 0.52) 0%, rgba(215, 30, 135, 0.28) 32%, transparent 70%),
-    radial-gradient(ellipse 48% 48% at 42% 34%, rgba(195, 30, 185, 0.40) 0%, rgba(130, 18, 145, 0.22) 36%, transparent 70%),
-    radial-gradient(ellipse 54% 54% at 14% 84%, rgba(245, 35, 150, 0.55) 0%, rgba(160, 15, 95, 0.28) 36%, transparent 72%),
-    radial-gradient(ellipse 55% 52% at 91% 75%, rgba(255, 105, 180, 0.38) 0%, rgba(65, 30, 115, 0.52) 35%, rgba(20, 18, 52, 0.18) 60%, transparent 78%),
-    linear-gradient(180deg, #140518 0%, #0a020e 100%) !important;
+    radial-gradient(ellipse 62% 60% at 7% 14%, rgba(225, 29, 45, 0.65) 0%, rgba(185, 12, 35, 0.40) 28%, rgba(95, 8, 25, 0.16) 58%, transparent 76%),
+    radial-gradient(ellipse 55% 55% at 88% 18%, rgba(255, 110, 15, 0.50) 0%, rgba(225, 75, 8, 0.28) 32%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 44% 32%, rgba(255, 75, 20, 0.38) 0%, rgba(185, 20, 95, 0.22) 36%, transparent 70%),
+    radial-gradient(ellipse 56% 56% at 14% 84%, rgba(235, 30, 45, 0.52) 0%, rgba(160, 15, 40, 0.28) 36%, transparent 72%),
+    radial-gradient(ellipse 58% 54% at 91% 75%, rgba(255, 120, 20, 0.38) 0%, rgba(195, 55, 15, 0.24) 34%, rgba(65, 18, 70, 0.35) 55%, transparent 78%),
+    linear-gradient(180deg, #13040b 0%, #070107 100%) !important;
   background-attachment: fixed !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
 }
 
 #fixed-app-background-solid {
-  background-color: #09020c !important;
+  background-color: #090207 !important;
   background-image: 
-    radial-gradient(ellipse 60% 60% at 6% 15%, rgba(230, 0, 122, 0.55) 0%, rgba(175, 0, 100, 0.32) 28%, rgba(80, 6, 45, 0.12) 58%, transparent 76%),
-    radial-gradient(ellipse 52% 52% at 88% 20%, rgba(255, 77, 166, 0.42) 0%, rgba(200, 25, 125, 0.22) 32%, transparent 70%),
-    radial-gradient(ellipse 48% 48% at 42% 34%, rgba(185, 25, 175, 0.32) 0%, rgba(120, 14, 135, 0.16) 36%, transparent 70%),
-    radial-gradient(ellipse 54% 54% at 14% 84%, rgba(240, 28, 145, 0.45) 0%, rgba(145, 12, 85, 0.22) 36%, transparent 72%),
-    radial-gradient(ellipse 55% 52% at 91% 75%, rgba(255, 105, 180, 0.28) 0%, rgba(55, 22, 100, 0.42) 35%, rgba(15, 14, 42, 0.12) 60%, transparent 78%),
-    linear-gradient(180deg, #100314 0%, #060108 100%) !important;
+    radial-gradient(ellipse 62% 60% at 7% 14%, rgba(225, 29, 45, 0.55) 0%, rgba(175, 10, 32, 0.32) 28%, rgba(85, 6, 20, 0.12) 58%, transparent 76%),
+    radial-gradient(ellipse 55% 55% at 88% 18%, rgba(255, 110, 15, 0.42) 0%, rgba(210, 68, 5, 0.22) 32%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 44% 32%, rgba(255, 75, 20, 0.32) 0%, rgba(175, 18, 85, 0.18) 36%, transparent 70%),
+    radial-gradient(ellipse 56% 56% at 14% 84%, rgba(235, 30, 45, 0.44) 0%, rgba(145, 12, 35, 0.22) 36%, transparent 72%),
+    radial-gradient(ellipse 58% 54% at 91% 75%, rgba(255, 120, 20, 0.32) 0%, rgba(185, 50, 12, 0.20) 34%, rgba(55, 15, 60, 0.28) 55%, transparent 78%),
+    linear-gradient(180deg, #110309 0%, #050106 100%) !important;
   background-attachment: fixed !important;
   background-size: cover !important;
   background-repeat: no-repeat !important;
@@ -328,15 +329,33 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
   background: linear-gradient(270deg, rgba(255, 255, 255, 0.40) 0%, rgba(255, 255, 255, 0.30) 58%, rgba(255, 255, 255, 0.08) 100%) !important;
 }
 
-/* Search Bars: Specular Liquid Glass border effect with #27121d background and 100% opacity */
-.spotlight-bubble-box,
-.spotlight-input-container,
-.search-box-capsule,
+/* Sidebar Spotlight Search Button: styled with 15% white opacity like the Find and search bar */
 #btn-spotlight-search,
 #btn-mobile-spotlight-search,
+#btn-spotlight-search-mini {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  background-image: none !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  transition: all 0.2s ease !important;
+}
+
+#btn-spotlight-search:hover,
+#btn-mobile-spotlight-search:hover,
+#btn-spotlight-search-mini:hover {
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Search Bars: Specular Liquid Glass border effect with #27121d background */
+.spotlight-bubble-box:not(#btn-spotlight-search):not(#btn-mobile-spotlight-search):not(#btn-spotlight-search-mini):not(#settings-search-container),
+.spotlight-input-container:not(#btn-spotlight-search):not(#btn-mobile-spotlight-search):not(#settings-search-container),
+.search-box-capsule,
 #btn-spotlight-search-desktop,
-#btn-spotlight-search-mini,
-#settings-search-container,
 #spotlight-search-container,
 #btn-close-immersive-search {
   opacity: 1 !important;
@@ -353,14 +372,10 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
   transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
 }
 
-.spotlight-bubble-box:hover,
-.spotlight-input-container:hover,
+.spotlight-bubble-box:not(#btn-spotlight-search):not(#btn-mobile-spotlight-search):not(#btn-spotlight-search-mini):not(#settings-search-container):hover,
+.spotlight-input-container:not(#btn-spotlight-search):not(#btn-mobile-spotlight-search):not(#settings-search-container):hover,
 .search-box-capsule:hover,
-#btn-spotlight-search:hover,
-#btn-mobile-spotlight-search:hover,
 #btn-spotlight-search-desktop:hover,
-#btn-spotlight-search-mini:hover,
-#settings-search-container:hover,
 #spotlight-search-container:hover,
 #btn-close-immersive-search:hover {
   opacity: 1 !important;
@@ -375,9 +390,8 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
   transform: none !important;
 }
 
-#settings-search-container:focus-within,
 #spotlight-search-container:focus-within,
-.spotlight-input-container:focus-within {
+.spotlight-input-container:not(#settings-search-container):focus-within {
   background-color: #27121d !important;
   background-image: 
     linear-gradient(#27121d, #27121d), 
@@ -386,6 +400,48 @@ html.light-mode[data-immersive-sidebar="true"][data-sidebar-position="right"] #w
   background-clip: padding-box, border-box !important;
   border: 1px solid transparent !important;
   box-shadow: 0 0 18px rgba(230, 0, 90, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Settings Search Container: styled exactly like Find and Search */
+#settings-search-container {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  background-image: none !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  transition: all 0.2s ease !important;
+}
+
+#settings-search-container:hover {
+  background-color: rgba(255, 255, 255, 0.20) !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.40) !important;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.35) !important;
+}
+
+#settings-search-container:focus-within {
+  background-color: rgba(255, 255, 255, 0.22) !important;
+  background-image: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.40) !important;
+}
+
+html.light-mode #settings-search-container {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+  background-image: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.10) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light-mode #settings-search-container:hover {
+  background-color: rgba(0, 0, 0, 0.09) !important;
+  border: 1px solid rgba(0, 0, 0, 0.22) !important;
+}
+
+html.light-mode #settings-search-container:focus-within {
+  background-color: rgba(0, 0, 0, 0.10) !important;
+  border: 1px solid rgba(0, 0, 0, 0.40) !important;
 }
 
 #btn-close-immersive-search:hover {
@@ -1297,7 +1353,9 @@ html.light-mode .immersive-search-input input {
 }
 
 .floaty-bar__surface {
-  min-width: min(28rem, calc(100vw - 2rem));
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: calc(100vw - 2rem) !important;
   justify-content: space-between;
   overflow: hidden;
   background: rgba(24, 23, 31, 0.42) !important;
@@ -1305,6 +1363,12 @@ html.light-mode .immersive-search-input input {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
   backdrop-filter: blur(24px) saturate(135%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(135%) !important;
+}
+
+.floaty-bar__surface--immersive {
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: calc(100vw - 2rem) !important;
 }
 
 .floaty-bar__arrow,

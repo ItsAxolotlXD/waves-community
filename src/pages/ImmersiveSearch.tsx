@@ -230,14 +230,14 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
     >
       <div className="max-w-6xl mx-auto space-y-7 sm:space-y-9">
         {/* Top Search Bar Row */}
-        <div className="flex items-center gap-3 w-full">
-          {/* Capsule Pill Search Input Bar - Shortened */}
+        <div className="flex items-center justify-center gap-3 w-full">
+          {/* Capsule Pill Search Input Bar - Centered with 15% opacity & thinner hover border */}
           <div 
             id="immersive-search-capsule"
             onClick={() => {
               inputRef.current?.focus();
             }}
-            className="relative w-full max-w-md sm:max-w-lg h-[48px] md:h-[52px] flex items-center px-4 md:px-5 rounded-full overflow-hidden cursor-text select-none bg-white/10 backdrop-blur-md border-[3.5px] border-transparent hover:border-white focus-within:border-white transition-colors"
+            className="relative w-full max-w-md sm:max-w-lg h-[48px] md:h-[52px] flex items-center px-4 md:px-5 rounded-full overflow-hidden cursor-text select-none bg-white/15 backdrop-blur-md border border-transparent hover:border-white/40 focus-within:border-white/65 transition-all shadow-lg"
           >
             <div className="flex items-center gap-3 w-full">
               <Search className="w-5 h-5 text-[#9CA3AF] shrink-0" />

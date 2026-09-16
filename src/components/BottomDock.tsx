@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { 
   ChevronLeft, 
@@ -39,6 +39,46 @@ export const BottomDock: React.FC<BottomDockProps> = ({
   const [direction, setDirection] = useState(1);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
+  const goToPrevPage = () => {
+    setDirection(-1);
+    setHoveredId(null);
+    setPage((current) => (current + pages.length - 1) % pages.length);
+  };
+
+  const goToNextPage = () => {
+    setDirection(1);
+    setHoveredId(null);
+    setPage((current) => (current + 1) % pages.length);
+  };
+
+  // Touch swipe support for Floaty bar
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      touchStartXRef.current = e.touches[0].clientX;
+      touchStartYRef.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartXRef.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartYRef.current;
+
+    // Trigger page turn if horizontal swipe exceeds 30px and dominates vertical movement
+    if (Math.abs(deltaX) > 30 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        goToNextPage();
+      } else {
+        goToPrevPage();
+      }
+    }
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+  };
+
   const isActive = (path?: string) => {
     if (!path) return false;
     return path === '/' ? currentRoute === '/' || currentRoute === '/home' : currentRoute.startsWith(path);
@@ -63,21 +103,21 @@ export const BottomDock: React.FC<BottomDockProps> = ({
 
   return (
     <nav className="floaty-bar fixed bottom-5 left-1/2 -translate-x-1/2 z-40 select-none" aria-label="Floaty bar">
-      <div className="floaty-bar__surface flex items-center gap-1.5 px-2.5 py-1.5 rounded-full">
+      <div 
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className={`floaty-bar__surface ${isImmersive ? 'floaty-bar__surface--immersive' : ''} flex items-center gap-1.5 px-2.5 py-1.5 rounded-full transition-all duration-300`}
+      >
         <button
           type="button"
           aria-label="Trang dock trước"
-          onClick={() => {
-            setDirection(-1);
-            setHoveredId(null);
-            setPage((current) => (current + pages.length - 1) % pages.length);
-          }}
+          onClick={goToPrevPage}
           className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer transition-colors shrink-0"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
 
-        <div className={`floaty-bar__items ${isImmersive ? 'w-auto min-w-[260px] max-w-[88vw]' : 'w-[240px] sm:w-[260px]'} h-11 relative overflow-hidden flex items-center justify-center transition-all duration-300`}>
+        <div className="floaty-bar__items w-auto max-w-[85vw] h-11 relative overflow-hidden flex items-center justify-center transition-all duration-300">
           <AnimatePresence initial={false} custom={direction} mode="popLayout">
             <motion.div
               key={page}
@@ -107,7 +147,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                 opacity: { duration: 0.6, ease: 'easeInOut' },
                 filter: { duration: 0.6, ease: 'easeInOut' },
               }}
-              className={`floaty-bar__page flex items-center ${isImmersive ? 'justify-center gap-1 sm:gap-1.5' : 'justify-between'} w-full h-11 shrink-0 px-2`}
+              className="floaty-bar__page flex items-center justify-center gap-1 sm:gap-1.5 w-auto h-11 shrink-0 px-1 sm:px-2"
             >
               {pages[page].map((item) => {
                 const isSearchItem = item.id === 'dock-search';
@@ -118,19 +158,23 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                 const isHovered = hoveredId === item.id;
 
                 if (!isImmersive) {
-                  // Standard Floaty bar: Strictly icon only, evenly spaced, pill shape when active or hovered
+                  // Standard Floaty bar: Strictly icon only, adaptive pill width when active or hovered
                   const isSelectedOrHovered = active || isHovered;
 
                   return (
-                    <button
+                    <motion.button
                       key={item.id}
                       id={item.id}
                       type="button"
                       title={item.label}
+                      layout
                       onMouseEnter={() => setHoveredId(item.id)}
                       onMouseLeave={() => setHoveredId(null)}
                       onClick={() => item.action ? item.action() : item.route && navigate(item.route)}
-                      className={`floaty-bar__item h-9 rounded-full flex items-center justify-center cursor-pointer transition-all duration-150 outline-none select-none shrink-0 ${
+                      transition={{
+                        layout: { duration: 0.25, ease: [0.25, 1, 0.5, 1] }
+                      }}
+                      className={`floaty-bar__item h-9 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-150 outline-none select-none shrink-0 ${
                         isSelectedOrHovered
                           ? 'is-active px-4 bg-white/20 text-white shadow-sm'
                           : 'px-2.5 text-white/75 hover:text-white'
@@ -148,23 +192,20 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                       ) : Icon ? (
                         <Icon className="w-5 h-5 shrink-0" />
                       ) : null}
-                    </button>
+                    </motion.button>
                   );
                 }
 
-                // Immersive Floaty bar: Pill adapts dynamically to label length when active/hovered
-                const hasHover = hoveredId !== null;
-                const isExpanded = hasHover ? isHovered : active;
+                // Immersive Floaty bar: Khi hover không hiện title, chỉ khi nhấn vào (active) mới hiện
+                // Độ dài tự thích ứng (adapt) theo số tab và độ dài tên tab active
+                const isExpanded = active;
 
                 return (
                   <motion.button
                     key={item.id}
                     id={item.id}
                     type="button"
-                    title={item.label}
                     layout
-                    onMouseEnter={() => setHoveredId(item.id)}
-                    onMouseLeave={() => setHoveredId(null)}
                     onClick={() => item.action ? item.action() : item.route && navigate(item.route)}
                     transition={{
                       layout: { duration: 0.28, ease: [0.25, 1, 0.5, 1] }
@@ -172,7 +213,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                     className={`floaty-bar__item relative h-9 sm:h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-150 outline-none overflow-hidden select-none shrink-0 ${
                       isExpanded
                         ? 'is-active bg-white/20 text-white shadow-sm px-3.5 sm:px-4'
-                        : 'text-white/75 hover:text-white w-9 sm:w-10'
+                        : 'text-white/75 hover:text-white hover:bg-white/10 w-9 sm:w-10'
                     }`}
                   >
                     <div className="flex items-center justify-center gap-1.5 whitespace-nowrap">
@@ -189,7 +230,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                         <Icon className="w-4.5 h-4.5 shrink-0" />
                       ) : null}
 
-                      {/* Title tab for expanded item - adapts cleanly to label length */}
+                      {/* Title tab chỉ hiển thị khi nhấn vào / active - thích ứng theo độ dài nhãn */}
                       <AnimatePresence>
                         {isExpanded && (
                           <motion.span
@@ -214,11 +255,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
         <button
           type="button"
           aria-label="Trang dock tiếp theo"
-          onClick={() => {
-            setDirection(1);
-            setHoveredId(null);
-            setPage((current) => (current + 1) % pages.length);
-          }}
+          onClick={goToNextPage}
           className="floaty-bar__arrow size-10 rounded-full flex items-center justify-center cursor-pointer transition-colors shrink-0"
         >
           <ChevronRight className="w-5 h-5" />

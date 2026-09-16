@@ -151,6 +151,51 @@ export default function App() {
     });
   };
 
+  // Edge swipe gesture: vuốt từ cạnh trái sang để mở sidebar
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    let isTrackingEdgeSwipe = false;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      const touch = e.touches[0];
+      // Swipe originates from within 45px of the left screen edge
+      if (touch.clientX <= 45) {
+        startX = touch.clientX;
+        startY = touch.clientY;
+        isTrackingEdgeSwipe = true;
+      }
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!isTrackingEdgeSwipe) return;
+      isTrackingEdgeSwipe = false;
+      const touch = e.changedTouches[0];
+      const deltaX = touch.clientX - startX;
+      const deltaY = touch.clientY - startY;
+
+      // Swiped right with at least 40px, predominantly horizontal
+      if (deltaX > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.1) {
+        setIsMobileSidebarOpen(true);
+        if (isSidebarCollapsed) {
+          setIsSidebarCollapsed(false);
+          try {
+            localStorage.setItem('waves_sidebar_collapsed', 'false');
+          } catch {}
+        }
+      }
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isSidebarCollapsed]);
+
   // Determine effective sidebar width for page adaptation
   const isEffectiveCollapsed = settings.autoHideSidebar || isSidebarCollapsed;
 

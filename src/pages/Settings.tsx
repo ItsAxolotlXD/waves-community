@@ -99,14 +99,14 @@ export const Settings: React.FC = () => {
 
         {/* Search Header */}
         <div className="pt-2">
-          {/* Search Bar Capsule with Spotlight Search Centering & Styling */}
+          {/* Search Bar Capsule styled like Find and Search */}
           <div 
             id="settings-search-container"
             onClick={() => {
               setIsFocused(true);
               inputRef.current?.focus();
             }}
-            className="relative w-full h-[46px] flex items-center px-4 rounded-full spotlight-bubble-box text-sm transition-all spotlight-input-container overflow-hidden cursor-text select-none"
+            className="relative w-full h-[48px] flex items-center px-4 rounded-full bg-white/15 backdrop-blur-md border border-transparent hover:border-white/40 focus-within:border-white/65 text-sm transition-all shadow-lg overflow-hidden cursor-text select-none"
           >
             <motion.div 
               animate={{
@@ -120,17 +120,7 @@ export const Settings: React.FC = () => {
               }}
               className={`flex items-center gap-2.5 w-full ${isFocused || isListening ? 'pr-16' : 'pr-8'}`}
             >
-              <div className="w-[18px] h-[18px] min-w-[18px] min-h-[18px] max-w-[18px] max-h-[18px] flex items-center justify-center shrink-0">
-                <img
-                  src="https://static.wikia.nocookie.net/ep-deo/images/2/21/Searchhh.png/revision/latest?cb=20260717131751"
-                  alt="Search"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full aspect-square object-contain brightness-0 invert opacity-75 topbar-search-icon"
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
-                />
-              </div>
+              <Search className="w-5 h-5 text-[#9CA3AF] shrink-0" />
               <input
                 ref={inputRef}
                 id="settings-search-input"
@@ -142,7 +132,7 @@ export const Settings: React.FC = () => {
                 }}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={isListening ? "Đang nghe giọng nói..." : "Tìm kiếm cài đặt"}
-                className="w-full bg-transparent text-white placeholder-[#8E8E93] text-sm focus:outline-none font-medium truncate text-left"
+                className="w-full bg-transparent text-white placeholder-[#9CA3AF] text-sm focus:outline-none font-medium truncate text-left"
               />
             </motion.div>
 
