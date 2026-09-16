@@ -22,14 +22,14 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
     <div
       id={`channel-card-${channel.id}`}
       onClick={() => onSelect(channel)}
-      className={`group relative rounded-[28px] bg-[#1E1E22] border transition-none overflow-hidden cursor-pointer ${
+      className={`group relative rounded-[28px] bg-[#353535] border transition-none overflow-hidden cursor-pointer ${
         isActive
-          ? 'border-[#E50914] glow-purple bg-[#25252C]'
-          : 'border-[#2D2D35] hover:border-[#E50914]/60 hover:bg-[#26262D]'
+          ? 'border-[#FFFFFF] bg-[#353535]'
+          : 'border-transparent hover:border-[#FFFFFF] hover:bg-[#3d3d3d]'
       }`}
     >
       {/* Top Banner / Logo Area */}
-      <div className="relative h-32 bg-gradient-to-b from-[#2A2A32] to-[#1E1E22] flex items-center justify-center p-4 overflow-hidden">
+      <div className="relative h-32 bg-gradient-to-b from-[#404040] to-[#353535] flex items-center justify-center p-4 overflow-hidden">
         <img
           src={channel.bannerImage || DEFAULT_BANNER_PLACEHOLDER}
           alt={channel.name}

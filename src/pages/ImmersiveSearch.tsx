@@ -350,9 +350,9 @@ export const ImmersiveSearch: React.FC<ImmersiveSearchProps> = ({
                             onSelectChannel(ch);
                             navigate(`/live-tv?channel=${ch.slug}`);
                           }}
-                          className="group relative p-3 rounded-2xl bg-[#200d23] hover:bg-[#2e1233] border border-[#3b1540] hover:border-[#E6005A]/60 flex flex-col items-center text-center cursor-pointer transition-all shadow-md hover:scale-[1.02]"
+                          className="group relative p-3 rounded-2xl bg-[#353535] hover:bg-[#3d3d3d] border border-white/10 hover:border-[#FFFFFF] flex flex-col items-center text-center cursor-pointer transition-all shadow-md"
                         >
-                          <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center p-2 rounded-xl bg-[#1B0912] border border-white/5 mb-2 overflow-hidden">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center p-2 rounded-xl bg-[#2a2a2a] border border-white/5 mb-2 overflow-hidden">
                             <img
                               src={ch.logo}
                               alt={ch.name}

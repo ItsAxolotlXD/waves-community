@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { HERO_SLIDES, DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
 import { Channel } from '../types';
 import { CHANNELS_DATA } from '../data/channels';
@@ -188,6 +188,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
     isSwipingRef.current = false;
   };
 
+  const currentSlide = allSlides[currentIndex];
+  const currentBannerBg = currentSlide ? (currentSlide.backgroundImage || currentSlide.channel?.logo || DEFAULT_BANNER_PLACEHOLDER) : '';
+
   return (
     <div 
       id="hero-3d-coverflow-carousel"
@@ -197,6 +200,51 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
       style={{ touchAction: 'pan-y' }}
       className="relative w-full overflow-hidden select-none pt-1 sm:pt-2 pb-0"
     >
+      {/* Nền phía sau các banner: Lấy hình ảnh banner chính với hiệu ứng backdrop blur & diffuse ambient glow */}
+      <div 
+        id="hero-banner-ambient-background" 
+        className="absolute inset-0 -top-16 -bottom-20 pointer-events-none overflow-hidden select-none -z-10"
+        aria-hidden="true"
+      >
+        {/* Layer hình ảnh banner chính được phóng to và làm mờ đa tầng */}
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+          <AnimatePresence mode="popLayout">
+            {currentBannerBg && (
+              <motion.img
+                key={`hero-bg-${currentIndex}-${currentBannerBg}`}
+                src={currentBannerBg}
+                alt=""
+                referrerPolicy="no-referrer"
+                initial={{ opacity: 0, scale: 1.25 }}
+                animate={{ opacity: 0.50, scale: 1.45 }}
+                exit={{ opacity: 0, scale: 1.45 }}
+                transition={{ duration: 0.85, ease: 'easeOut' }}
+                className="w-full h-full object-cover select-none pointer-events-none"
+                style={{
+                  filter: 'blur(55px) saturate(160%)',
+                  WebkitFilter: 'blur(55px) saturate(160%)',
+                  transform: 'scale(1.45) translateZ(0)',
+                  willChange: 'filter, opacity, transform',
+                }}
+              />
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Lớp kính mờ Backdrop Blur overlay phủ lên trên */}
+        <div 
+          className="absolute inset-0 backdrop-blur-2xl bg-[#181818]/40"
+          style={{
+            backdropFilter: 'blur(40px)',
+            WebkitBackdropFilter: 'blur(40px)',
+          }}
+        />
+
+        {/* Chuyển sắc mượt mà hòa vào màu nền ứng dụng #181818 ở trên, dưới và 2 bên */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#181818]/80 via-transparent to-[#181818]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#181818]/85 via-transparent to-[#181818]/85" />
+      </div>
+
       {/* 3D Stage Container */}
       <div 
         className="relative w-full flex items-center justify-center"

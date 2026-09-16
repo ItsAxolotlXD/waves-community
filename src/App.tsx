@@ -477,15 +477,17 @@ export default function App() {
 
       {/* Main App Container */}
       <div className={`flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ${
-        !settings.dockToSidebar || settings.navigationMode !== 'sidebar'
-          ? 'md:pl-0 md:pr-0 pb-20'
-          : settings.sidebarPosition === 'right'
-            ? isEffectiveCollapsed
-              ? 'md:pr-[80px]'
-              : 'md:pr-[290px]'
-            : isEffectiveCollapsed
-              ? 'md:pl-[80px]'
-              : 'md:pl-[290px]'
+        settings.navigationMode === 'topbar'
+          ? 'md:pl-0 md:pr-0 pb-10'
+          : !settings.dockToSidebar || settings.navigationMode !== 'sidebar'
+            ? 'md:pl-0 md:pr-0 pb-20'
+            : settings.sidebarPosition === 'right'
+              ? isEffectiveCollapsed
+                ? 'md:pr-[80px]'
+                : 'md:pr-[290px]'
+              : isEffectiveCollapsed
+                ? 'md:pl-[80px]'
+                : 'md:pl-[290px]'
       }`}>
         {/* TopBar Header */}
         <TopBar

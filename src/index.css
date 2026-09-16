@@ -43,17 +43,8 @@
   }
 
   body {
-    background-color: #0c0309;
-    background-image: 
-      radial-gradient(ellipse 62% 60% at 8% 12%, rgba(225, 29, 45, 0.52) 0%, rgba(185, 15, 35, 0.30) 28%, rgba(100, 10, 25, 0.12) 58%, transparent 76%),
-      radial-gradient(ellipse 55% 55% at 86% 18%, rgba(255, 112, 10, 0.42) 0%, rgba(220, 75, 5, 0.22) 32%, rgba(120, 35, 5, 0.08) 60%, transparent 72%),
-      radial-gradient(ellipse 50% 50% at 46% 32%, rgba(255, 80, 20, 0.30) 0%, rgba(185, 25, 95, 0.18) 36%, transparent 70%),
-      radial-gradient(ellipse 56% 56% at 14% 82%, rgba(235, 30, 45, 0.44) 0%, rgba(160, 15, 40, 0.22) 36%, transparent 72%),
-      radial-gradient(ellipse 58% 54% at 92% 76%, rgba(255, 125, 25, 0.32) 0%, rgba(195, 60, 15, 0.20) 34%, rgba(55, 18, 65, 0.25) 55%, transparent 78%),
-      linear-gradient(180deg, #11040a 0%, #060105 100%);
-    background-attachment: fixed;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-color: #181818;
+    background-image: none;
     color: #F3F4F6;
     overflow-x: hidden;
     min-height: 100vh;
@@ -226,31 +217,13 @@ html.light-mode #settings-section-search hr {
 
 /* Theme Surface Overrides in Dark Mode */
 html:not(.light-mode) body {
-  background-color: #0c0309 !important;
-  background-image: 
-    radial-gradient(ellipse 62% 60% at 7% 14%, rgba(225, 29, 45, 0.65) 0%, rgba(185, 12, 35, 0.40) 28%, rgba(95, 8, 25, 0.16) 58%, transparent 76%),
-    radial-gradient(ellipse 55% 55% at 88% 18%, rgba(255, 110, 15, 0.50) 0%, rgba(225, 75, 8, 0.28) 32%, transparent 70%),
-    radial-gradient(ellipse 50% 50% at 44% 32%, rgba(255, 75, 20, 0.38) 0%, rgba(185, 20, 95, 0.22) 36%, transparent 70%),
-    radial-gradient(ellipse 56% 56% at 14% 84%, rgba(235, 30, 45, 0.52) 0%, rgba(160, 15, 40, 0.28) 36%, transparent 72%),
-    radial-gradient(ellipse 58% 54% at 91% 75%, rgba(255, 120, 20, 0.38) 0%, rgba(195, 55, 15, 0.24) 34%, rgba(65, 18, 70, 0.35) 55%, transparent 78%),
-    linear-gradient(180deg, #13040b 0%, #070107 100%) !important;
-  background-attachment: fixed !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
+  background-color: #181818 !important;
+  background-image: none !important;
 }
 
 #fixed-app-background-solid {
-  background-color: #090207 !important;
-  background-image: 
-    radial-gradient(ellipse 62% 60% at 7% 14%, rgba(225, 29, 45, 0.55) 0%, rgba(175, 10, 32, 0.32) 28%, rgba(85, 6, 20, 0.12) 58%, transparent 76%),
-    radial-gradient(ellipse 55% 55% at 88% 18%, rgba(255, 110, 15, 0.42) 0%, rgba(210, 68, 5, 0.22) 32%, transparent 70%),
-    radial-gradient(ellipse 50% 50% at 44% 32%, rgba(255, 75, 20, 0.32) 0%, rgba(175, 18, 85, 0.18) 36%, transparent 70%),
-    radial-gradient(ellipse 56% 56% at 14% 84%, rgba(235, 30, 45, 0.44) 0%, rgba(145, 12, 35, 0.22) 36%, transparent 72%),
-    radial-gradient(ellipse 58% 54% at 91% 75%, rgba(255, 120, 20, 0.32) 0%, rgba(185, 50, 12, 0.20) 34%, rgba(55, 15, 60, 0.28) 55%, transparent 78%),
-    linear-gradient(180deg, #110309 0%, #050106 100%) !important;
-  background-attachment: fixed !important;
-  background-size: cover !important;
-  background-repeat: no-repeat !important;
+  background-color: #181818 !important;
+  background-image: none !important;
 }
 
 #home-about-disclaimer-card,
@@ -772,40 +745,54 @@ html.light-mode .settings-unsaved-tooltip-card {
   pointer-events: none;
   z-index: -10;
   overflow: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform, backdrop-filter;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: linear-gradient(
+    to bottom,
+    rgba(24, 24, 24, 0.88) 0%,
+    rgba(24, 24, 24, 0.65) 60%,
+    rgba(24, 24, 24, 0.20) 88%,
+    rgba(24, 24, 24, 0) 100%
+  );
 }
 
 .topbar-progressive-blur .progressive-blur-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .topbar-progressive-blur .layer-1 {
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0) 55%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0) 55%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0) 60%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0) 60%);
 }
 
 .topbar-progressive-blur .layer-2 {
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0) 70%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 45%, rgba(0,0,0,0) 70%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0) 75%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0) 75%);
 }
 
 .topbar-progressive-blur .layer-3 {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 60%, rgba(0,0,0,0) 85%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 60%, rgba(0,0,0,0) 85%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 65%, rgba(0,0,0,0) 90%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 65%, rgba(0,0,0,0) 90%);
 }
 
 .topbar-progressive-blur .layer-4 {
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 75%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 75%, rgba(0,0,0,0) 100%);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);
 }
 
 .topbar-progressive-blur .progressive-blur-gradient {
@@ -813,10 +800,20 @@ html.light-mode .settings-unsaved-tooltip-card {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(27, 9, 18, 0.75) 0%,
-    rgba(27, 9, 18, 0.45) 45%,
-    rgba(27, 9, 18, 0.15) 75%,
-    rgba(27, 9, 18, 0) 100%
+    rgba(24, 24, 24, 0.85) 0%,
+    rgba(24, 24, 24, 0.50) 50%,
+    rgba(24, 24, 24, 0.15) 80%,
+    rgba(24, 24, 24, 0) 100%
+  );
+}
+
+html.light-mode .topbar-progressive-blur {
+  background: linear-gradient(
+    to bottom,
+    rgba(244, 245, 247, 0.90) 0%,
+    rgba(244, 245, 247, 0.65) 60%,
+    rgba(244, 245, 247, 0.20) 88%,
+    rgba(244, 245, 247, 0) 100%
   );
 }
 
@@ -858,7 +855,7 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
   box-sizing: border-box !important;
   border: 3.5px solid transparent !important;
   background-image: none !important;
-  background-color: rgba(255, 255, 255, 0.10) !important;
+  background-color: #353535 !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   box-shadow: none !important;
@@ -874,7 +871,7 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
   box-sizing: border-box !important;
   border: 3.5px solid #FFFFFF !important;
   background-image: none !important;
-  background-color: rgba(255, 255, 255, 0.10) !important;
+  background-color: #353535 !important;
   box-shadow: none !important;
   transform: none !important;
   transition: none !important;
@@ -886,7 +883,7 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 [id^="test-channel-card-"]:not(.is-selected):active {
   box-sizing: border-box !important;
   border: 3.5px solid #FFFFFF !important;
-  background-color: rgba(255, 255, 255, 0.10) !important;
+  background-color: #353535 !important;
   transform: none !important;
   box-shadow: none !important;
   transition: none !important;
@@ -918,13 +915,13 @@ img[src*="vtvprime.vn"],
   transition: none !important;
 }
 
-/* Selected Live TV & Test Channel Card in Dark Mode - thick white border, no glow, 10% opacity */
+/* Selected Live TV & Test Channel Card in Dark Mode - thick white border, no glow, #353535 background */
 [id^="livetv-channel-card-"].is-selected,
 [id^="test-channel-card-"].is-selected {
   box-sizing: border-box !important;
   border: 3.5px solid #FFFFFF !important;
   background-image: none !important;
-  background-color: rgba(255, 255, 255, 0.10) !important;
+  background-color: #353535 !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   box-shadow: none !important;

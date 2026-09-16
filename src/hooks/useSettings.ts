@@ -21,7 +21,7 @@ export interface SystemSettings {
   immersiveSearch: boolean;
   immersiveSidebar: boolean;
   sidebarPosition: 'left' | 'right';
-  navigationMode: 'sidebar' | 'floaty' | 'immersive_floaty';
+  navigationMode: 'sidebar' | 'topbar' | 'floaty' | 'immersive_floaty';
   developerMode: boolean;
   customKeybinds: CustomKeybinds;
 }

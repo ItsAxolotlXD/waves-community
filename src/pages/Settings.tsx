@@ -235,17 +235,25 @@ export const Settings: React.FC = () => {
           </div>
 
           <div className="space-y-3 pt-1">
-            {matchesSearch('Thanh điều hướng') && (
+            {(matchesSearch('Thanh điều hướng') || matchesSearch('Top Bar') || matchesSearch('Giao diện Top Bar')) && (
               <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-3">
-                <div>
-                  <div className="font-semibold text-white text-sm">Thanh điều hướng</div>
-                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">Chọn kiểu điều hướng chính của ứng dụng</div>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                  <div>
+                    <div className="font-semibold text-white text-sm">Thanh điều hướng</div>
+                    <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">Chọn kiểu điều hướng chính của ứng dụng</div>
+                  </div>
+                  {draftSettings.navigationMode === 'topbar' && (
+                    <span className="inline-flex items-center text-[11px] font-medium text-[#E6005A] bg-[#E6005A]/10 px-2 py-0.5 rounded-full self-start sm:self-auto">
+                      Progressive Blur Top Bar
+                    </span>
+                  )}
                 </div>
-                <div className="grid grid-cols-3 gap-2 rounded-2xl bg-[#1E1D24] p-1" role="group" aria-label="Thanh điều hướng">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 rounded-2xl bg-[#1E1D24] p-1" role="group" aria-label="Thanh điều hướng">
                   {([
                     ['sidebar', 'Sidebar'],
+                    ['topbar', 'Top bar'],
                     ['floaty', 'Floaty bar'],
-                    ['immersive_floaty', 'Immersive Floaty bar'],
+                    ['immersive_floaty', 'Immersive Floaty'],
                   ] as const).map(([value, label]) => (
                     <button 
                       key={value} 
@@ -264,6 +272,11 @@ export const Settings: React.FC = () => {
                     </button>
                   ))}
                 </div>
+                {draftSettings.navigationMode === 'topbar' && (
+                  <p className="text-[12px] text-[#9CA3AF] leading-relaxed pt-1">
+                    Giao diện Top Bar sẽ đưa thanh điều khiển và điều hướng (Logo trang chủ, Truyền hình, News và các công cụ, icon cài đặt) lên thanh Progressive Blur trên cùng màn hình.
+                  </p>
+                )}
               </div>
             )}
 
