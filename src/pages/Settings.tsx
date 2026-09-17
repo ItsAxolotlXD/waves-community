@@ -19,7 +19,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useSettings, FONT_SCALE_CONFIG, SystemSettings } from '../hooks/useSettings';
 import { useVoiceSearch } from '../hooks/useVoiceSearch';
 import { WelcomeModal } from '../components/WelcomeModal';
-import { DeveloperModeModal } from '../components/DeveloperModeModal';
 import { SfCheckmark } from '../components/SfCheckmark';
 import { KEYBIND_DEFINITIONS, DEFAULT_KEYBINDS, eventToKeyString, validateKeybind } from '../utils/keybinds';
 import { KeybindAction } from '../types';
@@ -39,7 +38,6 @@ export const Settings: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
-  const [isDevModalOpen, setIsDevModalOpen] = useState(false);
   const [editingKeybindId, setEditingKeybindId] = useState<KeybindAction | null>(null);
   const [keybindError, setKeybindError] = useState<{ id: KeybindAction; message: string } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -219,11 +217,11 @@ export const Settings: React.FC = () => {
         matchesSearch('phải')) && (
         <section 
           id="settings-section-interface"
-          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md shadow-xl space-y-4"
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
-            <Palette className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <Palette className="w-5 h-5 text-white shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Giao diện
@@ -236,7 +234,7 @@ export const Settings: React.FC = () => {
 
           <div className="space-y-3 pt-1">
             {(matchesSearch('Thanh điều hướng') || matchesSearch('Top Bar') || matchesSearch('Giao diện Top Bar')) && (
-              <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-3">
+              <div className="p-3 sm:p-4 rounded-[20px] space-y-3">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                   <div>
                     <div className="font-semibold text-white text-sm">Thanh điều hướng</div>
@@ -282,7 +280,7 @@ export const Settings: React.FC = () => {
 
             {/* Card 1: Cỡ chữ ứng dụng (Liquid Glass Pill Slider Style) */}
             {matchesSearch('Cỡ chữ ứng dụng') && (
-              <div className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-4">
+              <div className="p-3 sm:p-4 rounded-[20px] space-y-4">
                 {/* Header Row */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -361,7 +359,7 @@ export const Settings: React.FC = () => {
             {draftSettings.navigationMode === 'sidebar' && (matchesSearch('Sidebar position') || matchesSearch('Vị trí sidebar') || matchesSearch('thanh bên') || matchesSearch('trái') || matchesSearch('phải')) && (
               <div
                 id="setting-sidebar-position"
-                className="p-4 sm:p-5 rounded-[20px] bg-[#28272E] space-y-4"
+                className="p-3 sm:p-4 rounded-[20px] space-y-4"
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
@@ -394,11 +392,11 @@ export const Settings: React.FC = () => {
         matchesSearch('Tự động ẩn Sidebar')) && (
         <section 
           id="settings-section-accessibility"
-          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md shadow-xl space-y-4"
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
-            <Key className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <Key className="w-5 h-5 text-white shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Trợ năng
@@ -412,7 +410,7 @@ export const Settings: React.FC = () => {
           <div className="space-y-3 pt-1">
             {/* Card: Tự động ẩn Sidebar (No Border) */}
             {matchesSearch('Tự động ẩn Sidebar') && (
-              <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
+              <div className="p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 transition-colors hover:bg-white/5">
                 <div>
                   <div className="font-semibold text-white text-sm">
                     Tự động ẩn Sidebar
@@ -452,11 +450,11 @@ export const Settings: React.FC = () => {
         matchesSearch('Chuyển trang')) && (
         <section 
           id="settings-section-motion"
-          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md shadow-xl space-y-4"
         >
           {/* Section Header */}
           <div className="flex items-start gap-3">
-            <Sparkles className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <Sparkles className="w-5 h-5 text-white shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Motion and Movements
@@ -473,7 +471,7 @@ export const Settings: React.FC = () => {
               <div 
                 id="setting-motion-reduce-all"
                 onClick={() => updateDraft('reduceAllMotion', !draftSettings.reduceAllMotion)}
-                className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                className="group p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 cursor-pointer hover:bg-white/5 transition-colors"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
@@ -503,7 +501,7 @@ export const Settings: React.FC = () => {
             )}
 
             {/* Divider */}
-            <hr className="border-[#383742]" />
+            <hr className="border-white/10" />
 
             {/* Sub-options Container: Grayed out and disabled when Reduce all animation is active */}
             <div 
@@ -522,7 +520,7 @@ export const Settings: React.FC = () => {
                       updateDraft('animateSidebar', !draftSettings.animateSidebar);
                     }
                   }}
-                  className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                  className="group p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 cursor-pointer hover:bg-white/5 transition-colors"
                 >
                   <div>
                     <div className="font-semibold text-white text-sm">
@@ -560,7 +558,7 @@ export const Settings: React.FC = () => {
                       updateDraft('animateModals', !draftSettings.animateModals);
                     }
                   }}
-                  className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                  className="group p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 cursor-pointer hover:bg-white/5 transition-colors"
                 >
                   <div>
                     <div className="font-semibold text-white text-sm">
@@ -598,7 +596,7 @@ export const Settings: React.FC = () => {
                       updateDraft('animatePageTransitions', !draftSettings.animatePageTransitions);
                     }
                   }}
-                  className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                  className="group p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 cursor-pointer hover:bg-white/5 transition-colors"
                 >
                   <div>
                     <div className="font-semibold text-white text-sm">
@@ -640,11 +638,11 @@ export const Settings: React.FC = () => {
         matchesSearch('Cài đặt')) && (
         <section 
           id="settings-section-search"
-          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md shadow-xl space-y-4"
         >
           {/* Section Header without background container on icon */}
           <div className="flex items-start gap-3">
-            <Search className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <Search className="w-5 h-5 text-white shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Tìm kiếm
@@ -661,7 +659,7 @@ export const Settings: React.FC = () => {
               <div 
                 id="setting-search-categories"
                 onClick={() => updateDraft('searchCategories', !draftSettings.searchCategories)}
-                className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                className="group p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 cursor-pointer hover:bg-white/5 transition-colors"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
@@ -695,7 +693,7 @@ export const Settings: React.FC = () => {
               <div 
                 id="setting-search-news"
                 onClick={() => updateDraft('searchNews', !draftSettings.searchNews)}
-                className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                className="group p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 cursor-pointer hover:bg-white/5 transition-colors"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
@@ -726,7 +724,7 @@ export const Settings: React.FC = () => {
 
             {/* 3. Truyền hình & Tìm kênh theo số hiệu */}
             {(matchesSearch('Truyền hình') || matchesSearch('Tìm kênh theo số hiệu kênh')) && (
-              <div className="p-4 rounded-[20px] bg-[#28272E] space-y-4">
+              <div className="p-3.5 sm:p-4 rounded-[20px] space-y-4">
                 {/* 3.1 Truyền hình */}
                 {matchesSearch('Truyền hình') && (
                   <div 
@@ -762,7 +760,7 @@ export const Settings: React.FC = () => {
                 )}
 
                 {/* Divider */}
-                <hr className="border-[#383742]" />
+                <hr className="border-white/10" />
 
                 {/* 3.2 Tìm kênh theo số hiệu kênh */}
                 {matchesSearch('Tìm kênh theo số hiệu kênh') && (
@@ -810,7 +808,7 @@ export const Settings: React.FC = () => {
               <div 
                 id="setting-search-settings"
                 onClick={() => updateDraft('searchSettings', !draftSettings.searchSettings)}
-                className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+                className="group p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 cursor-pointer hover:bg-white/5 transition-colors"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
@@ -852,11 +850,11 @@ export const Settings: React.FC = () => {
         matchesSearch('Tính năng thử nghiệm')) && (
         <section 
           id="settings-section-experimental"
-          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md shadow-xl space-y-4"
         >
           {/* Section Header with triangle lab flask icon */}
           <div className="flex items-start gap-3">
-            <FlaskConical className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <FlaskConical className="w-5 h-5 text-white shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight flex items-center gap-2">
                 <span>Experimental Features</span>
@@ -875,7 +873,7 @@ export const Settings: React.FC = () => {
             <div 
               id="setting-experimental-immersive-search"
               onClick={() => updateDraft('immersiveSearch', !draftSettings.immersiveSearch)}
-              className="group p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 cursor-pointer hover:bg-[#313038] transition-colors"
+              className="group p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 cursor-pointer hover:bg-white/5 transition-colors"
             >
               <div>
                 <div className="font-semibold text-white text-sm">
@@ -919,12 +917,12 @@ export const Settings: React.FC = () => {
         matchesSearch('Kênh xem gần nhất')) && (
         <section 
           id="settings-section-keybinds"
-          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md shadow-xl space-y-4"
         >
           {/* Section Header */}
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3">
-              <Keyboard className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+              <Keyboard className="w-5 h-5 text-white shrink-0 mt-0.5" />
               <div>
                 <h2 className="text-base font-bold text-white leading-tight flex items-center gap-2">
                   <span>Customize keybinds</span>
@@ -973,7 +971,7 @@ export const Settings: React.FC = () => {
                 <div
                   key={def.id}
                   id={`keybind-row-${def.id}`}
-                  className="p-3.5 sm:p-4 rounded-[20px] bg-[#28272E] flex flex-col gap-2 transition-colors"
+                  className="p-3.5 sm:p-4 rounded-[20px] flex flex-col gap-2 transition-colors hover:bg-white/5"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div className="min-w-0 flex-1">
@@ -1117,18 +1115,16 @@ export const Settings: React.FC = () => {
         matchesSearch('Nhật ký thay đổi') ||
         matchesSearch('Cập nhật') ||
         matchesSearch('Release Notes') ||
-        matchesSearch('Developer Mode') ||
-        matchesSearch('Developer') ||
-        matchesSearch('Nhà phát triển') ||
+        matchesSearch('Test Vplay') ||
         matchesSearch('Test') ||
         matchesSearch('Vplay')) && (
         <section 
           id="settings-section-other"
-          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/10 shadow-xl space-y-4"
+          className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md shadow-xl space-y-4"
         >
           {/* Section Header */}
           <div className="flex items-start gap-3">
-            <Wrench className="w-5 h-5 text-[#E6005A] dark:text-[#E6005A] shrink-0 mt-0.5" />
+            <Wrench className="w-5 h-5 text-white shrink-0 mt-0.5" />
             <div>
               <h2 className="text-base font-bold text-white leading-tight">
                 Khác
@@ -1140,90 +1136,74 @@ export const Settings: React.FC = () => {
           </div>
 
           <div className="space-y-3 pt-1">
-            {/* Developer Mode Toggle Option Card */}
-            {(matchesSearch('Developer Mode') || matchesSearch('Developer') || matchesSearch('Khác') || matchesSearch('Nhà phát triển') || matchesSearch('Test')) && (
-              <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
+            {/* Test Vplay Option Card */}
+            {(matchesSearch('Test Vplay') || matchesSearch('Test') || matchesSearch('Khác') || matchesSearch('Vplay')) && (
+              <div className="p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 transition-colors hover:bg-white/5">
                 <div>
-                  <div className="font-semibold text-white text-sm flex items-center gap-2">
-                    <span>Developer Mode</span>
-                    {draftSettings.developerMode && (
-                      <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                        Đang bật
-                      </span>
-                    )}
+                  <div className="font-semibold text-white text-sm">
+                    Test Vplay
                   </div>
                   <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
-                    Kích hoạt chế độ nhà phát triển để mở tab Test kiểm thử nội bộ các luồng phát kênh.
+                    Try our test builds of Vplay with new, early unreleased features.
                   </div>
                 </div>
 
-                {/* Magenta Toggle Switch */}
-                <button
-                  id="toggle-developer-mode"
-                  type="button"
-                  role="switch"
-                  aria-checked={draftSettings.developerMode}
-                  onClick={() => {
-                    if (!draftSettings.developerMode) {
-                      setIsDevModalOpen(true);
-                    } else {
-                      updateDraft('developerMode', false);
-                      applyDraftSettings();
-                      setToastMessage('Đã tắt Developer Mode');
-                      setShowApplyToast(true);
-                      setTimeout(() => setShowApplyToast(false), 2200);
-                    }
-                  }}
-                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
-                    draftSettings.developerMode ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
-                  }`}
+                {/* Colored Button: Switch */}
+                <a
+                  id="btn-test-vplay-switch"
+                  href="https://test-vplay.vercel.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-5 py-2 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.96] transition-all text-xs sm:text-sm cursor-pointer flex items-center justify-center shrink-0 shadow-md tracking-tight text-center select-none"
                 >
-                  <span
-                    className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none"
-                  />
-                </button>
+                  Switch
+                </a>
               </div>
             )}
 
             {/* Changelogs Option Card */}
             {(matchesSearch('Changelogs') || matchesSearch('Khác') || matchesSearch('Nhật ký thay đổi') || matchesSearch('Cập nhật') || matchesSearch('Release Notes') || matchesSearch('Vplay')) && (
-              <div className="p-4 rounded-[20px] bg-[#28272E] flex items-center justify-between gap-4 transition-colors">
-                <div>
-                  <div className="font-semibold text-white text-sm">
-                    Changelogs
+              <div className="space-y-3">
+                <div className="p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 transition-colors hover:bg-white/5">
+                  <div>
+                    <div className="font-semibold text-white text-sm">
+                      Changelogs
+                    </div>
+                    <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                      Danh sách những sự thay đổi trong bản cập nhật mới nhất của Vplay.
+                    </div>
                   </div>
-                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
-                    Danh sách những sự thay đổi trong bản cập nhật mới nhất của Vplay.
-                  </div>
+
+                  {/* Colored Button: Read */}
+                  <button
+                    id="btn-changelogs-read"
+                    type="button"
+                    onClick={() => setIsWelcomeModalOpen(true)}
+                    className="px-5 py-2 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.96] transition-all text-xs sm:text-sm cursor-pointer flex items-center justify-center shrink-0 shadow-md tracking-tight text-center"
+                  >
+                    Read
+                  </button>
                 </div>
 
-                {/* Colored Button: Read */}
-                <button
-                  id="btn-changelogs-read"
-                  type="button"
-                  onClick={() => setIsWelcomeModalOpen(true)}
-                  className="px-5 py-2 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.96] transition-all text-xs sm:text-sm cursor-pointer flex items-center justify-center shrink-0 shadow-md tracking-tight text-center"
-                >
-                  Read
-                </button>
+                {/* Divider between Changelogs setting and update information */}
+                <hr className="border-white/10 mx-3 sm:mx-4" />
+
+                {/* 2 lines under Changelogs: Software Update left & Vplay 26.9.0 right; Software Build left & 26D0916a right */}
+                <div className="px-4 py-1.5 flex flex-col gap-2 select-text text-sm sm:text-[15px]">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-white">Software Update</span>
+                    <span className="font-medium text-[#9CA3AF]">Vplay 26.9.0</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-white">Software Build</span>
+                    <span className="font-mono text-[#9CA3AF]">26D0916a</span>
+                  </div>
+                </div>
               </div>
             )}
           </div>
         </section>
       )}
-
-      {/* Developer Mode Activation Modal */}
-      <DeveloperModeModal
-        isOpen={isDevModalOpen}
-        onClose={() => setIsDevModalOpen(false)}
-        onActivate={() => {
-          updateDraft('developerMode', true);
-          applyDraftSettings();
-          setToastMessage('Đã kích hoạt Developer Mode thành công!');
-          setShowApplyToast(true);
-          setTimeout(() => setShowApplyToast(false), 2600);
-        }}
-      />
 
       {/* Welcome to Vplay 26.9 / Changelogs Modal Dialog */}
       <WelcomeModal

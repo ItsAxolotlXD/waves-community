@@ -88,7 +88,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
               id="welcome-modal-title"
               className="text-xl sm:text-[23px] font-bold text-white tracking-tight mb-2.5 font-sans leading-tight"
             >
-              Welcome to Vplay 26.9 - Developer Beta 9
+              Welcome to Vplay 26.9 - Build 26D0916a
             </h1>
 
             {/* Description & Changelogs */}
@@ -102,23 +102,30 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
               <ul className="space-y-2.5 text-[#C4C4CC] text-xs sm:text-[13px] pl-1">
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã cập nhật kiểu hiển thị banner mới ở trang chủ</span>
+                  <div>
+                    <span>Đã thêm Top Bar vào cài đặt điều hướng và là điều hướng mặc định</span>
+                    <p className="text-[11.5px] text-[#9CA3AF] mt-0.5">+ Các tabs và công cụ tương tác sẽ chuyển lên thanh phía trên trang web</p>
+                  </div>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã cập nhật background mới cho ứng dụng</span>
+                  <span>Đã cập nhật banner từ dạng hiển thị toàn trang sang dạng các thẻ banner trượt</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã cập nhật giao diện tìm kiếm mới, trực quan hơn</span>
+                  <span>Đã quay lại nền app đơn sắc tránh sự giật lag khi trải nghiệm ứng dụng</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã thêm lại luồng kênh VTV5 Tây Nam Bộ và VTV5 Tây Nguyên</span>
+                  <span>Đã cập nhật icon cài đặt</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã cập nhật biểu trưng mới cho toàn bộ 12 kênh VTV ở độ phân giải nét hơn</span>
+                  <span>Sửa lỗi các ô kênh tự thay đổi tùy theo độ phân giải màn hình</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <span>Sửa lỗi logo các kênh bị vỡ và cập nhật lại luồng cho 13 kênh thuộc nhóm VTV</span>
                 </li>
               </ul>
             </div>

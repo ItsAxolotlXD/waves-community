@@ -122,8 +122,8 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                   </div>
                 </div>
 
-                {/* Channel Grid: Mobile 3 cols / Desktop 6 cols */}
-                <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3.5 md:gap-4">
+                {/* Channel Grid: Unified fixed width & height cards, no stretching on resolution changes */}
+                <div className="flex flex-wrap gap-2.5 sm:gap-3.5">
                   {group.channels.map((ch) => {
                     const isSelected = ch.id === currentChannel.id;
 
@@ -132,13 +132,13 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                         key={ch.id}
                         id={`livetv-channel-card-${ch.id}`}
                         onClick={() => onSelectChannel(ch)}
-                        className={`group relative rounded-xl sm:rounded-2xl transition-none cursor-pointer overflow-hidden flex items-center justify-center p-2.5 sm:p-3 select-none bg-[#353535] ${
+                        className={`group relative w-[136px] h-[78px] shrink-0 rounded-xl sm:rounded-2xl transition-none cursor-pointer overflow-hidden flex items-center justify-center p-2 sm:p-2.5 select-none bg-[#353535] ${
                           isSelected ? 'is-selected' : ''
                         }`}
                         title={ch.name}
                       >
                         {/* Channel Logo Box without background (strictly only logo) */}
-                        <div className="w-full h-10 sm:h-12 flex items-center justify-center p-1 relative">
+                        <div className="w-full h-full flex items-center justify-center p-1 relative">
                           <img
                             src={ch.logo}
                             alt={ch.name}
@@ -146,13 +146,12 @@ export const LiveTV: React.FC<LiveTVProps> = ({
                             className={`${
                               ch.category === 'Kênh VTV'
                                 ? 'max-h-7 sm:max-h-8 max-w-[78%] scale-100'
-                                : 'max-h-8 sm:max-h-10 max-w-[85%]'
+                                : 'max-h-8 sm:max-h-9 max-w-[85%]'
                             } w-auto object-contain filter drop-shadow-sm`}
                             onError={(e) => {
                               (e.target as HTMLElement).style.display = 'none';
                             }}
                           />
-
                         </div>
                       </div>
                     );

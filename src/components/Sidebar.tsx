@@ -26,6 +26,8 @@ import { CHANNELS_DATA } from '../data/channels';
 import { Channel } from '../types';
 import { DiscordWelcomeModal } from './DiscordWelcomeModal';
 
+const SETTINGS_ICON_SRC = 'https://static.wikia.nocookie.net/ftv/images/9/97/Settungs.png/revision/latest?cb=20260411085024&path-prefix=vi';
+
 interface SidebarProps {
   currentRoute: string;
   navigate: (route: string, state?: any) => void;
@@ -84,6 +86,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const favoriteChannels = CHANNELS_DATA.filter((ch) => favoriteChannelIds.includes(ch.id));
+
+  const [settingsSpinCount, setSettingsSpinCount] = useState(0);
+  const [isSettingsSpinning, setIsSettingsSpinning] = useState(false);
+
+  const handleSettingsNavClick = () => {
+    setSettingsSpinCount((c) => c + 1);
+    setIsSettingsSpinning(true);
+    handleNavClick('/settings');
+  };
 
   const shouldAnimateSidebar = !settings.reduceAllMotion && settings.animateSidebar;
 
@@ -427,15 +438,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* 10. Settings */}
         <button
           id={isMobile ? 'mobile-nav-item-settings' : 'nav-item-settings'}
-          onClick={() => handleNavClick('/settings')}
+          onClick={handleSettingsNavClick}
           title="Cài đặt"
-          className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
+          className={`group w-full flex items-center gap-3.5 px-4 py-3 rounded-[14px] transition-all cursor-pointer ${
             isActive('/settings')
               ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20'
               : 'text-[#D1D5DB] hover:text-white hover:bg-white/10'
           }`}
         >
-          <Settings className="w-5 h-5 shrink-0" />
+          <img 
+            key={settingsSpinCount}
+            src={SETTINGS_ICON_SRC}
+            alt="Cài đặt"
+            referrerPolicy="no-referrer"
+            onAnimationEnd={() => setIsSettingsSpinning(false)}
+            className={`w-5 h-5 shrink-0 object-contain brightness-0 invert settings-icon-hoverable ${
+              isSettingsSpinning ? 'settings-icon-spin' : ''
+            }`}
+          />
           <span className="truncate">Cài đặt</span>
         </button>
       </div>
@@ -616,13 +636,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                 {/* 9. Settings */}
                 <button
-                  onClick={() => handleNavClick('/settings')}
+                  onClick={handleSettingsNavClick}
                   title="Cài đặt"
-                  className={`w-11 h-11 rounded-[14px] flex items-center justify-center p-0 shrink-0 transition-all cursor-pointer ${
+                  className={`group w-11 h-11 rounded-[14px] flex items-center justify-center p-0 shrink-0 transition-all cursor-pointer ${
                     isActive('/settings') ? 'bg-[#E6005A] text-white font-bold shadow-md shadow-[#E6005A]/20' : 'text-[#D1D5DB] hover:text-white hover:bg-white/10'
                   }`}
                 >
-                  <Settings className="w-5 h-5 shrink-0" />
+                  <img 
+                    key={settingsSpinCount}
+                    src={SETTINGS_ICON_SRC}
+                    alt="Cài đặt"
+                    referrerPolicy="no-referrer"
+                    onAnimationEnd={() => setIsSettingsSpinning(false)}
+                    className={`w-5 h-5 object-contain brightness-0 invert settings-icon-hoverable ${
+                      isSettingsSpinning ? 'settings-icon-spin' : ''
+                    }`}
+                  />
                 </button>
               </div>
             </div>

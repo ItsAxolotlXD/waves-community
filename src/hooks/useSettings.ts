@@ -22,9 +22,17 @@ export interface SystemSettings {
   immersiveSidebar: boolean;
   sidebarPosition: 'left' | 'right';
   navigationMode: 'sidebar' | 'topbar' | 'floaty' | 'immersive_floaty';
+  navModeVersion?: number;
   developerMode: boolean;
   customKeybinds: CustomKeybinds;
 }
+
+export const getDefaultNavigationMode = (): 'sidebar' | 'topbar' | 'floaty' | 'immersive_floaty' => {
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    return 'immersive_floaty';
+  }
+  return 'topbar';
+};
 
 export const DEFAULT_SETTINGS: SystemSettings = {
   theme: 'dark',
@@ -45,7 +53,8 @@ export const DEFAULT_SETTINGS: SystemSettings = {
   immersiveSearch: true,
   immersiveSidebar: false,
   sidebarPosition: 'left',
-  navigationMode: 'sidebar',
+  navigationMode: getDefaultNavigationMode(),
+  navModeVersion: 2,
   developerMode: false,
   customKeybinds: DEFAULT_KEYBINDS,
 };
@@ -83,6 +92,10 @@ export const getStoredSettings = (): SystemSettings => {
       if (navigationMode === 'immersive') {
         navigationMode = 'immersive_floaty';
       }
+      // Migrate old default 'sidebar' or unversioned nav mode to new platform defaults (topbar desktop / immersive_floaty mobile)
+      if (!navigationMode || (parsed.navModeVersion !== 2 && navigationMode === 'sidebar')) {
+        navigationMode = getDefaultNavigationMode();
+      }
       const immersiveSearch = parsed.immersiveSearchVersion === 2
         ? parsed.immersiveSearch
         : true;
@@ -92,6 +105,7 @@ export const getStoredSettings = (): SystemSettings => {
         immersiveSearch,
         immersiveSearchVersion: 2,
         navigationMode: navigationMode || DEFAULT_SETTINGS.navigationMode,
+        navModeVersion: 2,
         customKeybinds: {
           ...DEFAULT_KEYBINDS,
           ...(parsed.customKeybinds || {})

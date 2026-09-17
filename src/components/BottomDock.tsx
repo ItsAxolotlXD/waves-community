@@ -25,6 +25,7 @@ interface BottomDockProps {
 
 const HOME_ICON = 'https://static.wikia.nocookie.net/ep-deo/images/6/6e/New_hom.png/revision/latest?cb=20260722124341';
 const TV_ICON = 'https://vtvgo-next-assets.vtvdigital.vn/prod/images/menu/20260905/2026090508/b467d7552a-tv-1.webp';
+const SETTINGS_ICON = 'https://static.wikia.nocookie.net/ftv/images/9/97/Settungs.png/revision/latest?cb=20260411085024&path-prefix=vi';
 
 export const BottomDock: React.FC<BottomDockProps> = ({ 
   currentRoute, 
@@ -97,7 +98,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
     [
       { id: 'dock-discord', label: 'Discord', action: onOpenDiscord, icon: MessageCircle },
       { id: 'dock-help', label: 'Help', action: onOpenHelp, icon: HelpCircle },
-      { id: 'dock-settings', label: 'Cài đặt', route: '/settings', icon: Settings },
+      { id: 'dock-settings', label: 'Cài đặt', route: '/settings', image: SETTINGS_ICON },
     ],
   ];
 
@@ -185,8 +186,8 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                           src={item.image}
                           alt={item.label}
                           referrerPolicy="no-referrer"
-                          className={`size-5 object-contain shrink-0 ${
-                            isSelectedOrHovered ? 'brightness-0 invert' : 'opacity-85'
+                          className={`size-5 object-contain shrink-0 brightness-0 invert ${
+                            isSelectedOrHovered ? 'opacity-100' : 'opacity-75'
                           }`}
                         />
                       ) : Icon ? (
@@ -222,8 +223,8 @@ export const BottomDock: React.FC<BottomDockProps> = ({
                           src={item.image}
                           alt={item.label}
                           referrerPolicy="no-referrer"
-                          className={`size-5 object-contain shrink-0 ${
-                            isExpanded ? 'brightness-0 invert' : 'opacity-85'
+                          className={`size-5 object-contain shrink-0 brightness-0 invert ${
+                            isExpanded ? 'opacity-100' : 'opacity-75'
                           }`}
                         />
                       ) : Icon ? (

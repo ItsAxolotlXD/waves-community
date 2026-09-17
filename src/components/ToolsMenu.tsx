@@ -227,7 +227,7 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
         type="button"
         disabled={!isRelevant}
         onClick={handleTriggerClick}
-        className="w-9 h-9 rounded-full flex items-center justify-center text-[#18181B] dark:text-white transition-all drop-shadow-sm cursor-default relative group"
+        className="w-10 h-10 rounded-full flex items-center justify-center text-[#18181B] dark:text-white transition-all drop-shadow-sm cursor-default relative group hover:bg-white/10"
         title={isRelevant ? "Công cụ & Tiện ích Vplay (Tools)" : "Không có công cụ khả dụng"}
         aria-label="Menu công cụ Vplay"
         aria-expanded={isOpen}
@@ -238,7 +238,7 @@ export const ToolsMenu: React.FC<ToolsMenuProps> = ({
           alt="Tools"
           referrerPolicy="no-referrer"
           onAnimationEnd={() => setIsClickSpinning(false)}
-          className={`w-5 h-5 object-contain topbar-tools-icon transition-transform duration-700 ease-in-out ${
+          className={`w-6 h-6 object-contain topbar-tools-icon transition-transform duration-700 ease-in-out ${
             isClickSpinning ? 'spin-click' : ''
           }`}
         />

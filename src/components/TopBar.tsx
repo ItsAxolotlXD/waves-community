@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { Menu, Bell, Search, Tv, ShoppingBag, Settings } from 'lucide-react';
+import { Menu, Bell, Search, Tv, Megaphone, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSettings } from '../hooks/useSettings';
 import { ToolsMenu } from './ToolsMenu';
 import { SfCheckmark } from './SfCheckmark';
 import { Channel, NewsArticle } from '../types';
+
+const LOGO_SRC = 'https://static.wikia.nocookie.net/ep-deo/images/e/ed/New_Vplay.png/revision/latest?cb=20260906031000';
+const TV_ICON_SRC = 'https://vtvgo-next-assets.vtvdigital.vn/prod/images/menu/20260905/2026090508/b467d7552a-tv-1.webp';
+const SETTINGS_ICON_SRC = 'https://static.wikia.nocookie.net/ftv/images/9/97/Settungs.png/revision/latest?cb=20260411085024&path-prefix=vi';
 
 interface TopBarProps {
   currentRoute: string;
@@ -49,7 +53,15 @@ export const TopBar: React.FC<TopBarProps> = ({
 }) => {
   const { settings, hasChanges, applyDraftSettings } = useSettings();
   const [logoError, setLogoError] = useState(false);
+  const [settingsSpinCount, setSettingsSpinCount] = useState(0);
+  const [isSettingsSpinning, setIsSettingsSpinning] = useState(false);
   const isTopBarMode = settings.navigationMode === 'topbar';
+
+  const handleSettingsClick = () => {
+    setSettingsSpinCount((prev) => prev + 1);
+    setIsSettingsSpinning(true);
+    navigate('/settings');
+  };
 
   const handleApplySettings = () => {
     applyDraftSettings();
@@ -57,8 +69,8 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   return (
-    <header className="w-full h-16 bg-transparent border-0 px-3 sm:px-6 md:px-8 flex items-center justify-between sticky top-0 z-30 pointer-events-none">
-      {/* Progressive Blur Layer over the top header bar spanning search, tools, notifications, and theme toggle */}
+    <header className="w-full h-16 relative bg-transparent border-0 px-3 sm:px-6 md:px-8 flex items-center justify-between sticky top-0 z-30 pointer-events-none">
+      {/* Progressive Blur Layer over the top header bar spanning entire top width */}
       <div 
         id="topbar-progressive-blur" 
         className="topbar-progressive-blur" 
@@ -68,73 +80,110 @@ export const TopBar: React.FC<TopBarProps> = ({
         <div className="progressive-blur-layer layer-2" />
         <div className="progressive-blur-layer layer-3" />
         <div className="progressive-blur-layer layer-4" />
+        <div className="progressive-blur-layer layer-5" />
+        <div className="progressive-blur-layer layer-6" />
         <div className="progressive-blur-gradient" />
       </div>
 
-      {/* TOP BAR MODE: Brand Logo Capsule & Navigation Links (Truyền hình, News, Cài đặt) */}
+      {/* TOP BAR MODE: Brand Logo & Navigation Links (Truyền hình, News) */}
       {isTopBarMode ? (
-        <div className="flex items-center gap-1.5 sm:gap-3 pointer-events-auto shrink-0">
-          {/* Logo capsule button - Khi nhấn vào logo web sẽ quay lại home page */}
+        <div className="flex items-center gap-2 sm:gap-4 pointer-events-auto shrink-0 relative z-10">
+          {/* Logo web - không có viền, không có text, logo chuẩn như ở sidebar */}
           <button
-            id="btn-topbar-brand-capsule"
+            id="btn-topbar-brand"
+            type="button"
             onClick={() => navigate('/')}
-            className="h-9 px-3 sm:px-3.5 rounded-full bg-[#202020] hover:bg-[#282828] border border-white/10 flex items-center gap-1.5 sm:gap-2 cursor-pointer transition-all shadow-sm active:scale-95 group shrink-0 select-none"
+            className="cursor-pointer flex items-center justify-center p-0 border-0 bg-transparent hover:opacity-85 active:scale-95 transition-opacity shrink-0 select-none outline-none focus:outline-none"
             title="Trang chủ (Vplay)"
           >
-            <div className="flex items-center gap-1.5">
-              <svg viewBox="0 0 24 24" className="w-4.5 h-4.5 drop-shadow-sm shrink-0" fill="none">
-                <path 
-                  d="M4.5 5.5L12 19L19.5 5.5H15.5L12 12.5L8.5 5.5H4.5Z" 
-                  fill="#E6005A" 
-                />
-                <path 
-                  d="M12 19L16 11.5L13.8 7.5L10 14.5L12 19Z" 
-                  fill="#FF3366" 
-                />
-              </svg>
-              <span className="font-extrabold tracking-tight text-white text-[13.5px] sm:text-[14px]">
-                vplay
-              </span>
-            </div>
+            {!logoError ? (
+              <img 
+                src={LOGO_SRC}
+                alt="Vplay Logo" 
+                referrerPolicy="no-referrer"
+                className="h-8 max-w-[125px] w-auto object-contain shrink-0 drop-shadow-sm"
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <span className="text-white dark:text-white light:text-[#111827] font-black text-2xl tracking-tighter">V</span>
+            )}
           </button>
 
-          {/* Navigation links: Truyền hình, News (thay Shop) */}
-          <nav className="flex items-center gap-0.5 sm:gap-1.5 ml-0.5 sm:ml-2" aria-label="Thanh điều hướng chính">
+          {/* Navigation links: Truyền hình, News có icon như ở sidebar */}
+          <nav className="flex items-center gap-1 sm:gap-2 ml-1 sm:ml-2" aria-label="Thanh điều hướng chính">
             {/* Truyền hình */}
             <button
               id="btn-topbar-nav-tv"
+              type="button"
               onClick={() => navigate('/live-tv')}
-              className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs sm:text-[13.5px] font-medium transition-all cursor-pointer whitespace-nowrap ${
+              className={`group relative flex items-center gap-2 px-4 h-10 rounded-full text-xs sm:text-[13.5px] font-medium transition-colors cursor-pointer whitespace-nowrap outline-none select-none hover:bg-white/10 ${
                 currentRoute === '/live-tv' || currentRoute === '/channels'
-                  ? 'text-white font-semibold bg-white/10 shadow-sm'
-                  : 'text-[#9CA3AF] hover:text-white hover:bg-white/5'
+                  ? 'text-white font-semibold'
+                  : 'text-[#D1D5DB] hover:text-white'
               }`}
               title="Truyền hình trực tiếp"
             >
-              <Tv className="w-4 h-4 text-white/90 shrink-0" />
+              <img
+                src={TV_ICON_SRC}
+                alt="Truyền hình"
+                referrerPolicy="no-referrer"
+                className={`w-5 h-5 object-contain shrink-0 transition-opacity ${
+                  currentRoute === '/live-tv' || currentRoute === '/channels'
+                    ? 'brightness-0 invert opacity-100'
+                    : 'opacity-80 group-hover:opacity-100'
+                }`}
+                onError={(e) => {
+                  (e.target as HTMLElement).style.display = 'none';
+                }}
+              />
               <span>Truyền hình</span>
+
+              {/* Line trắng pill ở chân tab khi select (cách thưa ra khỏi chữ) */}
+              {(currentRoute === '/live-tv' || currentRoute === '/channels') && (
+                <motion.span
+                  layoutId="topbar-nav-pill-line"
+                  className="absolute -bottom-1.5 left-4 right-4 h-[2px] bg-white rounded-full shadow-[0_1px_3px_rgba(255,255,255,0.4)] pointer-events-none"
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
             </button>
 
-            {/* News (Thay Shop) */}
+            {/* News */}
             <button
               id="btn-topbar-nav-news"
+              type="button"
               onClick={() => navigate('/news')}
-              className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs sm:text-[13.5px] font-medium transition-all cursor-pointer whitespace-nowrap ${
+              className={`group relative flex items-center gap-2 px-4 h-10 rounded-full text-xs sm:text-[13.5px] font-medium transition-colors cursor-pointer whitespace-nowrap outline-none select-none hover:bg-white/10 ${
                 currentRoute === '/news' || currentRoute.startsWith('/article')
-                  ? 'text-white font-semibold bg-white/10 shadow-sm'
-                  : 'text-[#9CA3AF] hover:text-white hover:bg-white/5'
+                  ? 'text-white font-semibold'
+                  : 'text-[#D1D5DB] hover:text-white'
               }`}
               title="Tin tức (News)"
             >
-              <ShoppingBag className="w-4 h-4 text-white/90 shrink-0" />
+              <Megaphone
+                className={`w-4.5 h-4.5 shrink-0 transition-opacity ${
+                  currentRoute === '/news' || currentRoute.startsWith('/article')
+                    ? 'text-white opacity-100'
+                    : 'opacity-80 group-hover:opacity-100'
+                }`}
+              />
               <span>News</span>
+
+              {/* Line trắng pill ở chân tab khi select (cách thưa ra khỏi chữ) */}
+              {(currentRoute === '/news' || currentRoute.startsWith('/article')) && (
+                <motion.span
+                  layoutId="topbar-nav-pill-line"
+                  className="absolute -bottom-1.5 left-4 right-4 h-[2px] bg-white rounded-full shadow-[0_1px_3px_rgba(255,255,255,0.4)] pointer-events-none"
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
             </button>
           </nav>
         </div>
       ) : (
         /* STANDARD MODE Left Side (Mobile Only Logo & Hamburger) */
         <>
-          <div className="flex items-center gap-3 md:hidden pointer-events-auto">
+          <div className="flex items-center gap-2.5 md:hidden pointer-events-auto relative z-10">
             <button
               id="btn-mobile-menu-toggle"
               onClick={onOpenMobileMenu}
@@ -144,41 +193,43 @@ export const TopBar: React.FC<TopBarProps> = ({
               <Menu className="w-6 h-6" />
             </button>
 
-            <div 
+            {/* Logo web mobile - không có viền, không có text, logo như ở sidebar */}
+            <button 
+              id="btn-mobile-brand-logo"
+              type="button"
               onClick={() => navigate('/')}
-              className="flex items-center gap-2 cursor-pointer"
+              className="cursor-pointer flex items-center justify-center p-0 border-0 bg-transparent hover:opacity-85 active:scale-95 transition-opacity shrink-0 outline-none"
+              title="Trang chủ (Vplay)"
             >
-              <div className="h-8 flex items-center justify-center overflow-hidden">
-                {!logoError ? (
-                  <img 
-                    src="https://static.wikia.nocookie.net/ep-deo/images/e/ed/New_Vplay.png/revision/latest?cb=20260906031000"
-                    alt="Vplay Logo" 
-                    referrerPolicy="no-referrer"
-                    className="h-7 w-auto max-w-[120px] object-contain"
-                    onError={() => setLogoError(true)}
-                  />
-                ) : (
-                  <span className="text-[#E6005A] font-black text-sm">V</span>
-                )}
-              </div>
-            </div>
+              {!logoError ? (
+                <img 
+                  src={LOGO_SRC}
+                  alt="Vplay Logo" 
+                  referrerPolicy="no-referrer"
+                  className="h-7.5 max-w-[120px] w-auto object-contain shrink-0 drop-shadow-sm"
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <span className="text-[#E6005A] font-black text-lg">V</span>
+              )}
+            </button>
           </div>
 
           {/* Empty placeholder on desktop left */}
-          <div className="hidden md:flex items-center gap-3" />
+          <div className="hidden md:flex items-center gap-3 relative z-10" />
         </>
       )}
 
       {/* Right Action Icons: Search, Tools Menu, Settings Gear */}
-      <div className="flex items-center gap-1.5 sm:gap-3 pointer-events-auto ml-auto shrink-0">
+      <div className="flex items-center gap-1.5 sm:gap-3 pointer-events-auto ml-auto shrink-0 relative z-10">
         {/* Quick Spotlight Search trigger */}
         <button
           id="btn-top-search"
           onClick={onOpenSearch}
-          className="w-9 h-9 rounded-full flex items-center justify-center text-[#D1D5DB] hover:text-white hover:bg-white/10 transition-all drop-shadow-sm cursor-pointer"
+          className="w-10 h-10 rounded-full flex items-center justify-center text-[#D1D5DB] hover:text-white hover:bg-white/10 transition-all drop-shadow-sm cursor-pointer"
           title="Spotlight Search (⌘K)"
         >
-          <Search className="w-4.5 h-4.5 object-contain topbar-search-icon" strokeWidth={1.6} />
+          <Search className="w-5.5 h-5.5 object-contain topbar-search-icon" strokeWidth={1.6} />
         </button>
 
         {/* Tools Menu Icon (Contextual hover dropdown for each tab) */}
@@ -202,15 +253,24 @@ export const TopBar: React.FC<TopBarProps> = ({
         {isTopBarMode && (
           <button
             id="btn-top-settings-gear"
-            onClick={() => navigate('/settings')}
-            className={`w-9 h-9 rounded-full flex items-center justify-center transition-all drop-shadow-sm cursor-pointer ${
+            onClick={handleSettingsClick}
+            className={`group w-10 h-10 rounded-full flex items-center justify-center transition-colors drop-shadow-sm cursor-pointer ${
               currentRoute === '/settings'
-                ? 'text-white bg-white/15'
-                : 'text-[#D1D5DB] hover:text-white hover:bg-white/10'
+                ? 'bg-white/15'
+                : 'hover:bg-white/10'
             }`}
             title="Cài đặt hệ thống"
           >
-            <Settings className="w-4.5 h-4.5" strokeWidth={1.6} />
+            <img 
+              key={settingsSpinCount}
+              src={SETTINGS_ICON_SRC}
+              alt="Cài đặt"
+              referrerPolicy="no-referrer"
+              onAnimationEnd={() => setIsSettingsSpinning(false)}
+              className={`w-6 h-6 object-contain shrink-0 brightness-0 invert transition-opacity duration-200 settings-icon-hoverable ${
+                currentRoute === '/settings' ? 'opacity-100' : 'opacity-80 group-hover:opacity-100'
+              } ${isSettingsSpinning ? 'settings-icon-spin' : ''}`}
+            />
           </button>
         )}
 

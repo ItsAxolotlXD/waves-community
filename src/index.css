@@ -190,7 +190,8 @@ html.light-mode #settings-section-search,
 html.light-mode #settings-section-experimental,
 html.light-mode #settings-section-other {
   background-color: #FFFFFF !important;
-  border-color: #E5E7EB !important;
+  border: none !important;
+  border-width: 0 !important;
   box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05) !important;
 }
 html.light-mode #settings-section-interface .text-white,
@@ -668,6 +669,30 @@ html.light-mode #btn-top-light-mode:hover {
   animation: copilotSpinOnce 0.65s cubic-bezier(0.42, 0, 0.58, 1) forwards !important;
 }
 
+/* Settings Icon - Smooth 360deg spin with ease animation on click (slowed down for fluid feel) */
+@keyframes settingsFastSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.settings-icon-spin {
+  animation: settingsFastSpin 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+}
+
+/* Settings Icon - Smooth rotation on hover */
+.settings-icon-hoverable {
+  transition: transform 0.75s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease !important;
+}
+
+button:hover > .settings-icon-hoverable,
+.group:hover .settings-icon-hoverable {
+  transform: rotate(180deg);
+}
+
 /* Settings TopBar Apply Checkbox Button: Always colored button (Pink Accent with Liquid Glass border & depth) */
 #btn-top-settings-apply-checkbox {
   background-color: #E6005A !important;
@@ -741,22 +766,12 @@ html.light-mode .settings-unsaved-tooltip-card {
   top: 0;
   left: 0;
   right: 0;
-  height: 100%;
+  height: 88px;
   pointer-events: none;
-  z-index: -10;
+  z-index: 0;
   overflow: hidden;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
-  will-change: transform, backdrop-filter;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  background: linear-gradient(
-    to bottom,
-    rgba(24, 24, 24, 0.88) 0%,
-    rgba(24, 24, 24, 0.65) 60%,
-    rgba(24, 24, 24, 0.20) 88%,
-    rgba(24, 24, 24, 0) 100%
-  );
 }
 
 .topbar-progressive-blur .progressive-blur-layer {
@@ -765,65 +780,81 @@ html.light-mode .settings-unsaved-tooltip-card {
   pointer-events: none;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+  will-change: transform, backdrop-filter;
 }
 
+/* Layer 1: Whispering fine blur extending deepest towards bottom (feathered boundary) */
 .topbar-progressive-blur .layer-1 {
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0) 60%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 35%, rgba(0,0,0,0) 60%);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
 }
 
+/* Layer 2: Soft blur */
 .topbar-progressive-blur .layer-2 {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0) 75%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0) 75%);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 85%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 85%);
 }
 
+/* Layer 3: Medium smooth blur */
 .topbar-progressive-blur .layer-3 {
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 65%, rgba(0,0,0,0) 90%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.9) 65%, rgba(0,0,0,0) 90%);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 32%, rgba(0, 0, 0, 0) 70%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 32%, rgba(0, 0, 0, 0) 70%);
 }
 
+/* Layer 4: Deep blur */
 .topbar-progressive-blur .layer-4 {
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 0) 55%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 0) 55%);
 }
 
+/* Layer 5: Heavy blur */
+.topbar-progressive-blur .layer-5 {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 16%, rgba(0, 0, 0, 0) 42%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 16%, rgba(0, 0, 0, 0) 42%);
+}
+
+/* Layer 6: Maximum frosted glass blur at top header band */
+.topbar-progressive-blur .layer-6 {
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 30%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 30%);
+}
+
+/* Progressive Blur Atmospheric Gradient Tint (Dark Mode) */
 .topbar-progressive-blur .progressive-blur-gradient {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(24, 24, 24, 0.85) 0%,
-    rgba(24, 24, 24, 0.50) 50%,
-    rgba(24, 24, 24, 0.15) 80%,
+    rgba(24, 24, 24, 0.88) 0%,
+    rgba(24, 24, 24, 0.72) 35%,
+    rgba(24, 24, 24, 0.40) 60%,
+    rgba(24, 24, 24, 0.12) 82%,
     rgba(24, 24, 24, 0) 100%
   );
 }
 
-html.light-mode .topbar-progressive-blur {
-  background: linear-gradient(
-    to bottom,
-    rgba(244, 245, 247, 0.90) 0%,
-    rgba(244, 245, 247, 0.65) 60%,
-    rgba(244, 245, 247, 0.20) 88%,
-    rgba(244, 245, 247, 0) 100%
-  );
-}
-
+/* Progressive Blur Atmospheric Gradient Tint (Light Mode) */
 html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
   background: linear-gradient(
     to bottom,
-    rgba(244, 245, 247, 0.85) 0%,
-    rgba(244, 245, 247, 0.52) 45%,
-    rgba(244, 245, 247, 0.18) 75%,
-    rgba(244, 245, 247, 0) 100%
+    rgba(226, 228, 234, 0.90) 0%,
+    rgba(226, 228, 234, 0.75) 35%,
+    rgba(226, 228, 234, 0.45) 60%,
+    rgba(226, 228, 234, 0.15) 82%,
+    rgba(226, 228, 234, 0) 100%
   );
 }
 
@@ -848,6 +879,12 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 }
 
 /* Channel Cards: Stable geometry, strictly no width/height changes on hover or select, no fade/cross-dissolve transitions */
+[id^="livetv-channel-card-"] {
+  width: 100% !important;
+  aspect-ratio: 136 / 78 !important;
+  box-sizing: border-box !important;
+}
+
 [id^="recommended-channel-"],
 [id^="livetv-channel-card-"]:not(.is-selected),
 [id^="channel-card-"]:not(.is-selected),
@@ -889,7 +926,7 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
   transition: none !important;
 }
 
-/* Channel logos: smooth high-quality anti-aliased scaling, no pixelation, no hover zoom */
+/* Channel logos: crisp anti-aliased scaling, strictly no pixelation or blur */
 [id^="recommended-channel-"] img,
 [id^="recommended-channel-"]:hover img,
 [id^="livetv-channel-card-"] img,
@@ -899,12 +936,13 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
 img[src*="vtvdigital.org"],
 img[src*="vtvgo-next-assets"],
 img[src*="vtvprime.vn"],
+img[src*="imgur.com"],
 .hero-banner-channel-logo {
   image-rendering: auto !important;
-  image-rendering: smooth !important;
+  image-rendering: -webkit-optimize-contrast !important;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  transform: none !important;
+  transform: translateZ(0) !important;
   transition: none !important;
 }
 
@@ -929,18 +967,46 @@ img[src*="vtvprime.vn"],
   transition: none !important;
 }
 
+/* Discord Official App Blurple Button Style */
+#btn-discord-join {
+  border: 1px solid transparent !important;
+  background-color: #5865F2 !important;
+  background-image: 
+    linear-gradient(#5865F2, #5865F2), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.12) 35%, rgba(255, 255, 255, 0.12) 65%, rgba(255, 255, 255, 0.35) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.35), 0 3px 12px rgba(88, 101, 242, 0.42) !important;
+  color: #FFFFFF !important;
+  transform: scale(1);
+  transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.24s ease-out, background-image 0.18s ease-in-out !important;
+}
+
+#btn-discord-join:hover {
+  background-color: #4752C4 !important;
+  background-image: 
+    linear-gradient(#4752C4, #4752C4), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.22) 35%, rgba(255, 255, 255, 0.22) 65%, rgba(255, 255, 255, 0.60) 100%) !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), 0 5px 18px rgba(88, 101, 242, 0.55) !important;
+  transform: scale(1.05) !important;
+}
+
+#btn-discord-join:active {
+  transform: scale(0.95) !important;
+}
+
 /* Primary / Accent Pink Liquid Glass Action Buttons */
-#btn-discord-join,
 #btn-welcome-close,
 #btn-under-construction-close,
 #btn-changelogs-read,
+#btn-test-vplay-switch,
 #btn-hero-watch-now,
-#livetv-category-tabs button.bg-\[\#E50914\],
-#livetv-category-tabs button.bg-\[\#E6005A\],
-#news-category-tabs button.bg-\[\#E50914\],
-#news-category-tabs button.bg-\[\#E6005A\],
-#btn-theme-light.bg-\[\#E6005A\],
-#btn-theme-dark.bg-\[\#E6005A\] {
+#livetv-category-tabs button.bg-[#E50914],
+#livetv-category-tabs button.bg-[#E6005A],
+#news-category-tabs button.bg-[#E50914],
+#news-category-tabs button.bg-[#E6005A],
+#btn-theme-light.bg-[#E6005A],
+#btn-theme-dark.bg-[#E6005A] {
   border: 1px solid transparent !important;
   background-image: 
     linear-gradient(#E6005A, #E6005A), 
@@ -956,9 +1022,10 @@ img[src*="vtvprime.vn"],
 #btn-welcome-close:hover,
 #btn-under-construction-close:hover,
 #btn-changelogs-read:hover,
+#btn-test-vplay-switch:hover,
 #btn-hero-watch-now:hover,
-#btn-theme-light.bg-\[\#E6005A\]:hover,
-#btn-theme-dark.bg-\[\#E6005A\]:hover {
+#btn-theme-light.bg-[#E6005A]:hover,
+#btn-theme-dark.bg-[#E6005A]:hover {
   border: 1px solid transparent !important;
   background-image: 
     linear-gradient(#FF267A, #FF267A), 
@@ -973,6 +1040,7 @@ img[src*="vtvprime.vn"],
 #btn-welcome-close:active,
 #btn-under-construction-close:active,
 #btn-changelogs-read:active,
+#btn-test-vplay-switch:active,
 #btn-hero-watch-now:active {
   transform: scale(0.94) !important;
   transition: transform 0.1s ease-out !important;
@@ -1077,21 +1145,27 @@ button[role="switch"][aria-checked="false"] span:hover,
 }
 
 /* Global Button Hover Bounce for general buttons across the app */
-button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]) {
+button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#btn-topbar-nav-tv):not(#btn-topbar-nav-news):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-test-vplay-switch):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]) {
   transform: scale(1);
   transition: transform 0.38s cubic-bezier(0.34, 1.65, 0.64, 1), box-shadow 0.2s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
-button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):hover {
+button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#btn-topbar-nav-tv):not(#btn-topbar-nav-news):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-test-vplay-switch):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):hover {
   transform: scale(1.06);
 }
 
-button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):active {
+button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar-collapse):not(#btn-sidebar-expand):not(#btn-sidebar-expand-logo):not(#btn-mobile-sidebar-close):not(#btn-sidebar-back):not(#btn-top-tools-menu):not(#btn-top-search):not(#btn-top-notifications):not(#btn-top-light-mode):not(#btn-top-settings-apply-checkbox):not(#btn-mobile-menu-toggle):not(#btn-topbar-nav-tv):not(#btn-topbar-nav-news):not(#slider-prev-btn):not(#slider-next-btn):not(#dock-spotlight-btn):not(#dock-home):not(#dock-tv):not(#dock-news):not(#dock-settings):not(#btn-discord-close):not(#btn-welcome-close-icon):not(#btn-discord-join):not(#btn-welcome-close):not(#btn-under-construction-close):not(#btn-changelogs-read):not(#btn-test-vplay-switch):not(#btn-hero-watch-now):not(#btn-theme-light):not(#btn-theme-dark):not(#livetv-category-tabs button):not([id^="livetv-cat-btn-"]):not(#news-category-tabs button):not([id^="news-cat-btn-"]):not([id^="video-player-"]):not(.video-player-glass-btn):not(.video-player-live-badge):not(.video-player-accent-btn):not(.glass-player-btn):not(.glass-player-center-play):not(.glass-player-center-seek):not([id^="nav-item-"]):not([id^="mobile-nav-item-"]):active {
   transform: scale(0.95);
   transition: transform 0.1s ease-out;
 }
 
-/* Category Tabs (Live TV & News): Pure static layout, absolutely NO zoom/scale on hover or active */
+/* Category Tabs & TopBar Nav Tabs (Live TV & News): Pure static layout, absolutely NO zoom/scale on hover or active */
+#btn-topbar-nav-tv,
+#btn-topbar-nav-tv:hover,
+#btn-topbar-nav-tv:active,
+#btn-topbar-nav-news,
+#btn-topbar-nav-news:hover,
+#btn-topbar-nav-news:active,
 #livetv-category-tabs button,
 #livetv-category-tabs button:hover,
 #livetv-category-tabs button:active,
@@ -1104,6 +1178,12 @@ button:not(:disabled):not([role="switch"]):not([id^="toggle-"]):not(#btn-sidebar
 [id^="news-cat-btn-"],
 [id^="news-cat-btn-"]:hover,
 [id^="news-cat-btn-"]:active,
+html.light-mode #btn-topbar-nav-tv,
+html.light-mode #btn-topbar-nav-tv:hover,
+html.light-mode #btn-topbar-nav-tv:active,
+html.light-mode #btn-topbar-nav-news,
+html.light-mode #btn-topbar-nav-news:hover,
+html.light-mode #btn-topbar-nav-news:active,
 html.light-mode #livetv-category-tabs button,
 html.light-mode #livetv-category-tabs button:hover,
 html.light-mode #livetv-category-tabs button:active,
@@ -1241,17 +1321,38 @@ html.light-mode .search-box-capsule:hover {
   color: #111827 !important;
 }
 
-html.light-mode #btn-discord-join,
+html.light-mode #btn-discord-join {
+  border: 1px solid transparent !important;
+  background-color: #5865F2 !important;
+  background-image: 
+    linear-gradient(#5865F2, #5865F2), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.40) 100%) !important;
+  background-origin: padding-box, border-box !important;
+  background-clip: padding-box, border-box !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4), 0 3px 12px rgba(88, 101, 242, 0.35) !important;
+  color: #FFFFFF !important;
+}
+
+html.light-mode #btn-discord-join:hover {
+  background-color: #4752C4 !important;
+  background-image: 
+    linear-gradient(#4752C4, #4752C4), 
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0.6) 100%) !important;
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.5), 0 5px 16px rgba(88, 101, 242, 0.5) !important;
+  transform: scale(1.05) !important;
+}
+
 html.light-mode #btn-welcome-close,
 html.light-mode #btn-under-construction-close,
 html.light-mode #btn-changelogs-read,
+html.light-mode #btn-test-vplay-switch,
 html.light-mode #btn-hero-watch-now,
-html.light-mode #livetv-category-tabs button.bg-\[\#E50914\],
-html.light-mode #livetv-category-tabs button.bg-\[\#E6005A\],
-html.light-mode #news-category-tabs button.bg-\[\#E50914\],
-html.light-mode #news-category-tabs button.bg-\[\#E6005A\],
-html.light-mode #btn-theme-light.bg-\[\#E6005A\],
-html.light-mode #btn-theme-dark.bg-\[\#E6005A\] {
+html.light-mode #livetv-category-tabs button.bg-[#E50914],
+html.light-mode #livetv-category-tabs button.bg-[#E6005A],
+html.light-mode #news-category-tabs button.bg-[#E50914],
+html.light-mode #news-category-tabs button.bg-[#E6005A],
+html.light-mode #btn-theme-light.bg-[#E6005A],
+html.light-mode #btn-theme-dark.bg-[#E6005A] {
   border: 1px solid transparent !important;
   background-image: 
     linear-gradient(#E6005A, #E6005A), 
@@ -1262,13 +1363,13 @@ html.light-mode #btn-theme-dark.bg-\[\#E6005A\] {
   color: #FFFFFF !important;
 }
 
-html.light-mode #btn-discord-join:hover,
 html.light-mode #btn-welcome-close:hover,
 html.light-mode #btn-under-construction-close:hover,
 html.light-mode #btn-changelogs-read:hover,
+html.light-mode #btn-test-vplay-switch:hover,
 html.light-mode #btn-hero-watch-now:hover,
-html.light-mode #btn-theme-light.bg-\[\#E6005A\]:hover,
-html.light-mode #btn-theme-dark.bg-\[\#E6005A\]:hover {
+html.light-mode #btn-theme-light.bg-[#E6005A]:hover,
+html.light-mode #btn-theme-dark.bg-[#E6005A]:hover {
   border: 1px solid transparent !important;
   background-image: 
     linear-gradient(#FF267A, #FF267A), 
@@ -3065,7 +3166,8 @@ html.light-mode .floaty-bar #dock-settings:hover {
 #settings-section-other {
   background: rgba(255, 255, 255, 0.10) !important;
   background-color: rgba(255, 255, 255, 0.10) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border: none !important;
+  border-width: 0 !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
 }

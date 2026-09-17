@@ -73,14 +73,14 @@ export const DiscordWelcomeModal: React.FC<DiscordWelcomeModalProps> = ({
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-2.5">
-              {/* Button colored: Tham gia */}
+              {/* Button colored: Join Waves on Discord */}
               <button
                 type="button"
                 id="btn-discord-join"
                 onClick={handleJoin}
-                className="w-full h-11 sm:h-12 px-5 rounded-full font-bold text-white bg-[#E6005A] hover:bg-[#FF267A] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer flex items-center justify-center shadow-md tracking-tight text-center"
+                className="w-full h-11 sm:h-12 px-5 rounded-full font-bold text-white bg-[#5865F2] hover:bg-[#4752C4] active:scale-[0.98] transition-all text-sm sm:text-base cursor-pointer flex items-center justify-center shadow-md tracking-tight text-center"
               >
-                Tham gia
+                Join Waves on Discord
               </button>
 
               {/* Button normal: Close */}
