@@ -88,7 +88,7 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
               id="welcome-modal-title"
               className="text-xl sm:text-[23px] font-bold text-white tracking-tight mb-2.5 font-sans leading-tight"
             >
-              Welcome to Vplay 26.9 - Build 26D0916a
+              Welcome to Vplay 26.9.1 - Build Hotfix Release
             </h1>
 
             {/* Description & Changelogs */}
@@ -103,6 +103,27 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
                   <div>
+                    <span className="font-medium text-white">Đã sửa lại luồng cho 13 nhóm kênh thuộc VTV</span>
+                    <p className="text-[11.5px] text-[#9CA3AF] mt-0.5">+ Cập nhật link trực tiếp chính thức cho VTV1 - VTV10, VTV5 TNB, VTV5 TN và Vietnam Today</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <div>
+                    <span className="font-medium text-white">Đã thêm "Super Dark Mode" vào cài đặt danh mục "Giao diện"</span>
+                    <p className="text-[11.5px] text-[#9CA3AF] mt-0.5">+ Khi bật tùy chọn này, nền ứng dụng sẽ chuyển hoàn toàn sang màu đen (#000000 True Black OLED)</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <div>
+                    <span className="font-medium text-white">Đã thêm thanh "Floaty Search Box" vào cài đặt danh mục "Giao diện"</span>
+                    <p className="text-[11.5px] text-[#9CA3AF] mt-0.5">+ Hỗ trợ bật/tắt thanh tìm kiếm nổi kính mờ 20% với hiệu ứng Progressive Blur và SF Symbols</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
+                  <div>
                     <span>Đã thêm Top Bar vào cài đặt điều hướng và là điều hướng mặc định</span>
                     <p className="text-[11.5px] text-[#9CA3AF] mt-0.5">+ Các tabs và công cụ tương tác sẽ chuyển lên thanh phía trên trang web</p>
                   </div>
@@ -113,19 +134,11 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã quay lại nền app đơn sắc tránh sự giật lag khi trải nghiệm ứng dụng</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Đã cập nhật icon cài đặt</span>
+                  <span>Đã cập nhật icon cài đặt và căn chỉnh thanh chỉ báo tab Top bar sát chữ</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
                   <span>Sửa lỗi các ô kênh tự thay đổi tùy theo độ phân giải màn hình</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E6005A] mt-1.5 shrink-0" />
-                  <span>Sửa lỗi logo các kênh bị vỡ và cập nhật lại luồng cho 13 kênh thuộc nhóm VTV</span>
                 </li>
               </ul>
             </div>

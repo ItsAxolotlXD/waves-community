@@ -487,12 +487,12 @@ export default function App() {
     <div
       data-immersive-sidebar={settings.immersiveSidebar}
       data-sidebar-position={settings.sidebarPosition}
-      className="min-h-screen bg-transparent text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative"
+      className={`min-h-screen ${settings.superDarkMode ? 'bg-black' : 'bg-transparent'} text-[#E0E0E6] flex font-sans selection:bg-[#C83DFF] selection:text-white relative`}
     >
       {/* Fixed atmospheric cosmic background matching custom nebula gradient */}
       <div 
         id="fixed-app-background-solid" 
-        className="fixed inset-0 pointer-events-none -z-50" 
+        className={`fixed inset-0 pointer-events-none -z-50 ${settings.superDarkMode ? '!bg-black' : ''}`} 
         aria-hidden="true" 
       />
 

@@ -59,6 +59,15 @@ export const Settings: React.FC<SettingsProps> = ({
 
   const updateDraft = <K extends keyof SystemSettings>(key: K, value: SystemSettings[K]) => {
     updateDraftSetting(key, value);
+    if (key === 'superDarkMode') {
+      if (value) {
+        document.documentElement.classList.add('super-dark');
+        document.body?.classList.add('super-dark');
+      } else {
+        document.documentElement.classList.remove('super-dark');
+        document.body?.classList.remove('super-dark');
+      }
+    }
   };
 
   const handleApplySettings = () => {
@@ -230,6 +239,9 @@ export const Settings: React.FC<SettingsProps> = ({
   matchesSearch('thanh bên') ||
   matchesSearch('trái') ||
   matchesSearch('phải') ||
+  matchesSearch('Super Dark Mode') ||
+  matchesSearch('Super Dark') ||
+  matchesSearch('Floaty Search Box') ||
   matchesSearch('Floating Search Bar')) && (
         <section 
           id="settings-section-interface"
@@ -400,18 +412,59 @@ export const Settings: React.FC<SettingsProps> = ({
               </div>
             )}
 
-            {/* Card: Floating Search Bar */}
-            {matchesSearch('Floating Search Bar') && (
+            {/* Card: Super Dark Mode */}
+            {(matchesSearch('Super Dark Mode') || matchesSearch('Super Dark') || matchesSearch('Tối') || matchesSearch('Giao diện')) && (
+              <div 
+                id="setting-super-dark-mode"
+                className="p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 transition-colors hover:bg-white/5"
+              >
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-white text-sm">
+                      Super Dark Mode
+                    </span>
+                    {draftSettings.superDarkMode && (
+                      <span className="inline-flex items-center text-[10px] font-semibold text-white bg-black/80 border border-white/20 px-2 py-0.5 rounded-full">
+                        True Black OLED
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                    Khi bật, toàn bộ nền ứng dụng sẽ chuyển thành màu đen tuyệt đối (#000000)
+                  </div>
+                </div>
+
+                {/* Magenta Toggle Switch */}
+                <button
+                  id="toggle-super-dark-mode"
+                  type="button"
+                  role="switch"
+                  aria-checked={draftSettings.superDarkMode}
+                  onClick={() => updateDraft('superDarkMode', !draftSettings.superDarkMode)}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.superDarkMode ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                  }`}
+                  title="Bật/Tắt Super Dark Mode"
+                >
+                  <span
+                    className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none"
+                  />
+                </button>
+              </div>
+            )}
+
+            {/* Card: Floaty Search Box */}
+            {(matchesSearch('Floaty Search Box') || matchesSearch('Floating Search Bar') || matchesSearch('Giao diện') || matchesSearch('Tìm kiếm')) && (
               <div 
                 id="setting-floating-search-bar"
                 className="p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 transition-colors hover:bg-white/5"
               >
                 <div>
                   <div className="font-semibold text-white text-sm">
-                    Floating Search Bar
+                    Floaty Search Box
                   </div>
                   <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
-                    Hiển thị thanh tìm kiếm ở dưới màn hình (chỉ áp dụng cho điều hướng Topbar hoặc Sidebar)
+                    Hiển thị thanh tìm kiếm nổi ở dưới màn hình (chỉ áp dụng cho điều hướng Topbar hoặc Sidebar)
                   </div>
                 </div>
 
@@ -425,6 +478,7 @@ export const Settings: React.FC<SettingsProps> = ({
                   className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
                     draftSettings.floatingSearchBar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
                   }`}
+                  title="Bật/Tắt Floaty Search Box"
                 >
                   <span
                     className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none"
@@ -1237,15 +1291,15 @@ export const Settings: React.FC<SettingsProps> = ({
                 {/* Divider between Changelogs setting and update information */}
                 <hr className="border-white/10 mx-3 sm:mx-4" />
 
-                {/* 2 lines under Changelogs: Software Update left & Vplay 26.9.0 right; Software Build left & 26D0916a right */}
+                {/* 2 lines under Changelogs: Software Update left & Vplay 26.9.1 right; Software Build left & Hotfix Release right */}
                 <div className="px-4 py-1.5 flex flex-col gap-2 select-text text-sm sm:text-[15px]">
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-white">Software Update</span>
-                    <span className="font-medium text-[#9CA3AF]">Vplay 26.9.0</span>
+                    <span className="font-medium text-[#9CA3AF]">Vplay 26.9.1</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-white">Software Build</span>
-                    <span className="font-mono text-[#9CA3AF]">26D0916a</span>
+                    <span className="font-medium text-[#9CA3AF]">Hotfix Release</span>
                   </div>
                 </div>
               </div>

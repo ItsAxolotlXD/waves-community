@@ -227,6 +227,33 @@ html:not(.light-mode) body {
   background-image: none !important;
 }
 
+/* Super Dark Mode (OLED Pure Black #000000) */
+html.super-dark body,
+html.super-dark #fixed-app-background-solid,
+html.super-dark #root,
+html.super-dark .super-dark-bg,
+body.super-dark,
+body.super-dark #fixed-app-background-solid {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+html.super-dark .to-\[\#181818\] {
+  --tw-gradient-to: #000000 var(--tw-gradient-to-position) !important;
+}
+
+html.super-dark .from-\[\#181818\]\/80 {
+  --tw-gradient-from: rgb(0 0 0 / 0.8) var(--tw-gradient-from-position) !important;
+}
+
+html.super-dark .from-\[\#181818\]\/85 {
+  --tw-gradient-from: rgb(0 0 0 / 0.85) var(--tw-gradient-from-position) !important;
+}
+
+html.super-dark .to-\[\#181818\]\/85 {
+  --tw-gradient-to: rgb(0 0 0 / 0.85) var(--tw-gradient-to-position) !important;
+}
+
 #home-about-disclaimer-card,
 #home-about-community-card {
   background-color: rgba(255, 255, 255, 0.10) !important;

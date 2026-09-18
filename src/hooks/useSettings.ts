@@ -4,6 +4,7 @@ import { DEFAULT_KEYBINDS } from '../utils/keybinds';
 
 export interface SystemSettings {
   theme: 'dark';
+  superDarkMode: boolean;
   dockToSidebar: boolean;
   fontScale: number; // 0: Cực nhỏ, 1: Nhỏ, 2: Trung bình, 3: Lớn, 4: Cực lớn
   fontScaleVersion?: number;
@@ -37,6 +38,7 @@ export const getDefaultNavigationMode = (): 'sidebar' | 'topbar' | 'floaty' | 'i
 
 export const DEFAULT_SETTINGS: SystemSettings = {
   theme: 'dark',
+  superDarkMode: false,
   dockToSidebar: true,
   fontScale: 2, // Mặc định là "Trung bình" (quy chuẩn chuẩn cho cả desktop nhỏ và mobile)
   fontScaleVersion: 2,
@@ -109,6 +111,7 @@ export const getStoredSettings = (): SystemSettings => {
         navigationMode: navigationMode || DEFAULT_SETTINGS.navigationMode,
         navModeVersion: 2,
         floatingSearchBar: typeof parsed.floatingSearchBar === 'boolean' ? parsed.floatingSearchBar : DEFAULT_SETTINGS.floatingSearchBar,
+        superDarkMode: typeof parsed.superDarkMode === 'boolean' ? parsed.superDarkMode : DEFAULT_SETTINGS.superDarkMode,
         customKeybinds: {
           ...DEFAULT_KEYBINDS,
           ...(parsed.customKeybinds || {})
@@ -131,6 +134,15 @@ export const applySystemSettings = (settings: SystemSettings) => {
   document.documentElement.classList.add('dark');
   document.documentElement.dataset.immersiveSidebar = String(settings.immersiveSidebar);
   document.documentElement.dataset.sidebarPosition = settings.sidebarPosition;
+
+  // Super Dark Mode
+  if (settings.superDarkMode) {
+    document.documentElement.classList.add('super-dark');
+    document.body?.classList.add('super-dark');
+  } else {
+    document.documentElement.classList.remove('super-dark');
+    document.body?.classList.remove('super-dark');
+  }
 
   // Apply font scale
   const scaleVal = FONT_SCALE_CONFIG[settings.fontScale]?.scale || '1';
