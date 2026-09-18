@@ -138,11 +138,11 @@ export const TopBar: React.FC<TopBarProps> = ({
               />
               <span>Truyền hình</span>
 
-              {/* Line trắng pill ở chân tab khi select (cách thưa ra khỏi chữ) */}
+              {/* Line trắng pill ở chân tab khi select (đặt gần lại sát chân chữ) */}
               {(currentRoute === '/live-tv' || currentRoute === '/channels') && (
                 <motion.span
                   layoutId="topbar-nav-pill-line"
-                  className="absolute -bottom-1.5 left-4 right-4 h-[2px] bg-white rounded-full shadow-[0_1px_3px_rgba(255,255,255,0.4)] pointer-events-none"
+                  className="absolute bottom-1 left-4 right-4 h-[2px] bg-white rounded-full shadow-[0_1px_3px_rgba(255,255,255,0.4)] pointer-events-none"
                   transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
               )}
@@ -169,11 +169,11 @@ export const TopBar: React.FC<TopBarProps> = ({
               />
               <span>News</span>
 
-              {/* Line trắng pill ở chân tab khi select (cách thưa ra khỏi chữ) */}
+              {/* Line trắng pill ở chân tab khi select (đặt gần lại sát chân chữ) */}
               {(currentRoute === '/news' || currentRoute.startsWith('/article')) && (
                 <motion.span
                   layoutId="topbar-nav-pill-line"
-                  className="absolute -bottom-1.5 left-4 right-4 h-[2px] bg-white rounded-full shadow-[0_1px_3px_rgba(255,255,255,0.4)] pointer-events-none"
+                  className="absolute bottom-1 left-4 right-4 h-[2px] bg-white rounded-full shadow-[0_1px_3px_rgba(255,255,255,0.4)] pointer-events-none"
                   transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
               )}

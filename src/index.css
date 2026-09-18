@@ -858,6 +858,98 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
   );
 }
 
+/* ==========================================================================
+   Bottom Progressive Blur (Feathered upward for Floating Search Bar)
+   ========================================================================== */
+.bottom-progressive-blur {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  pointer-events: none;
+  z-index: 38;
+  overflow: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.bottom-progressive-blur .progressive-blur-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform, backdrop-filter;
+}
+
+.bottom-progressive-blur .layer-1 {
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+}
+
+.bottom-progressive-blur .layer-2 {
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 85%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 85%);
+}
+
+.bottom-progressive-blur .layer-3 {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 32%, rgba(0, 0, 0, 0) 70%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 32%, rgba(0, 0, 0, 0) 70%);
+}
+
+.bottom-progressive-blur .layer-4 {
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 0) 55%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 24%, rgba(0, 0, 0, 0) 55%);
+}
+
+.bottom-progressive-blur .layer-5 {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 16%, rgba(0, 0, 0, 0) 42%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 16%, rgba(0, 0, 0, 0) 42%);
+}
+
+.bottom-progressive-blur .layer-6 {
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 30%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 30%);
+}
+
+.bottom-progressive-blur .progressive-blur-gradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(24, 24, 24, 0.75) 0%,
+    rgba(24, 24, 24, 0.52) 35%,
+    rgba(24, 24, 24, 0.25) 60%,
+    rgba(24, 24, 24, 0.08) 82%,
+    rgba(24, 24, 24, 0) 100%
+  );
+}
+
+html.light-mode .bottom-progressive-blur .progressive-blur-gradient {
+  background: linear-gradient(
+    to top,
+    rgba(226, 228, 234, 0.85) 0%,
+    rgba(226, 228, 234, 0.60) 35%,
+    rgba(226, 228, 234, 0.30) 60%,
+    rgba(226, 228, 234, 0.10) 82%,
+    rgba(226, 228, 234, 0) 100%
+  );
+}
+
 /* Search Box Container Bounce on Hover & Unhover */
 .spotlight-bubble-box:hover,
 .search-box-capsule:hover {
@@ -926,7 +1018,7 @@ html.light-mode .topbar-progressive-blur .progressive-blur-gradient {
   transition: none !important;
 }
 
-/* Channel logos: crisp anti-aliased scaling, strictly no pixelation or blur */
+/* Channel logos: crisp smooth anti-aliased scaling, strictly no pixelation, aliasing or blur */
 [id^="recommended-channel-"] img,
 [id^="recommended-channel-"]:hover img,
 [id^="livetv-channel-card-"] img,
@@ -939,10 +1031,9 @@ img[src*="vtvprime.vn"],
 img[src*="imgur.com"],
 .hero-banner-channel-logo {
   image-rendering: auto !important;
-  image-rendering: -webkit-optimize-contrast !important;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: translateZ(0) !important;
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+  transform: none !important;
   transition: none !important;
 }
 

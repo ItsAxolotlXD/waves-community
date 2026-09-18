@@ -6,9 +6,11 @@ import { DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
 
 interface NewsProps {
   navigate: (route: string) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
 }
 
-export const News: React.FC<NewsProps> = ({ navigate }) => {
+export const News: React.FC<NewsProps> = ({ navigate, searchQuery, onSearchChange }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
 
   const categories = [
@@ -20,8 +22,14 @@ export const News: React.FC<NewsProps> = ({ navigate }) => {
     'Đồ hoạ & Nhận diện'
   ];
 
+  const query = (searchQuery || '').trim().toLowerCase();
   const filteredNews = NEWS_DATA.filter((article) => {
-    return selectedCategory === 'Tất cả' || article.category === selectedCategory;
+    const matchesCat = selectedCategory === 'Tất cả' || article.category === selectedCategory;
+    const matchesSearch = !query ||
+      article.title.toLowerCase().includes(query) ||
+      article.excerpt.toLowerCase().includes(query) ||
+      article.category.toLowerCase().includes(query);
+    return matchesCat && matchesSearch;
   });
 
   const featured = NEWS_DATA[0];
@@ -127,15 +135,32 @@ export const News: React.FC<NewsProps> = ({ navigate }) => {
       </div>
 
       {/* Articles Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredNews.map((article) => (
-          <NewsCard
-            key={article.id}
-            article={article}
-            onClick={(a) => navigate(`/news/${a.slug}`)}
-          />
-        ))}
-      </div>
+      {filteredNews.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredNews.map((article) => (
+            <NewsCard
+              key={article.id}
+              article={article}
+              onClick={(a) => navigate(`/news/${a.slug}`)}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="py-16 text-center space-y-3 rounded-2xl bg-[#1E1E22]/60 border border-white/10 p-6">
+          <p className="text-sm font-medium text-[#9CA3AF]">
+            Không tìm thấy bài viết tin tức phù hợp với từ khóa "{query}"
+          </p>
+          {onSearchChange && (
+            <button
+              type="button"
+              onClick={() => onSearchChange('')}
+              className="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#E6005A] text-white hover:bg-[#E6005A]/90 transition-colors cursor-pointer"
+            >
+              Xóa tìm kiếm
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

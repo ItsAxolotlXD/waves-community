@@ -50,7 +50,7 @@ export const ChannelCard: React.FC<ChannelCardProps> = ({
             alt={channel.name}
             referrerPolicy="no-referrer"
             className={`w-full h-full object-contain filter drop-shadow-sm ${
-              channel.category === 'Kênh VTV' ? 'scale-[0.88] p-1' : ''
+              channel.category === 'Kênh VTV' ? 'scale-[0.96] p-0.5' : ''
             }`}
             onError={(e) => {
               // Graceful fallback to stylish initial badge if image link has network issues

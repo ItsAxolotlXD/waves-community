@@ -4,23 +4,296 @@ import { OnAirSlider } from '../components/OnAirSlider';
 import { NEWS_DATA } from '../data/news';
 import { DEFAULT_BANNER_PLACEHOLDER } from '../data/heroSlides';
 import { Channel } from '../types';
-import { Megaphone, Sparkles, ArrowRight, Shield, ExternalLink } from 'lucide-react';
+import { 
+  Megaphone, 
+  Sparkles, 
+  ArrowRight, 
+  Shield, 
+  ExternalLink,
+  Tv, 
+  Home as HomeIcon,
+  Box, 
+  Heart, 
+  Settings as SettingsIcon,
+  Search,
+  SlidersHorizontal,
+  Compass,
+  Layers
+} from 'lucide-react';
 
 interface HomeProps {
   navigate: (route: string, state?: any) => void;
   onSelectChannel: (channel: Channel) => void;
   channels: Channel[];
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+  onOpenSpotlight?: () => void;
 }
+
+const APP_PAGES = [
+  { id: 'page-home', title: 'Trang chủ (Home)', desc: 'Trang tổng quan, xu hướng & kênh nổi bật', route: '/', icon: HomeIcon, keywords: 'home trang chủ tổng quan' },
+  { id: 'page-livetv', title: 'Truyền hình trực tuyến (Live TV)', desc: 'Xem trực tiếp các đài VTV, HTV, VTC, Địa phương...', route: '/live-tv', icon: Tv, keywords: 'live tv truyền hình trực tuyến vtv htv vtc' },
+  { id: 'page-test', title: 'Kênh kiểm thử (Test Channels)', desc: 'Danh sách kênh phát luồng thử nghiệm', route: '/test', icon: Compass, keywords: 'test kênh kiểm thử thử nghiệm' },
+  { id: 'page-channels', title: 'Danh mục kênh (Channels)', desc: 'Khám phá toàn bộ nhóm kênh phân loại', route: '/channels', icon: Box, keywords: 'channels danh mục nhóm kênh thể thao giải trí' },
+  { id: 'page-news', title: 'Tin tức & Thông báo (News)', desc: 'Tin tức truyền thông, bản tin đồ họa & nhận diện', route: '/news', icon: Megaphone, keywords: 'news tin tức bài viết thông báo' },
+  { id: 'page-fav', title: 'Kênh yêu thích & Đã lưu (Favorites)', desc: 'Kênh và bài viết bạn đã đánh dấu', route: '/favorites', icon: Heart, keywords: 'favorites yêu thích đã lưu bookmarks' },
+  { id: 'page-settings', title: 'Cài đặt hệ thống (Settings)', desc: 'Tùy chỉnh giao diện, thanh điều hướng, phím tắt', route: '/settings', icon: SettingsIcon, keywords: 'settings cài đặt cấu hình tùy chỉnh' },
+];
+
+const SETTINGS_SHORTCUTS = [
+  { id: 'set-floating-search', title: 'Cài đặt: Floating Search Bar', desc: 'Bật/tắt thanh tìm kiếm nổi ở dưới màn hình', route: '/settings', keywords: 'floating search bar thanh tìm kiếm nổi dưới đáy' },
+  { id: 'set-font', title: 'Cài đặt: Tỷ lệ cỡ chữ ứng dụng', desc: 'Điều chỉnh cỡ chữ từ 80% đến 125%', route: '/settings', keywords: 'cỡ chữ font chữ zoom tỷ lệ giao diện' },
+  { id: 'set-nav', title: 'Cài đặt: Kiểu thanh điều hướng (Navigation Mode)', desc: 'Chuyển đổi giữa Topbar, Sidebar, Floaty bar, Immersive', route: '/settings', keywords: 'navigation mode topbar sidebar floaty immersive thanh điều hướng' },
+  { id: 'set-autohide', title: 'Cài đặt: Tự động ẩn Sidebar', desc: 'Tự động thu gọn thanh bên khi xem nội dung', route: '/settings', keywords: 'tự động ẩn sidebar collapse' },
+  { id: 'set-motion', title: 'Cài đặt: Hiệu ứng chuyển động (Motion & Movements)', desc: 'Giảm hoạt ảnh hoặc chuyển trang mượt mà', route: '/settings', keywords: 'motion movements hiệu ứng animation reduce all animation chuyển trang' },
+  { id: 'set-keybinds', title: 'Cài đặt: Phím tắt tùy chỉnh (Keybinds)', desc: 'Cấu hình phím tắt cho mọi thao tác', route: '/settings', keywords: 'phím tắt customize keybinds shortcut keyboard alt' },
+  { id: 'set-search-cats', title: 'Cài đặt: Tùy chỉnh danh mục tìm kiếm', desc: 'Lựa chọn nhóm kênh hiển thị trong tìm kiếm', route: '/settings', keywords: 'tìm kiếm search spotlight tùy chỉnh danh mục' },
+];
 
 export const Home: React.FC<HomeProps> = ({
   navigate,
   onSelectChannel,
-  channels
+  channels,
+  searchQuery,
+  onSearchChange,
+  onOpenSpotlight
 }) => {
+  const query = (searchQuery || '').trim().toLowerCase();
+
+  // 1. Matching App Pages
+  const matchingPages = query
+    ? APP_PAGES.filter(
+        (p) =>
+          p.title.toLowerCase().includes(query) ||
+          p.desc.toLowerCase().includes(query) ||
+          p.keywords.toLowerCase().includes(query)
+      )
+    : [];
+
+  // 2. Matching Settings Shortcuts
+  const matchingSettings = query
+    ? SETTINGS_SHORTCUTS.filter(
+        (s) =>
+          s.title.toLowerCase().includes(query) ||
+          s.desc.toLowerCase().includes(query) ||
+          s.keywords.toLowerCase().includes(query)
+      )
+    : [];
+
+  // 3. Matching Channels
+  const matchingChannels = query
+    ? channels.filter(
+        (c) =>
+          c.name.toLowerCase().includes(query) ||
+          c.category.toLowerCase().includes(query) ||
+          (c.channelNumber && String(c.channelNumber).includes(query)) ||
+          (c.tags && c.tags.some((t) => t.toLowerCase().includes(query)))
+      )
+    : [];
+
+  // 4. Matching News
+  const matchingNews = query
+    ? NEWS_DATA.filter(
+        (a) =>
+          a.title.toLowerCase().includes(query) ||
+          a.excerpt.toLowerCase().includes(query) ||
+          a.category.toLowerCase().includes(query)
+      )
+    : [];
+
+  const totalMatches = matchingPages.length + matchingSettings.length + matchingChannels.length + matchingNews.length;
+
   const featuredArticle = NEWS_DATA.find((a) => 
     a.slug.includes('nghe-thuat-cua-su-tien-hoa-tinh-te') ||
     a.title.toLowerCase().includes('tiến hóa tinh tế')
   ) || NEWS_DATA[0];
+
+  if (query) {
+    return (
+      <div className="px-4 sm:px-6 md:px-8 max-w-7xl mx-auto space-y-8 py-6 pb-24">
+        {/* Header with clear & Spotlight trigger */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-white/10">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#E6005A]/20 text-[#FF4D8B] border border-[#E6005A]/30">
+                Spotlight Search
+              </span>
+              <span className="text-xs text-[#9CA3AF]">
+                {totalMatches} kết quả trong toàn bộ ứng dụng
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
+              Kết quả cho "{searchQuery}"
+            </h1>
+          </div>
+          <div className="flex items-center gap-2">
+            {onOpenSpotlight && (
+              <button
+                type="button"
+                onClick={onOpenSpotlight}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors cursor-pointer"
+                title="Mở cửa sổ Spotlight Search đầy đủ"
+              >
+                <Search className="w-3.5 h-3.5" />
+                <span>Mở Spotlight (⌘K)</span>
+              </button>
+            )}
+            {onSearchChange && (
+              <button
+                type="button"
+                onClick={() => onSearchChange('')}
+                className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#E6005A] text-white hover:bg-[#E6005A]/90 transition-colors cursor-pointer"
+              >
+                Xóa tìm kiếm
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* 1. Trang & Chức năng hệ thống */}
+        {matchingPages.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#9CA3AF] flex items-center gap-2">
+              <Compass className="w-4 h-4 text-[#E6005A]" />
+              <span>Trang & Danh mục ({matchingPages.length})</span>
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {matchingPages.map((page) => {
+                const IconComponent = page.icon;
+                return (
+                  <div
+                    key={page.id}
+                    onClick={() => navigate(page.route)}
+                    className="p-3.5 rounded-2xl bg-[#1E1E22] border border-white/10 hover:border-[#E6005A] transition-colors cursor-pointer flex items-center gap-3 group"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-[#E6005A]/15 text-[#E6005A] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                      <IconComponent className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-bold text-white group-hover:text-[#FF4D8B] transition-colors truncate">
+                        {page.title}
+                      </div>
+                      <div className="text-xs text-[#9CA3AF] truncate">
+                        {page.desc}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* 2. Lối tắt cài đặt */}
+        {matchingSettings.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#9CA3AF] flex items-center gap-2">
+              <SlidersHorizontal className="w-4 h-4 text-[#E6005A]" />
+              <span>Cài đặt hệ thống ({matchingSettings.length})</span>
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {matchingSettings.map((set) => (
+                <div
+                  key={set.id}
+                  onClick={() => navigate(set.route)}
+                  className="p-3.5 rounded-2xl bg-[#1E1E22] border border-white/10 hover:border-[#E6005A] transition-colors cursor-pointer flex items-center gap-3 group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center shrink-0 group-hover:bg-[#E6005A] transition-colors">
+                    <SettingsIcon className="w-5 h-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-bold text-white group-hover:text-[#FF4D8B] transition-colors truncate">
+                      {set.title}
+                    </div>
+                    <div className="text-xs text-[#9CA3AF] truncate">
+                      {set.desc}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 3. Kênh truyền hình khớp */}
+        {matchingChannels.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#9CA3AF] flex items-center gap-2">
+              <Tv className="w-4 h-4 text-[#E6005A]" />
+              <span>Kênh truyền hình ({matchingChannels.length})</span>
+            </h2>
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-2.5 sm:gap-3.5">
+              {matchingChannels.map((ch) => (
+                <div
+                  key={ch.id}
+                  id={`home-channel-card-${ch.id}`}
+                  onClick={() => onSelectChannel(ch)}
+                  className="group relative w-full aspect-[136/78] rounded-xl sm:rounded-2xl transition-none cursor-pointer overflow-hidden flex items-center justify-center p-1.5 sm:p-2.5 select-none bg-[#353535] border border-white/10 hover:border-white"
+                  title={ch.name}
+                >
+                  <img
+                    src={ch.logo}
+                    alt={ch.name}
+                    referrerPolicy="no-referrer"
+                    className="max-h-[58%] max-w-[82%] w-auto h-auto object-contain filter drop-shadow-sm select-none pointer-events-none"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 4. Bài viết tin tức khớp */}
+        {matchingNews.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#9CA3AF] flex items-center gap-2">
+              <Megaphone className="w-4 h-4 text-[#E6005A]" />
+              <span>Bài viết tin tức ({matchingNews.length})</span>
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {matchingNews.map((article) => (
+                <div
+                  key={article.id}
+                  onClick={() => navigate(`/news/${article.slug}`)}
+                  className="rounded-2xl bg-[#1E1E22] border border-white/10 p-4 hover:border-[#E6005A] cursor-pointer space-y-2 transition-colors"
+                >
+                  <span className="text-[10px] font-bold text-[#E6005A] uppercase tracking-wider">
+                    {article.category}
+                  </span>
+                  <h3 className="font-bold text-white text-sm line-clamp-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-xs text-[#9CA3AF] line-clamp-2">
+                    {article.excerpt}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {totalMatches === 0 && (
+          <div className="py-16 text-center space-y-3 rounded-2xl bg-[#1E1E22]/60 border border-white/10 p-6">
+            <p className="text-sm font-medium text-[#9CA3AF]">
+              Không tìm thấy nội dung nào phù hợp với từ khóa "{searchQuery}" trong ứng dụng
+            </p>
+            {onSearchChange && (
+              <button
+                type="button"
+                onClick={() => onSearchChange('')}
+                className="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#E6005A] text-white hover:bg-[#E6005A]/90 transition-colors cursor-pointer"
+              >
+                Xóa tìm kiếm
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 sm:space-y-6 pb-16">

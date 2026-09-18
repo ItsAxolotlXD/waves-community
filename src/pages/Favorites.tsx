@@ -10,18 +10,37 @@ interface FavoritesProps {
   channels: Channel[];
   onSelectChannel: (channel: Channel) => void;
   navigate: (route: string) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
 }
 
 export const Favorites: React.FC<FavoritesProps> = ({
   channels,
   onSelectChannel,
-  navigate
+  navigate,
+  searchQuery,
+  onSearchChange
 }) => {
   const [activeTab, setActiveTab] = useState<'channels' | 'news'>('channels');
   const { favoriteChannelIds, bookmarkedNewsSlugs, clearAllFavorites } = useFavorites();
 
-  const favoriteChannels = channels.filter((c) => favoriteChannelIds.includes(c.id));
-  const bookmarkedNews = NEWS_DATA.filter((n) => bookmarkedNewsSlugs.includes(n.slug));
+  const query = (searchQuery || '').trim().toLowerCase();
+  const favoriteChannels = channels.filter((c) => {
+    const isFav = favoriteChannelIds.includes(c.id);
+    const matchesSearch = !query ||
+      c.name.toLowerCase().includes(query) ||
+      c.category.toLowerCase().includes(query);
+    return isFav && matchesSearch;
+  });
+
+  const bookmarkedNews = NEWS_DATA.filter((n) => {
+    const isBookmarked = bookmarkedNewsSlugs.includes(n.slug);
+    const matchesSearch = !query ||
+      n.title.toLowerCase().includes(query) ||
+      n.excerpt.toLowerCase().includes(query) ||
+      n.category.toLowerCase().includes(query);
+    return isBookmarked && matchesSearch;
+  });
 
   return (
     <div className="space-y-8 pb-16">

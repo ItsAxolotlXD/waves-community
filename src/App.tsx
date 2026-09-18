@@ -12,6 +12,7 @@ import { NewsSummaryModal } from './components/NewsSummaryModal';
 import { FindWordsBar } from './components/FindWordsBar';
 import { AddStreamModal } from './components/AddStreamModal';
 import { TextToSpeechPlayer } from './components/TextToSpeechPlayer';
+import { FloatingSearchBar } from './components/FloatingSearchBar';
 import { Home } from './pages/Home';
 import { LiveTV } from './pages/LiveTV';
 import { TestChannels } from './pages/TestChannels';
@@ -61,6 +62,16 @@ export default function App() {
   });
   const [routeState, setRouteState] = useState<any>(null);
   const previousRouteRef = useRef<string>('/');
+
+  // Tab-specific search state for Floating Search Bar
+  const [tabSearchQueries, setTabSearchQueries] = useState<Record<string, string>>({});
+  const currentTabSearchQuery = tabSearchQueries[currentRoute] || '';
+  const handleTabSearchChange = (query: string) => {
+    setTabSearchQueries((prev) => ({
+      ...prev,
+      [currentRoute]: query
+    }));
+  };
 
   // Channels State (base channels + imported channels from localStorage)
   const [channels, setChannels] = useState<Channel[]>(() => {
@@ -368,6 +379,9 @@ export default function App() {
             navigate={navigate}
             onSelectChannel={setCurrentChannel}
             channels={channels}
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
+            onOpenSpotlight={() => setIsSpotlightOpen(true)}
           />
         );
 
@@ -378,6 +392,8 @@ export default function App() {
             onSelectChannel={setCurrentChannel}
             channels={channels}
             onOpenCustomStreamModal={() => setIsCustomStreamModalOpen(true)}
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
           />
         );
 
@@ -388,11 +404,19 @@ export default function App() {
             onSelectChannel={setCurrentChannel}
             channels={channels}
             onOpenCustomStreamModal={() => setIsCustomStreamModalOpen(true)}
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
           />
         );
 
       case '/news':
-        return <News navigate={navigate} />;
+        return (
+          <News
+            navigate={navigate}
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
+          />
+        );
 
       case '/channels':
         return (
@@ -401,6 +425,8 @@ export default function App() {
             onSelectChannel={setCurrentChannel}
             navigate={navigate}
             onOpenCustomStreamModal={() => setIsCustomStreamModalOpen(true)}
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
           />
         );
 
@@ -410,6 +436,8 @@ export default function App() {
             channels={channels}
             onSelectChannel={setCurrentChannel}
             navigate={navigate}
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
           />
         );
 
@@ -419,11 +447,18 @@ export default function App() {
             navigate={navigate}
             onSelectChannel={setCurrentChannel}
             channels={channels}
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
           />
         );
 
       case '/settings':
-        return <Settings />;
+        return (
+          <Settings
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
+          />
+        );
 
       case '/search':
         return (
@@ -522,6 +557,11 @@ export default function App() {
           currentRoute === '/' || currentRoute === '/home' 
             ? 'p-0 max-w-none pt-1 sm:pt-2' 
             : 'px-4 sm:px-6 md:px-8 py-5 max-w-7xl'
+        } ${
+          settings.floatingSearchBar &&
+          (settings.navigationMode === 'topbar' || settings.navigationMode === 'sidebar')
+            ? 'pb-24 sm:pb-28'
+            : ''
         }`}>
           {!settings.reduceAllMotion && settings.animatePageTransitions ? (
             <AnimatePresence mode="wait" initial={false}>
@@ -555,6 +595,18 @@ export default function App() {
           isImmersive={settings.navigationMode === 'immersive_floaty'}
         />
       )}
+
+      {/* Floating Search Bar (shown when enabled and navigationMode is topbar or sidebar) */}
+      {settings.floatingSearchBar &&
+        (settings.navigationMode === 'topbar' || settings.navigationMode === 'sidebar') &&
+        currentRoute !== '/search' && (
+          <FloatingSearchBar
+            currentRoute={currentRoute}
+            searchQuery={currentTabSearchQuery}
+            onSearchChange={handleTabSearchChange}
+            onOpenSpotlight={() => setIsSpotlightOpen(true)}
+          />
+        )}
 
       {/* Global Modals */}
       <SpotlightModal

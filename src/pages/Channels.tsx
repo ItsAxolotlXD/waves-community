@@ -8,16 +8,23 @@ interface ChannelsProps {
   onSelectChannel: (channel: Channel) => void;
   navigate: (route: string) => void;
   onOpenCustomStreamModal: () => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
 }
 
 export const Channels: React.FC<ChannelsProps> = ({
   channels,
   onSelectChannel,
   navigate,
-  onOpenCustomStreamModal
+  onOpenCustomStreamModal,
+  searchQuery: externalSearchQuery,
+  onSearchChange: externalOnSearchChange
 }) => {
   const [selectedGroup, setSelectedGroup] = useState<string>('Tất cả');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [internalSearchQuery, setInternalSearchQuery] = useState<string>('');
+
+  const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : internalSearchQuery;
+  const setSearchQuery = externalOnSearchChange || setInternalSearchQuery;
 
   const groups = ['Tất cả', 'VTV', 'HTV', 'VTC', 'Địa phương', 'Chuyên biệt', 'Quốc tế'];
 

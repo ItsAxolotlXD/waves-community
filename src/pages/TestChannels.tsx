@@ -14,6 +14,8 @@ interface TestChannelsProps {
   onSelectChannel: (channel: Channel) => void;
   channels: Channel[];
   onOpenCustomStreamModal: () => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
 }
 
 // Danh mục bị loại trừ khỏi Tab Test
@@ -40,7 +42,9 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
   currentChannel,
   onSelectChannel,
   channels,
-  onOpenCustomStreamModal
+  onOpenCustomStreamModal,
+  searchQuery,
+  onSearchChange
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
   const [isTheaterMode, setIsTheaterMode] = useState(false);
@@ -82,9 +86,16 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
   const distinctCategories = Array.from(new Set(testBaseChannels.map((c) => c.category)));
   const categoryTabs = ['Tất cả', ...distinctCategories];
 
-  // Filter channels by tab
+  // Filter channels by tab & search query
+  const query = (searchQuery || '').trim().toLowerCase();
   const filteredChannels = testBaseChannels.filter((c) => {
-    return selectedCategory === 'Tất cả' || c.category === selectedCategory;
+    const matchesCat = selectedCategory === 'Tất cả' || c.category === selectedCategory;
+    const matchesSearch = !query ||
+      c.name.toLowerCase().includes(query) ||
+      c.category.toLowerCase().includes(query) ||
+      (c.channelNumber && String(c.channelNumber).includes(query)) ||
+      (c.tags && c.tags.some((t) => t.toLowerCase().includes(query)));
+    return matchesCat && matchesSearch;
   });
 
   // Group channels by category when viewing "Tất cả" (or show single category if filtered)
@@ -199,8 +210,8 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
                   </div>
                 </div>
 
-                {/* Channel Grid: Unified fixed width & height cards, no stretching on resolution changes */}
-                <div className="flex flex-wrap gap-2.5 sm:gap-3.5">
+                {/* Channel Grid: Unified fixed width & height cards, 6 cols on desktop, 3 cols on mobile */}
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-2.5 sm:gap-3.5">
                   {group.channels.map((ch) => {
                     const isSelected = ch.id === currentChannel.id;
 
@@ -209,7 +220,7 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
                         key={ch.id}
                         id={`livetv-channel-card-${ch.id}`}
                         onClick={() => onSelectChannel(ch)}
-                        className={`group relative w-[136px] h-[78px] shrink-0 rounded-xl sm:rounded-2xl transition-none cursor-pointer overflow-hidden flex items-center justify-center p-2 sm:p-2.5 select-none bg-[#353535] ${
+                        className={`group relative w-full aspect-[136/78] rounded-xl sm:rounded-2xl transition-none cursor-pointer overflow-hidden flex items-center justify-center p-1.5 sm:p-2.5 select-none bg-[#353535] ${
                           isSelected ? 'is-selected' : ''
                         }`}
                         title={ch.name}
@@ -222,11 +233,11 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
                             referrerPolicy="no-referrer"
                             className={`${
                               ch.id === 'vtv6'
-                                ? 'max-h-11 sm:max-h-13 max-w-[95%] scale-135'
+                                ? 'max-h-[66%] max-w-[88%] scale-110'
                                 : ch.category === 'Kênh VTV'
-                                  ? 'max-h-7 sm:max-h-8 max-w-[78%] scale-100'
-                                  : 'max-h-8 sm:max-h-10 max-w-[85%]'
-                            } w-auto object-contain filter drop-shadow-sm`}
+                                  ? 'max-h-[56%] max-w-[80%]'
+                                  : 'max-h-[58%] max-w-[82%]'
+                            } w-auto h-auto object-contain filter drop-shadow-sm select-none pointer-events-none`}
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
                               const orig = channels.find((origCh) => origCh.id === ch.id)?.logo;
@@ -244,6 +255,23 @@ export const TestChannels: React.FC<TestChannelsProps> = ({
                 </div>
               </section>
             ))}
+          </div>
+        )}
+
+        {filteredChannels.length === 0 && (
+          <div className="py-16 text-center space-y-3 rounded-2xl bg-[#1E1E22]/60 border border-white/10 p-6">
+            <p className="text-sm font-medium text-[#9CA3AF]">
+              Không tìm thấy kênh kiểm thử phù hợp với từ khóa "{query}"
+            </p>
+            {onSearchChange && (
+              <button
+                type="button"
+                onClick={() => onSearchChange('')}
+                className="px-4 py-1.5 rounded-full text-xs font-semibold bg-[#E6005A] text-white hover:bg-[#E6005A]/90 transition-colors cursor-pointer"
+              >
+                Xóa tìm kiếm
+              </button>
+            )}
           </div>
         )}
       </div>

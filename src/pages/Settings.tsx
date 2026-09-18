@@ -23,7 +23,15 @@ import { SfCheckmark } from '../components/SfCheckmark';
 import { KEYBIND_DEFINITIONS, DEFAULT_KEYBINDS, eventToKeyString, validateKeybind } from '../utils/keybinds';
 import { KeybindAction } from '../types';
 
-export const Settings: React.FC = () => {
+interface SettingsProps {
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+}
+
+export const Settings: React.FC<SettingsProps> = ({
+  searchQuery: externalSearchQuery,
+  onSearchChange: externalOnSearchChange
+}) => {
   const { 
     settings, 
     draftSettings, 
@@ -35,7 +43,14 @@ export const Settings: React.FC = () => {
 
   const [showApplyToast, setShowApplyToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [internalSearchQuery, setInternalSearchQuery] = useState('');
+
+  const searchQuery = externalSearchQuery !== undefined ? externalSearchQuery : internalSearchQuery;
+  const setSearchQuery = (q: string) => {
+    setInternalSearchQuery(q);
+    externalOnSearchChange?.(q);
+  };
+
   const [isFocused, setIsFocused] = useState(false);
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
   const [editingKeybindId, setEditingKeybindId] = useState<KeybindAction | null>(null);
@@ -212,9 +227,10 @@ export const Settings: React.FC = () => {
   matchesSearch('Immersive') ||
   matchesSearch('Floaty bar') ||
   matchesSearch('Sidebar position') ||
-        matchesSearch('thanh bên') ||
-        matchesSearch('trái') ||
-        matchesSearch('phải')) && (
+  matchesSearch('thanh bên') ||
+  matchesSearch('trái') ||
+  matchesSearch('phải') ||
+  matchesSearch('Floating Search Bar')) && (
         <section 
           id="settings-section-interface"
           className="p-5 sm:p-6 rounded-[28px] bg-white/10 backdrop-blur-md shadow-xl space-y-4"
@@ -381,6 +397,39 @@ export const Settings: React.FC = () => {
                     ))}
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Card: Floating Search Bar */}
+            {matchesSearch('Floating Search Bar') && (
+              <div 
+                id="setting-floating-search-bar"
+                className="p-3.5 sm:p-4 rounded-[20px] flex items-center justify-between gap-4 transition-colors hover:bg-white/5"
+              >
+                <div>
+                  <div className="font-semibold text-white text-sm">
+                    Floating Search Bar
+                  </div>
+                  <div className="text-xs text-[#9CA3AF] mt-1 leading-normal">
+                    Hiển thị thanh tìm kiếm ở dưới màn hình (chỉ áp dụng cho điều hướng Topbar hoặc Sidebar)
+                  </div>
+                </div>
+
+                {/* Magenta Toggle Switch */}
+                <button
+                  id="toggle-floating-search-bar"
+                  type="button"
+                  role="switch"
+                  aria-checked={draftSettings.floatingSearchBar}
+                  onClick={() => updateDraft('floatingSearchBar', !draftSettings.floatingSearchBar)}
+                  className={`toggle-switch-btn relative w-[66px] h-7 rounded-full p-[3px] transition-colors duration-200 ease-in-out cursor-pointer shrink-0 flex items-center ${
+                    draftSettings.floatingSearchBar ? 'bg-[#E6005A]' : 'bg-[#E4E4E7] dark:bg-[#3F3F46]'
+                  }`}
+                >
+                  <span
+                    className="toggle-switch-thumb block w-[32px] h-[22px] rounded-full bg-white border border-black/10 dark:border-white/10 shadow-md pointer-events-none"
+                  />
+                </button>
               </div>
             )}
           </div>
